@@ -8,6 +8,7 @@ extends Node
 @export var catalog: ContentCatalog
 
 @onready var clock: SimClock = $SimClock
+@onready var window: GameWindow = $GameWindow
 @onready var wallet: Wallet = $Wallet
 @onready var unlocks: Unlocks = $Unlocks
 @onready var shop: Shop = $Shop
@@ -17,7 +18,7 @@ extends Node
 
 func _ready() -> void:
 	wallet.coins = tuning.starting_coins
-	world.setup(tuning, clock, wallet)
+	world.setup(tuning, catalog, clock, wallet)
 	for stack: ItemStack in tuning.starting_stock:
 		world.hall.storage.add(stack.item, stack.count)
 	shop.setup(wallet, unlocks, world, tuning)

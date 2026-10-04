@@ -48,6 +48,16 @@ func work_cell() -> Vector2i:
 	return NavGrid.world_to_cell(global_position) + Vector2i.DOWN
 
 
+## A line of text for the Look tool.
+func describe() -> String:
+	match state:
+		State.PROCESSING:
+			return "%s: working, %ds to go" % [def.display_name, ceili(_process_seconds_left)]
+		State.OUTPUT_READY:
+			return "%s: %s ready to collect" % [def.display_name, def.output.display_name]
+	return "%s: needs %d %s" % [def.display_name, def.input_count, def.input.display_name]
+
+
 func sim_tick(delta: float) -> void:
 	if state != State.PROCESSING:
 		return

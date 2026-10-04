@@ -13,8 +13,13 @@
 [ext_resource type="Script" path="res://ui/shop_tab.gd" id="11"]
 [ext_resource type="PackedScene" path="res://ui/sell_row.tscn" id="12"]
 [ext_resource type="Script" path="res://ui/debug_tab.gd" id="13"]
-[ext_resource type="Script" path="res://ui/farm_tools.gd" id="14"]
-[ext_resource type="PackedScene" path="res://ui/seed_button.tscn" id="15"]
+[ext_resource type="Script" path="res://ui/side_panel.gd" id="14"]
+[ext_resource type="Script" path="res://ui/farm_tab.gd" id="15"]
+[ext_resource type="PackedScene" path="res://ui/farm_slot.tscn" id="16"]
+[ext_resource type="Script" path="res://ui/options_tab.gd" id="17"]
+[ext_resource type="Script" path="res://ui/hand_status.gd" id="18"]
+[ext_resource type="Script" path="res://ui/ores_tab.gd" id="19"]
+[ext_resource type="PackedScene" path="res://ui/item_slot.tscn" id="20"]
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1")
@@ -97,23 +102,10 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 script = ExtResource("7")
 
-[node name="FarmTools" type="HBoxContainer" parent="Root/Layout/Middle/TopBar"]
-script = ExtResource("14")
-seed_button_scene = ExtResource("15")
-
-[node name="Holding" type="Label" parent="Root/Layout/Middle/TopBar/FarmTools"]
+[node name="HandStatus" type="Label" parent="Root/Layout/Middle/TopBar"]
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-
-[node name="SeedButtons" type="HBoxContainer" parent="Root/Layout/Middle/TopBar/FarmTools"]
-
-[node name="BucketButton" type="Button" parent="Root/Layout/Middle/TopBar/FarmTools"]
-toggle_mode = true
-text = "Bucket"
-
-[node name="HarvestButton" type="Button" parent="Root/Layout/Middle/TopBar/FarmTools"]
-toggle_mode = true
-text = "Harvest"
+script = ExtResource("18")
 
 [node name="ViewButtons" type="HBoxContainer" parent="Root/Layout/Middle/TopBar"]
 script = ExtResource("8")
@@ -128,96 +120,161 @@ text = "Mine"
 text = "Back"
 
 [node name="SidePanel" type="PanelContainer" parent="Root/Layout"]
+script = ExtResource("14")
 
 [node name="Row" type="HBoxContainer" parent="Root/Layout/SidePanel"]
+theme_override_constants/separation = 0
 
-[node name="FoldButton" type="Button" parent="Root/Layout/SidePanel/Row" node_paths=PackedStringArray("target")]
-text = ">"
-script = ExtResource("6")
-target = NodePath("../Tabs")
-open_text = ">"
-closed_text = "<"
+[node name="TabColumn" type="VBoxContainer" parent="Root/Layout/SidePanel/Row"]
+custom_minimum_size = Vector2(46, 0)
 
-[node name="Tabs" type="TabContainer" parent="Root/Layout/SidePanel/Row"]
+[node name="CloseButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+text = "X"
+
+[node name="FarmButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+text = "Farm"
+toggle_mode = true
+custom_minimum_size = Vector2(0, 30)
+
+[node name="OresButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+text = "Ores"
+toggle_mode = true
+custom_minimum_size = Vector2(0, 30)
+
+[node name="BuildButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+text = "Build"
+toggle_mode = true
+custom_minimum_size = Vector2(0, 30)
+
+[node name="ShopButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+text = "Shop"
+toggle_mode = true
+custom_minimum_size = Vector2(0, 30)
+
+[node name="DebugButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+text = "Debug"
+toggle_mode = true
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Spacer" type="Control" parent="Root/Layout/SidePanel/Row/TabColumn"]
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="OptionsButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+text = "Opts"
+toggle_mode = true
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Pages" type="TabContainer" parent="Root/Layout/SidePanel/Row"]
 custom_minimum_size = Vector2(250, 0)
+tabs_visible = false
 
-[node name="Build" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs"]
+[node name="Farming" type="ScrollContainer" parent="Root/Layout/SidePanel/Row/Pages"]
+horizontal_scroll_mode = 0
+script = ExtResource("15")
+slot_scene = ExtResource("16")
+
+[node name="Grid" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Farming"]
+size_flags_horizontal = 3
+columns = 4
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+
+[node name="Ores" type="ScrollContainer" parent="Root/Layout/SidePanel/Row/Pages"]
+horizontal_scroll_mode = 0
+script = ExtResource("19")
+slot_scene = ExtResource("20")
+
+[node name="Grid" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Ores"]
+size_flags_horizontal = 3
+columns = 4
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+
+[node name="Build" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages"]
 script = ExtResource("9")
 button_scene = ExtResource("10")
 
-[node name="Tools" type="HBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs/Build"]
+[node name="Tools" type="HBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Build"]
 
-[node name="MoveButton" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Build/Tools"]
+[node name="MoveButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Build/Tools"]
 text = "Move"
 size_flags_horizontal = 3
 
-[node name="DestroyButton" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Build/Tools"]
+[node name="DestroyButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Build/Tools"]
 text = "Destroy"
 size_flags_horizontal = 3
 
-[node name="CancelButton" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Build/Tools"]
+[node name="CancelButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Build/Tools"]
 text = "Cancel"
 size_flags_horizontal = 3
 
-[node name="Hint" type="Label" parent="Root/Layout/SidePanel/Row/Tabs/Build"]
+[node name="Hint" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Build"]
 
-[node name="Scroll" type="ScrollContainer" parent="Root/Layout/SidePanel/Row/Tabs/Build"]
+[node name="Scroll" type="ScrollContainer" parent="Root/Layout/SidePanel/Row/Pages/Build"]
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="List" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs/Build/Scroll"]
+[node name="List" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Build/Scroll"]
 size_flags_horizontal = 3
 
-[node name="Shop" type="ScrollContainer" parent="Root/Layout/SidePanel/Row/Tabs"]
-visible = false
+[node name="Shop" type="ScrollContainer" parent="Root/Layout/SidePanel/Row/Pages"]
 horizontal_scroll_mode = 0
 script = ExtResource("11")
 button_scene = ExtResource("10")
 sell_row_scene = ExtResource("12")
 
-[node name="List" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs/Shop"]
+[node name="List" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Shop"]
 size_flags_horizontal = 3
 
-[node name="SellHeader" type="Label" parent="Root/Layout/SidePanel/Row/Tabs/Shop/List"]
+[node name="SellHeader" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
 text = "Sell"
 
-[node name="SellList" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs/Shop/List"]
+[node name="SellList" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
 
-[node name="BuyHeader" type="Label" parent="Root/Layout/SidePanel/Row/Tabs/Shop/List"]
+[node name="BuyHeader" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
 text = "Buy"
 
-[node name="BuyList" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs/Shop/List"]
+[node name="BuyList" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
 
-[node name="HireButton" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Shop/List"]
+[node name="HireButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
 text = "Hire a dwarf"
 alignment = 0
 
-[node name="LiftButton" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Shop/List"]
+[node name="LiftButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
 text = "Build the lift"
 alignment = 0
 
-[node name="UnlockList" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs/Shop/List"]
+[node name="UnlockList" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
 
-[node name="Debug" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs"]
-visible = false
+[node name="Debug" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages"]
 script = ExtResource("13")
 
-[node name="Speeds" type="HBoxContainer" parent="Root/Layout/SidePanel/Row/Tabs/Debug"]
+[node name="Speeds" type="HBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Debug"]
 
-[node name="Speed1" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Debug/Speeds"]
+[node name="Speed1" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Debug/Speeds"]
 text = "x1"
 size_flags_horizontal = 3
 
-[node name="Speed4" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Debug/Speeds"]
+[node name="Speed4" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Debug/Speeds"]
 text = "x4"
 size_flags_horizontal = 3
 
-[node name="Speed16" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Debug/Speeds"]
+[node name="Speed16" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Debug/Speeds"]
 text = "x16"
 size_flags_horizontal = 3
 
-[node name="CoinsButton" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Debug"]
+[node name="CoinsButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Debug"]
 text = "Give coins"
 
-[node name="RevealButton" type="Button" parent="Root/Layout/SidePanel/Row/Tabs/Debug"]
+[node name="RevealButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Debug"]
 text = "Reveal ore"
+
+[node name="Options" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages"]
+script = ExtResource("17")
+
+[node name="StripCheck" type="CheckButton" parent="Root/Layout/SidePanel/Row/Pages/Options"]
+text = "Desktop strip (F10)"
+
+[node name="QuitButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Options"]
+text = "Quit"

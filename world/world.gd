@@ -27,7 +27,7 @@ extends Node2D
 @onready var mine_entrance: MineEntrance = $Surface/Placeables/MineEntrance
 
 
-func setup(tuning: GameTuning, clock: SimClock, wallet: Wallet) -> void:
+func setup(tuning: GameTuning, catalog: ContentCatalog, clock: SimClock, wallet: Wallet) -> void:
 	terrain.setup(nav)
 	# Order matters: the level fills its ground first, then the shaft is cut
 	# down through it to the landing, then the town's doors are linked up.
@@ -38,7 +38,7 @@ func setup(tuning: GameTuning, clock: SimClock, wallet: Wallet) -> void:
 	build_tool.setup(self, wallet)
 	input.setup(self, tuning)
 	camera.setup(self)
-	hand.carrier.capacity = tuning.hand_capacity
+	hand.setup(self, wallet, tuning, catalog.farm_plot)
 	# The player holds either a building tool or a farming tool, never both.
 	build_tool.mode_changed.connect(_on_build_mode_changed)
 	hand.changed.connect(_on_hand_changed)

@@ -1,14 +1,13 @@
 class_name FarmPlot
 extends Placeable
-## One tile of tilled soil holding one plant. The plant is sown, watered
-## whenever the soil dries, grows through visible stages, and is harvested.
-## Then the plot is sown again. A dry plant just pauses: nothing the player
-## neglects is ever lost.
+## One tile of tilled soil holding one plant. The player sows it, then the
+## plant needs watering whenever the soil dries, grows through visible
+## stages, and is harvested, leaving the plot empty for the next sowing.
+## A dry plant just pauses: nothing the player neglects is ever lost.
 ##
-## The plot remembers the last crop sown in it. That is how farmers know
-## what to replant: the player chooses the crop once, by sowing it.
+## Farmers water and harvest. Only the player sows.
 
-enum Task { NONE, PLANT, WATER, HARVEST }
+enum Task { NONE, WATER, HARVEST }
 
 ## Number of growth stages drawn between sown and ripe.
 const GROWTH_STAGES: int = 3
@@ -17,11 +16,11 @@ const LEAF_SIZES: Array[Vector2] = [Vector2(4, 2), Vector2(6, 4), Vector2(9, 6),
 ## Local position of the point the plant grows up from.
 const PLANT_BASE: Vector2 = Vector2(8, -4)
 
-## The crop this plot grows. Null until something has been sown here.
-@export var crop: CropDef
 @export var dry_soil_color: Color = Color(0.5, 0.36, 0.22)
 @export var wet_soil_color: Color = Color(0.3, 0.2, 0.13)
 
+## The crop growing here, or the last one harvested.
+var crop: CropDef = null
 var growth_seconds: float = 0.0
 var watered_seconds_left: float = 0.0
 
@@ -43,8 +42,7 @@ func _ready() -> void:
 ## What the plot needs a farmer to do right now, if anything.
 func current_task() -> Task:
 	if not _is_planted:
-		# Farmers only sow plots the player has chosen a crop for.
-		return Task.PLANT if crop != null else Task.NONE
+		return Task.NONE
 	if is_ripe():
 		return Task.HARVEST
 	if watered_seconds_left <= 0.0:
@@ -99,11 +97,20 @@ func harvest() -> int:
 	return crop.yield_count
 
 
+## A line of text for the Look tool.
+func describe() -> String:
+	if not _is_planted:
+		return "Empty plot: sow some seeds"
+	if is_ripe():
+		return "%s: ripe, ready to harvest" % crop.display_name
+	var percent: int = roundi(100.0 * growth_seconds / crop.grow_seconds)
+	var soil: String = "watered" if watered_seconds_left > 0.0 else "dry, needs water"
+	return "%s: %d%% grown, %s" % [crop.display_name, percent, soil]
+
+
 ## A farmer finished the job the receiver was set up for.
 func _on_work_completed(worker: Node) -> void:
 	match _receiver_task:
-		Task.PLANT:
-			sow(crop)
 		Task.WATER:
 			water()
 		Task.HARVEST:
@@ -137,8 +144,6 @@ func _growth_stage() -> int:
 
 func _work_for(task: Task) -> float:
 	match task:
-		Task.PLANT:
-			return crop.plant_work
 		Task.WATER:
 			return crop.water_work
 		Task.HARVEST:

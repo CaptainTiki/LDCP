@@ -10,8 +10,6 @@
 [ext_resource type="Resource" path="res://data/buildings/mine_entrance.tres" id="8"]
 [ext_resource type="PackedScene" path="res://entities/farm_plot/farm_plot.tscn" id="9"]
 [ext_resource type="Resource" path="res://data/buildings/farm_plot.tres" id="10"]
-[ext_resource type="Resource" path="res://data/crops/potato.tres" id="11"]
-[ext_resource type="Resource" path="res://data/crops/barley.tres" id="12"]
 [ext_resource type="Script" path="res://world/mine/shaft.gd" id="13"]
 [ext_resource type="PackedScene" path="res://world/mine/mine_level_1.tscn" id="14"]
 [ext_resource type="Script" path="res://world/interiors.gd" id="15"]
@@ -68,25 +66,21 @@ z_index = -1
 [node name="Placeables" type="Node2D" parent="Surface"]
 y_sort_enabled = true
 
-[node name="PotatoPlot1" parent="Surface/Placeables" instance=ExtResource("9")]
+[node name="FarmPlot1" parent="Surface/Placeables" instance=ExtResource("9")]
 def = ExtResource("10")
 tile = Vector2i(53, 5)
-crop = ExtResource("11")
 
-[node name="PotatoPlot2" parent="Surface/Placeables" instance=ExtResource("9")]
+[node name="FarmPlot2" parent="Surface/Placeables" instance=ExtResource("9")]
 def = ExtResource("10")
 tile = Vector2i(54, 5)
-crop = ExtResource("11")
 
-[node name="BarleyPlot1" parent="Surface/Placeables" instance=ExtResource("9")]
+[node name="FarmPlot3" parent="Surface/Placeables" instance=ExtResource("9")]
 def = ExtResource("10")
 tile = Vector2i(56, 5)
-crop = ExtResource("12")
 
-[node name="BarleyPlot2" parent="Surface/Placeables" instance=ExtResource("9")]
+[node name="FarmPlot4" parent="Surface/Placeables" instance=ExtResource("9")]
 def = ExtResource("10")
 tile = Vector2i(57, 5)
-crop = ExtResource("12")
 
 [node name="GreatHall" parent="Surface/Placeables" instance=ExtResource("5")]
 def = ExtResource("6")

@@ -3,6 +3,8 @@ extends Node
 ## Turns the OS window into a strip along the bottom of the primary screen,
 ## and keeps the game cheap to leave running all day.
 
+signal mode_changed
+
 ## Height of the strip in screen pixels.
 @export var strip_height: int = 300
 ## Start as the desktop strip. Turn off for a normal window while debugging.
@@ -31,6 +33,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			apply_strip()
 
 
+func is_strip() -> bool:
+	return _is_strip
+
+
 func apply_strip() -> void:
 	var window: Window = get_window()
 	var screen: int = DisplayServer.get_primary_screen()
@@ -42,6 +48,7 @@ func apply_strip() -> void:
 	window.size = Vector2i(area.size.x, strip_height)
 	window.position = Vector2i(area.position.x, area.end.y - strip_height)
 	_is_strip = true
+	mode_changed.emit()
 
 
 func apply_windowed() -> void:
@@ -51,3 +58,4 @@ func apply_windowed() -> void:
 	window.size = Vector2i(1280, strip_height * 2)
 	window.move_to_center()
 	_is_strip = false
+	mode_changed.emit()

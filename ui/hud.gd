@@ -5,20 +5,26 @@ extends CanvasLayer
 
 @onready var _world_area: WorldArea = $Root/WorldArea
 @onready var _readout: ResourceReadout = $Root/Layout/Middle/TopBar/ResourceReadout
-@onready var _farm_tools: FarmTools = $Root/Layout/Middle/TopBar/FarmTools
+@onready var _hand_status: HandStatus = $Root/Layout/Middle/TopBar/HandStatus
 @onready var _view_buttons: ViewButtons = $Root/Layout/Middle/TopBar/ViewButtons
 @onready var _roster: RosterPanel = $Root/Layout/Roster
-@onready var _build_tab: BuildTab = $Root/Layout/SidePanel/Row/Tabs/Build
-@onready var _shop_tab: ShopTab = $Root/Layout/SidePanel/Row/Tabs/Shop
-@onready var _debug_tab: DebugTab = $Root/Layout/SidePanel/Row/Tabs/Debug
+@onready var _farm_tab: FarmTab = $Root/Layout/SidePanel/Row/Pages/Farming
+@onready var _ores_tab: OresTab = $Root/Layout/SidePanel/Row/Pages/Ores
+@onready var _build_tab: BuildTab = $Root/Layout/SidePanel/Row/Pages/Build
+@onready var _shop_tab: ShopTab = $Root/Layout/SidePanel/Row/Pages/Shop
+@onready var _debug_tab: DebugTab = $Root/Layout/SidePanel/Row/Pages/Debug
+@onready var _options_tab: OptionsTab = $Root/Layout/SidePanel/Row/Pages/Options
 
 
 func setup(game: Game) -> void:
 	_world_area.setup(game.world)
 	_readout.setup(game.wallet, game.world.hall.storage, game.catalog)
-	_farm_tools.setup(game.world.hand, game.catalog)
+	_hand_status.setup(game.world.hand)
 	_view_buttons.setup(game.world.camera)
 	_roster.setup(game.world)
+	_farm_tab.setup(game)
+	_ores_tab.setup(game)
 	_build_tab.setup(game)
 	_shop_tab.setup(game)
 	_debug_tab.setup(game)
+	_options_tab.setup(game)

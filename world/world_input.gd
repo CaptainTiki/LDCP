@@ -20,10 +20,10 @@ func click(world_point: Vector2) -> void:
 	if _world.build_tool.is_active():
 		_world.build_tool.click(world_point, clickable)
 		return
-	if clickable == null:
+	var entity: Node = clickable.entity() if clickable != null else null
+	if _world.hand.use_at(world_point, entity):
 		return
-	var entity: Node = clickable.entity()
-	if _world.hand.use_on(entity):
+	if entity == null:
 		return
 	if entity is Building:
 		_world.camera.show_interior(entity as Building)
@@ -35,7 +35,7 @@ func click(world_point: Vector2) -> void:
 
 
 ## The mouse moved with the button held. Lets the player sweep a tool across
-## a row of plots, or paint a row of new plots, without clicking each one.
+## a row of plots, or till or build a row, without clicking each one.
 func drag(world_point: Vector2) -> void:
 	var clickable: Clickable = clickable_at(world_point)
 	var target: Variant = _drag_target(world_point, clickable)
@@ -44,8 +44,8 @@ func drag(world_point: Vector2) -> void:
 	_last_dragged = target
 	if _world.build_tool.mode == BuildTool.Mode.PLACE:
 		_world.build_tool.click(world_point, clickable)
-	elif _world.hand.is_holding_tool() and clickable != null and clickable.entity() is FarmPlot:
-		_world.hand.use_on(clickable.entity())
+	elif _world.hand.is_holding_tool():
+		_world.hand.use_at(world_point, clickable.entity() if clickable != null else null)
 
 
 func hover(world_point: Vector2) -> void:
@@ -79,8 +79,8 @@ func clickable_at(world_point: Vector2) -> Clickable:
 	return best
 
 
-## While building, a drag moves from tile to tile. Otherwise from thing to thing.
+## Building and tilling move from tile to tile. Other tools, thing to thing.
 func _drag_target(world_point: Vector2, clickable: Clickable) -> Variant:
-	if _world.build_tool.is_active():
+	if _world.build_tool.is_active() or _world.hand.tool == PlayerHand.Tool.HOE:
 		return _world.surface.tile_at(world_point)
 	return clickable
