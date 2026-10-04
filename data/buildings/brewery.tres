@@ -5,6 +5,14 @@
 [ext_resource type="Script" path="res://data/defs/workstation_def.gd" id="3"]
 [ext_resource type="Resource" path="res://data/workstations/mash_pot.tres" id="4"]
 [ext_resource type="Resource" path="res://data/workstations/fermenter.tres" id="5"]
+[ext_resource type="Script" path="res://data/defs/unlock_def.gd" id="6"]
+
+[sub_resource type="Resource" id="unlock"]
+script = ExtResource("6")
+counter = &"harvested:barley"
+needed = 20
+label = "Harvest barley"
+coins = 60
 
 [resource]
 script = ExtResource("1")
@@ -13,10 +21,10 @@ display_name = "Brewery"
 scene = ExtResource("2")
 footprint = Vector2i(3, 2)
 cost = 40
-unlock_cost = 60
 buildable = true
 can_move = true
 can_destroy = true
 blocks_walking = true
 door_offset_cells = 2
 workstations = Array[ExtResource("3")]([ExtResource("4"), ExtResource("5")])
+unlock = SubResource("unlock")

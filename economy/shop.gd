@@ -50,10 +50,7 @@ func hire() -> bool:
 
 
 func unlock_building(def: BuildingDef) -> bool:
-	if _unlocks.is_unlocked(def) or not _wallet.spend(def.unlock_cost):
-		return false
-	_unlocks.unlock(def)
-	return true
+	return _unlocks.trade(def)
 
 
 func lift_cost() -> int:

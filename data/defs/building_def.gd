@@ -9,8 +9,8 @@ extends Resource
 ## Width and height in surface tiles, seen from above.
 @export var footprint: Vector2i = Vector2i.ONE
 @export var cost: int = 0
-## One-off coin price to unlock this in the build menu. 0 = always available.
-@export var unlock_cost: int = 0
+## What it takes to be allowed to build this. None: available from the start.
+@export var unlock: UnlockDef
 ## Shown in the build menu. Pre-placed one-offs (hall, mine entrance) are not.
 @export var buildable: bool = true
 @export var can_move: bool = true

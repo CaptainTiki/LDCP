@@ -22,7 +22,7 @@ func setup(world: World) -> void:
 	_shaft_column = world.shaft.column
 	_fill_ground()
 	for node: OreNode in ore_nodes():
-		node.setup(world.nav, world.hall.storage)
+		node.setup(world.nav, world.hall.storage, world.ledger)
 		_embed(node)
 	_carve_landing()
 	_terrain.cell_opened.connect(_on_cell_opened)

@@ -36,6 +36,7 @@ func setup(game: Game) -> void:
 	game.wallet.changed.connect(_refresh)
 	game.world.hall.storage.changed.connect(_refresh)
 	game.world.hand.changed.connect(_refresh)
+	game.unlocks.changed.connect(_on_unlocks_changed)
 
 
 ## Fills the tab for whichever building is open.
@@ -88,11 +89,13 @@ func _stock_for(building: Building) -> Array[Array]:
 		for def: WorkstationDef in building.def.workstations:
 			if def.fed_by != null:
 				for r: RecipeDef in def.recipes:
-					passed_on.append(r.input)
+					for stack: ItemStack in r.inputs:
+						passed_on.append(stack.item)
 		for def: WorkstationDef in building.def.workstations:
 			for r: RecipeDef in def.recipes:
-				if def.fed_by == null and not left.has(r.input):
-					left.append(r.input)
+				for stack: ItemStack in r.inputs:
+					if def.fed_by == null and not left.has(stack.item):
+						left.append(stack.item)
 				if not passed_on.has(r.output) and not right.has(r.output):
 					right.append(r.output)
 	return [left, right]
@@ -159,6 +162,8 @@ func _refresh_station() -> void:
 			child.queue_free()
 		if station != null:
 			for r: RecipeDef in station.station_def().recipes:
+				if not _game.unlocks.recipe_available(r, _game.catalog):
+					continue  # Appears once its crops can be grown.
 				var slot: RecipeSlot = recipe_slot_scene.instantiate() as RecipeSlot
 				_recipes.add_child(slot)
 				slot.setup(r)
@@ -168,6 +173,12 @@ func _refresh_station() -> void:
 	_station_title.text = station.def.display_name
 	for child: Node in _recipes.get_children():
 		(child as RecipeSlot).refresh(station, _game.world.hall.storage)
+
+
+## A new crop may have put new recipes on the menu.
+func _on_unlocks_changed() -> void:
+	_shown_station = null
+	_refresh()
 
 
 func _on_recipe_chosen(recipe: RecipeDef) -> void:

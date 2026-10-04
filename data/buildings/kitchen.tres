@@ -12,7 +12,6 @@ display_name = "Kitchen"
 scene = ExtResource("2")
 footprint = Vector2i(3, 2)
 cost = 30
-unlock_cost = 0
 buildable = true
 can_move = true
 can_destroy = true

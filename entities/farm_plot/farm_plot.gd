@@ -90,6 +90,7 @@ func harvest() -> int:
 	_is_planted = false
 	growth_seconds = 0.0
 	_sync()
+	world.ledger.record_harvest(crop.produce, crop.yield_count)
 	return crop.yield_count
 
 

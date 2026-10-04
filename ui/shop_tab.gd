@@ -51,8 +51,16 @@ func _rebuild_unlocks() -> void:
 		_unlock_list.remove_child(old_button)
 		old_button.queue_free()
 	for def: BuildingDef in _game.catalog.buildings:
-		if not _game.unlocks.is_unlocked(def):
-			_add_button(_unlock_list, def, "Unlock %s" % def.display_name, def.unlock_cost)
+		if _game.unlocks.is_unlocked(def):
+			continue
+		var unlock: UnlockDef = Unlocks.unlock_of(def)
+		_add_button(_unlock_list, def, "Unlock %s" % def.display_name, unlock.coins)
+		var button: CatalogButton = _unlock_list.get_child(-1) as CatalogButton
+		if not _game.unlocks.milestone_met(def):
+			# Not yet on offer: show how far along the milestone is.
+			button.text = "%s: %s %d/%d" % [def.display_name, unlock.label,
+					_game.unlocks.progress(def), unlock.needed]
+			button.icon = null
 	_refresh()
 
 
@@ -67,9 +75,11 @@ func _refresh() -> void:
 	var shop: Shop = _game.shop
 	for row: Node in _sell_list.get_children():
 		(row as SellRow).refresh(_game.world.hall.storage)
-	for list: VBoxContainer in [_buy_list, _unlock_list]:
-		for button: Node in list.get_children():
-			(button as CatalogButton).refresh(_game.wallet)
+	for button: Node in _buy_list.get_children():
+		(button as CatalogButton).refresh(_game.wallet)
+	for button: Node in _unlock_list.get_children():
+		var unlock_button: CatalogButton = button as CatalogButton
+		unlock_button.disabled = not _game.unlocks.can_trade(unlock_button.payload)
 	_hire_button.text = "Hire a dwarf  %d" % shop.hire_cost()
 	_hire_button.disabled = not shop.can_hire()
 	_lift_button.visible = not _game.world.shaft.has_lift

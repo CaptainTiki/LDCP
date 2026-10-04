@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="CropDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/crop_def.gd" id="1"]
+[ext_resource type="Resource" path="res://data/items/onion.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/crops/onion_growth.png" id="3"]
+[ext_resource type="Script" path="res://data/defs/unlock_def.gd" id="4"]
+
+[sub_resource type="Resource" id="unlock"]
+script = ExtResource("4")
+counter = &"meals_made"
+needed = 15
+label = "Cook meals"
+coins = 30
+
+[resource]
+script = ExtResource("1")
+id = &"onion"
+display_name = "Onion"
+produce = ExtResource("2")
+growth_frames = ExtResource("3")
+yield_count = 2
+color = Color(0.45, 0.65, 0.35, 1)
+seed_cost = 1
+water_work = 1.0
+harvest_work = 1.5
+grow_seconds = 75.0
+watered_seconds = 30.0
+unlock = SubResource("unlock")

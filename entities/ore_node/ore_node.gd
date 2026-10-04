@@ -16,6 +16,7 @@ var revealed: bool = false
 
 var _nav: NavGrid
 var _hall_storage: Storage
+var _ledger: Ledger
 var _work_cell: Vector2i = NavGrid.NO_CELL
 
 @onready var receiver: WorkReceiver = $WorkReceiver
@@ -29,9 +30,10 @@ func _ready() -> void:
 	_clickable.clicked.connect(_on_clicked)
 
 
-func setup(nav: NavGrid, hall_storage: Storage) -> void:
+func setup(nav: NavGrid, hall_storage: Storage, ledger: Ledger) -> void:
 	_nav = nav
 	_hall_storage = hall_storage
+	_ledger = ledger
 
 
 func cell_rect() -> Rect2i:
@@ -69,6 +71,7 @@ func work_cell() -> Vector2i:
 
 func _on_ore_chipped(worker: Node) -> void:
 	Payout.give(ore, 1, worker, _hall_storage)
+	_ledger.record_mined(ore, 1)
 
 
 func _on_clicked(manual_work: float) -> void:

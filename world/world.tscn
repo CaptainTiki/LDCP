@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" path="res://assets/mine/ladder.png" id="27"]
 [ext_resource type="Texture2D" path="res://assets/mine/lift_rail.png" id="28"]
 [ext_resource type="Script" path="res://world/furniture_tool.gd" id="29"]
+[ext_resource type="Script" path="res://economy/ledger.gd" id="30"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -34,6 +35,9 @@ script = ExtResource("1")
 
 [node name="NavGrid" type="Node" parent="."]
 script = ExtResource("2")
+
+[node name="Ledger" type="Node" parent="."]
+script = ExtResource("30")
 
 [node name="MineSky" type="ColorRect" parent="."]
 offset_left = -1024.0

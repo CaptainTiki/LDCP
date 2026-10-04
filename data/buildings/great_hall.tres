@@ -8,7 +8,6 @@ id = &"great_hall"
 display_name = "Great Hall"
 footprint = Vector2i(4, 3)
 cost = 0
-unlock_cost = 0
 buildable = false
 can_move = true
 can_destroy = false

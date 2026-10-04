@@ -19,6 +19,7 @@ extends Node
 func _ready() -> void:
 	wallet.coins = tuning.starting_coins
 	world.setup(tuning, catalog, clock, wallet)
+	unlocks.setup(world.ledger, wallet, world.hall.storage)
 	for stack: ItemStack in tuning.starting_stock:
 		world.hall.storage.add(stack.item, stack.count)
 	shop.setup(wallet, unlocks, world, tuning)

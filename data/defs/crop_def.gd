@@ -12,6 +12,8 @@ extends Resource
 @export var growth_frames: Texture2D
 ## Coins per seed. The player pays this every time they sow.
 @export var seed_cost: int = 1
+## What it takes to get these seeds. None: available from the start.
+@export var unlock: UnlockDef
 
 @export_group("Farmer work")
 @export var water_work: float = 1.0

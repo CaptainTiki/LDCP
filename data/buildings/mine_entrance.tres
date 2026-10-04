@@ -8,7 +8,6 @@ id = &"mine_entrance"
 display_name = "Mine Entrance"
 footprint = Vector2i(2, 2)
 cost = 0
-unlock_cost = 0
 buildable = false
 can_move = true
 can_destroy = false

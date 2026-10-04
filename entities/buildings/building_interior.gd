@@ -153,6 +153,8 @@ func turn_furniture(piece: Furniture) -> bool:
 
 
 func remove_furniture(piece: Furniture) -> void:
+	if piece is Workstation:
+		(piece as Workstation).return_contents()  # Nothing is lost with it.
 	_furniture.remove_child(piece)
 	piece.queue_free()
 	_refresh_nav()
@@ -190,7 +192,7 @@ func seat_count() -> int:
 ## Stations draw on the town's storage when the player loads them by hand.
 func _set_up_station(piece: Furniture) -> void:
 	if piece is Workstation:
-		(piece as Workstation).setup(_world.hall.storage)
+		(piece as Workstation).setup(_world.hall.storage, _world.ledger)
 
 
 ## Is the room cell under some piece (other than `ignore`) or reserved?

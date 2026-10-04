@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://data/defs/recipe_def.gd" id="1"]
 [ext_resource type="Script" path="res://data/defs/item_stack.gd" id="2"]
-[ext_resource type="Resource" path="res://data/items/stew.tres" id="3"]
-[ext_resource type="Resource" path="res://data/items/potato.tres" id="4"]
+[ext_resource type="Resource" path="res://data/items/roast_carrots.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/carrot.tres" id="4"]
 
 [sub_resource type="Resource" id="in0"]
 script = ExtResource("2")
@@ -12,10 +12,10 @@ count = 2
 
 [resource]
 script = ExtResource("1")
-id = &"stew"
-display_name = "Stew"
+id = &"roast_carrots"
+display_name = "Roast carrots"
 inputs = Array[ExtResource("2")]([SubResource("in0")])
 output = ExtResource("3")
 output_count = 1
 load_work = 5.0
-process_seconds = 60.0
+process_seconds = 30.0

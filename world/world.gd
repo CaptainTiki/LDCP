@@ -13,6 +13,7 @@ extends Node2D
 @export var mine_sky_height: float = 40.0
 
 @onready var nav: NavGrid = $NavGrid
+@onready var ledger: Ledger = $Ledger
 @onready var terrain: Terrain = $Terrain
 @onready var surface: Surface = $Surface
 @onready var shaft: Shaft = $Shaft
