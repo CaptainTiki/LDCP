@@ -94,8 +94,9 @@ func _process(_delta: float) -> void:
 		position = mover.previous_position.lerp(mover.position, clock.tick_fraction())
 
 
-## At the hall: swap to a better tool for his current job if storage has
-## one. His old tool goes back on the shelf for someone else.
+## At the hall: make sure he holds the best tool for his current job. A tool
+## for some other job (he's been reassigned) goes back on the shelf for
+## someone who can use it, even if there's nothing better to take instead.
 func equip_best_tool(storage: Storage) -> void:
 	var job: JobAssignment.Kind = assignment.kind()
 	var best: ToolDef = tool if tool != null and tool.job == job else null
@@ -105,11 +106,12 @@ func equip_best_tool(storage: Storage) -> void:
 			continue
 		if best == null or candidate.work_multiplier > best.work_multiplier:
 			best = candidate
-	if best == null or best == tool:
+	if best == tool:
 		return
-	storage.remove(best, 1)
 	if tool != null:
 		storage.add(tool, 1)
+	if best != null:
+		storage.remove(best, 1)
 	tool = best
 
 
