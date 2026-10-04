@@ -1,10 +1,12 @@
 class_name WorldInput
 extends Node
-## Turns "the player clicked / dropped a dwarf at this world position" into
-## the right action. The HUD's WorldArea feeds it positions.
+## Turns "the player clicked / dragged / dropped a dwarf at this world
+## position" into the right action. The HUD's WorldArea feeds it positions.
 
 var _world: World
 var _tuning: GameTuning
+## What the current drag last acted on, so each thing is only hit once.
+var _last_dragged: Variant = null
 
 
 func setup(world: World, tuning: GameTuning) -> void:
@@ -14,12 +16,15 @@ func setup(world: World, tuning: GameTuning) -> void:
 
 func click(world_point: Vector2) -> void:
 	var clickable: Clickable = clickable_at(world_point)
+	_last_dragged = _drag_target(world_point, clickable)
 	if _world.build_tool.is_active():
 		_world.build_tool.click(world_point, clickable)
 		return
 	if clickable == null:
 		return
 	var entity: Node = clickable.entity()
+	if _world.hand.use_on(entity):
+		return
 	if entity is Building:
 		_world.camera.show_interior(entity as Building)
 	elif entity is MineEntrance:
@@ -27,6 +32,20 @@ func click(world_point: Vector2) -> void:
 	else:
 		# Stations do their own thing with a click: a little manual work.
 		clickable.clicked.emit(_tuning.manual_work_per_click)
+
+
+## The mouse moved with the button held. Lets the player sweep a tool across
+## a row of plots, or paint a row of new plots, without clicking each one.
+func drag(world_point: Vector2) -> void:
+	var clickable: Clickable = clickable_at(world_point)
+	var target: Variant = _drag_target(world_point, clickable)
+	if target == _last_dragged:
+		return
+	_last_dragged = target
+	if _world.build_tool.mode == BuildTool.Mode.PLACE:
+		_world.build_tool.click(world_point, clickable)
+	elif _world.hand.is_holding_tool() and clickable != null and clickable.entity() is FarmPlot:
+		_world.hand.use_on(clickable.entity())
 
 
 func hover(world_point: Vector2) -> void:
@@ -58,3 +77,10 @@ func clickable_at(world_point: Vector2) -> Clickable:
 		if best == null or clickable.size.x * clickable.size.y < best.size.x * best.size.y:
 			best = clickable
 	return best
+
+
+## While building, a drag moves from tile to tile. Otherwise from thing to thing.
+func _drag_target(world_point: Vector2, clickable: Clickable) -> Variant:
+	if _world.build_tool.is_active():
+		return _world.surface.tile_at(world_point)
+	return clickable

@@ -22,6 +22,8 @@ extends Resource
 @export_group("Player")
 ## Work units applied by one click on a station.
 @export var manual_work_per_click: float = 0.5
+## How many harvested crops the player can hold before dropping them off.
+@export var hand_capacity: int = 50
 
 @export_group("Prices")
 @export var hire_cost: int = 40

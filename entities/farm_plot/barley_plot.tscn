@@ -1,7 +1,0 @@
-[gd_scene format=3]
-
-[ext_resource type="PackedScene" path="res://entities/farm_plot/farm_plot.tscn" id="1"]
-[ext_resource type="Resource" path="res://data/crops/barley.tres" id="2"]
-
-[node name="BarleyPlot" instance=ExtResource("1")]
-crop = ExtResource("2")

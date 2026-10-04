@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://ui/shop_tab.gd" id="11"]
 [ext_resource type="PackedScene" path="res://ui/sell_row.tscn" id="12"]
 [ext_resource type="Script" path="res://ui/debug_tab.gd" id="13"]
+[ext_resource type="Script" path="res://ui/farm_tools.gd" id="14"]
+[ext_resource type="PackedScene" path="res://ui/seed_button.tscn" id="15"]
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1")
@@ -94,6 +96,24 @@ size_flags_horizontal = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 script = ExtResource("7")
+
+[node name="FarmTools" type="HBoxContainer" parent="Root/Layout/Middle/TopBar"]
+script = ExtResource("14")
+seed_button_scene = ExtResource("15")
+
+[node name="Holding" type="Label" parent="Root/Layout/Middle/TopBar/FarmTools"]
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+
+[node name="SeedButtons" type="HBoxContainer" parent="Root/Layout/Middle/TopBar/FarmTools"]
+
+[node name="BucketButton" type="Button" parent="Root/Layout/Middle/TopBar/FarmTools"]
+toggle_mode = true
+text = "Bucket"
+
+[node name="HarvestButton" type="Button" parent="Root/Layout/Middle/TopBar/FarmTools"]
+toggle_mode = true
+text = "Harvest"
 
 [node name="ViewButtons" type="HBoxContainer" parent="Root/Layout/Middle/TopBar"]
 script = ExtResource("8")

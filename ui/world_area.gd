@@ -24,6 +24,8 @@ func _gui_input(event: InputEvent) -> void:
 	if motion != null:
 		if _is_panning:
 			_world.camera.pan(-motion.relative / _world.camera.zoom)
+		if motion.button_mask & MOUSE_BUTTON_MASK_LEFT:
+			_world.input.drag(_to_world(motion.position))
 		_world.input.hover(_to_world(motion.position))
 
 
@@ -33,9 +35,11 @@ func _on_button(button: InputEventMouseButton) -> void:
 			if button.pressed:
 				_world.input.click(_to_world(button.position))
 		MOUSE_BUTTON_RIGHT, MOUSE_BUTTON_MIDDLE:
-			# Right-click drops the build tool. Otherwise drag to pan.
+			# Right-click puts away whatever tool is in hand. Otherwise drag to pan.
 			if button.pressed and _world.build_tool.is_active():
 				_world.build_tool.cancel()
+			elif button.pressed and _world.hand.is_holding_tool():
+				_world.hand.put_away()
 			else:
 				_is_panning = button.pressed
 		MOUSE_BUTTON_WHEEL_UP:

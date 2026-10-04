@@ -4,5 +4,7 @@ extends Resource
 
 ## Every item the game knows about, in the order the readout shows them.
 @export var items: Array[ItemDef] = []
+## Crops the player has seeds for.
+@export var crops: Array[CropDef] = []
 ## Everything that may appear in the build menu.
 @export var buildings: Array[BuildingDef] = []

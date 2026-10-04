@@ -22,6 +22,7 @@ extends Node2D
 @onready var build_tool: BuildTool = $BuildTool
 @onready var camera: ViewCamera = $Camera
 @onready var input: WorldInput = $WorldInput
+@onready var hand: PlayerHand = $Hand
 @onready var hall: GreatHall = $Surface/Placeables/GreatHall
 @onready var mine_entrance: MineEntrance = $Surface/Placeables/MineEntrance
 
@@ -37,12 +38,26 @@ func setup(tuning: GameTuning, clock: SimClock, wallet: Wallet) -> void:
 	build_tool.setup(self, wallet)
 	input.setup(self, tuning)
 	camera.setup(self)
+	hand.carrier.capacity = tuning.hand_capacity
+	# The player holds either a building tool or a farming tool, never both.
+	build_tool.mode_changed.connect(_on_build_mode_changed)
+	hand.changed.connect(_on_hand_changed)
 
 
 func sim_tick(delta: float) -> void:
 	# Stations first, so dwarves act on this tick's up-to-date state.
 	surface.sim_tick(delta)
 	dwarves.sim_tick(delta)
+
+
+func _on_build_mode_changed() -> void:
+	if build_tool.is_active():
+		hand.put_away()
+
+
+func _on_hand_changed() -> void:
+	if hand.is_holding_tool():
+		build_tool.cancel()
 
 
 ## The rectangle the camera may roam in the mine view.

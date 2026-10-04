@@ -28,6 +28,7 @@ base_work_rate = 1.0
 carry_capacity = 5
 eat_seconds = 4.0
 manual_work_per_click = 0.5
+hand_capacity = 50
 hire_cost = 40
 hire_cost_growth = 20
 lift_cost = 150

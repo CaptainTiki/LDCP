@@ -1,6 +1,7 @@
 class_name CropDef
 extends Resource
-## A plantable crop: how much work each farming step takes and what it yields.
+## A plantable crop: how much work each farming step takes a dwarf, how long
+## one plant takes to ripen, and what it yields.
 
 @export var id: StringName
 @export var display_name: String = ""

@@ -1,15 +1,15 @@
 [gd_resource type="Resource" script_class="BuildingDef" format=3]
 
 [ext_resource type="Script" path="res://data/defs/building_def.gd" id="1"]
-[ext_resource type="PackedScene" path="res://entities/farm_plot/barley_plot.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://entities/farm_plot/farm_plot.tscn" id="2"]
 
 [resource]
 script = ExtResource("1")
-id = &"barley_plot"
-display_name = "Barley Plot"
+id = &"farm_plot"
+display_name = "Farm Plot"
 scene = ExtResource("2")
-footprint = Vector2i(2, 2)
-cost = 10
+footprint = Vector2i(1, 1)
+cost = 3
 unlock_cost = 0
 buildable = true
 can_move = true
