@@ -19,18 +19,6 @@ offset_bottom = 2.0
 mouse_filter = 2
 color = Color(0.45, 0.42, 0.4, 1)
 
-[node name="Label" type="Label" parent="."]
-offset_left = -22.0
-offset_top = -11.0
-offset_right = 38.0
-offset_bottom = -1.0
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0.1, 0.08, 0.07, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-text = "Stove"
-horizontal_alignment = 1
-
 [node name="WorkReceiver" type="Node" parent="."]
 script = ExtResource("2")
 
