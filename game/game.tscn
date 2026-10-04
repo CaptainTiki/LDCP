@@ -21,6 +21,7 @@ script = ExtResource("4")
 
 [node name="GameWindow" type="Node" parent="."]
 script = ExtResource("5")
+strip_height = 450
 
 [node name="Wallet" type="Node" parent="."]
 script = ExtResource("6")

@@ -106,6 +106,14 @@ names = ExtResource("17")
 
 [node name="Dwarf12" parent="Dwarves" instance=ExtResource("18")]
 
+[node name="Dwarf13" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf14" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf15" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf16" parent="Dwarves" instance=ExtResource("18")]
+
 [node name="BuildTool" type="Node2D" parent="."]
 script = ExtResource("19")
 

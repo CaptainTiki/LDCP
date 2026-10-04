@@ -7,7 +7,7 @@ var dwarf: Dwarf
 
 @onready var _portrait: ColorRect = $Column/Top/Portrait
 @onready var _badge: Label = $Column/Top/Badge
-@onready var _name: Label = $Column/Top/Name
+@onready var _name: Label = $Column/Name
 @onready var _food: ProgressBar = $Column/Food
 @onready var _drink: ProgressBar = $Column/Drink
 

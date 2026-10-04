@@ -1,6 +1,6 @@
 class_name RosterPanel
 extends PanelContainer
-## The fold-out list of dwarves on the left. Entries can be dragged onto the
+## The fold-out grid of dwarves on the left, two across. Entries can be dragged onto the
 ## world to assign jobs. "Here" shows only the dwarves in the current view,
 ## "All" shows everyone, so a farmer can be sent to the mine from anywhere.
 
@@ -9,7 +9,7 @@ extends PanelContainer
 var _world: World
 var _show_all: bool = true
 
-@onready var _entries: VBoxContainer = $Row/Body/Scroll/Entries
+@onready var _entries: GridContainer = $Row/Body/Scroll/Entries
 @onready var _here_button: Button = $Row/Body/Filters/HereButton
 @onready var _all_button: Button = $Row/Body/Filters/AllButton
 @onready var _refresh_timer: Timer = $RefreshTimer
