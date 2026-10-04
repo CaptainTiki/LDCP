@@ -54,7 +54,7 @@ func _collect_output() -> void:
 
 func _fetch_ingredients() -> void:
 	var hall: GreatHall = dwarf.world.hall
-	var def: WorkstationDef = _station.def
+	var def: WorkstationDef = _station.recipe()
 	if hall.storage.count(def.input) < def.input_count:
 		_drop_station()  # Someone else got to the pantry first.
 		return
@@ -66,7 +66,7 @@ func _has_ingredients_for(station: Workstation) -> bool:
 	if station == null or not station.needs_loading():
 		return false
 	var carrier: Carrier = dwarf.carrier
-	return carrier.item == station.def.input and carrier.count >= station.def.input_count
+	return carrier.item == station.recipe().input and carrier.count >= station.recipe().input_count
 
 
 ## A station is worth keeping while it still wants loading or emptying.
@@ -87,7 +87,7 @@ func _pick_station(building: Building) -> Workstation:
 		if station.has_output():
 			station.receiver.try_claim(dwarf)
 			return station
-		var can_load: bool = storage.count(station.def.input) >= station.def.input_count
+		var can_load: bool = storage.count(station.recipe().input) >= station.recipe().input_count
 		if to_load == null and station.needs_loading() and can_load:
 			to_load = station
 	if to_load != null:

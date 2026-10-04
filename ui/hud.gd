@@ -14,7 +14,7 @@ extends CanvasLayer
 @onready var _shop_tab: ShopTab = $Root/Layout/SidePanel/Row/Pages/Shop
 @onready var _debug_tab: DebugTab = $Root/Layout/SidePanel/Row/Pages/Debug
 @onready var _options_tab: OptionsTab = $Root/Layout/SidePanel/Row/Pages/Options
-@onready var _hall_tab: HallTab = $Root/Layout/SidePanel/Row/Pages/Hall
+@onready var _room_tab: RoomTab = $Root/Layout/SidePanel/Row/Pages/Room
 @onready var _side_panel: SidePanel = $Root/Layout/SidePanel
 
 
@@ -30,5 +30,5 @@ func setup(game: Game) -> void:
 	_shop_tab.setup(game)
 	_debug_tab.setup(game)
 	_options_tab.setup(game)
-	_hall_tab.setup(game)
+	_room_tab.setup(game)
 	_side_panel.setup(game.world.camera)

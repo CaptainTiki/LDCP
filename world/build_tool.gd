@@ -71,7 +71,7 @@ func click(world_point: Vector2, clickable: Clickable) -> void:
 			if _on_surface():
 				_click_move(tile)
 		Mode.DESTROY:
-			_click_destroy(tile, clickable)
+			_click_destroy(tile)
 	hover(world_point)
 
 
@@ -85,13 +85,7 @@ func _click_move(tile: Vector2i) -> void:
 		_carried = null
 
 
-func _click_destroy(tile: Vector2i, clickable: Clickable) -> void:
-	# Indoors the tool removes workstations. In town, buildings and plots.
-	var indoors: Building = _world.camera.interior_building
-	if indoors != null:
-		if clickable != null and clickable.entity() is Workstation:
-			indoors.interior.remove_workstation(clickable.entity() as Workstation)
-		return
+func _click_destroy(tile: Vector2i) -> void:
 	if not _on_surface():
 		return
 	var target: Placeable = _world.surface.placeable_at(tile)

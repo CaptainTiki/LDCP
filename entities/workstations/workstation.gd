@@ -1,10 +1,10 @@
 class_name Workstation
-extends Node2D
+extends Furniture
 ## A stove, fermenter and the like. The rhythm: a dwarf spends a short burst
 ## of work loading ingredients, the station then runs on its own timer, and
 ## the finished output waits here until someone carries it to the Great Hall.
-## Interiors are seen from above: a dwarf stands on the floor cell in front
-## of (below) the station to use it.
+## It is placed, turned and moved like any furniture, and worked from the
+## cell in front of it.
 
 enum State { WAITING_FOR_INPUT, PROCESSING, OUTPUT_READY }
 
@@ -12,7 +12,6 @@ enum State { WAITING_FOR_INPUT, PROCESSING, OUTPUT_READY }
 @export var busy_color: Color = Color(0.95, 0.55, 0.15)
 @export var ready_color: Color = Color(0.35, 0.85, 0.35)
 
-var def: WorkstationDef
 var state: State = State.WAITING_FOR_INPUT
 
 var _hall_storage: Storage
@@ -28,11 +27,15 @@ func _ready() -> void:
 	_clickable.clicked.connect(_on_clicked)
 
 
-func setup(station_def: WorkstationDef, hall_storage: Storage) -> void:
-	def = station_def
+## Called by the room once the station is in place.
+func setup(hall_storage: Storage) -> void:
 	_hall_storage = hall_storage
-	receiver.reset(def.load_work)
+	receiver.reset(recipe().load_work)
 	_update_indicator()
+
+
+func recipe() -> WorkstationDef:
+	return def as WorkstationDef
 
 
 func needs_loading() -> bool:
@@ -43,19 +46,20 @@ func has_output() -> bool:
 	return state == State.OUTPUT_READY
 
 
-## The floor cell in front of the station.
+## The floor cell a dwarf stands in to use the station.
 func work_cell() -> Vector2i:
-	return NavGrid.world_to_cell(global_position) + Vector2i.DOWN
+	return front_nav_cell()
 
 
 ## A line of text for the Look tool.
 func describe() -> String:
+	var r: WorkstationDef = recipe()
 	match state:
 		State.PROCESSING:
-			return "%s: working, %ds to go" % [def.display_name, ceili(_process_seconds_left)]
+			return "%s: working, %ds to go" % [r.display_name, ceili(_process_seconds_left)]
 		State.OUTPUT_READY:
-			return "%s: %s ready to collect" % [def.display_name, def.output.display_name]
-	return "%s: needs %d %s" % [def.display_name, def.input_count, def.input.display_name]
+			return "%s: %s ready to collect" % [r.display_name, r.output.display_name]
+	return "%s: needs %d %s" % [r.display_name, r.input_count, r.input.display_name]
 
 
 func sim_tick(delta: float) -> void:
@@ -69,9 +73,9 @@ func sim_tick(delta: float) -> void:
 
 ## Hands the finished goods to a dwarf.
 func take_output(carrier: Carrier) -> void:
-	if not has_output() or not carrier.can_take(def.output):
+	if not has_output() or not carrier.can_take(recipe().output):
 		return
-	carrier.add(def.output, def.output_count)
+	carrier.add(recipe().output, recipe().output_count)
 	state = State.WAITING_FOR_INPUT
 	_update_indicator()
 
@@ -81,7 +85,7 @@ func _on_loaded(worker: Node) -> void:
 	if not _consume_inputs(worker):
 		return
 	state = State.PROCESSING
-	_process_seconds_left = def.process_seconds
+	_process_seconds_left = recipe().process_seconds
 	_update_indicator()
 
 
@@ -90,17 +94,17 @@ func _on_loaded(worker: Node) -> void:
 func _consume_inputs(worker: Node) -> bool:
 	var dwarf: Dwarf = worker as Dwarf
 	if dwarf != null:
-		return dwarf.carrier.remove(def.input, def.input_count)
-	return _hall_storage.remove(def.input, def.input_count)
+		return dwarf.carrier.remove(recipe().input, recipe().input_count)
+	return _hall_storage.remove(recipe().input, recipe().input_count)
 
 
 func _on_clicked(manual_work: float) -> void:
 	match state:
 		State.WAITING_FOR_INPUT:
-			if _hall_storage.count(def.input) >= def.input_count:
+			if _hall_storage.count(recipe().input) >= recipe().input_count:
 				receiver.apply_work(manual_work)
 		State.OUTPUT_READY:
-			_hall_storage.add(def.output, def.output_count)
+			_hall_storage.add(recipe().output, recipe().output_count)
 			state = State.WAITING_FOR_INPUT
 			_update_indicator()
 

@@ -4,13 +4,18 @@
 [ext_resource type="PackedScene" path="res://entities/workstations/fermenter.tscn" id="2"]
 [ext_resource type="Resource" path="res://data/items/barley.tres" id="3"]
 [ext_resource type="Resource" path="res://data/items/ale.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/interiors/fermenter.png" id="5"]
 
 [resource]
 script = ExtResource("1")
 id = &"fermenter"
 display_name = "Fermenter"
 scene = ExtResource("2")
+icon = ExtResource("5")
+footprint = Vector2i(2, 2)
 cost = 25
+blocks_walking = true
+needs_front_access = true
 input = ExtResource("3")
 input_count = 2
 output = ExtResource("4")

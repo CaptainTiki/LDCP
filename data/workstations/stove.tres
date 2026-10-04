@@ -4,13 +4,18 @@
 [ext_resource type="PackedScene" path="res://entities/workstations/stove.tscn" id="2"]
 [ext_resource type="Resource" path="res://data/items/potato.tres" id="3"]
 [ext_resource type="Resource" path="res://data/items/stew.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/interiors/stove.png" id="5"]
 
 [resource]
 script = ExtResource("1")
 id = &"stove"
 display_name = "Stove"
 scene = ExtResource("2")
+icon = ExtResource("5")
+footprint = Vector2i(2, 2)
 cost = 20
+blocks_walking = true
+needs_front_access = true
 input = ExtResource("3")
 input_count = 2
 output = ExtResource("4")

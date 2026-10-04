@@ -1,13 +1,8 @@
 class_name WorkstationDef
-extends Resource
-## A workstation that turns one item into another: a short burst of dwarf
-## work to load it, then a timed process that runs on its own.
-
-@export var id: StringName
-@export var display_name: String = ""
-## Scene instanced into a building's interior slot. Its root is a Workstation.
-@export var scene: PackedScene
-@export var cost: int = 20
+extends FurnitureDef
+## Furniture that turns one item into another: a short burst of dwarf work
+## to load it, then a timed process that runs on its own. Placed, turned and
+## moved like any furniture; a dwarf works it from the cell in front.
 
 @export_group("Recipe")
 @export var input: ItemDef

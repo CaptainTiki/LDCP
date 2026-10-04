@@ -70,11 +70,3 @@ func buy_lift() -> bool:
 	_wallet.spend(_tuning.lift_cost)
 	_world.shaft.install_lift()
 	return true
-
-
-## Buys a workstation into the building's first free interior slot.
-func buy_workstation(def: WorkstationDef, building: Building) -> bool:
-	if not building.interior.has_free_slot() or not _wallet.spend(def.cost):
-		return false
-	building.interior.add_workstation(def)
-	return true

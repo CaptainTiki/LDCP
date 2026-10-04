@@ -57,8 +57,6 @@ texture = ExtResource("14")
 [node name="StorageSpot" type="Marker2D" parent="."]
 position = Vector2(36, 28)
 
-[node name="Slots" type="Node2D" parent="."]
-
 [node name="Table1" parent="Furniture" instance=ExtResource("20")]
 def = ExtResource("23")
 cell = Vector2i(10, 4)

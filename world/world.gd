@@ -72,9 +72,10 @@ func _on_hand_changed() -> void:
 		furniture_tool.cancel()
 
 
-## Tools belong to the place they were picked up in.
+## Tools belong to the place they were picked up in: furniture indoors,
+## building and farming outdoors.
 func _on_view_changed() -> void:
-	if camera.interior_building is GreatHall:
+	if camera.interior_building != null:
 		hand.put_away()
 		build_tool.cancel()
 	else:

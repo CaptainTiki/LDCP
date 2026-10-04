@@ -1,9 +1,9 @@
 class_name BuildingInterior
 extends Node2D
 ## The inside of a building, seen from above: a rectangle of floor dwarves
-## can walk, a door in the bottom wall, slots for workstations, and any
-## furniture the player has placed. The node's origin is the top-left corner
-## of the floor.
+## can walk, a door in the bottom wall, and whatever furniture stands on it.
+## Workstations (stoves, fermenters) are furniture too. The node's origin is
+## the top-left corner of the floor.
 
 ## Size of the walkable floor in nav cells.
 @export var floor_size_cells: Vector2i = Vector2i(20, 8)
@@ -16,7 +16,6 @@ var building: Building
 var _world: World
 
 @onready var _door: Marker2D = $Door
-@onready var _slots: Node2D = $Slots
 @onready var _furniture: Node2D = $Furniture
 
 
@@ -26,6 +25,7 @@ func setup(world: World, owner_building: Building) -> void:
 	# Authored furniture has its cell and facing set in the scene.
 	for piece: Furniture in furniture():
 		piece.place(piece.cell, piece.facing)
+		_set_up_station(piece)
 	_refresh_nav()
 
 
@@ -69,30 +69,10 @@ func view_rect() -> Rect2:
 
 func workstations() -> Array[Workstation]:
 	var stations: Array[Workstation] = []
-	for slot: Node in _slots.get_children():
-		if slot.get_child_count() > 0:
-			stations.append(slot.get_child(0) as Workstation)
+	for piece: Furniture in furniture():
+		if piece is Workstation:
+			stations.append(piece as Workstation)
 	return stations
-
-
-func has_free_slot() -> bool:
-	return _first_free_slot() != null
-
-
-## Instances the workstation into the first empty slot.
-func add_workstation(def: WorkstationDef) -> Workstation:
-	var slot: Node2D = _first_free_slot()
-	if slot == null:
-		return null
-	var station: Workstation = def.scene.instantiate() as Workstation
-	slot.add_child(station)
-	station.setup(def, _world.hall.storage)
-	return station
-
-
-func remove_workstation(station: Workstation) -> void:
-	station.get_parent().remove_child(station)
-	station.queue_free()
 
 
 func sim_tick(delta: float) -> void:
@@ -123,7 +103,8 @@ func furniture_at(room_cell: Vector2i) -> Furniture:
 ## reachable from the door.
 func can_place(def: FurnitureDef, room_cell: Vector2i, ignore: Furniture = null, facing: int = 0) -> bool:
 	var wanted := Rect2i(room_cell, Furniture.turned_size(def.footprint, facing))
-	if not Rect2i(Vector2i.ZERO, floor_size_cells).encloses(wanted):
+	var floor_area := Rect2i(Vector2i.ZERO, floor_size_cells)
+	if not floor_area.encloses(wanted):
 		return false
 	if wanted.has_point(door_cell() - origin_cell()):
 		return false
@@ -131,7 +112,16 @@ func can_place(def: FurnitureDef, room_cell: Vector2i, ignore: Furniture = null,
 		if reserved.intersects(wanted):
 			return false
 	for piece: Furniture in furniture():
-		if piece != ignore and piece.rect().intersects(wanted):
+		if piece == ignore:
+			continue
+		if piece.rect().intersects(wanted):
+			return false
+		# Nothing may stand where a dwarf works a station.
+		if piece.def.needs_front_access and wanted.has_point(piece.front_cell()):
+			return false
+	if def.needs_front_access:
+		var front: Vector2i = Furniture.front_of(wanted, facing)
+		if not floor_area.has_point(front) or _is_covered(front, ignore):
 			return false
 	return not def.blocks_walking or _floor_stays_connected(wanted, ignore)
 
@@ -141,6 +131,7 @@ func place_furniture(def: FurnitureDef, room_cell: Vector2i, facing: int = 0) ->
 	piece.def = def
 	_furniture.add_child(piece)
 	piece.place(room_cell, facing)
+	_set_up_station(piece)
 	_refresh_nav()
 	return piece
 
@@ -196,11 +187,21 @@ func seat_count() -> int:
 	return seats
 
 
-func _first_free_slot() -> Node2D:
-	for slot: Node in _slots.get_children():
-		if slot.get_child_count() == 0:
-			return slot as Node2D
-	return null
+## Stations draw on the town's storage when the player loads them by hand.
+func _set_up_station(piece: Furniture) -> void:
+	if piece is Workstation:
+		(piece as Workstation).setup(_world.hall.storage)
+
+
+## Is the room cell under some piece (other than `ignore`) or reserved?
+func _is_covered(room_cell: Vector2i, ignore: Furniture) -> bool:
+	for reserved: Rect2i in reserved_rects:
+		if reserved.has_point(room_cell):
+			return true
+	for piece: Furniture in furniture():
+		if piece != ignore and piece.rect().has_point(room_cell):
+			return true
+	return false
 
 
 func _floor_rect() -> Rect2i:
