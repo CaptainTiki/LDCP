@@ -23,9 +23,9 @@ var _world: World
 func setup(world: World, owner_building: Building) -> void:
 	_world = world
 	building = owner_building
-	# Authored furniture has its cell set in the scene; snap it into place.
+	# Authored furniture has its cell and facing set in the scene.
 	for piece: Furniture in furniture():
-		piece.move_to(piece.cell)
+		piece.place(piece.cell, piece.facing)
 	_refresh_nav()
 
 
@@ -117,11 +117,12 @@ func furniture_at(room_cell: Vector2i) -> Furniture:
 	return null
 
 
-## Could `def` stand with its corner at `room_cell`? `ignore` lets a piece
-## being moved overlap its own old spot. Nothing may wall off part of the
-## floor: every open cell must stay reachable from the door.
-func can_place(def: FurnitureDef, room_cell: Vector2i, ignore: Furniture = null) -> bool:
-	var wanted := Rect2i(room_cell, def.footprint)
+## Could `def`, turned `facing` quarter turns, stand with its corner at
+## `room_cell`? `ignore` lets a piece being moved overlap its own old spot.
+## Nothing may wall off part of the floor: every open cell must stay
+## reachable from the door.
+func can_place(def: FurnitureDef, room_cell: Vector2i, ignore: Furniture = null, facing: int = 0) -> bool:
+	var wanted := Rect2i(room_cell, Furniture.turned_size(def.footprint, facing))
 	if not Rect2i(Vector2i.ZERO, floor_size_cells).encloses(wanted):
 		return false
 	if wanted.has_point(door_cell() - origin_cell()):
@@ -135,19 +136,29 @@ func can_place(def: FurnitureDef, room_cell: Vector2i, ignore: Furniture = null)
 	return not def.blocks_walking or _floor_stays_connected(wanted, ignore)
 
 
-func place_furniture(def: FurnitureDef, room_cell: Vector2i) -> Furniture:
+func place_furniture(def: FurnitureDef, room_cell: Vector2i, facing: int = 0) -> Furniture:
 	var piece: Furniture = def.scene.instantiate() as Furniture
 	piece.def = def
 	_furniture.add_child(piece)
-	piece.move_to(room_cell)
+	piece.place(room_cell, facing)
 	_refresh_nav()
 	return piece
 
 
-func move_furniture(piece: Furniture, room_cell: Vector2i) -> void:
+func move_furniture(piece: Furniture, room_cell: Vector2i, facing: int) -> void:
 	piece.occupant = null  # Whoever was sitting there has to get up.
-	piece.move_to(room_cell)
+	piece.place(room_cell, facing)
 	_refresh_nav()
+
+
+## Turns a placed piece a quarter turn clockwise, where it stands. Returns
+## false (and leaves it alone) if the turned piece wouldn't fit there.
+func turn_furniture(piece: Furniture) -> bool:
+	var turned: int = (piece.facing + 1) % 4
+	if not can_place(piece.def, piece.cell, piece, turned):
+		return false
+	move_furniture(piece, piece.cell, turned)
+	return true
 
 
 func remove_furniture(piece: Furniture) -> void:

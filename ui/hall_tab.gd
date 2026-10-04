@@ -8,10 +8,12 @@ extends ScrollContainer
 @export var item_slot_scene: PackedScene
 @export var move_icon: Texture2D
 @export var destroy_icon: Texture2D
+@export var turn_icon: Texture2D
 
 var _game: Game
 var _move_slot: IconSlot
 var _destroy_slot: IconSlot
+var _turn_slot: IconSlot
 var _item_slots: Array[ItemSlot] = []
 
 @onready var _tools: GridContainer = $Column/Tools
@@ -22,6 +24,7 @@ var _item_slots: Array[ItemSlot] = []
 func setup(game: Game) -> void:
 	_game = game
 	_move_slot = _add_tool(move_icon, "Move furniture")
+	_turn_slot = _add_tool(turn_icon, "Turn furniture (or right-click while holding it)")
 	_destroy_slot = _add_tool(destroy_icon, "Remove furniture")
 	for def: FurnitureDef in game.catalog.furniture:
 		_add_tool(def.icon, def.display_name, def.cost, def)
@@ -58,6 +61,8 @@ func _on_chosen(slot: IconSlot) -> void:
 		tool.cancel()
 	elif slot == _move_slot:
 		tool.start_move()
+	elif slot == _turn_slot:
+		tool.start_turn()
 	elif slot == _destroy_slot:
 		tool.start_destroy()
 	else:
@@ -70,6 +75,8 @@ func _is_selected(slot: IconSlot) -> bool:
 	match tool.mode:
 		FurnitureTool.Mode.MOVE:
 			return slot == _move_slot
+		FurnitureTool.Mode.TURN:
+			return slot == _turn_slot
 		FurnitureTool.Mode.DESTROY:
 			return slot == _destroy_slot
 		FurnitureTool.Mode.PLACE:

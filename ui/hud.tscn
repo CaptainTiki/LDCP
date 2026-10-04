@@ -39,6 +39,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/tab_hall.png" id="45"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/move.png" id="46"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/destroy.png" id="47"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/turn.png" id="48"]
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1")
@@ -373,6 +374,7 @@ slot_scene = ExtResource("44")
 item_slot_scene = ExtResource("20")
 move_icon = ExtResource("46")
 destroy_icon = ExtResource("47")
+turn_icon = ExtResource("48")
 
 [node name="Column" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Hall"]
 size_flags_horizontal = 3

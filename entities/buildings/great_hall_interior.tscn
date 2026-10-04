@@ -62,23 +62,29 @@ position = Vector2(36, 28)
 [node name="Table1" parent="Furniture" instance=ExtResource("20")]
 def = ExtResource("23")
 cell = Vector2i(10, 4)
+facing = 0
 
 [node name="Chair1" parent="Furniture" instance=ExtResource("21")]
 def = ExtResource("24")
 cell = Vector2i(9, 4)
+facing = 3
 
 [node name="Chair2" parent="Furniture" instance=ExtResource("21")]
 def = ExtResource("24")
 cell = Vector2i(12, 4)
+facing = 1
 
 [node name="Table2" parent="Furniture" instance=ExtResource("20")]
 def = ExtResource("23")
 cell = Vector2i(18, 4)
+facing = 0
 
 [node name="Chair3" parent="Furniture" instance=ExtResource("21")]
 def = ExtResource("24")
 cell = Vector2i(17, 4)
+facing = 3
 
 [node name="Chair4" parent="Furniture" instance=ExtResource("21")]
 def = ExtResource("24")
 cell = Vector2i(20, 4)
+facing = 1

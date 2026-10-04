@@ -35,9 +35,12 @@ func _on_button(button: InputEventMouseButton) -> void:
 			if button.pressed:
 				_world.input.click(_to_world(button.position))
 		MOUSE_BUTTON_RIGHT, MOUSE_BUTTON_MIDDLE:
-			# Right-click puts away whatever tool is in hand. Otherwise drag to pan.
+			# Right-click turns a piece of furniture in hand, or puts away
+			# whatever tool is held. With nothing held, drag to pan.
 			if button.pressed and _world.build_tool.is_active():
 				_world.build_tool.cancel()
+			elif button.pressed and _world.furniture_tool.is_holding_piece():
+				_world.furniture_tool.turn_held_piece()
 			elif button.pressed and _world.furniture_tool.is_active():
 				_world.furniture_tool.cancel()
 			elif button.pressed and _world.hand.is_holding_tool():
