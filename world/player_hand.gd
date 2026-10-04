@@ -8,6 +8,10 @@ extends Node
 ##   Seeds   sow an empty plot (costs the crop's seed price)
 ## Harvested crops stay in hand until the player clicks the Great Hall.
 ## Dwarves never sow: what gets planted is always the player's choice.
+##
+## With no tool in hand, clicking a station selects it (the room tab shows
+## its recipes), loads it a little, or takes its finished goods into hand.
+## Clicking an empty fermenter asks for a finished mash pot to pour from.
 
 signal changed
 
@@ -18,6 +22,11 @@ var tool: Tool = Tool.NONE
 var seed_crop: CropDef = null
 ## What the Look tool last saw.
 var inspect_text: String = ""
+## The station whose recipes the room tab shows.
+var selected_station: Workstation = null
+## An empty station waiting for the player to pick a finished one to pour
+## from.
+var pour_target: Workstation = null
 
 var _wallet: Wallet
 
@@ -45,6 +54,32 @@ func put_away() -> void:
 
 func is_holding_tool() -> bool:
 	return tool != Tool.NONE
+
+
+## Something about a station changed that the UI should show.
+func notify_changed() -> void:
+	changed.emit()
+
+
+## A click on a station with no tool in hand.
+func use_station(station: Workstation, manual_work: float) -> void:
+	if pour_target != null and station != pour_target:
+		# Second click of a pour: take the mash from this one.
+		pour_target.pour_from(station)
+		selected_station = pour_target
+		pour_target = null
+		changed.emit()
+		return
+	selected_station = station
+	pour_target = null
+	if station.has_output():
+		station.take_output(carrier)
+	elif station.can_load_by_hand():
+		station.receiver.apply_work(manual_work)
+	elif station.is_idle() and station.is_fed_by_station():
+		if not station.pour_from_carrier(carrier):
+			pour_target = station
+	changed.emit()
 
 
 ## Uses whatever is in hand on the thing clicked (null for open ground).
@@ -108,4 +143,6 @@ func _describe(entity: Node) -> String:
 func _set_tool(new_tool: Tool) -> void:
 	tool = new_tool
 	inspect_text = ""
+	selected_station = null
+	pour_target = null
 	changed.emit()

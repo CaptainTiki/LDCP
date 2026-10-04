@@ -6,6 +6,8 @@ extends Node
 
 ## `worker` is the Dwarf who finished the job, or null for a player click.
 signal completed(worker: Node)
+## Work was added or the job was reset; for progress bars.
+signal progressed
 
 @export var work_required: float = 1.0
 
@@ -19,12 +21,14 @@ func apply_work(amount: float, worker: Node = null) -> void:
 	if progress >= work_required:
 		progress = 0.0
 		completed.emit(worker)
+	progressed.emit()
 
 
 ## Starts a fresh job needing `new_work_required` work.
 func reset(new_work_required: float) -> void:
 	work_required = new_work_required
 	progress = 0.0
+	progressed.emit()
 
 
 func ratio() -> float:

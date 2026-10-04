@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="RecipeDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/recipe_def.gd" id="1"]
+[ext_resource type="Resource" path="res://data/items/barley_mash.tres" id="2"]
+[ext_resource type="Resource" path="res://data/items/ale.tres" id="3"]
+
+[resource]
+script = ExtResource("1")
+id = &"ale"
+display_name = "Ale"
+input = ExtResource("2")
+input_count = 1
+output = ExtResource("3")
+output_count = 4
+load_work = 4.0
+process_seconds = 180.0

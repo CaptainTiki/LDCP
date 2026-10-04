@@ -20,6 +20,13 @@ func can_take(new_item: ItemDef) -> bool:
 	return is_empty() or (item == new_item and not is_full())
 
 
+## True if all `amount` of `new_item` would fit.
+func has_room_for(new_item: ItemDef, amount: int) -> bool:
+	if not is_empty() and item != new_item:
+		return false
+	return capacity - count >= amount
+
+
 ## Picks up as many as fit. Returns how many did NOT fit.
 func add(new_item: ItemDef, amount: int) -> int:
 	if not can_take(new_item):

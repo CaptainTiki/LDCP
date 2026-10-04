@@ -8,6 +8,7 @@ extends ScrollContainer
 
 @export var slot_scene: PackedScene
 @export var item_slot_scene: PackedScene
+@export var recipe_slot_scene: PackedScene
 @export var move_icon: Texture2D
 @export var destroy_icon: Texture2D
 @export var turn_icon: Texture2D
@@ -17,10 +18,15 @@ var _move_slot: IconSlot
 var _destroy_slot: IconSlot
 var _turn_slot: IconSlot
 var _item_slots: Array[ItemSlot] = []
+## The station whose recipes are listed.
+var _shown_station: Workstation = null
 
 @onready var _tools: GridContainer = $Column/Tools
 @onready var _left_stock: GridContainer = $Column/Stock/Foods
 @onready var _right_stock: GridContainer = $Column/Stock/Drinks
+@onready var _station_panel: VBoxContainer = $Column/Station
+@onready var _station_title: Label = $Column/Station/Title
+@onready var _recipes: GridContainer = $Column/Station/Recipes
 
 
 func setup(game: Game) -> void:
@@ -29,6 +35,7 @@ func setup(game: Game) -> void:
 	game.world.furniture_tool.mode_changed.connect(_refresh)
 	game.wallet.changed.connect(_refresh)
 	game.world.hall.storage.changed.connect(_refresh)
+	game.world.hand.changed.connect(_refresh)
 
 
 ## Fills the tab for whichever building is open.
@@ -75,11 +82,19 @@ func _stock_for(building: Building) -> Array[Array]:
 			elif item is DrinkDef:
 				right.append(item)
 	else:
+		# Left: what comes in from storage. Right: what the building sends
+		# out (not the mash that only passes from pot to fermenter).
+		var passed_on: Array[ItemDef] = []
 		for def: WorkstationDef in building.def.workstations:
-			if not left.has(def.input):
-				left.append(def.input)
-			if not right.has(def.output):
-				right.append(def.output)
+			if def.fed_by != null:
+				for r: RecipeDef in def.recipes:
+					passed_on.append(r.input)
+		for def: WorkstationDef in building.def.workstations:
+			for r: RecipeDef in def.recipes:
+				if def.fed_by == null and not left.has(r.input):
+					left.append(r.input)
+				if not passed_on.has(r.output) and not right.has(r.output):
+					right.append(r.output)
 	return [left, right]
 
 
@@ -128,7 +143,41 @@ func _is_selected(slot: IconSlot) -> bool:
 	return false
 
 
+## Lists the recipes of the station the player last clicked, if it's in
+## this room.
+func _refresh_station() -> void:
+	var station: Workstation = _game.world.hand.selected_station
+	var building: Building = _game.world.camera.interior_building
+	if station != null and (not is_instance_valid(station) or building == null
+			or not building.workstations().has(station)):
+		station = null
+	_station_panel.visible = station != null
+	if station != _shown_station:
+		_shown_station = station
+		for child: Node in _recipes.get_children():
+			_recipes.remove_child(child)
+			child.queue_free()
+		if station != null:
+			for r: RecipeDef in station.station_def().recipes:
+				var slot: RecipeSlot = recipe_slot_scene.instantiate() as RecipeSlot
+				_recipes.add_child(slot)
+				slot.setup(r)
+				slot.chosen.connect(_on_recipe_chosen)
+	if station == null:
+		return
+	_station_title.text = station.def.display_name
+	for child: Node in _recipes.get_children():
+		(child as RecipeSlot).refresh(station, _game.world.hall.storage)
+
+
+func _on_recipe_chosen(recipe: RecipeDef) -> void:
+	if _shown_station != null:
+		_shown_station.select_recipe(recipe)
+		_game.world.hand.notify_changed()
+
+
 func _refresh() -> void:
+	_refresh_station()
 	for child: Node in _tools.get_children():
 		if not child.is_queued_for_deletion():
 			var slot: IconSlot = child as IconSlot

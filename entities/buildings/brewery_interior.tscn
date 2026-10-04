@@ -6,8 +6,10 @@
 [ext_resource type="Texture2D" path="res://assets/interiors/door.png" id="12"]
 [ext_resource type="Texture2D" path="res://assets/interiors/table.png" id="13"]
 [ext_resource type="Texture2D" path="res://assets/interiors/storage_pile.png" id="14"]
-[ext_resource type="PackedScene" path="res://entities/workstations/fermenter.tscn" id="20"]
-[ext_resource type="Resource" path="res://data/workstations/fermenter.tres" id="21"]
+[ext_resource type="PackedScene" path="res://entities/workstations/mash_pot.tscn" id="20"]
+[ext_resource type="Resource" path="res://data/workstations/mash_pot.tres" id="21"]
+[ext_resource type="PackedScene" path="res://entities/workstations/fermenter.tscn" id="22"]
+[ext_resource type="Resource" path="res://data/workstations/fermenter.tres" id="23"]
 
 [node name="BreweryInterior" type="Node2D"]
 script = ExtResource("1")
@@ -46,6 +48,10 @@ position = Vector2(20, 60)
 
 [node name="Furniture" type="Node2D" parent="."]
 
-[node name="Fermenter1" parent="Furniture" instance=ExtResource("20")]
+[node name="MashPot1" parent="Furniture" instance=ExtResource("20")]
 def = ExtResource("21")
-cell = Vector2i(9, 0)
+cell = Vector2i(5, 0)
+
+[node name="Fermenter1" parent="Furniture" instance=ExtResource("22")]
+def = ExtResource("23")
+cell = Vector2i(12, 0)

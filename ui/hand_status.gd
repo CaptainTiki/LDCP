@@ -15,13 +15,24 @@ func setup(hand: PlayerHand) -> void:
 	_refresh()
 
 
+## Keeps a selected station's countdown fresh.
+func _process(_delta: float) -> void:
+	_refresh()
+
+
 func _refresh() -> void:
 	var carrier: Carrier = _hand.carrier
-	if not carrier.is_empty():
+	if _hand.pour_target != null:
+		var feeder: WorkstationDef = _hand.pour_target.station_def().fed_by
+		_label.text = "Click a finished %s to pour into the %s" % [feeder.display_name, _hand.pour_target.def.display_name]
+	elif not carrier.is_empty():
 		_label.text = "Holding %d %s: click the Great Hall" % [carrier.count, carrier.item.display_name]
+	elif _hand.selected_station != null and is_instance_valid(_hand.selected_station):
+		_label.text = _hand.selected_station.describe()
 	else:
 		_label.text = _tool_hint()
 	visible = _label.text != ""
+	set_process(_hand.selected_station != null and is_instance_valid(_hand.selected_station))
 
 
 func _tool_hint() -> String:

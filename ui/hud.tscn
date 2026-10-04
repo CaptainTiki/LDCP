@@ -40,6 +40,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/move.png" id="46"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/destroy.png" id="47"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/turn.png" id="48"]
+[ext_resource type="PackedScene" path="res://ui/recipe_slot.tscn" id="49"]
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1")
@@ -375,6 +376,7 @@ item_slot_scene = ExtResource("20")
 move_icon = ExtResource("46")
 destroy_icon = ExtResource("47")
 turn_icon = ExtResource("48")
+recipe_slot_scene = ExtResource("49")
 
 [node name="Column" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Room"]
 size_flags_horizontal = 3
@@ -383,6 +385,18 @@ theme_override_constants/separation = 2
 [node name="Tools" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Room/Column"]
 size_flags_horizontal = 3
 columns = 4
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+
+[node name="Station" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Room/Column"]
+visible = false
+theme_override_constants/separation = 1
+
+[node name="Title" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Room/Column/Station"]
+
+[node name="Recipes" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Room/Column/Station"]
+size_flags_horizontal = 3
+columns = 2
 theme_override_constants/h_separation = 1
 theme_override_constants/v_separation = 1
 

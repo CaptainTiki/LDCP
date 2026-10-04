@@ -1,16 +1,16 @@
 [gd_resource type="Resource" script_class="WorkstationDef" format=3]
 
 [ext_resource type="Script" path="res://data/defs/workstation_def.gd" id="1"]
-[ext_resource type="PackedScene" path="res://entities/workstations/stove.tscn" id="2"]
-[ext_resource type="Texture2D" path="res://assets/interiors/stove.png" id="3"]
+[ext_resource type="PackedScene" path="res://entities/workstations/mash_pot.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/interiors/mash_pot.png" id="3"]
 [ext_resource type="Script" path="res://data/defs/recipe_def.gd" id="4"]
-[ext_resource type="Resource" path="res://data/recipes/stew.tres" id="5"]
-[ext_resource type="Resource" path="res://data/recipes/gruel.tres" id="6"]
+[ext_resource type="Resource" path="res://data/recipes/barley_mash.tres" id="5"]
+[ext_resource type="Resource" path="res://data/recipes/potato_mash.tres" id="6"]
 
 [resource]
 script = ExtResource("1")
-id = &"stove"
-display_name = "Stove"
+id = &"mash_pot"
+display_name = "Mash pot"
 scene = ExtResource("2")
 icon = ExtResource("3")
 footprint = Vector2i(2, 2)

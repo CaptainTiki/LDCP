@@ -28,7 +28,9 @@ func click(world_point: Vector2) -> void:
 		return
 	if entity == null:
 		return
-	if entity is Building:
+	if entity is Workstation:
+		_world.hand.use_station(entity as Workstation, _tuning.manual_work_per_click)
+	elif entity is Building:
 		_world.camera.show_interior(entity as Building)
 	elif entity is MineEntrance:
 		_world.camera.show_mine()

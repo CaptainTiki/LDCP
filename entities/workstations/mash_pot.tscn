@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://entities/workstations/workstation.gd" id="1"]
 [ext_resource type="Script" path="res://entities/components/work_receiver.gd" id="2"]
 [ext_resource type="Script" path="res://entities/components/clickable.gd" id="3"]
-[ext_resource type="Texture2D" path="res://assets/interiors/fermenter.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/interiors/mash_pot.png" id="4"]
 
-[node name="Fermenter" type="Node2D"]
+[node name="MashPot" type="Node2D"]
 script = ExtResource("1")
-jiggle_while_working = true
+jiggle_while_working = false
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("4")
