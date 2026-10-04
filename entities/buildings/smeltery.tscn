@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/buildings/building.gd" id="1"]
+[ext_resource type="Script" path="res://entities/components/clickable.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/buildings/smeltery.png" id="5"]
+[ext_resource type="PackedScene" path="res://entities/buildings/smeltery_interior.tscn" id="3"]
+
+[node name="Smeltery" type="Node2D"]
+script = ExtResource("1")
+interior_scene = ExtResource("3")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -40)
+centered = false
+texture = ExtResource("5")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -16.0
+offset_top = -51.0
+offset_right = 64.0
+offset_bottom = -41.0
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0.1, 0.08, 0.07, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "Smeltery"
+horizontal_alignment = 1
+
+[node name="Clickable" type="Node2D" parent="."]
+position = Vector2(0, -40)
+script = ExtResource("2")
+size = Vector2(48, 40)

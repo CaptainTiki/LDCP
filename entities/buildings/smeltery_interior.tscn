@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/buildings/building_interior.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/interiors/wall_frame.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/interiors/floor_planks.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/interiors/door.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/interiors/table.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/interiors/storage_pile.png" id="14"]
+[ext_resource type="PackedScene" path="res://entities/workstations/smelter.tscn" id="20"]
+[ext_resource type="Resource" path="res://data/workstations/smelter.tres" id="21"]
+
+[node name="SmelteryInterior" type="Node2D"]
+script = ExtResource("1")
+floor_size_cells = Vector2i(20, 8)
+
+[node name="Walls" type="NinePatchRect" parent="."]
+offset_left = -6.0
+offset_top = -18.0
+offset_right = 166.0
+offset_bottom = 70.0
+mouse_filter = 2
+texture = ExtResource("10")
+patch_margin_left = 6
+patch_margin_top = 18
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Floor" type="TextureRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 160.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("11")
+stretch_mode = 1
+
+[node name="DoorVisual" type="Sprite2D" parent="."]
+position = Vector2(16, 64)
+centered = false
+texture = ExtResource("12")
+
+[node name="Door" type="Marker2D" parent="."]
+position = Vector2(20, 60)
+
+[node name="Furniture" type="Node2D" parent="."]
+
+[node name="Smelter1" parent="Furniture" instance=ExtResource("20")]
+def = ExtResource("21")
+cell = Vector2i(9, 0)

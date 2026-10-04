@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/item_def.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/items/copper_ingot.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"copper_ingot"
+display_name = "Copper ingot"
+icon = ExtResource("2")
+color = Color(0.9, 0.55, 0.3, 1)
+sell_price = 20
+buy_price = 0

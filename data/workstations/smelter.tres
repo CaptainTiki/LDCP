@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WorkstationDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/workstation_def.gd" id="1"]
+[ext_resource type="PackedScene" path="res://entities/workstations/smelter.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/interiors/smelter.png" id="3"]
+[ext_resource type="Script" path="res://data/defs/recipe_def.gd" id="4"]
+[ext_resource type="Resource" path="res://data/recipes/copper_ingot.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+id = &"smelter"
+display_name = "Smelter"
+scene = ExtResource("2")
+icon = ExtResource("3")
+footprint = Vector2i(2, 2)
+cost = 30
+blocks_walking = true
+needs_front_access = true
+recipes = Array[ExtResource("4")]([ExtResource("5")])

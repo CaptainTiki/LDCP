@@ -56,6 +56,10 @@ func _rebuild_unlocks() -> void:
 		var unlock: UnlockDef = Unlocks.unlock_of(def)
 		_add_button(_unlock_list, def, "Unlock %s" % def.display_name, unlock.coins)
 		var button: CatalogButton = _unlock_list.get_child(-1) as CatalogButton
+		if not unlock.items.is_empty():
+			# A trade for goods as well as coins: spell the price out.
+			button.text = "Unlock %s: %s" % [def.display_name, unlock.describe_price()]
+			button.icon = null
 		if not _game.unlocks.milestone_met(def):
 			# Not yet on offer: show how far along the milestone is.
 			button.text = "%s: %s %d/%d" % [def.display_name, unlock.label,

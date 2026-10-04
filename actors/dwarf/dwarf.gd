@@ -14,6 +14,8 @@ var color: Color = Color.WHITE
 var is_active: bool = false
 ## Set by the meal break while the dwarf is at a table.
 var is_sitting: bool = false
+## The one tool he carries, or null for his bare old pick.
+var tool: ToolDef = null
 ## Reserved for the trait and experience systems.
 var traits: Array[StringName] = []
 var experience: float = 0.0
@@ -69,6 +71,7 @@ func activate(cell: Vector2i, given_name: String, given_color: Color, food_secon
 
 func sim_tick(delta: float) -> void:
 	worker.begin_tick()
+	worker.tool_multiplier = tool.work_multiplier if tool != null and tool.job == assignment.kind() else 1.0
 	var role: DwarfRole = _choose_role()
 	if role != _active_role:
 		if _active_role != null:
@@ -89,6 +92,25 @@ func _process(_delta: float) -> void:
 		position = mover.position
 	else:
 		position = mover.previous_position.lerp(mover.position, clock.tick_fraction())
+
+
+## At the hall: swap to a better tool for his current job if storage has
+## one. His old tool goes back on the shelf for someone else.
+func equip_best_tool(storage: Storage) -> void:
+	var job: JobAssignment.Kind = assignment.kind()
+	var best: ToolDef = tool if tool != null and tool.job == job else null
+	for item: ItemDef in storage.items():
+		var candidate: ToolDef = item as ToolDef
+		if candidate == null or candidate.job != job:
+			continue
+		if best == null or candidate.work_multiplier > best.work_multiplier:
+			best = candidate
+	if best == null or best == tool:
+		return
+	storage.remove(best, 1)
+	if tool != null:
+		storage.add(tool, 1)
+	tool = best
 
 
 ## A short description of what the dwarf is up to, for the roster.

@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="BuildingDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/building_def.gd" id="1"]
+[ext_resource type="PackedScene" path="res://entities/buildings/forge.tscn" id="2"]
+[ext_resource type="Script" path="res://data/defs/workstation_def.gd" id="3"]
+[ext_resource type="Resource" path="res://data/workstations/anvil.tres" id="4"]
+[ext_resource type="Script" path="res://data/defs/item_stack.gd" id="5"]
+[ext_resource type="Resource" path="res://data/items/copper_ingot.tres" id="6"]
+[ext_resource type="Script" path="res://data/defs/unlock_def.gd" id="7"]
+
+[sub_resource type="Resource" id="price0"]
+script = ExtResource("5")
+item = ExtResource("6")
+count = 3
+
+[sub_resource type="Resource" id="unlock"]
+script = ExtResource("7")
+counter = &"made:copper_ingot"
+needed = 5
+label = "Smelt ingots"
+coins = 50
+items = Array[ExtResource("5")]([SubResource("price0")])
+
+[resource]
+script = ExtResource("1")
+id = &"forge"
+display_name = "Forge"
+scene = ExtResource("2")
+footprint = Vector2i(3, 2)
+cost = 60
+buildable = true
+can_move = true
+can_destroy = true
+blocks_walking = true
+door_offset_cells = 2
+workstations = Array[ExtResource("3")]([ExtResource("4")])
+unlock = SubResource("unlock")

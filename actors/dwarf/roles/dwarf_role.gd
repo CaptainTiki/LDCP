@@ -43,3 +43,4 @@ func _haul_to_hall() -> void:
 	var hall: GreatHall = dwarf.world.hall
 	if _walk_to(hall.storage_cell()):
 		dwarf.carrier.unload_into(hall.storage)
+		dwarf.equip_best_tool(hall.storage)

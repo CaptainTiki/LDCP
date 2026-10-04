@@ -55,6 +55,7 @@ func _find_a_seat_and_order(hall: GreatHall) -> void:
 
 
 func _try_to_get_served(storage: Storage) -> void:
+	dwarf.equip_best_tool(storage)
 	_meal = storage.take_best_meal()
 	is_waiting_for_food = _meal == null
 	if _meal == null:

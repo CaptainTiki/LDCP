@@ -27,6 +27,15 @@ func remove(item: ItemDef, amount: int) -> bool:
 	return true
 
 
+## Every kind of item there's at least one of.
+func items() -> Array[ItemDef]:
+	var stocked: Array[ItemDef] = []
+	for item: ItemDef in _counts:
+		if _counts[item] > 0:
+			stocked.append(item)
+	return stocked
+
+
 ## Takes one serving of the longest-lasting meal in stock, or null if none.
 func take_best_meal() -> MealDef:
 	var best: MealDef = null

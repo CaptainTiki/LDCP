@@ -12,6 +12,7 @@ var _anim_time: float = 0.0
 @onready var _dwarf: Dwarf = get_parent() as Dwarf
 @onready var _beard: Sprite2D = $Beard
 @onready var _tool_pivot: Node2D = $ToolPivot
+@onready var _pick: Sprite2D = $ToolPivot/Pick
 @onready var _carry_slot: Sprite2D = $CarrySlot
 @onready var _lift_car: Sprite2D = $LiftCar
 
@@ -25,6 +26,8 @@ func _process(delta: float) -> void:
 
 	var is_working: bool = _dwarf.worker.is_working()
 	_tool_pivot.visible = is_working
+	# A better tool shows in its metal's colour.
+	_pick.modulate = _dwarf.tool.color if _dwarf.tool != null else Color.WHITE
 	_tool_pivot.rotation = sin(_anim_time * swing_speed) * 0.9 if is_working else 0.0
 
 	if _dwarf.mover.is_moving():

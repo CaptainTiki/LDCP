@@ -25,7 +25,8 @@ func refresh() -> void:
 	_food.value = dwarf.hunger.ratio()
 	_drink.value = dwarf.thirst.ratio()
 	var work_rate: int = roundi(dwarf.thirst.multiplier() * 100.0)
-	tooltip_text = "%s\n%s\nWork rate %d%%" % [dwarf.dwarf_name, dwarf.status_text(), work_rate]
+	var tool_name: String = dwarf.tool.display_name if dwarf.tool != null else "Old pick"
+	tooltip_text = "%s\n%s\nWork rate %d%%\nTool: %s" % [dwarf.dwarf_name, dwarf.status_text(), work_rate, tool_name]
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
