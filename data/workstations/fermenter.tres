@@ -4,9 +4,11 @@
 [ext_resource type="PackedScene" path="res://entities/workstations/fermenter.tscn" id="2"]
 [ext_resource type="Texture2D" path="res://assets/interiors/fermenter.png" id="3"]
 [ext_resource type="Script" path="res://data/defs/recipe_def.gd" id="4"]
-[ext_resource type="Resource" path="res://data/recipes/ale.tres" id="5"]
-[ext_resource type="Resource" path="res://data/recipes/grog.tres" id="6"]
-[ext_resource type="Resource" path="res://data/workstations/mash_pot.tres" id="7"]
+[ext_resource type="Resource" path="res://data/recipes/grog.tres" id="5"]
+[ext_resource type="Resource" path="res://data/recipes/ale.tres" id="6"]
+[ext_resource type="Resource" path="res://data/recipes/wheat_beer.tres" id="7"]
+[ext_resource type="Resource" path="res://data/recipes/radish_spirit.tres" id="8"]
+[ext_resource type="Resource" path="res://data/workstations/mash_pot.tres" id="9"]
 
 [resource]
 script = ExtResource("1")
@@ -18,5 +20,5 @@ footprint = Vector2i(2, 2)
 cost = 25
 blocks_walking = true
 needs_front_access = true
-recipes = Array[ExtResource("4")]([ExtResource("5"), ExtResource("6")])
-fed_by = ExtResource("7")
+recipes = Array[ExtResource("4")]([ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8")])
+fed_by = ExtResource("9")

@@ -4,8 +4,10 @@
 [ext_resource type="PackedScene" path="res://entities/workstations/mash_pot.tscn" id="2"]
 [ext_resource type="Texture2D" path="res://assets/interiors/mash_pot.png" id="3"]
 [ext_resource type="Script" path="res://data/defs/recipe_def.gd" id="4"]
-[ext_resource type="Resource" path="res://data/recipes/barley_mash.tres" id="5"]
-[ext_resource type="Resource" path="res://data/recipes/potato_mash.tres" id="6"]
+[ext_resource type="Resource" path="res://data/recipes/potato_mash.tres" id="5"]
+[ext_resource type="Resource" path="res://data/recipes/barley_mash.tres" id="6"]
+[ext_resource type="Resource" path="res://data/recipes/wheat_mash.tres" id="7"]
+[ext_resource type="Resource" path="res://data/recipes/radish_mash.tres" id="8"]
 
 [resource]
 script = ExtResource("1")
@@ -17,4 +19,4 @@ footprint = Vector2i(2, 2)
 cost = 20
 blocks_walking = true
 needs_front_access = true
-recipes = Array[ExtResource("4")]([ExtResource("5"), ExtResource("6")])
+recipes = Array[ExtResource("4")]([ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8")])

@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="CropDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/crop_def.gd" id="1"]
+[ext_resource type="Resource" path="res://data/items/radish.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/crops/radish_growth.png" id="3"]
+[ext_resource type="Script" path="res://data/defs/unlock_def.gd" id="4"]
+
+[sub_resource type="Resource" id="unlock"]
+script = ExtResource("4")
+counter = &"harvested"
+needed = 40
+label = "Harvest crops"
+coins = 25
+
+[resource]
+script = ExtResource("1")
+id = &"radish"
+display_name = "Radish"
+produce = ExtResource("2")
+growth_frames = ExtResource("3")
+yield_count = 2
+color = Color(0.4, 0.7, 0.3, 1)
+seed_cost = 1
+water_work = 1.0
+harvest_work = 1.5
+grow_seconds = 35.0
+watered_seconds = 30.0
+unlock = SubResource("unlock")

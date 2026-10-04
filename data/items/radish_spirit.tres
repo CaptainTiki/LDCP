@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DrinkDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/drink_def.gd" id="1"]
+[ext_resource type="Curve" path="res://data/items/default_taper.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/items/radish_spirit.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+id = &"radish_spirit"
+display_name = "Radish spirit"
+icon = ExtResource("3")
+color = Color(0.85, 0.3, 0.4, 1)
+sell_price = 5
+buy_price = 0
+low_multiplier = 0.5
+high_multiplier = 1.15
+duration_seconds = 60.0
+taper = ExtResource("2")

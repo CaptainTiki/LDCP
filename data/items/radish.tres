@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/item_def.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/items/radish.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"radish"
+display_name = "Radish"
+icon = ExtResource("2")
+color = Color(0.85, 0.25, 0.35, 1)
+sell_price = 1
+buy_price = 0
