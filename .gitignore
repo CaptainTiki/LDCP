@@ -1,3 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+addons/gut/
+
+# Dev-only folders (tests, tooling, notes)
+.tests/
+.tools/

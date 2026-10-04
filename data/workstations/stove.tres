@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WorkstationDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/workstation_def.gd" id="1"]
+[ext_resource type="PackedScene" path="res://entities/workstations/stove.tscn" id="2"]
+[ext_resource type="Resource" path="res://data/items/potato.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/stew.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"stove"
+display_name = "Stove"
+scene = ExtResource("2")
+cost = 20
+input = ExtResource("3")
+input_count = 2
+output = ExtResource("4")
+output_count = 1
+load_work = 6.0
+process_seconds = 60.0

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildingDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/building_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"great_hall"
+display_name = "Great Hall"
+footprint = Vector2i(2, 2)
+cost = 0
+unlock_cost = 0
+buildable = false
+can_move = true
+can_destroy = false

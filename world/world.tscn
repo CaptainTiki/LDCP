@@ -1,0 +1,126 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/world.gd" id="1"]
+[ext_resource type="Script" path="res://world/nav/nav_grid.gd" id="2"]
+[ext_resource type="PackedScene" path="res://world/mine/terrain.tscn" id="3"]
+[ext_resource type="Script" path="res://world/surface/surface.gd" id="4"]
+[ext_resource type="PackedScene" path="res://entities/buildings/great_hall.tscn" id="5"]
+[ext_resource type="Resource" path="res://data/buildings/great_hall.tres" id="6"]
+[ext_resource type="PackedScene" path="res://entities/buildings/mine_entrance.tscn" id="7"]
+[ext_resource type="Resource" path="res://data/buildings/mine_entrance.tres" id="8"]
+[ext_resource type="PackedScene" path="res://entities/farm_plot/potato_plot.tscn" id="9"]
+[ext_resource type="Resource" path="res://data/buildings/potato_plot.tres" id="10"]
+[ext_resource type="PackedScene" path="res://entities/farm_plot/barley_plot.tscn" id="11"]
+[ext_resource type="Resource" path="res://data/buildings/barley_plot.tres" id="12"]
+[ext_resource type="Script" path="res://world/mine/shaft.gd" id="13"]
+[ext_resource type="PackedScene" path="res://world/mine/mine_level_1.tscn" id="14"]
+[ext_resource type="Script" path="res://world/interiors.gd" id="15"]
+[ext_resource type="Script" path="res://actors/dwarf/dwarf_pool.gd" id="16"]
+[ext_resource type="Resource" path="res://data/tuning/dwarf_names.tres" id="17"]
+[ext_resource type="PackedScene" path="res://actors/dwarf/dwarf.tscn" id="18"]
+[ext_resource type="Script" path="res://world/build_tool.gd" id="19"]
+[ext_resource type="Script" path="res://world/view_camera.gd" id="20"]
+[ext_resource type="Script" path="res://world/world_input.gd" id="21"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1")
+
+[node name="NavGrid" type="Node" parent="."]
+script = ExtResource("2")
+
+[node name="Sky" type="ColorRect" parent="."]
+offset_left = -1024.0
+offset_top = -700.0
+offset_right = 3072.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.45, 0.62, 0.78, 1)
+
+[node name="Terrain" parent="." instance=ExtResource("3")]
+
+[node name="Surface" type="Node2D" parent="."]
+script = ExtResource("4")
+slot_count = 64
+
+[node name="Grass" type="ColorRect" parent="Surface"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 2048.0
+offset_bottom = 2.0
+mouse_filter = 2
+color = Color(0.35, 0.55, 0.25, 1)
+
+[node name="Placeables" type="Node2D" parent="Surface"]
+
+[node name="PotatoPlot" parent="Surface/Placeables" instance=ExtResource("9")]
+def = ExtResource("10")
+slot = 25
+
+[node name="BarleyPlot" parent="Surface/Placeables" instance=ExtResource("11")]
+def = ExtResource("12")
+slot = 26
+
+[node name="GreatHall" parent="Surface/Placeables" instance=ExtResource("5")]
+def = ExtResource("6")
+slot = 28
+
+[node name="MineEntrance" parent="Surface/Placeables" instance=ExtResource("7")]
+def = ExtResource("8")
+slot = 32
+
+[node name="Shaft" type="Node2D" parent="."]
+script = ExtResource("13")
+
+[node name="MineLevel1" parent="." instance=ExtResource("14")]
+position = Vector2(0, 224)
+
+[node name="Interiors" type="Node2D" parent="."]
+position = Vector2(0, -2400)
+script = ExtResource("15")
+
+[node name="Dwarves" type="Node2D" parent="."]
+script = ExtResource("16")
+names = ExtResource("17")
+
+[node name="Dwarf01" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf02" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf03" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf04" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf05" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf06" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf07" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf08" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf09" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf10" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf11" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="Dwarf12" parent="Dwarves" instance=ExtResource("18")]
+
+[node name="BuildTool" type="Node2D" parent="."]
+script = ExtResource("19")
+
+[node name="Ghost" type="ColorRect" parent="BuildTool"]
+offset_left = 0.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.3, 1, 0.3, 0.45)
+visible = false
+
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+script = ExtResource("20")
+
+[node name="WorldInput" type="Node" parent="."]
+script = ExtResource("21")

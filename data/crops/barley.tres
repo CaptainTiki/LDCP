@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CropDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/crop_def.gd" id="1"]
+[ext_resource type="Resource" path="res://data/items/barley.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"barley"
+display_name = "Barley"
+produce = ExtResource("2")
+yield_count = 3
+color = Color(0.75, 0.7, 0.3, 1)
+plant_work = 2.0
+water_work = 2.0
+harvest_work = 3.0
+grow_seconds = 60.0
+watered_seconds = 30.0

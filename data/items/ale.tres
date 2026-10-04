@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DrinkDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/drink_def.gd" id="1"]
+[ext_resource type="Curve" path="res://data/items/default_taper.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"ale"
+display_name = "Ale"
+color = Color(0.9, 0.65, 0.2, 1)
+sell_price = 4
+buy_price = 0
+low_multiplier = 0.5
+high_multiplier = 1.0
+duration_seconds = 180.0
+taper = ExtResource("2")

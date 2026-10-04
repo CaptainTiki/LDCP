@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NameList" format=3]
+
+[ext_resource type="Script" path="res://data/defs/name_list.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+starts = PackedStringArray("Ur", "Bal", "Dur", "Thor", "Gim", "Bom", "Dwal", "Kil", "Nor", "Bru", "Hild", "Dag", "Tov", "Brun", "Ost")
+ends = PackedStringArray("ist", "in", "ok", "grim", "li", "bur", "da", "ra", "mund", "gar", "dis", "ni", "vi", "rek")

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="GameTuning" format=3]
+
+[ext_resource type="Script" path="res://data/defs/game_tuning.gd" id="1"]
+[ext_resource type="Script" path="res://data/defs/item_stack.gd" id="2"]
+[ext_resource type="Resource" path="res://data/items/gruel.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/grog.tres" id="4"]
+
+[sub_resource type="Resource" id="stock_gruel"]
+script = ExtResource("2")
+item = ExtResource("3")
+count = 6
+
+[sub_resource type="Resource" id="stock_grog"]
+script = ExtResource("2")
+item = ExtResource("4")
+count = 6
+
+[resource]
+script = ExtResource("1")
+starting_coins = 50
+starting_dwarves = 3
+starting_stock = Array[ExtResource("2")]([SubResource("stock_gruel"), SubResource("stock_grog")])
+starting_food_seconds = 90.0
+walk_speed = 24.0
+ladder_speed = 8.0
+lift_speed = 64.0
+base_work_rate = 1.0
+carry_capacity = 5
+eat_seconds = 4.0
+manual_work_per_click = 0.5
+hire_cost = 40
+hire_cost_growth = 20
+lift_cost = 150

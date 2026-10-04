@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BuildingDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/building_def.gd" id="1"]
+[ext_resource type="PackedScene" path="res://entities/buildings/brewery.tscn" id="2"]
+[ext_resource type="Script" path="res://data/defs/workstation_def.gd" id="3"]
+[ext_resource type="Resource" path="res://data/workstations/fermenter.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"brewery"
+display_name = "Brewery"
+scene = ExtResource("2")
+footprint = Vector2i(2, 1)
+cost = 40
+unlock_cost = 60
+buildable = true
+can_move = true
+can_destroy = true
+workstations = Array[ExtResource("3")]([ExtResource("4")])

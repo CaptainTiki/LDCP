@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WorkstationDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/workstation_def.gd" id="1"]
+[ext_resource type="PackedScene" path="res://entities/workstations/fermenter.tscn" id="2"]
+[ext_resource type="Resource" path="res://data/items/barley.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/ale.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"fermenter"
+display_name = "Fermenter"
+scene = ExtResource("2")
+cost = 25
+input = ExtResource("3")
+input_count = 2
+output = ExtResource("4")
+output_count = 1
+load_work = 6.0
+process_seconds = 90.0

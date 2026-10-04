@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MineLevelDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/mine_level_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+size_cells = Vector2i(256, 18)
+landing_row = 9
+landing_half_width = 2
+noise_seed = 7
+rock_threshold = 0.25
+dirt_work = 2.0
+rock_work = 5.0
+straight_start_columns = 6
+slope_chance = 0.1
+fork_chance = 0.04
+max_heads = 5

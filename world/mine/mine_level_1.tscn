@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/mine/mine_level.gd" id="1"]
+[ext_resource type="Resource" path="res://data/mine/level_1.tres" id="2"]
+[ext_resource type="Script" path="res://world/mine/excavation.gd" id="3"]
+[ext_resource type="PackedScene" path="res://entities/ore_node/ore_node.tscn" id="4"]
+[ext_resource type="Resource" path="res://data/items/copper_ore.tres" id="5"]
+
+[node name="MineLevel1" type="Node2D"]
+script = ExtResource("1")
+def = ExtResource("2")
+
+[node name="Excavation" type="Node" parent="."]
+script = ExtResource("3")
+
+[node name="OreNodes" type="Node2D" parent="."]
+
+[node name="CopperNear" parent="OreNodes" instance=ExtResource("4")]
+position = Vector2(1120, 64)
+ore = ExtResource("5")
+
+[node name="CopperWest" parent="OreNodes" instance=ExtResource("4")]
+position = Vector2(864, 32)
+ore = ExtResource("5")
+
+[node name="CopperDeep" parent="OreNodes" instance=ExtResource("4")]
+position = Vector2(1320, 96)
+ore = ExtResource("5")
