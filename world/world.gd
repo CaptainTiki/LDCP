@@ -20,6 +20,7 @@ extends Node2D
 @onready var interiors: Interiors = $Interiors
 @onready var dwarves: DwarfPool = $Dwarves
 @onready var build_tool: BuildTool = $BuildTool
+@onready var furniture_tool: FurnitureTool = $FurnitureTool
 @onready var camera: ViewCamera = $Camera
 @onready var input: WorldInput = $WorldInput
 @onready var hand: PlayerHand = $Hand
@@ -36,12 +37,15 @@ func setup(tuning: GameTuning, catalog: ContentCatalog, clock: SimClock, wallet:
 	surface.setup(self)
 	dwarves.setup(self, tuning, clock)
 	build_tool.setup(self, wallet)
+	furniture_tool.setup(self, wallet)
 	input.setup(self, tuning)
 	camera.setup(self)
 	hand.setup(wallet, tuning)
-	# The player holds either a building tool or a farming tool, never both.
+	# The player holds one tool at a time: building, furniture or farming.
 	build_tool.mode_changed.connect(_on_build_mode_changed)
+	furniture_tool.mode_changed.connect(_on_furniture_mode_changed)
 	hand.changed.connect(_on_hand_changed)
+	camera.view_changed.connect(_on_view_changed)
 
 
 func sim_tick(delta: float) -> void:
@@ -53,11 +57,28 @@ func sim_tick(delta: float) -> void:
 func _on_build_mode_changed() -> void:
 	if build_tool.is_active():
 		hand.put_away()
+		furniture_tool.cancel()
+
+
+func _on_furniture_mode_changed() -> void:
+	if furniture_tool.is_active():
+		hand.put_away()
+		build_tool.cancel()
 
 
 func _on_hand_changed() -> void:
 	if hand.is_holding_tool():
 		build_tool.cancel()
+		furniture_tool.cancel()
+
+
+## Tools belong to the place they were picked up in.
+func _on_view_changed() -> void:
+	if camera.interior_building is GreatHall:
+		hand.put_away()
+		build_tool.cancel()
+	else:
+		furniture_tool.cancel()
 
 
 ## The rectangle the camera may roam in the mine view.

@@ -8,5 +8,7 @@ extends Resource
 @export var crops: Array[CropDef] = []
 ## Ores and ingots, for the Ores tab.
 @export var ores: Array[ItemDef] = []
+## Tables, chairs and the like for the Great Hall.
+@export var furniture: Array[FurnitureDef] = []
 ## Everything that may appear in the Buildings tab.
 @export var buildings: Array[BuildingDef] = []

@@ -34,6 +34,11 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/bucket.png" id="40"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/shears.png" id="41"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/lock.png" id="42"]
+[ext_resource type="Script" path="res://ui/hall_tab.gd" id="43"]
+[ext_resource type="PackedScene" path="res://ui/icon_slot.tscn" id="44"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/tab_hall.png" id="45"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/move.png" id="46"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/destroy.png" id="47"]
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1")
@@ -162,6 +167,14 @@ text = ""
 custom_minimum_size = Vector2(22, 14)
 tooltip_text = "Fold away"
 icon = ExtResource("31")
+icon_alignment = 1
+
+[node name="HallButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+text = ""
+custom_minimum_size = Vector2(22, 20)
+toggle_mode = true
+tooltip_text = "Great Hall"
+icon = ExtResource("45")
 icon_alignment = 1
 
 [node name="FarmButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
@@ -352,3 +365,36 @@ tooltip_text = "Also F10"
 
 [node name="QuitButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Options"]
 text = "Quit"
+
+[node name="Hall" type="ScrollContainer" parent="Root/Layout/SidePanel/Row/Pages"]
+horizontal_scroll_mode = 0
+script = ExtResource("43")
+slot_scene = ExtResource("44")
+item_slot_scene = ExtResource("20")
+move_icon = ExtResource("46")
+destroy_icon = ExtResource("47")
+
+[node name="Column" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Hall"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Tools" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Hall/Column"]
+size_flags_horizontal = 3
+columns = 4
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+
+[node name="Stock" type="HBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Hall/Column"]
+theme_override_constants/separation = 1
+
+[node name="Foods" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Hall/Column/Stock"]
+size_flags_horizontal = 3
+columns = 2
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+
+[node name="Drinks" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Hall/Column/Stock"]
+size_flags_horizontal = 3
+columns = 2
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1

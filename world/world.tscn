@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" path="res://assets/mine/grass_edge.png" id="26"]
 [ext_resource type="Texture2D" path="res://assets/mine/ladder.png" id="27"]
 [ext_resource type="Texture2D" path="res://assets/mine/lift_rail.png" id="28"]
+[ext_resource type="Script" path="res://world/furniture_tool.gd" id="29"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -149,6 +150,19 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 32.0
 offset_bottom = 32.0
+mouse_filter = 2
+color = Color(0.3, 1, 0.3, 0.45)
+visible = false
+z_index = 10
+
+[node name="FurnitureTool" type="Node2D" parent="."]
+script = ExtResource("29")
+
+[node name="Ghost" type="ColorRect" parent="FurnitureTool"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 8.0
+offset_bottom = 8.0
 mouse_filter = 2
 color = Color(0.3, 1, 0.3, 0.45)
 visible = false

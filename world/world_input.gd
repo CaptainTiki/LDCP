@@ -17,6 +17,9 @@ func setup(world: World, tuning: GameTuning) -> void:
 func click(world_point: Vector2) -> void:
 	var clickable: Clickable = clickable_at(world_point)
 	_last_dragged = _drag_target(world_point, clickable)
+	if _world.furniture_tool.is_active():
+		_world.furniture_tool.click(world_point)
+		return
 	if _world.build_tool.is_active():
 		_world.build_tool.click(world_point, clickable)
 		return
@@ -42,7 +45,9 @@ func drag(world_point: Vector2) -> void:
 	if target == _last_dragged:
 		return
 	_last_dragged = target
-	if _world.build_tool.mode == BuildTool.Mode.PLACE:
+	if _world.furniture_tool.mode == FurnitureTool.Mode.PLACE:
+		_world.furniture_tool.click(world_point)
+	elif _world.build_tool.mode == BuildTool.Mode.PLACE:
 		_world.build_tool.click(world_point, clickable)
 	elif _world.hand.is_holding_tool():
 		_world.hand.use_on(clickable.entity() if clickable != null else null)
@@ -50,6 +55,7 @@ func drag(world_point: Vector2) -> void:
 
 func hover(world_point: Vector2) -> void:
 	_world.build_tool.hover(world_point)
+	_world.furniture_tool.hover(world_point)
 
 
 ## Can a dwarf dropped here be given a job (or sent back to idling)?
@@ -79,8 +85,11 @@ func clickable_at(world_point: Vector2) -> Clickable:
 	return best
 
 
-## Building moves from tile to tile. Farming tools, thing to thing.
+## Building moves from tile to tile, furniture from cell to cell. Farming
+## tools, thing to thing.
 func _drag_target(world_point: Vector2, clickable: Clickable) -> Variant:
+	if _world.furniture_tool.is_active():
+		return NavGrid.world_to_cell(world_point)
 	if _world.build_tool.is_active():
 		return _world.surface.tile_at(world_point)
 	return clickable

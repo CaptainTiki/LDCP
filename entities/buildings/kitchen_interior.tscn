@@ -42,6 +42,8 @@ texture = ExtResource("12")
 [node name="Door" type="Marker2D" parent="."]
 position = Vector2(20, 60)
 
+[node name="Furniture" type="Node2D" parent="."]
+
 [node name="SlotMark1" type="ColorRect" parent="."]
 offset_left = 35.0
 offset_top = 1.0

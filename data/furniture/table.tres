@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FurnitureDef" format=3]
+
+[ext_resource type="Script" path="res://data/defs/furniture_def.gd" id="1"]
+[ext_resource type="PackedScene" path="res://entities/furniture/table.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/table.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+id = &"table"
+display_name = "Table"
+scene = ExtResource("2")
+icon = ExtResource("3")
+footprint = Vector2i(2, 2)
+cost = 10
+blocks_walking = true
+is_seat = false

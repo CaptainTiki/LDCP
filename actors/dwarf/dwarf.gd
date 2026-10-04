@@ -95,6 +95,8 @@ func _process(_delta: float) -> void:
 func status_text() -> String:
 	if meal_break.is_waiting_for_food:
 		return "Waiting for food"
+	if meal_break.is_waiting_for_seat:
+		return "Waiting for a seat"
 	if meal_break.in_progress:
 		return "Meal break"
 	return _roles[assignment.kind()].title()
@@ -102,7 +104,7 @@ func status_text() -> String:
 
 ## One-letter job badge for the roster.
 func job_badge() -> String:
-	if meal_break.is_waiting_for_food:
+	if meal_break.is_waiting_for_food or meal_break.is_waiting_for_seat:
 		return "!"
 	return _roles[assignment.kind()].badge()
 

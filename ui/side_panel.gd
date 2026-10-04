@@ -3,9 +3,13 @@ extends PanelContainer
 ## The fold-out panel on the right, laid out like Rusty's: a column of tabs
 ## down its left edge and the chosen tab's page beside it. The X at the top
 ## folds the page away. Picking any tab opens it again.
+##
+## Inside the Great Hall the usual tabs give way to the Hall tab, and they
+## come back on the way out.
 
 @onready var _pages: TabContainer = $Row/Pages
 @onready var _close_button: Button = $Row/TabColumn/CloseButton
+@onready var _hall_button: Button = $Row/TabColumn/HallButton
 ## In the same order as the pages.
 @onready var _tab_buttons: Array[Button] = [
 	$Row/TabColumn/FarmButton as Button,
@@ -14,14 +18,27 @@ extends PanelContainer
 	$Row/TabColumn/ShopButton as Button,
 	$Row/TabColumn/DebugButton as Button,
 	$Row/TabColumn/OptionsButton as Button,
+	$Row/TabColumn/HallButton as Button,
 ]
+## Tabs that stay put inside the hall.
+@onready var _always_shown: Array[Button] = [$Row/TabColumn/OptionsButton as Button]
+
+var _camera: ViewCamera
+## The tab to go back to on leaving the hall.
+var _outdoor_tab: int = 0
 
 
 func _ready() -> void:
 	_close_button.pressed.connect(close)
 	for i: int in _tab_buttons.size():
 		_tab_buttons[i].pressed.connect(open_tab.bind(i))
+	_hall_button.visible = false
 	open_tab(0)
+
+
+func setup(camera: ViewCamera) -> void:
+	_camera = camera
+	camera.view_changed.connect(_on_view_changed)
 
 
 func open_tab(index: int) -> void:
@@ -33,6 +50,19 @@ func open_tab(index: int) -> void:
 func close() -> void:
 	_pages.visible = false
 	_refresh()
+
+
+func _on_view_changed() -> void:
+	var in_hall: bool = _camera.interior_building is GreatHall
+	if in_hall == _hall_button.visible:
+		return
+	for button: Button in _tab_buttons:
+		button.visible = (button == _hall_button) == in_hall or _always_shown.has(button)
+	if in_hall:
+		_outdoor_tab = _pages.current_tab
+		open_tab(_tab_buttons.find(_hall_button))
+	else:
+		open_tab(_outdoor_tab)
 
 
 func _refresh() -> void:

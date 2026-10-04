@@ -6,10 +6,15 @@
 [ext_resource type="Texture2D" path="res://assets/interiors/door.png" id="12"]
 [ext_resource type="Texture2D" path="res://assets/interiors/table.png" id="13"]
 [ext_resource type="Texture2D" path="res://assets/interiors/storage_pile.png" id="14"]
+[ext_resource type="PackedScene" path="res://entities/furniture/table.tscn" id="20"]
+[ext_resource type="PackedScene" path="res://entities/furniture/chair.tscn" id="21"]
+[ext_resource type="Resource" path="res://data/furniture/table.tres" id="23"]
+[ext_resource type="Resource" path="res://data/furniture/chair.tres" id="24"]
 
 [node name="GreatHallInterior" type="Node2D"]
 script = ExtResource("1")
 floor_size_cells = Vector2i(30, 10)
+reserved_rects = Array[Rect2i]([Rect2i(3, 0, 3, 4)])
 
 [node name="Walls" type="NinePatchRect" parent="."]
 offset_left = -6.0
@@ -42,6 +47,8 @@ texture = ExtResource("12")
 [node name="Door" type="Marker2D" parent="."]
 position = Vector2(20, 76)
 
+[node name="Furniture" type="Node2D" parent="."]
+
 [node name="StoragePile" type="Sprite2D" parent="."]
 position = Vector2(26, 4)
 centered = false
@@ -50,44 +57,28 @@ texture = ExtResource("14")
 [node name="StorageSpot" type="Marker2D" parent="."]
 position = Vector2(36, 28)
 
-[node name="Table" type="NinePatchRect" parent="."]
-offset_left = 80.0
-offset_top = 32.0
-offset_right = 208.0
-offset_bottom = 46.0
-mouse_filter = 2
-texture = ExtResource("13")
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 3
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
 [node name="Slots" type="Node2D" parent="."]
 
-[node name="Seats" type="Node2D" parent="."]
+[node name="Table1" parent="Furniture" instance=ExtResource("20")]
+def = ExtResource("23")
+cell = Vector2i(10, 4)
 
-[node name="Seat1" type="Marker2D" parent="Seats"]
-position = Vector2(92, 28)
+[node name="Chair1" parent="Furniture" instance=ExtResource("21")]
+def = ExtResource("24")
+cell = Vector2i(9, 4)
 
-[node name="Seat2" type="Marker2D" parent="Seats"]
-position = Vector2(124, 28)
+[node name="Chair2" parent="Furniture" instance=ExtResource("21")]
+def = ExtResource("24")
+cell = Vector2i(12, 4)
 
-[node name="Seat3" type="Marker2D" parent="Seats"]
-position = Vector2(156, 28)
+[node name="Table2" parent="Furniture" instance=ExtResource("20")]
+def = ExtResource("23")
+cell = Vector2i(18, 4)
 
-[node name="Seat4" type="Marker2D" parent="Seats"]
-position = Vector2(188, 28)
+[node name="Chair3" parent="Furniture" instance=ExtResource("21")]
+def = ExtResource("24")
+cell = Vector2i(17, 4)
 
-[node name="Seat5" type="Marker2D" parent="Seats"]
-position = Vector2(92, 52)
-
-[node name="Seat6" type="Marker2D" parent="Seats"]
-position = Vector2(124, 52)
-
-[node name="Seat7" type="Marker2D" parent="Seats"]
-position = Vector2(156, 52)
-
-[node name="Seat8" type="Marker2D" parent="Seats"]
-position = Vector2(188, 52)
+[node name="Chair4" parent="Furniture" instance=ExtResource("21")]
+def = ExtResource("24")
+cell = Vector2i(20, 4)

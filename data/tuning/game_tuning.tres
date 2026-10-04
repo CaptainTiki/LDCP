@@ -18,7 +18,7 @@ count = 6
 [resource]
 script = ExtResource("1")
 starting_coins = 50
-starting_dwarves = 3
+starting_dwarves = 4
 starting_stock = Array[ExtResource("2")]([SubResource("stock_gruel"), SubResource("stock_grog")])
 starting_food_seconds = 90.0
 walk_speed = 24.0
