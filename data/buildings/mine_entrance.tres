@@ -6,9 +6,11 @@
 script = ExtResource("1")
 id = &"mine_entrance"
 display_name = "Mine Entrance"
-footprint = Vector2i(1, 1)
+footprint = Vector2i(2, 2)
 cost = 0
 unlock_cost = 0
 buildable = false
-can_move = false
+can_move = true
 can_destroy = false
+blocks_walking = true
+door_offset_cells = 1

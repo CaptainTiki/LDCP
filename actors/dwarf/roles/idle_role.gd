@@ -20,7 +20,8 @@ func act(delta: float) -> void:
 	if _pause_left > 0.0:
 		return
 	if _spot == NavGrid.NO_CELL:
-		_spot = dwarf.world.hall.door_cell() + Vector2i(randi_range(-wander_cells, wander_cells), 0)
+		_spot = dwarf.world.hall.door_cell() + Vector2i(
+				randi_range(-wander_cells, wander_cells), randi_range(0, wander_cells / 2))
 		if not dwarf.world.nav.is_walkable(_spot):
 			_spot = NavGrid.NO_CELL
 			return

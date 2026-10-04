@@ -50,7 +50,9 @@ func hire() -> Dwarf:
 		if dwarf.is_active:
 			continue
 		var beard := Color.from_hsv(_rng.randf(), 0.55, 0.85)
-		var spot: Vector2i = _world.hall.door_cell() + Vector2i(_rng.randi_range(-3, 3), 0)
+		var spot: Vector2i = _world.hall.door_cell() + Vector2i(_rng.randi_range(-3, 3), _rng.randi_range(0, 2))
+		if not _world.nav.is_walkable(spot):
+			spot = _world.hall.door_cell()
 		dwarf.activate(spot, names.random_name(_rng), beard, _tuning.starting_food_seconds)
 		roster_changed.emit()
 		return dwarf

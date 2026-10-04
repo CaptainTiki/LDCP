@@ -6,7 +6,9 @@ extends Placeable
 
 enum Task { NONE, PLANT, WATER, HARVEST }
 
-const MAX_CROP_HEIGHT: float = 14.0
+const MAX_CROP_HEIGHT: float = 20.0
+## Local y of the bottom edge of the crop visual.
+const CROP_BASE_Y: float = -6.0
 
 @export var crop: CropDef
 @export var dry_soil_color: Color = Color(0.5, 0.36, 0.22)
@@ -66,7 +68,7 @@ func _sync() -> void:
 	if _is_planted:
 		height = maxf(2.0, MAX_CROP_HEIGHT * growth_seconds / crop.grow_seconds)
 	_crop_visual.size.y = minf(height, MAX_CROP_HEIGHT)
-	_crop_visual.position.y = _soil.position.y - _crop_visual.size.y
+	_crop_visual.position.y = CROP_BASE_Y - _crop_visual.size.y
 	_crop_visual.color = crop.color.lightened(0.3) if is_ripe() else crop.color
 
 

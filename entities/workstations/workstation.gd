@@ -3,7 +3,8 @@ extends Node2D
 ## A stove, fermenter and the like. The rhythm: a dwarf spends a short burst
 ## of work loading ingredients, the station then runs on its own timer, and
 ## the finished output waits here until someone carries it to the Great Hall.
-## The node's origin is on the floor, where a dwarf stands to use it.
+## Interiors are seen from above: a dwarf stands on the floor cell in front
+## of (below) the station to use it.
 
 enum State { WAITING_FOR_INPUT, PROCESSING, OUTPUT_READY }
 
@@ -44,7 +45,7 @@ func has_output() -> bool:
 
 ## The floor cell in front of the station.
 func work_cell() -> Vector2i:
-	return NavGrid.world_to_cell(global_position + Vector2(0, -1))
+	return NavGrid.world_to_cell(global_position) + Vector2i.DOWN
 
 
 func sim_tick(delta: float) -> void:

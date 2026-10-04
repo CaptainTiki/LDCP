@@ -1,8 +1,8 @@
 class_name BuildTool
 extends Node2D
-## The player's building hand: place new buildings and plots, pick one up
-## and move it, or knock one down. The Ghost child previews where a
-## building would land, green when it fits and red when it does not.
+## The player's building hand: place new buildings and plots on the town
+## grid, pick one up and move it, or knock one down. The Ghost child previews
+## where a building would land, green when it fits and red when it does not.
 
 signal mode_changed
 
@@ -51,67 +51,75 @@ func cancel() -> void:
 
 
 func hover(world_point: Vector2) -> void:
-	var width: int = _ghost_width()
-	_ghost.visible = width > 0
-	if width == 0:
+	var def: BuildingDef = _ghost_def()
+	_ghost.visible = def != null
+	if def == null:
 		return
-	var slot: int = _world.surface.slot_at(world_point.x)
-	_ghost.position = Vector2(slot * Placeable.SLOT_PIXELS, -Placeable.SLOT_PIXELS)
-	_ghost.size = Vector2(width * Placeable.SLOT_PIXELS, Placeable.SLOT_PIXELS)
-	_ghost.color = valid_color if _fits(slot) else invalid_color
+	var tile: Vector2i = _world.surface.tile_at(world_point)
+	_ghost.global_position = _world.surface.tile_to_world(tile)
+	_ghost.size = Vector2(def.footprint * Placeable.TILE_PIXELS)
+	_ghost.color = valid_color if _fits(tile) else invalid_color
 
 
 func click(world_point: Vector2, clickable: Clickable) -> void:
-	var slot: int = _world.surface.slot_at(world_point.x)
+	var tile: Vector2i = _world.surface.tile_at(world_point)
 	match mode:
 		Mode.PLACE:
-			if _fits(slot) and _wallet.spend(_def.cost):
-				_world.surface.build(_def, slot)
+			if _on_surface() and _fits(tile) and _wallet.spend(_def.cost):
+				_world.surface.build(_def, tile)
 		Mode.MOVE:
-			_click_move(slot)
+			if _on_surface():
+				_click_move(tile)
 		Mode.DESTROY:
-			_click_destroy(slot, clickable)
+			_click_destroy(tile, clickable)
 	hover(world_point)
 
 
-func _click_move(slot: int) -> void:
+func _click_move(tile: Vector2i) -> void:
 	if _carried == null:
-		var picked: Placeable = _world.surface.placeable_at(slot)
+		var picked: Placeable = _world.surface.placeable_at(tile)
 		if picked != null and picked.def.can_move:
 			_carried = picked
-	elif _fits(slot):
-		_carried.move_to(slot)
+	elif _fits(tile):
+		_world.surface.move(_carried, tile)
 		_carried = null
 
 
-func _click_destroy(slot: int, clickable: Clickable) -> void:
-	# Indoors the tool removes workstations. Outdoors, buildings and plots.
+func _click_destroy(tile: Vector2i, clickable: Clickable) -> void:
+	# Indoors the tool removes workstations. In town, buildings and plots.
 	var indoors: Building = _world.camera.interior_building
 	if indoors != null:
 		if clickable != null and clickable.entity() is Workstation:
 			indoors.interior.remove_workstation(clickable.entity() as Workstation)
 		return
-	var target: Placeable = _world.surface.placeable_at(slot)
+	if not _on_surface():
+		return
+	var target: Placeable = _world.surface.placeable_at(tile)
 	if target != null and target.def.can_destroy:
 		_world.surface.demolish(target)
 
 
-## Width in slots of whatever the ghost should preview. 0 hides the ghost.
-func _ghost_width() -> int:
-	if _world.camera.interior_building != null:
-		return 0
-	if mode == Mode.PLACE:
-		return _def.footprint.x
-	if mode == Mode.MOVE and _carried != null:
-		return _carried.width_slots()
-	return 0
+## Building only happens in the town view.
+func _on_surface() -> bool:
+	return _world.camera.current_view() == ViewCamera.View.SURFACE
 
 
-func _fits(slot: int) -> bool:
+## What the ghost should preview, or null to hide it.
+func _ghost_def() -> BuildingDef:
+	if not _on_surface():
+		return null
 	if mode == Mode.PLACE:
-		return _world.surface.is_free(slot, _def.footprint.x) and _wallet.can_afford(_def.cost)
+		return _def
 	if mode == Mode.MOVE and _carried != null:
-		return _world.surface.is_free(slot, _carried.width_slots(), _carried)
+		return _carried.def
+	return null
+
+
+func _fits(tile: Vector2i) -> bool:
+	if mode == Mode.PLACE:
+		return _world.surface.is_free(_def, tile) and _wallet.can_afford(_def.cost)
+	if mode == Mode.MOVE and _carried != null:
+		return _world.surface.is_free(_carried.def, tile, _carried)
 	return false
 
 

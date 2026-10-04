@@ -1,12 +1,11 @@
 class_name BuildingInterior
 extends Node2D
-## The inside of a building: a floor dwarves can walk, a door, and a few
-## slots for workstations. The node's origin is the left end of the floor.
+## The inside of a building, seen from above: a rectangle of floor dwarves
+## can walk, a door in the bottom wall, and a few slots for workstations.
+## The node's origin is the top-left corner of the floor.
 
-## Width of the walkable floor in nav cells.
-@export var floor_cells: int = 20
-## Height of the room in world pixels, for framing the camera.
-@export var room_height: float = 72.0
+## Size of the walkable floor in nav cells.
+@export var floor_size_cells: Vector2i = Vector2i(20, 8)
 
 var building: Building
 
@@ -19,13 +18,17 @@ var _world: World
 func setup(world: World, owner_building: Building) -> void:
 	_world = world
 	building = owner_building
-	for cell: Vector2i in _floor():
-		world.nav.set_walkable(cell)
+	var floor_rect: Rect2i = _floor_rect()
+	for y: int in range(floor_rect.position.y, floor_rect.end.y):
+		for x: int in range(floor_rect.position.x, floor_rect.end.x):
+			world.nav.set_walkable(Vector2i(x, y), NavGrid.TOP_DOWN)
 
 
 func teardown() -> void:
-	for cell: Vector2i in _floor():
-		_world.nav.clear_walkable(cell)
+	var floor_rect: Rect2i = _floor_rect()
+	for y: int in range(floor_rect.position.y, floor_rect.end.y):
+		for x: int in range(floor_rect.position.x, floor_rect.end.x):
+			_world.nav.clear_walkable(Vector2i(x, y))
 	queue_free()
 
 
@@ -35,17 +38,16 @@ func door_cell() -> Vector2i:
 
 ## The floor cell under a marker placed in the room.
 func cell_at(marker: Node2D) -> Vector2i:
-	return NavGrid.world_to_cell(marker.global_position + Vector2(0, -1))
+	return NavGrid.world_to_cell(marker.global_position)
 
 
 func contains_cell(cell: Vector2i) -> bool:
-	return _floor().has(cell)
+	return _floor_rect().has_point(cell)
 
 
 ## World-space rectangle of the room, for framing the camera.
 func view_rect() -> Rect2:
-	var width: float = floor_cells * NavGrid.CELL
-	return Rect2(global_position + Vector2(0, -room_height), Vector2(width, room_height))
+	return Rect2(global_position, Vector2(floor_size_cells * NavGrid.CELL))
 
 
 func workstations() -> Array[Workstation]:
@@ -88,9 +90,5 @@ func _first_free_slot() -> Node2D:
 	return null
 
 
-func _floor() -> Array[Vector2i]:
-	var first: Vector2i = NavGrid.world_to_cell(global_position + Vector2(0, -1))
-	var cells: Array[Vector2i] = []
-	for i: int in floor_cells:
-		cells.append(first + Vector2i(i, 0))
-	return cells
+func _floor_rect() -> Rect2i:
+	return Rect2i(NavGrid.world_to_cell(global_position), floor_size_cells)

@@ -1,8 +1,16 @@
 class_name World
 extends Node2D
-## The one continuous world: town on top, shaft down the middle, mine below,
-## and building interiors off to the side. This node owns the pieces and
-## hands each one the references it needs. It holds no gameplay of its own.
+## Everything that exists in the game world. It is laid out as three
+## separate regions of one coordinate space:
+##   - the town, seen from above (Surface)
+##   - the mine, seen from the side (Terrain, Shaft, MineLevel1)
+##   - building interiors, seen from above (Interiors)
+## Doors (nav portals) join them, so a dwarf walking from his bench to the
+## coal face is one ordinary path. This node owns the pieces and hands each
+## one the references it needs. It holds no gameplay of its own.
+
+## World pixels of sky shown above the pit-head in the mine view.
+@export var mine_sky_height: float = 40.0
 
 @onready var nav: NavGrid = $NavGrid
 @onready var terrain: Terrain = $Terrain
@@ -21,10 +29,9 @@ extends Node2D
 func setup(tuning: GameTuning, clock: SimClock, wallet: Wallet) -> void:
 	terrain.setup(nav)
 	# Order matters: the level fills its ground first, then the shaft is cut
-	# down through it to the landing.
-	var shaft_column: int = mine_entrance.shaft_column()
-	mine_level.setup(self, shaft_column)
-	shaft.setup(nav, terrain, shaft_column, mine_level.landing_cell().y)
+	# down through it to the landing, then the town's doors are linked up.
+	mine_level.setup(self)
+	shaft.setup(nav, terrain, mine_level.landing_cell().y)
 	surface.setup(self)
 	dwarves.setup(self, tuning, clock)
 	build_tool.setup(self, wallet)
@@ -38,7 +45,7 @@ func sim_tick(delta: float) -> void:
 	dwarves.sim_tick(delta)
 
 
-## The rectangle the camera may roam: town, shaft and mine.
-func bounds() -> Rect2:
-	var bottom: float = terrain.size_cells.y * NavGrid.CELL
-	return Rect2(0, -camera.sky_height, surface.width_pixels(), bottom + camera.sky_height)
+## The rectangle the camera may roam in the mine view.
+func mine_view_rect() -> Rect2:
+	var size: Vector2 = Vector2(terrain.size_cells * NavGrid.CELL)
+	return Rect2(0, -mine_sky_height, size.x, size.y + mine_sky_height)

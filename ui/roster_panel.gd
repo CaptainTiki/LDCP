@@ -57,5 +57,5 @@ func _is_in_view(dwarf: Dwarf) -> bool:
 		ViewCamera.View.INTERIOR:
 			return room == _world.camera.interior_building.interior
 		ViewCamera.View.MINE:
-			return room == null and cell.y >= 0
-	return room == null and cell.y < 0
+			return room == null and not _world.surface.contains_cell(cell)
+	return _world.surface.contains_cell(cell)

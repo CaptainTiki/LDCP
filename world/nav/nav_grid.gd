@@ -6,6 +6,11 @@ extends Node
 ## registers its own cells: the surface its ground row, the shaft its ladder,
 ## the mine terrain its tunnels, building interiors their floors. Doors are
 ## portals that join two far-apart cells.
+##
+## Two kinds of place share the grid. The mine is seen from the side: dwarves
+## walk left and right, take one-cell steps, and only climb on ladders. The
+## town and building interiors are seen from above (TOP_DOWN cells): dwarves
+## walk in any direction across open floor.
 
 ## Size of one nav cell in world pixels.
 const CELL: int = 8
@@ -15,6 +20,10 @@ const NO_CELL: Vector2i = Vector2i(-99999, -99999)
 const WALK: int = 1
 const LADDER: int = 2
 const LIFT: int = 4
+const TOP_DOWN: int = 8
+
+const _ORTHOGONAL: Array[Vector2i] = [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]
+const _DIAGONAL: Array[Vector2i] = [Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(1, 1)]
 
 var _cells: Dictionary[Vector2i, int] = {}
 var _portals: Dictionary[Vector2i, Vector2i] = {}
@@ -56,6 +65,10 @@ func is_lift(cell: Vector2i) -> bool:
 	return (_cells.get(cell, 0) & LIFT) != 0
 
 
+func is_top_down(cell: Vector2i) -> bool:
+	return (_cells.get(cell, 0) & TOP_DOWN) != 0
+
+
 func link_portal(a: Vector2i, b: Vector2i) -> void:
 	_portals[a] = b
 	_portals[b] = a
@@ -73,6 +86,28 @@ func is_portal(from: Vector2i, to: Vector2i) -> bool:
 
 func neighbors(cell: Vector2i) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
+	if is_top_down(cell):
+		_add_top_down_neighbors(cell, result)
+	else:
+		_add_side_view_neighbors(cell, result)
+	if _portals.has(cell):
+		result.append(_portals[cell])
+	return result
+
+
+func _add_top_down_neighbors(cell: Vector2i, result: Array[Vector2i]) -> void:
+	for offset: Vector2i in _ORTHOGONAL:
+		if is_top_down(cell + offset):
+			result.append(cell + offset)
+	# Diagonals only where neither corner is cut.
+	for offset: Vector2i in _DIAGONAL:
+		var open_x: bool = is_top_down(cell + Vector2i(offset.x, 0))
+		var open_y: bool = is_top_down(cell + Vector2i(0, offset.y))
+		if open_x and open_y and is_top_down(cell + offset):
+			result.append(cell + offset)
+
+
+func _add_side_view_neighbors(cell: Vector2i, result: Array[Vector2i]) -> void:
 	# Sideways, including one-cell steps up and down (slopes and planks).
 	for dx: int in [-1, 1]:
 		for dy: int in [0, -1, 1]:
@@ -84,20 +119,19 @@ func neighbors(cell: Vector2i) -> Array[Vector2i]:
 			var rung: Vector2i = cell + Vector2i(0, dy)
 			if is_climbable(rung):
 				result.append(rung)
-	if _portals.has(cell):
-		result.append(_portals[cell])
-	return result
 
 
 func are_connected(from: Vector2i, to: Vector2i) -> bool:
-	return is_walkable(from) and neighbors(from).has(to)
+	return neighbors(from).has(to)
 
 
 ## Breadth-first search. Returns the cells to step through, ending at `to`
 ## and not including `from`. Empty when already there or unreachable.
 func find_path(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
 	var path: Array[Vector2i] = []
-	if from == to or not is_walkable(from) or not is_walkable(to):
+	# `from` need not be walkable: a dwarf caught under a new building can
+	# still walk out of it.
+	if from == to or not is_walkable(to):
 		return path
 	var came_from: Dictionary[Vector2i, Vector2i] = {from: from}
 	var frontier: Array[Vector2i] = [from]

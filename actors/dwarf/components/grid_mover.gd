@@ -101,7 +101,7 @@ func _step_seconds(from: Vector2i, to: Vector2i) -> float:
 	if nav.is_portal(from, to):
 		return portal_seconds
 	var distance: float = NavGrid.cell_to_world(from).distance_to(NavGrid.cell_to_world(to))
-	if from.x == to.x:
+	if from.x == to.x and not nav.is_top_down(to):
 		return distance / (lift_speed if nav.is_lift(to) else ladder_speed)
 	return distance / walk_speed
 

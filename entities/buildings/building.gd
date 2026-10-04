@@ -1,17 +1,12 @@
 class_name Building
 extends Placeable
-## A building is a shell on the surface with a door. Its useful part is the
-## interior: an authored room that lives in an off-screen part of the world
-## and is joined to the door by a nav portal.
+## A building is a shell in town with a door in its front wall. Its useful
+## part is the interior: an authored room that lives in an off-screen part of
+## the world and is joined to the door by a nav portal.
 
 @export var interior_scene: PackedScene
 
 var interior: BuildingInterior
-
-
-## The surface cell in front of the door.
-func door_cell() -> Vector2i:
-	return Vector2i(slot * SLOT_CELLS + def.door_offset_cells, -1)
 
 
 func workstations() -> Array[Workstation]:
@@ -30,7 +25,7 @@ func _on_placed() -> void:
 
 
 func _on_moved() -> void:
-	# Unlinking from the room side drops the old surface door with it.
+	# Unlinking from the room side drops the old street door with it.
 	world.nav.unlink_portal(interior.door_cell())
 	world.nav.link_portal(door_cell(), interior.door_cell())
 

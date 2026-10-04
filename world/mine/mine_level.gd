@@ -17,9 +17,9 @@ var _shaft_column: int = 0
 @onready var _ore_nodes: Node2D = $OreNodes
 
 
-func setup(world: World, shaft_column: int) -> void:
+func setup(world: World) -> void:
 	_terrain = world.terrain
-	_shaft_column = shaft_column
+	_shaft_column = world.shaft.column
 	_fill_ground()
 	for node: OreNode in ore_nodes():
 		node.setup(world.nav, world.hall.storage)
