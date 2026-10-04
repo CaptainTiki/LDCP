@@ -1,7 +1,7 @@
 class_name PlayerHand
 extends Node
 ## What the player is holding. The Farming tab hands out the tools:
-##   Hoe     tills a farm plot on open grass (costs the plot's price)
+##   Hoe     roots up a plant, to clear the plot for something else
 ##   Look    inspects whatever is clicked
 ##   Bucket  waters a growing plant
 ##   Shears  harvests a ripe plant into the player's hands
@@ -19,18 +19,14 @@ var seed_crop: CropDef = null
 ## What the Look tool last saw.
 var inspect_text: String = ""
 
-var _world: World
 var _wallet: Wallet
-var _plot_def: BuildingDef
 
 ## The crops in hand. The hand holds far more than a dwarf can carry.
 @onready var carrier: Carrier = $Carrier
 
 
-func setup(world: World, wallet: Wallet, tuning: GameTuning, plot_def: BuildingDef) -> void:
-	_world = world
+func setup(wallet: Wallet, tuning: GameTuning) -> void:
 	_wallet = wallet
-	_plot_def = plot_def
 	carrier.capacity = tuning.hand_capacity
 
 
@@ -51,30 +47,25 @@ func is_holding_tool() -> bool:
 	return tool != Tool.NONE
 
 
-## What tilling one plot costs.
-func till_cost() -> int:
-	return _plot_def.cost
-
-
-## Uses whatever is in hand at a point in the world. `entity` is the thing
-## clicked, or null for open ground. Returns true if the click was used up.
-func use_at(world_point: Vector2, entity: Node) -> bool:
+## Uses whatever is in hand on the thing clicked (null for open ground).
+## Returns true if the click was used up.
+func use_on(entity: Node) -> bool:
 	var used: bool = false
 	if entity is GreatHall and not carrier.is_empty():
 		carrier.unload_into((entity as GreatHall).storage)
 		used = true
 	else:
-		used = _use_tool(world_point, entity)
+		used = _use_tool(entity)
 	if used:
 		changed.emit()
 	return used
 
 
-func _use_tool(world_point: Vector2, entity: Node) -> bool:
+func _use_tool(entity: Node) -> bool:
 	var plot: FarmPlot = entity as FarmPlot
 	match tool:
 		Tool.HOE:
-			return entity == null and _till(world_point)
+			return plot != null and plot.uproot()
 		Tool.LOOK:
 			inspect_text = _describe(entity)
 			return entity != null
@@ -85,16 +76,6 @@ func _use_tool(world_point: Vector2, entity: Node) -> bool:
 		Tool.SHEARS:
 			return plot != null and _harvest(plot)
 	return false
-
-
-func _till(world_point: Vector2) -> bool:
-	if _world.camera.current_view() != ViewCamera.View.SURFACE:
-		return false
-	var tile: Vector2i = _world.surface.tile_at(world_point)
-	if not _world.surface.is_free(_plot_def, tile) or not _wallet.spend(_plot_def.cost):
-		return false
-	_world.surface.build(_plot_def, tile)
-	return true
 
 
 func _sow(plot: FarmPlot) -> bool:

@@ -97,6 +97,17 @@ func harvest() -> int:
 	return crop.yield_count
 
 
+## Roots up whatever is growing, ripe or not, and throws it away. For
+## clearing a slow crop to make room for another. Returns whether it did.
+func uproot() -> bool:
+	if not _is_planted:
+		return false
+	_is_planted = false
+	growth_seconds = 0.0
+	_sync()
+	return true
+
+
 ## A line of text for the Look tool.
 func describe() -> String:
 	if not _is_planted:

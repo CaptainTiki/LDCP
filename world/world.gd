@@ -38,7 +38,7 @@ func setup(tuning: GameTuning, catalog: ContentCatalog, clock: SimClock, wallet:
 	build_tool.setup(self, wallet)
 	input.setup(self, tuning)
 	camera.setup(self)
-	hand.setup(self, wallet, tuning, catalog.farm_plot)
+	hand.setup(wallet, tuning)
 	# The player holds either a building tool or a farming tool, never both.
 	build_tool.mode_changed.connect(_on_build_mode_changed)
 	hand.changed.connect(_on_hand_changed)

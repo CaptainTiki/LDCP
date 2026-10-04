@@ -23,7 +23,7 @@ func _refresh() -> void:
 func _tool_hint() -> String:
 	match _hand.tool:
 		PlayerHand.Tool.HOE:
-			return "Hoe: click grass to till a plot (%dc)" % _hand.till_cost()
+			return "Hoe: click a plant to root it up"
 		PlayerHand.Tool.LOOK:
 			return _hand.inspect_text if _hand.inspect_text != "" else "Look: click something to inspect it"
 		PlayerHand.Tool.BUCKET:

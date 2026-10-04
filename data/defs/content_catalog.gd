@@ -10,5 +10,3 @@ extends Resource
 @export var ores: Array[ItemDef] = []
 ## Everything that may appear in the Buildings tab.
 @export var buildings: Array[BuildingDef] = []
-## What the hoe tills. Not in the Buildings tab: plots are made with the hoe.
-@export var farm_plot: BuildingDef

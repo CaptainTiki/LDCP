@@ -21,7 +21,7 @@ func click(world_point: Vector2) -> void:
 		_world.build_tool.click(world_point, clickable)
 		return
 	var entity: Node = clickable.entity() if clickable != null else null
-	if _world.hand.use_at(world_point, entity):
+	if _world.hand.use_on(entity):
 		return
 	if entity == null:
 		return
@@ -45,7 +45,7 @@ func drag(world_point: Vector2) -> void:
 	if _world.build_tool.mode == BuildTool.Mode.PLACE:
 		_world.build_tool.click(world_point, clickable)
 	elif _world.hand.is_holding_tool():
-		_world.hand.use_at(world_point, clickable.entity() if clickable != null else null)
+		_world.hand.use_on(clickable.entity() if clickable != null else null)
 
 
 func hover(world_point: Vector2) -> void:
@@ -79,8 +79,8 @@ func clickable_at(world_point: Vector2) -> Clickable:
 	return best
 
 
-## Building and tilling move from tile to tile. Other tools, thing to thing.
+## Building moves from tile to tile. Farming tools, thing to thing.
 func _drag_target(world_point: Vector2, clickable: Clickable) -> Variant:
-	if _world.build_tool.is_active() or _world.hand.tool == PlayerHand.Tool.HOE:
+	if _world.build_tool.is_active():
 		return _world.surface.tile_at(world_point)
 	return clickable

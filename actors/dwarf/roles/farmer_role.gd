@@ -20,9 +20,12 @@ func act(delta: float) -> void:
 	if _plot == null:
 		_plot = _pick_plot()
 	if _plot == null:
-		# Everything is growing. A good moment to take the crops in.
+		# Everything is growing (or nothing is sown yet). A good moment to take
+		# the crops in, then wait by the plot he was put on.
 		if not dwarf.carrier.is_empty():
 			_haul_to_hall()
+		else:
+			_wait_by_assigned_plot()
 		return
 	if _must_unload_before_working(_plot):
 		_haul_to_hall()
@@ -33,6 +36,12 @@ func act(delta: float) -> void:
 
 func release() -> void:
 	_drop_plot()
+
+
+func _wait_by_assigned_plot() -> void:
+	var home: FarmPlot = dwarf.assignment.target as FarmPlot
+	if home != null:
+		_walk_to(home.work_cell())
 
 
 func _still_needs_work(plot: FarmPlot) -> bool:
