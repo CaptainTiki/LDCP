@@ -3,32 +3,33 @@
 [ext_resource type="Script" path="res://entities/workstations/workstation.gd" id="1"]
 [ext_resource type="Script" path="res://entities/components/work_receiver.gd" id="2"]
 [ext_resource type="Script" path="res://entities/components/clickable.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/interiors/stove.png" id="4"]
 
 [node name="Stove" type="Node2D"]
 script = ExtResource("1")
 
-[node name="Body" type="ColorRect" parent="."]
-offset_left = -8.0
-offset_top = -10.0
-offset_right = 8.0
-offset_bottom = 6.0
-mouse_filter = 2
-color = Color(0.3, 0.3, 0.33, 1)
+[node name="Body" type="Sprite2D" parent="."]
+position = Vector2(-8, -10)
+centered = false
+texture = ExtResource("4")
 
 [node name="Indicator" type="ColorRect" parent="."]
-offset_left = -4.0
-offset_top = -8.0
-offset_right = 4.0
-offset_bottom = -4.0
+offset_left = -2.0
+offset_top = -13.0
+offset_right = 2.0
+offset_bottom = -11.0
 mouse_filter = 2
 color = Color(0.35, 0.35, 0.35, 1)
 
 [node name="Label" type="Label" parent="."]
-offset_left = -20.0
-offset_top = -22.0
-offset_right = 20.0
-offset_bottom = -10.0
-theme_override_font_sizes/font_size = 7
+offset_left = -30.0
+offset_top = -24.0
+offset_right = 30.0
+offset_bottom = -14.0
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0.1, 0.08, 0.07, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 text = "Stove"
 horizontal_alignment = 1
 

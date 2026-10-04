@@ -14,10 +14,13 @@ extends Node2D
 var _world: World
 
 @onready var _placeables: Node2D = $Placeables
+@onready var _ground: Ground = $Ground
 
 
 func setup(world: World) -> void:
 	_world = world
+	_ground.size_tiles = size_tiles
+	_ground.queue_redraw()
 	_refresh_nav()
 	for placeable: Placeable in placeables():
 		placeable.place(world, placeable.tile)

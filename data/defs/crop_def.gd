@@ -8,6 +8,8 @@ extends Resource
 @export var produce: ItemDef
 @export var yield_count: int = 2
 @export var color: Color = Color.GREEN
+## Four frames side by side: three growth stages, then ripe.
+@export var growth_frames: Texture2D
 ## Coins per seed. The player pays this every time they sow.
 @export var seed_cost: int = 1
 

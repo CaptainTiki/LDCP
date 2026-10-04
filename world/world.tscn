@@ -21,6 +21,11 @@
 [ext_resource type="Script" path="res://world/world_input.gd" id="21"]
 [ext_resource type="Script" path="res://world/player_hand.gd" id="22"]
 [ext_resource type="Script" path="res://actors/dwarf/components/carrier.gd" id="23"]
+[ext_resource type="Script" path="res://world/surface/ground.gd" id="24"]
+[ext_resource type="Texture2D" path="res://assets/town/grass_tiles.png" id="25"]
+[ext_resource type="Texture2D" path="res://assets/mine/grass_edge.png" id="26"]
+[ext_resource type="Texture2D" path="res://assets/mine/ladder.png" id="27"]
+[ext_resource type="Texture2D" path="res://assets/mine/lift_rail.png" id="28"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -38,13 +43,14 @@ mouse_filter = 2
 color = Color(0.45, 0.62, 0.78, 1)
 z_index = -1
 
-[node name="MineGrass" type="ColorRect" parent="."]
+[node name="MineGrass" type="TextureRect" parent="."]
 offset_left = 0.0
-offset_top = 0.0
+offset_top = -4.0
 offset_right = 2048.0
 offset_bottom = 2.0
 mouse_filter = 2
-color = Color(0.35, 0.55, 0.25, 1)
+texture = ExtResource("26")
+stretch_mode = 1
 
 [node name="Terrain" parent="." instance=ExtResource("3")]
 
@@ -54,14 +60,10 @@ position = Vector2(0, -1200)
 script = ExtResource("4")
 size_tiles = Vector2i(128, 9)
 
-[node name="Ground" type="ColorRect" parent="Surface"]
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 2056.0
-offset_bottom = 152.0
-mouse_filter = 2
-color = Color(0.36, 0.52, 0.28, 1)
-z_index = -1
+[node name="Ground" type="Node2D" parent="Surface"]
+z_index = -2
+script = ExtResource("24")
+tiles = ExtResource("25")
 
 [node name="Placeables" type="Node2D" parent="Surface"]
 y_sort_enabled = true
@@ -92,6 +94,8 @@ tile = Vector2i(68, 2)
 
 [node name="Shaft" type="Node2D" parent="."]
 script = ExtResource("13")
+ladder_texture = ExtResource("27")
+lift_texture = ExtResource("28")
 
 [node name="MineLevel1" parent="." instance=ExtResource("14")]
 position = Vector2(0, 224)

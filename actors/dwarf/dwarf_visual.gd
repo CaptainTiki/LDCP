@@ -1,6 +1,6 @@
 class_name DwarfVisual
 extends Node2D
-## Greybox dwarf animation. It only reads the dwarf's state: tool swings when
+## Dwarf animation. It only reads the dwarf's state: tool swings when
 ## working, a bob when walking, a slump when sitting. Everything runs at the
 ## drink multiplier, so a thirsty dwarf visibly drags.
 
@@ -10,17 +10,17 @@ extends Node2D
 var _anim_time: float = 0.0
 
 @onready var _dwarf: Dwarf = get_parent() as Dwarf
-@onready var _beard: ColorRect = $Beard
+@onready var _beard: Sprite2D = $Beard
 @onready var _tool_pivot: Node2D = $ToolPivot
-@onready var _carry_slot: ColorRect = $CarrySlot
-@onready var _lift_car: ColorRect = $LiftCar
+@onready var _carry_slot: Sprite2D = $CarrySlot
+@onready var _lift_car: Sprite2D = $LiftCar
 
 
 func _process(delta: float) -> void:
 	if not _dwarf.is_active:
 		return
 	_anim_time += delta * _dwarf.clock.speed_scale * _dwarf.thirst.multiplier()
-	_beard.color = _dwarf.color
+	_beard.modulate = _dwarf.color
 	scale.x = _dwarf.mover.facing
 
 	var is_working: bool = _dwarf.worker.is_working()
@@ -36,5 +36,5 @@ func _process(delta: float) -> void:
 
 	_carry_slot.visible = not _dwarf.carrier.is_empty()
 	if _carry_slot.visible:
-		_carry_slot.color = _dwarf.carrier.item.color
+		_carry_slot.modulate = _dwarf.carrier.item.color
 	_lift_car.visible = _dwarf.mover.is_on_lift()

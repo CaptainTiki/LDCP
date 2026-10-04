@@ -4,8 +4,8 @@ extends Node2D
 ## entrance in town is a door onto the top of it.
 ## It starts as a slow ladder. Buying the lift makes the same cells fast.
 
-@export var rail_color: Color = Color(0.6, 0.45, 0.25)
-@export var lift_color: Color = Color(0.75, 0.75, 0.8)
+@export var ladder_texture: Texture2D
+@export var lift_texture: Texture2D
 
 ## Terrain column the shaft runs down.
 @export var column: int = 130
@@ -47,13 +47,5 @@ func _flag_cells(climb_flag: int) -> void:
 func _draw() -> void:
 	var top: float = -NavGrid.CELL
 	var bottom: float = (_bottom_row + 1) * NavGrid.CELL
-	var color: Color = lift_color if has_lift else rail_color
-	draw_rect(Rect2(1, top, 1, bottom - top), color)
-	draw_rect(Rect2(NavGrid.CELL - 2, top, 1, bottom - top), color)
-	if has_lift:
-		return
-	# Ladder rungs.
-	var y: float = top + 2.0
-	while y < bottom:
-		draw_rect(Rect2(1, y, NavGrid.CELL - 2, 1), color)
-		y += 4.0
+	var texture: Texture2D = lift_texture if has_lift else ladder_texture
+	draw_texture_rect(texture, Rect2(0, top, NavGrid.CELL, bottom - top), true)

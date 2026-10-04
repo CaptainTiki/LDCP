@@ -3,36 +3,25 @@
 [ext_resource type="Script" path="res://entities/farm_plot/farm_plot.gd" id="1"]
 [ext_resource type="Script" path="res://entities/components/work_receiver.gd" id="2"]
 [ext_resource type="Script" path="res://entities/components/clickable.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/town/soil_dry.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/town/soil_wet.png" id="5"]
 
 [node name="FarmPlot" type="Node2D"]
 z_index = -1
 script = ExtResource("1")
+dry_soil = ExtResource("4")
+wet_soil = ExtResource("5")
 
-[node name="Soil" type="ColorRect" parent="."]
-offset_left = 1.0
-offset_top = -15.0
-offset_right = 15.0
-offset_bottom = -1.0
-mouse_filter = 2
-color = Color(0.5, 0.36, 0.22, 1)
+[node name="Soil" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+centered = false
+texture = ExtResource("4")
 
-[node name="Leaves" type="ColorRect" parent="."]
-offset_left = 6.0
-offset_top = -6.0
-offset_right = 10.0
-offset_bottom = -4.0
-mouse_filter = 2
-color = Color(0.3, 0.6, 0.25, 1)
+[node name="Plant" type="Sprite2D" parent="."]
 visible = false
-
-[node name="Produce" type="ColorRect" parent="."]
-offset_left = 6.0
-offset_top = -5.0
-offset_right = 10.0
-offset_bottom = -2.0
-mouse_filter = 2
-color = Color(0.8, 0.65, 0.4, 1)
-visible = false
+position = Vector2(0, -18)
+centered = false
+hframes = 4
 
 [node name="WorkReceiver" type="Node" parent="."]
 script = ExtResource("2")

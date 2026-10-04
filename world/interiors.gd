@@ -6,7 +6,7 @@ extends Node2D
 
 ## World pixels between one room's origin and the next. A multiple of the
 ## nav cell size, so room floors line up with the grid.
-const ROOM_SPACING: float = 480.0
+const ROOM_SPACING: float = 1600.0
 
 var _rooms_added: int = 0
 

@@ -8,7 +8,7 @@ extends Node2D
 
 enum State { WAITING_FOR_INPUT, PROCESSING, OUTPUT_READY }
 
-@export var idle_color: Color = Color(0.35, 0.35, 0.35)
+@export var idle_color: Color = Color(0.45, 0.42, 0.4)
 @export var busy_color: Color = Color(0.95, 0.55, 0.15)
 @export var ready_color: Color = Color(0.35, 0.85, 0.35)
 

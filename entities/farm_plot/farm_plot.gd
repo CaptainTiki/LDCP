@@ -9,15 +9,12 @@ extends Placeable
 
 enum Task { NONE, WATER, HARVEST }
 
-## Number of growth stages drawn between sown and ripe.
+## Number of growth stages drawn between sown and ripe. The crop's
+## growth_frames hold one frame per stage, then the ripe frame.
 const GROWTH_STAGES: int = 3
-## Size of the leaves at each growth stage, then when ripe.
-const LEAF_SIZES: Array[Vector2] = [Vector2(4, 2), Vector2(6, 4), Vector2(9, 6), Vector2(12, 8)]
-## Local position of the point the plant grows up from.
-const PLANT_BASE: Vector2 = Vector2(8, -4)
 
-@export var dry_soil_color: Color = Color(0.5, 0.36, 0.22)
-@export var wet_soil_color: Color = Color(0.3, 0.2, 0.13)
+@export var dry_soil: Texture2D
+@export var wet_soil: Texture2D
 
 ## The crop growing here, or the last one harvested.
 var crop: CropDef = null
@@ -29,9 +26,8 @@ var _is_planted: bool = false
 var _receiver_task: Task = Task.NONE
 
 @onready var receiver: WorkReceiver = $WorkReceiver
-@onready var _soil: ColorRect = $Soil
-@onready var _leaves: ColorRect = $Leaves
-@onready var _produce: ColorRect = $Produce
+@onready var _soil: Sprite2D = $Soil
+@onready var _plant: Sprite2D = $Plant
 
 
 func _ready() -> void:
@@ -134,16 +130,11 @@ func _sync() -> void:
 	if task != _receiver_task:
 		_receiver_task = task
 		receiver.reset(_work_for(task))
-	_soil.color = wet_soil_color if watered_seconds_left > 0.0 else dry_soil_color
-	_leaves.visible = _is_planted
-	_produce.visible = is_ripe()
-	if not _is_planted:
-		return
-	var leaf_size: Vector2 = LEAF_SIZES[_growth_stage()]
-	_leaves.size = leaf_size
-	_leaves.position = PLANT_BASE - Vector2(leaf_size.x * 0.5, leaf_size.y)
-	_leaves.color = crop.color
-	_produce.color = crop.produce.color
+	_soil.texture = wet_soil if watered_seconds_left > 0.0 else dry_soil
+	_plant.visible = _is_planted
+	if _is_planted:
+		_plant.texture = crop.growth_frames
+		_plant.frame = _growth_stage()
 
 
 ## 0 when just sown, rising to GROWTH_STAGES when ripe.
