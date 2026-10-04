@@ -70,8 +70,8 @@ func _refresh() -> void:
 	for list: VBoxContainer in [_buy_list, _unlock_list]:
 		for button: Node in list.get_children():
 			(button as CatalogButton).refresh(_game.wallet)
-	_hire_button.text = "Hire a dwarf  %dc" % shop.hire_cost()
+	_hire_button.text = "Hire a dwarf  %d" % shop.hire_cost()
 	_hire_button.disabled = not shop.can_hire()
 	_lift_button.visible = not _game.world.shaft.has_lift
-	_lift_button.text = "Build the lift  %dc" % shop.lift_cost()
+	_lift_button.text = "Build the lift  %d" % shop.lift_cost()
 	_lift_button.disabled = not shop.can_buy_lift()

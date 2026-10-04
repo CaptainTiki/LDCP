@@ -1,4 +1,149 @@
 [gd_resource type="Theme" format=3]
 
+[ext_resource type="FontFile" path="res://assets/fonts/dwarf_5x7.fnt" id="font"]
+[ext_resource type="Texture2D" path="res://assets/ui/frames/button_normal.png" id="btn_n"]
+[ext_resource type="Texture2D" path="res://assets/ui/frames/button_hover.png" id="btn_h"]
+[ext_resource type="Texture2D" path="res://assets/ui/frames/button_pressed.png" id="btn_p"]
+[ext_resource type="Texture2D" path="res://assets/ui/frames/button_disabled.png" id="btn_d"]
+[ext_resource type="Texture2D" path="res://assets/ui/frames/panel.png" id="panel"]
+[ext_resource type="Texture2D" path="res://assets/ui/frames/slot.png" id="slot"]
+
+[sub_resource type="StyleBoxTexture" id="normal"]
+content_margin_left = 3.0
+content_margin_top = 2.0
+content_margin_right = 3.0
+content_margin_bottom = 2.0
+texture = ExtResource("btn_n")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="hover"]
+content_margin_left = 3.0
+content_margin_top = 2.0
+content_margin_right = 3.0
+content_margin_bottom = 2.0
+texture = ExtResource("btn_h")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="pressed"]
+content_margin_left = 3.0
+content_margin_top = 2.0
+content_margin_right = 3.0
+content_margin_bottom = 2.0
+texture = ExtResource("btn_p")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="disabled"]
+content_margin_left = 3.0
+content_margin_top = 2.0
+content_margin_right = 3.0
+content_margin_bottom = 2.0
+texture = ExtResource("btn_d")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="panel"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+texture = ExtResource("panel")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="slot"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+texture = ExtResource("slot")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="empty"]
+
+[sub_resource type="StyleBoxFlat" id="scroll"]
+content_margin_left = 1.0
+content_margin_top = 0.0
+content_margin_right = 1.0
+content_margin_bottom = 0.0
+bg_color = Color(0.12, 0.1, 0.09, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="grabber"]
+content_margin_left = 1.0
+content_margin_top = 0.0
+content_margin_right = 1.0
+content_margin_bottom = 0.0
+bg_color = Color(0.55, 0.48, 0.44, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="grabber_hi"]
+content_margin_left = 1.0
+content_margin_top = 0.0
+content_margin_right = 1.0
+content_margin_bottom = 0.0
+bg_color = Color(0.79, 0.64, 0.39, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="hscroll"]
+content_margin_left = 0.0
+content_margin_top = 1.0
+content_margin_right = 0.0
+content_margin_bottom = 1.0
+bg_color = Color(0.12, 0.1, 0.09, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="hgrabber"]
+content_margin_left = 0.0
+content_margin_top = 1.0
+content_margin_right = 0.0
+content_margin_bottom = 1.0
+bg_color = Color(0.55, 0.48, 0.44, 1)
+anti_aliasing = false
+
 [resource]
-default_font_size = 11
+default_font = ExtResource("font")
+default_font_size = 9
+Button/colors/font_color = Color(0.95, 0.91, 0.85, 1)
+Button/colors/font_hover_color = Color(0.95, 0.91, 0.85, 1)
+Button/colors/font_focus_color = Color(0.95, 0.91, 0.85, 1)
+Button/colors/font_pressed_color = Color(0.16, 0.12, 0.09, 1)
+Button/colors/font_hover_pressed_color = Color(0.16, 0.12, 0.09, 1)
+Button/colors/font_disabled_color = Color(0.54, 0.5, 0.46, 1)
+Button/constants/h_separation = 2
+Button/styles/normal = SubResource("normal")
+Button/styles/hover = SubResource("hover")
+Button/styles/pressed = SubResource("pressed")
+Button/styles/hover_pressed = SubResource("pressed")
+Button/styles/disabled = SubResource("disabled")
+Button/styles/focus = SubResource("empty")
+Label/colors/font_color = Color(0.95, 0.91, 0.85, 1)
+PanelContainer/styles/panel = SubResource("panel")
+SlotPanel/base_type = &"PanelContainer"
+SlotPanel/styles/panel = SubResource("slot")
+TabContainer/styles/panel = SubResource("empty")
+VScrollBar/styles/scroll = SubResource("scroll")
+VScrollBar/styles/grabber = SubResource("grabber")
+VScrollBar/styles/grabber_highlight = SubResource("grabber_hi")
+VScrollBar/styles/grabber_pressed = SubResource("grabber_hi")
+HScrollBar/styles/scroll = SubResource("hscroll")
+HScrollBar/styles/grabber = SubResource("hgrabber")
+HScrollBar/styles/grabber_highlight = SubResource("hgrabber")
+HScrollBar/styles/grabber_pressed = SubResource("hgrabber")
+TooltipPanel/styles/panel = SubResource("panel")
+TooltipLabel/colors/font_color = Color(0.95, 0.91, 0.85, 1)

@@ -1,9 +1,12 @@
 class_name HandStatus
-extends Label
+extends PanelContainer
 ## A line at the top of the screen saying what the player is holding and
-## what it does, or what the Look tool just saw.
+## what it does, or what the Look tool just saw. Hidden when there's nothing
+## to say.
 
 var _hand: PlayerHand
+
+@onready var _label: Label = $Label
 
 
 func setup(hand: PlayerHand) -> void:
@@ -15,9 +18,10 @@ func setup(hand: PlayerHand) -> void:
 func _refresh() -> void:
 	var carrier: Carrier = _hand.carrier
 	if not carrier.is_empty():
-		text = "Holding %d %s: click the Great Hall to drop them off" % [carrier.count, carrier.item.display_name]
+		_label.text = "Holding %d %s: click the Great Hall" % [carrier.count, carrier.item.display_name]
 	else:
-		text = _tool_hint()
+		_label.text = _tool_hint()
+	visible = _label.text != ""
 
 
 func _tool_hint() -> String:
@@ -25,11 +29,11 @@ func _tool_hint() -> String:
 		PlayerHand.Tool.HOE:
 			return "Hoe: click a plant to root it up"
 		PlayerHand.Tool.LOOK:
-			return _hand.inspect_text if _hand.inspect_text != "" else "Look: click something to inspect it"
+			return _hand.inspect_text if _hand.inspect_text != "" else "Look: click something"
 		PlayerHand.Tool.BUCKET:
-			return "Bucket: click dry plants to water them"
+			return "Bucket: click dry plants"
 		PlayerHand.Tool.SHEARS:
-			return "Shears: click ripe plants to harvest them"
+			return "Shears: click ripe plants"
 		PlayerHand.Tool.SEEDS:
-			return "%s seeds: click an empty plot to sow (%dc)" % [_hand.seed_crop.display_name, _hand.seed_crop.seed_cost]
+			return "%s seeds: click an empty plot" % _hand.seed_crop.display_name
 	return ""

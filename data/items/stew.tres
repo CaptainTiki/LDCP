@@ -1,11 +1,13 @@
 [gd_resource type="Resource" script_class="MealDef" format=3]
 
 [ext_resource type="Script" path="res://data/defs/meal_def.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/items/stew.png" id="2"]
 
 [resource]
 script = ExtResource("1")
 id = &"stew"
 display_name = "Stew"
+icon = ExtResource("2")
 color = Color(0.6, 0.3, 0.15, 1)
 sell_price = 3
 buy_price = 0

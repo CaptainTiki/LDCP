@@ -13,7 +13,7 @@ var cost: int = 0
 func setup(for_payload: Resource, label: String, coin_cost: int) -> void:
 	payload = for_payload
 	cost = coin_cost
-	text = "%s  %dc" % [label, coin_cost]
+	text = "%s  %d" % [label, coin_cost]
 
 
 func _pressed() -> void:

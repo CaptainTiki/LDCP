@@ -3,16 +3,20 @@
 [ext_resource type="Script" path="res://ui/roster_entry.gd" id="1"]
 
 [sub_resource type="StyleBoxFlat" id="bar_back"]
-bg_color = Color(0.12, 0.12, 0.12, 1)
+bg_color = Color(0.12, 0.1, 0.09, 1)
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="food_fill"]
 bg_color = Color(0.9, 0.6, 0.2, 1)
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="drink_fill"]
-bg_color = Color(0.3, 0.6, 0.95, 1)
+bg_color = Color(0.42, 0.66, 0.88, 1)
+anti_aliasing = false
 
 [node name="RosterEntry" type="PanelContainer"]
-custom_minimum_size = Vector2(42, 0)
+custom_minimum_size = Vector2(24, 0)
+theme_type_variation = &"SlotPanel"
 script = ExtResource("1")
 
 [node name="Column" type="VBoxContainer" parent="."]
@@ -21,20 +25,22 @@ theme_override_constants/separation = 1
 
 [node name="Top" type="HBoxContainer" parent="Column"]
 mouse_filter = 2
+theme_override_constants/separation = 1
 
 [node name="Portrait" type="ColorRect" parent="Column/Top"]
 custom_minimum_size = Vector2(10, 10)
 mouse_filter = 2
 
 [node name="Badge" type="Label" parent="Column/Top"]
+mouse_filter = 2
 text = "-"
 
 [node name="Name" type="Label" parent="Column"]
-theme_override_font_sizes/font_size = 8
-clip_text = true
+visible = false
+mouse_filter = 2
 
 [node name="Food" type="ProgressBar" parent="Column"]
-custom_minimum_size = Vector2(0, 4)
+custom_minimum_size = Vector2(0, 2)
 mouse_filter = 2
 theme_override_styles/background = SubResource("bar_back")
 theme_override_styles/fill = SubResource("food_fill")
@@ -43,7 +49,7 @@ step = 0.01
 show_percentage = false
 
 [node name="Drink" type="ProgressBar" parent="Column"]
-custom_minimum_size = Vector2(0, 4)
+custom_minimum_size = Vector2(0, 2)
 mouse_filter = 2
 theme_override_styles/background = SubResource("bar_back")
 theme_override_styles/fill = SubResource("drink_fill")

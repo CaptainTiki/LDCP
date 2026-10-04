@@ -1,7 +1,8 @@
 class_name RosterEntry
 extends PanelContainer
-## One dwarf in the roster: portrait swatch, job badge, name, and food and
-## drink bars. Drag it onto a workplace to assign the dwarf.
+## One dwarf in the roster: portrait, job badge, and food and drink bars.
+## The name and status are in the tooltip. Drag it onto a workplace to
+## assign the dwarf.
 
 var dwarf: Dwarf
 
@@ -28,6 +29,8 @@ func refresh() -> void:
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
-	# The name label follows the cursor while dragging.
-	set_drag_preview(_name.duplicate() as Control)
+	# The name is hidden in the entry, but follows the cursor while dragging.
+	var preview: Label = _name.duplicate() as Label
+	preview.visible = true
+	set_drag_preview(preview)
 	return dwarf

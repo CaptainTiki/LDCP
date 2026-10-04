@@ -7,6 +7,13 @@ extends ScrollContainer
 ## Locked squares shown after the known crops, as a hint of what's to come.
 @export var locked_slots: int = 6
 
+@export_group("Icons")
+@export var hoe_icon: Texture2D
+@export var look_icon: Texture2D
+@export var bucket_icon: Texture2D
+@export var shears_icon: Texture2D
+@export var lock_icon: Texture2D
+
 var _game: Game
 
 @onready var _grid: GridContainer = $Grid
@@ -14,14 +21,14 @@ var _game: Game
 
 func setup(game: Game) -> void:
 	_game = game
-	_add_slot().setup_tool(PlayerHand.Tool.HOE, "Hoe")
-	_add_slot().setup_tool(PlayerHand.Tool.LOOK, "Look")
-	_add_slot().setup_tool(PlayerHand.Tool.BUCKET, "Bucket")
-	_add_slot().setup_tool(PlayerHand.Tool.SHEARS, "Shears")
+	_add_slot().setup_tool(PlayerHand.Tool.HOE, hoe_icon, "Hoe: root up a plant")
+	_add_slot().setup_tool(PlayerHand.Tool.LOOK, look_icon, "Look: inspect things")
+	_add_slot().setup_tool(PlayerHand.Tool.BUCKET, bucket_icon, "Bucket: water plants")
+	_add_slot().setup_tool(PlayerHand.Tool.SHEARS, shears_icon, "Shears: harvest ripe plants")
 	for crop: CropDef in game.catalog.crops:
 		_add_slot().setup_seeds(crop)
 	for i: int in locked_slots:
-		_add_slot().setup_locked()
+		_add_slot().setup_locked(lock_icon)
 	game.world.hand.changed.connect(_refresh)
 	game.world.hall.storage.changed.connect(_refresh)
 	game.wallet.changed.connect(_refresh)

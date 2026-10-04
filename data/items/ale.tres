@@ -2,11 +2,13 @@
 
 [ext_resource type="Script" path="res://data/defs/drink_def.gd" id="1"]
 [ext_resource type="Curve" path="res://data/items/default_taper.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/items/ale.png" id="3"]
 
 [resource]
 script = ExtResource("1")
 id = &"ale"
 display_name = "Ale"
+icon = ExtResource("3")
 color = Color(0.9, 0.65, 0.2, 1)
 sell_price = 4
 buy_price = 0

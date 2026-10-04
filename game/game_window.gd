@@ -55,7 +55,7 @@ func apply_windowed() -> void:
 	var window: Window = get_window()
 	window.borderless = false
 	window.always_on_top = false
-	window.size = Vector2i(1280, strip_height * 2)
+	window.size = Vector2i(1600, strip_height)
 	window.move_to_center()
 	_is_strip = false
 	mode_changed.emit()

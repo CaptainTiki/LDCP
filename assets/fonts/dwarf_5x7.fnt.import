@@ -1,0 +1,17 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://b46b4acupijql"
+path="res://.godot/imported/dwarf_5x7.fnt-e05849c6a72ea93ce3064445aa8a05b1.fontdata"
+
+[deps]
+
+source_file="res://assets/fonts/dwarf_5x7.fnt"
+dest_files=["res://.godot/imported/dwarf_5x7.fnt-e05849c6a72ea93ce3064445aa8a05b1.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true
+scaling_mode=2

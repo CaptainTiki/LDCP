@@ -22,7 +22,7 @@ func setup(for_item: ItemDef) -> void:
 
 func refresh(storage: Storage) -> void:
 	_stock = storage.count(item)
-	_label.text = "%s x%d  (%dc)" % [item.display_name, _stock, item.sell_price]
+	_label.text = "%s x%d  @%d" % [item.display_name, _stock, item.sell_price]
 	_one_button.disabled = _stock <= 0
 	_all_button.disabled = _stock <= 0
 

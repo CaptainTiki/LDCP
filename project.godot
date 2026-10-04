@@ -15,16 +15,19 @@ config/description="Little Dwarven Computer People"
 run/main_scene="res://game/game.tscn"
 run/low_processor_mode=true
 run/max_fps=30
-config/version="proto-0.10.4.8"
+config/version="proto-0.10.4.9"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=300
+window/size/viewport_width=640
+window/size/viewport_height=150
+window/size/window_width_override=1920
+window/size/window_height_override=450
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/stretch/scale_mode="integer"
 
 [editor_plugins]
 
