@@ -6,7 +6,7 @@ extends Resource
 @export var starting_coins: int = 50
 @export var starting_dwarves: int = 3
 @export var starting_stock: Array[ItemStack] = []
-## Food already in a new dwarf's belly, in seconds of work.
+## Food already in a new dwarf's belly, in seconds of actual work.
 @export var starting_food_seconds: float = 90.0
 
 @export_group("Dwarves")

@@ -1,7 +1,8 @@
 class_name Hunger
 extends Node
-## Food is shift length. A meal fills the bar, and when it runs out the dwarf
-## stops for a meal break. Hunger never hurts a dwarf, it only stalls him.
+## Food is shift length. A meal fills the bar, the bar only goes down while
+## the dwarf is actually working, and when it runs out he stops for a meal
+## break. Hunger never hurts a dwarf, it only stalls him.
 
 var seconds_left: float = 0.0
 ## Length of the last meal, so the bar can show a 0..1 ratio.

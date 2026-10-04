@@ -1,7 +1,7 @@
 class_name Thirst
 extends Node
 ## Drink is work rate. A fresh drink starts at its high multiplier and tapers
-## toward its low. With nothing to drink a dwarf still works, at the floor.
+## toward its low as the dwarf works it off. With nothing to drink a dwarf still works, at the floor.
 
 ## Work rate with no drink at all.
 @export var floor_multiplier: float = 0.5

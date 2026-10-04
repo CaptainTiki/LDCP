@@ -33,6 +33,10 @@ func work_on(receiver: WorkReceiver, delta: float) -> void:
 	receiver.apply_work(rate() * delta, get_parent())
 
 
+func did_work_this_tick() -> bool:
+	return _worked_this_tick
+
+
 ## For animation: was the dwarf swinging a tool just now?
 func is_working() -> bool:
 	return _worked_this_tick or _worked_last_tick

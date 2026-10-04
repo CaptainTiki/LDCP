@@ -69,14 +69,17 @@ func activate(cell: Vector2i, given_name: String, given_color: Color, food_secon
 
 func sim_tick(delta: float) -> void:
 	worker.begin_tick()
-	hunger.sim_tick(delta)
-	thirst.sim_tick(delta)
 	var role: DwarfRole = _choose_role()
 	if role != _active_role:
 		if _active_role != null:
 			_active_role.release()
 		_active_role = role
 	role.act(delta)
+	# Food and drink are only used up by work. Walking, climbing, hauling
+	# and idling are free, so a long commute costs time but not the shift.
+	if worker.did_work_this_tick():
+		hunger.sim_tick(delta)
+		thirst.sim_tick(delta)
 	mover.sim_tick(delta)
 
 
