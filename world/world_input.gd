@@ -3,6 +3,9 @@ extends Node
 ## Turns "the player clicked / dragged / dropped a dwarf at this world
 ## position" into the right action. The HUD's WorldArea feeds it positions.
 
+## Any click in the world, for the game log's count of player effort.
+signal player_clicked
+
 var _world: World
 var _tuning: GameTuning
 ## What the current drag last acted on, so each thing is only hit once.
@@ -15,6 +18,7 @@ func setup(world: World, tuning: GameTuning) -> void:
 
 
 func click(world_point: Vector2) -> void:
+	player_clicked.emit()
 	var clickable: Clickable = clickable_at(world_point)
 	_last_dragged = _drag_target(world_point, clickable)
 	if _world.furniture_tool.is_active():

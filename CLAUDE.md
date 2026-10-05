@@ -58,6 +58,7 @@ A desktop idle game in Godot 4.7 (GDScript) that sits in a strip along the botto
   - Most scenes and data were made by these. Change content there and re-run, so regenerating never wipes a change.
   - If a scene gets hand-edited in Godot instead, note it in DECISIONS.md and stop generating that scene.
 - **Art:** `.tools/art/make_ui_art.py` and `make_world_art.py` draw all placeholder art into `assets/` from small character grids (Python + Pillow). Any PNG can be swapped for hand-drawn art without code changes.
+- **Game log:** every game run as the main scene writes `user://logs/game_<date>_<time>.log` (on Windows `%APPDATA%\Godot\app_userdata\LDCP\logs\`): the tuning in play, then events, minute summaries and totals. Read it to see how a playthrough went.
 - **Screenshots:** run Godot (not headless) with `-s .tools/screenshots.gd -- <output folder>` to capture the main views.
 - **Godot imports:** after adding art or resources, run Godot once with `--headless --import`.
 

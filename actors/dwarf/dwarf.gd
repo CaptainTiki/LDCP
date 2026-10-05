@@ -146,6 +146,11 @@ func status_text() -> String:
 	return _roles[assignment.kind()].title()
 
 
+## The job he's been given, whatever he's doing right now.
+func job_title() -> String:
+	return _roles[assignment.kind()].title()
+
+
 ## One-letter job badge for the roster.
 func job_badge() -> String:
 	if meal_break.is_waiting_for_food or meal_break.is_waiting_for_seat:

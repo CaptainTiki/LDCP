@@ -10,6 +10,11 @@
 [ext_resource type="Script" path="res://economy/shop.gd" id="8"]
 [ext_resource type="PackedScene" path="res://world/world.tscn" id="9"]
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="10"]
+[ext_resource type="Script" path="res://game/log/game_log.gd" id="11"]
+[ext_resource type="Script" path="res://game/log/economy_watcher.gd" id="12"]
+[ext_resource type="Script" path="res://game/log/town_watcher.gd" id="13"]
+[ext_resource type="Script" path="res://game/log/mine_watcher.gd" id="14"]
+[ext_resource type="Script" path="res://game/log/crew_watcher.gd" id="15"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1")
@@ -35,3 +40,18 @@ script = ExtResource("8")
 [node name="World" parent="." instance=ExtResource("9")]
 
 [node name="Hud" parent="." instance=ExtResource("10")]
+
+[node name="GameLog" type="Node" parent="."]
+script = ExtResource("11")
+
+[node name="Economy" type="Node" parent="GameLog"]
+script = ExtResource("12")
+
+[node name="Town" type="Node" parent="GameLog"]
+script = ExtResource("13")
+
+[node name="Mine" type="Node" parent="GameLog"]
+script = ExtResource("14")
+
+[node name="Crew" type="Node" parent="GameLog"]
+script = ExtResource("15")

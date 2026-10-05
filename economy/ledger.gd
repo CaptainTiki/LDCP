@@ -25,6 +25,11 @@ func count(key: StringName) -> int:
 	return _counts.get(key, 0)
 
 
+## Every counter so far, for the game log.
+func counters() -> Dictionary[StringName, int]:
+	return _counts.duplicate()
+
+
 func record_harvest(item: ItemDef, amount: int) -> void:
 	_add(HARVESTED, amount)
 	_add(key_for(HARVESTED, item), amount)

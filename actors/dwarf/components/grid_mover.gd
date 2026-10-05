@@ -63,6 +63,11 @@ func travel_to(target: Vector2i) -> bool:
 	return true
 
 
+## Going up or down the shaft, on the ladder or the lift.
+func is_climbing() -> bool:
+	return is_moving() and _path[0].x == cell.x and nav.is_climbable(_path[0])
+
+
 func is_on_lift() -> bool:
 	return is_moving() and _path[0].x == cell.x and nav.is_lift(_path[0])
 

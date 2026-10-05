@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.26`).
+Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.27`).
 
 ## Where we are
 
@@ -47,6 +47,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - Left roster of dwarves. Hovering one shows a card and an arrow over him; clicking jumps the camera to him; the camera toggle makes it follow him.
   - Top bar: coins and food/drink chips, plus a status line.
 - **Art.** Generated placeholder pixel art for everything, with a 5x7 pixel font.
+- **Game log.** Each session writes `user://logs/game_<date>_<time>.log`: the tuning in play, events as they happen, a summary each game minute (including where each dwarf's time went) and totals. See DECISIONS.md.
 
 ### Content (all numbers are placeholders)
 
@@ -104,11 +105,12 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - Format: `proto-major.month.day.build`. The build number counts up and resets to 1 when a new month starts.
 - **Tests:**
   - GUT, in `.tests/`. Run `.tools/run_tests.ps1`, or with Godot headless: `-s addons/gut/gut_cmdln.gd -gdir=res://.tests/unit,res://.tests/integration -gexit`.
-  - 71 tests, all passing.
+  - 75 tests, all passing.
 - **Generators** (in `.tools/`):
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.
 - **Godot path:** `.tools/run_tests.ps1` defaults to a `D:` Steam install. On the other desktop Godot is at `C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\`; pass `-Godot` or set `GODOT`.
+- **Game log:** on Windows the logs are in `%APPDATA%\Godot\app_userdata\LDCP\logs\` (beside Godot's own `godot.log`).
 - **Screenshots:** `.tools/screenshots.gd` captures town, mine, hall, kitchen and brewery views. Run Godot with `-s .tools/screenshots.gd -- <folder>`.
 - **Decision log:** `.tools/DECISIONS.md` has the reasoning behind every call made so far.
 - `.tests/` and `.tools/` are tracked in git, so they travel with the repo. `addons/gut/` is not: install GUT 9.7.1 on a new machine. See `CLAUDE.md`.

@@ -424,14 +424,21 @@ scene("game/game.tscn",
        ext("Resource", "res://data/tuning/catalog.tres", "3"), ext("Script", "res://game/sim_clock.gd", "4"),
        ext("Script", "res://game/game_window.gd", "5"), ext("Script", "res://economy/wallet.gd", "6"),
        ext("Script", "res://economy/unlocks.gd", "7"), ext("Script", "res://economy/shop.gd", "8"),
-       ext("PackedScene", "res://world/world.tscn", "9"), ext("PackedScene", "res://ui/hud.tscn", "10")],
+       ext("PackedScene", "res://world/world.tscn", "9"), ext("PackedScene", "res://ui/hud.tscn", "10"),
+       ext("Script", "res://game/log/game_log.gd", "11"), ext("Script", "res://game/log/economy_watcher.gd", "12"),
+       ext("Script", "res://game/log/town_watcher.gd", "13"), ext("Script", "res://game/log/mine_watcher.gd", "14"),
+       ext("Script", "res://game/log/crew_watcher.gd", "15")],
       [node("Game", "Node", None, [("script", 'ExtResource("1")'), ("tuning", 'ExtResource("2")'),
                                    ("catalog", 'ExtResource("3")')]),
        comp("SimClock", "4"),
        node("GameWindow", "Node", ".", [("script", 'ExtResource("5")'), ("strip_height", 450)]),
        comp("Wallet", "6"), comp("Unlocks", "7"), comp("Shop", "8"),
        node("World", None, ".", [], instance="9"),
-       node("Hud", None, ".", [], instance="10")])
+       node("Hud", None, ".", [], instance="10"),
+       # The game log. Its watchers report in this order each minute.
+       comp("GameLog", "11"),
+       comp("Economy", "12", "GameLog"), comp("Town", "13", "GameLog"),
+       comp("Mine", "14", "GameLog"), comp("Crew", "15", "GameLog")])
 
 if __name__ == "__main__":
     print("scenes written")
