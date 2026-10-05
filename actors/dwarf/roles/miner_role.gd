@@ -60,7 +60,7 @@ func _excavate(delta: float) -> void:
 		_dig_cell = NavGrid.NO_CELL
 		_head = excavation.claim_head(dwarf, dwarf.mover.cell)
 	if _head == null:
-		_nothing_to_dig()
+		_nothing_to_dig(delta)
 		return
 	if not _walk_to(_head.stand_cell):
 		return
@@ -74,12 +74,12 @@ func _excavate(delta: float) -> void:
 
 
 ## Every tunnel is taken and the mine has no room for another. Bring up any
-## ore, then sit it out in the hall.
-func _nothing_to_dig() -> void:
+## ore, then potter about by the mine entrance.
+func _nothing_to_dig(delta: float) -> void:
 	if not dwarf.carrier.is_empty():
 		_haul_to_hall()
 	else:
-		dwarf.idler.sit_out("No tunnel to dig")
+		dwarf.idler.potter("No tunnel to dig", dwarf.world.mine_entrance.door_cell(), delta)
 
 
 ## The assigned node if we can have it, else the one we already hold, else

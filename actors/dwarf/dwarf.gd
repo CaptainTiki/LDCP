@@ -3,7 +3,7 @@ extends Node2D
 ## One dwarf. The behaviour lives in the child components. This script wires
 ## them together and, each tick, decides which role is in charge: a meal
 ## break when the food bar is empty, otherwise the assigned job. A job with
-## nothing at all for him sends him to sit in the hall (Idler).
+## nothing at all for him has him potter about near his workplace (Idler).
 ##
 ## Dwarves are pooled: every dwarf already exists in the world scene, hidden,
 ## and hiring one just activates it.
@@ -121,9 +121,9 @@ func equip_best_tool(storage: Storage) -> void:
 	tool = best
 
 
-## In a chair: eating, waiting for food, or idling.
+## In a chair at the hall, eating or waiting for food.
 func is_sitting() -> bool:
-	return meal_break.is_seated or idler.is_seated
+	return meal_break.is_seated
 
 
 ## One line for the Look tool.

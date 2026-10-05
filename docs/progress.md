@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.28`).
+Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.29`).
 
 ## Where we are
 
@@ -21,7 +21,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Needs.**
   - Food is shift length; drink is work rate (50% floor). Both drain only while working.
   - Dwarves eat sitting in a chair, and wait for a free one if all are taken.
-- **Idling.** A dwarf whose job has nothing at all for him sits in the Great Hall with a "?" over his head. His card says why: no job, nothing sown, no recipe set, missing ingredients, no tunnel to dig. Waiting that sorts itself out (crops growing, a stove cooking) isn't idling. Idlers give up their chair to anyone come to eat.
+- **Idling.** A dwarf whose job has nothing at all for him potters about near his workplace with a "?" over his head: by the mine entrance, inside his kitchen or brewery, among the plots, or outside the Great Hall with no job. His card says why: no job, nothing sown, no recipe set, missing ingredients, no tunnel to dig. Waiting that sorts itself out (crops growing, a stove cooking) isn't idling.
 - **Great Hall.** Furniture (chair, table, long table): placed, moved, turned and removed on a floor grid. Placement can never wall off the room. The game starts with 4 dwarves, 2 tables and 4 chairs, a 3x3 block of 9 farm plots, and 10 gruel and 10 grog.
 - **Stations.**
   - Stove, mash pot, fermenter, smelter and anvil are furniture that makes things.
@@ -71,7 +71,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 ## Next up
 
 1. **Test runs.** Play the opening from a new game and tune pacing: grow times, cook and brew times, unlock milestones, prices, ladder speed. The first run (2026-10-05) halved crop growth, doubled food and drink, and grew the starting farm and pantry; see DECISIONS.md "First playtest".
-   - Open from that run: where idle dwarves go (the user finds the hall a ghost town), and cooks spending a third of their time hauling one ingredient per batch.
+   - Open from that run: cooks spend a third of their time hauling one ingredient per batch (options with the user: stoves hold a few batches, one trip fills every stove, or more cooks).
 2. **Recipes again.**
    - Wheat and radish have no meals yet.
    - Bread would want an oven station.

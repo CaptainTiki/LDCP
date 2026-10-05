@@ -22,13 +22,14 @@ func act(delta: float) -> void:
 	if _plot == null:
 		# Nothing needs doing right now. A good moment to take the crops in,
 		# then wait by his plot while something grows. With nothing sown at
-		# all, only the player can give him work: he sits it out in the hall.
+		# all, only the player can give him work: he potters about the plots.
 		if not dwarf.carrier.is_empty():
 			_haul_to_hall()
 		elif _anything_growing():
 			_wait_by_assigned_plot()
 		else:
-			dwarf.idler.sit_out("Nothing sown")
+			var home: FarmPlot = dwarf.assignment.target as FarmPlot
+			dwarf.idler.potter("Nothing sown", home.work_cell() if home != null else dwarf.mover.cell, delta)
 		return
 	if _must_unload_before_working(_plot):
 		_haul_to_hall()

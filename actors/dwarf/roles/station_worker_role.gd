@@ -39,7 +39,7 @@ func act(delta: float) -> void:
 		if why.is_empty():
 			_walk_to(building.interior.door_cell())  # A batch is on: wait inside.
 		else:
-			dwarf.idler.sit_out(why)
+			dwarf.idler.potter(why, building.interior.door_cell(), delta)
 		return
 	if _station.has_output():
 		if _walk_to(_station.work_cell()):

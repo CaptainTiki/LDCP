@@ -178,7 +178,7 @@ func test_dwarf_dropped_on_an_unsown_plot_becomes_a_farmer() -> void:
 	assert_eq(dwarf.assignment.kind(), JobAssignment.Kind.FARMER)
 	_run_seconds(30)
 	assert_eq(dwarf.status_text(), "Nothing sown", "with nothing sown, he has nothing to do")
-	assert_true(dwarf.is_sitting(), "so he sits it out in the hall")
+	assert_lte(_cells_apart(dwarf.mover.cell, plot.work_cell()), 8, "so he potters about the plots")
 	plot.sow(POTATO_CROP)
 	_run_seconds(30)
 	assert_gt(plot.watered_seconds_left, 0.0, "and gets to it once it's sown")
@@ -951,24 +951,33 @@ func test_follow_mode_sticks_to_a_dwarf_across_views() -> void:
 	assert_eq(world.camera.current_view(), ViewCamera.View.SURFACE, "follow off: the camera stays put")
 
 
-func test_a_dwarf_with_nothing_to_do_sits_in_the_hall_with_a_question_mark() -> void:
+func _cells_apart(a: Vector2i, b: Vector2i) -> int:
+	return maxi(absi(a.x - b.x), absi(a.y - b.y))
+
+
+func test_a_dwarf_with_no_job_potters_outside_the_hall_with_a_question_mark() -> void:
 	var dwarf: Dwarf = _dwarf(0)
-	_run_seconds(40)
-	assert_eq(world.interiors.room_at(dwarf.mover.cell), world.hall.interior, "an unassigned dwarf goes to the hall")
-	assert_true(dwarf.is_sitting(), "and takes a chair")
+	_run_seconds(30)
+	assert_true(world.surface.contains_cell(dwarf.mover.cell), "out in town, not shut in the hall")
+	assert_lte(_cells_apart(dwarf.mover.cell, world.hall.door_cell()), 8, "near the hall")
 	assert_eq(dwarf.status_text(), "No job", "his card says why")
 	assert_eq(dwarf.job_badge(), "?")
 	await wait_process_frames(2)
 	assert_true((dwarf.get_node("Visual/IdleMark") as Sprite2D).visible, "a ? over his head")
+	var visited: Dictionary[Vector2i, bool] = {}
+	for i: int in 30:
+		_run_seconds(1)
+		visited[dwarf.mover.cell] = true
+	assert_gt(visited.size(), 2, "pottering about, not standing still")
 	dwarf.assignment.assign(_plot(0))
 	_plot(0).sow(POTATO_CROP)
 	_run_seconds(1)
-	assert_false(dwarf.idler.is_idle(), "given work, he gets up")
+	assert_false(dwarf.idler.is_idle(), "given work, he gets to it")
 	await wait_process_frames(2)
 	assert_false((dwarf.get_node("Visual/IdleMark") as Sprite2D).visible)
 
 
-func test_cooks_with_no_recipe_or_ingredients_sit_out_in_the_hall() -> void:
+func test_cooks_with_no_recipe_or_ingredients_wait_in_their_kitchen() -> void:
 	_nobody_gets_hungry()
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
@@ -976,7 +985,7 @@ func test_cooks_with_no_recipe_or_ingredients_sit_out_in_the_hall() -> void:
 	cook.assignment.assign(kitchen)
 	_run_seconds(40)
 	assert_eq(cook.status_text(), "No recipe set")
-	assert_eq(world.interiors.room_at(cook.mover.cell), world.hall.interior)
+	assert_eq(world.interiors.room_at(cook.mover.cell), kitchen.interior, "he stays in, so you can see he's the cook")
 	stove.select_recipe(STEW_RECIPE)
 	_run_seconds(1)
 	assert_eq(cook.status_text(), "Missing ingredients", "a recipe but no potatoes")
@@ -986,28 +995,17 @@ func test_cooks_with_no_recipe_or_ingredients_sit_out_in_the_hall() -> void:
 	assert_ne(stove.state, Workstation.State.IDLE)
 
 
-func test_an_idler_gives_up_his_chair_to_someone_come_to_eat() -> void:
-	var room: BuildingInterior = world.hall.interior
-	var chairs: int = 0
-	for piece: Furniture in room.furniture():
-		if piece.def.is_seat:
-			chairs += 1
-			if chairs > 1:
-				room.remove_furniture(piece)
-	var idler: Dwarf = _dwarf(0)
-	var eater: Dwarf = _dwarf(1)
-	_nobody_gets_hungry()
-	# Everyone else farms, so the idler has the one chair to himself.
-	_plot(0).sow(POTATO_CROP)
-	for i: int in range(1, world.dwarves.active_count()):
-		_dwarf(i).assignment.assign(_plot(0))
+func test_a_miner_with_nowhere_to_dig_waits_by_the_mine_entrance() -> void:
+	# Other miners have every tunnel end, and the shaft is too short for a new one.
+	var excavation: Excavation = world.mine_level.excavation
+	while excavation.claim_head(autofree(Node.new()), world.mine_level.landing_cell()) != null:
+		pass
+	var miner: Dwarf = _dwarf(0)
+	miner.assignment.assign(world.mine_entrance)
 	_run_seconds(40)
-	assert_true(idler.is_sitting(), "the one chair goes to the idler")
-	storage.add(STEW, 1)
-	eater.hunger.fill(0.0)
-	_run_seconds(40)
-	assert_false(eater.hunger.is_empty(), "the hungry dwarf got the chair and ate")
-	assert_true(idler.idler.is_idle(), "the idler is still idle")
+	assert_eq(miner.status_text(), "No tunnel to dig")
+	assert_true(world.surface.contains_cell(miner.mover.cell), "up in town")
+	assert_lte(_cells_apart(miner.mover.cell, world.mine_entrance.door_cell()), 8, "by the mine entrance")
 
 
 func test_spare_miners_dig_the_shaft_deeper_and_branch_off_it() -> void:
