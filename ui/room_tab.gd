@@ -26,6 +26,7 @@ var _shown_station: Workstation = null
 @onready var _right_stock: GridContainer = $Column/Stock/Drinks
 @onready var _station_panel: VBoxContainer = $Column/Station
 @onready var _station_title: Label = $Column/Station/Title
+@onready var _station_status: Label = $Column/Station/Status
 @onready var _recipes: GridContainer = $Column/Station/Recipes
 
 
@@ -171,6 +172,7 @@ func _refresh_station() -> void:
 	if station == null:
 		return
 	_station_title.text = station.def.display_name
+	_station_status.text = station.status_text()
 	for child: Node in _recipes.get_children():
 		(child as RecipeSlot).refresh(station, _game.world.hall.storage)
 

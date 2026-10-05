@@ -642,6 +642,23 @@ func _click_station(station: Workstation) -> void:
 	world.input.click(station.global_position + Vector2(8, 8))
 
 
+func test_a_recipe_can_be_picked_before_its_ingredients_exist() -> void:
+	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
+	var stove: Workstation = kitchen.workstations()[0]
+	assert_eq(storage.count(POTATO), 0)
+	var slot: RecipeSlot = add_child_autofree((load("res://ui/recipe_slot.tscn") as PackedScene).instantiate()) as RecipeSlot
+	slot.setup(GRUEL_RECIPE)
+	slot.refresh(stove, storage)
+	assert_false(slot.disabled, "no potatoes yet, but gruel can still be picked")
+	assert_eq((slot.get_node("Margin/Row/In1Count") as Label).modulate, RecipeSlot.SHORT_COLOR, "the missing potato shows in red")
+	stove.select_recipe(GRUEL_RECIPE)
+	assert_eq(stove.status_text(), "Gruel, waiting for 1 Potato", "the stove says what it's waiting for")
+	storage.add(POTATO, 1)
+	slot.refresh(stove, storage)
+	assert_eq((slot.get_node("Margin/Row/In1Count") as Label).modulate, Color.WHITE)
+	assert_string_contains(stove.status_text(), "click to load")
+
+
 func test_player_cooks_by_picking_a_recipe_and_clicking() -> void:
 	storage.add(POTATO, 2)
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building

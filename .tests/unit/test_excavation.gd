@@ -67,9 +67,10 @@ func _dig_everything(miner_count: int) -> int:
 	return cells_dug
 
 
-## Digs out the head's current column (or shaft cell) in one go.
+## Digs out the head's current column (or shaft cell) in one go. Finishing
+## it plans the next, so only the cells pending now.
 func _finish(head: DigHead) -> void:
-	while not head.pending.is_empty():
+	for i: int in head.pending.size():
 		excavation.finish_dig_cell(head)
 
 
@@ -159,3 +160,25 @@ func test_branches_keep_their_distance() -> void:
 				solid_run = 0
 			elif solid_run >= 0:
 				solid_run += 1
+
+
+func test_a_slope_blocked_by_the_surface_is_given_up() -> void:
+	def = LEVEL_DEF.duplicate()
+	def.straight_start_columns = 0
+	def.slope_chance = 1.0  # A new slope the moment the last one is over.
+	def.fork_chance = 0.0
+	excavation.setup(terrain, def, bounds, shaft)
+	# A tunnel end as high as feet can go: a slope up from here is blocked.
+	var top: int = bounds.position.y + 2
+	var start := Vector2i(40, top)
+	terrain.set_cell(start, Terrain.Cell.AIR)
+	terrain.set_cell(start + Vector2i.UP, Terrain.Cell.AIR)
+	excavation.add_head(start, -1)
+	var head: DigHead = excavation.claim_head(autofree(Node.new()), start)
+	var changes: int = 0
+	for column: int in 20:
+		var before: int = head.stand_cell.y
+		_finish(head)
+		if head.stand_cell.y != before:
+			changes += 1
+	assert_gte(changes, 5, "it keeps wandering instead of running dead straight under the grass")

@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.30`).
+Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.31`).
 
 ## Where we are
 
@@ -88,7 +88,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - `docs/GDD.md` still describes the original side-view town and needs updating to match what's built.
 - **Mine:**
   - Once the copper layer has no room left for a tunnel, spare miners sit in the hall ("No tunnel to dig").
-  - Miners prefer found ore nodes to digging, so digging stalls once there's a node per miner.
+  - Miners prefer found ore nodes to digging and nodes never run out, so digging stops once there's a node per miner (with 3 miners, by about minute 10).
   - There are no gems, and no wider tunnel pockets.
 - **Town:** nothing stops the player fencing off part of the town with a wall of buildings.
 - **Stations:** non-square stations would need rotation-aware click areas (all stations are 2x2 today).
@@ -106,7 +106,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - Format: `proto-major.month.day.build`. The build number counts up and resets to 1 when a new month starts.
 - **Tests:**
   - GUT, in `.tests/`. Run `.tools/run_tests.ps1`, or with Godot headless: `-s addons/gut/gut_cmdln.gd -gdir=res://.tests/unit,res://.tests/integration -gexit`.
-  - 75 tests, all passing.
+  - 78 tests, all passing.
 - **Generators** (in `.tools/`):
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.

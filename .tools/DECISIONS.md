@@ -270,3 +270,18 @@ Changes (user's calls, unless noted):
 - If meals end up lasting around 5 minutes, moods could slow a dwarf's work by the quality of his food, on top of the drink's boost.
 
 **The game log counts what's eaten and drunk.** Each minute ("Eaten and drunk: 3 Gruel, 2 Grog") and in the totals, with each dwarf's meal count and how often he came in to eat (from his first meal to his last). `Hunger.ate` and `Thirst.drank` signals feed it.
+
+## Second playtest (2026-10-05)
+
+A 45-minute run, mostly left alone (`game_2026-10-05_12-20-32.log`).
+- Food now lasts as meant: miners came in for gruel every 5:00 to 5:27. The starting 10 gruel and 10 grog ran out at 20:27; after that miners spent about half the game waiting for food.
+- The kitchen never cooked. It was built at 0:28, but recipe buttons were greyed out until the hall held the ingredients, so no recipe was ever set; 28 potatoes sat in the hall.
+- The farmer was idle 39 minutes ("Nothing sown"), as expected with no replanting.
+- Mining: 429 cells dug, 86 ore, 438 coins from selling it. The tunnels ran dead straight and never forked.
+
+Fixes:
+- **Recipes can be picked before the ingredients exist.** The station waits ("Gruel, waiting for 1 Potato") and its cook shows "Missing ingredients". On the recipe button, an ingredient the hall is short of shows its count in red, and the tooltip says the station will wait. Only mash-fed stations (fermenters) keep their recipes greyed out. The station panel in the room tab now has a status line under the station's name (`Workstation.status_text()`), the same text the Look tool shows.
+- **Tunnelling bug: a blocked slope was never given up.** A tunnel that started sloping up and hit the surface kept its slope pending forever, and a pending slope blocks both new slopes and forks, so the tunnel ran flat to the edge of the level. Now a slope ends as soon as a column can't follow it (the surface, a deposit in the way).
+- **Tunnels wander more** (my call, data in `level_1.tres`): slope chance 10% to 20% a column, fork chance 4% to 6%, and forking stops at 8 tunnel ends instead of 5, no longer counting the shaft itself.
+
+Seen while checking, not changed: miners always prefer a found deposit to digging, and deposits never run out. In a 45-minute replay with 3 miners all three deposits were found by minute 10, and from then on nobody dug. The mine only grows if there are more miners than deposits.

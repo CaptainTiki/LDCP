@@ -272,7 +272,7 @@ tres("data/mine/level_1.tres", "MineLevelDef", "mine_level_def.gd", [
     ("size_cells", "Vector2i(256, 36)"), ("landing_row", 4), ("landing_half_width", 2),
     ("noise_seed", 7), ("dirt_rows", 6), ("dirt_edge_rows", 2.5), ("dirt_work", 2.0), ("rock_work", 5.0),
     ("straight_start_columns", 6), ("branch_straight_columns", 2), ("branch_gap_rows", 3),
-    ("slope_chance", 0.1), ("fork_chance", 0.04), ("max_heads", 5)])
+    ("slope_chance", 0.2), ("fork_chance", 0.06), ("max_heads", 8)])
 
 # --- Names -----------------------------------------------------------------
 starts = ["Ur", "Bal", "Dur", "Thor", "Gim", "Bom", "Dwal", "Kil", "Nor", "Bru", "Hild", "Dag", "Tov", "Brun", "Ost"]

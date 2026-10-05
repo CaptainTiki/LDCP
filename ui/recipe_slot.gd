@@ -2,10 +2,15 @@ class_name RecipeSlot
 extends Button
 ## One recipe in the room tab: what goes in (one or two ingredients), an
 ## arrow, what comes out. Pick it to set the selected station making it.
+## A recipe can be picked before its ingredients exist: the station waits.
+## Ingredients the hall is short of show in red.
 
 signal chosen(recipe: RecipeDef)
 
+const SHORT_COLOR: Color = Color(1.0, 0.45, 0.4)
+
 var recipe: RecipeDef
+var _tooltip: String = ""
 
 @onready var _in_icons: Array[TextureRect] = [$Margin/Row/In1Icon as TextureRect, $Margin/Row/In2Icon as TextureRect]
 @onready var _in_counts: Array[Label] = [$Margin/Row/In1Count as Label, $Margin/Row/In2Count as Label]
@@ -24,19 +29,23 @@ func setup(for_recipe: RecipeDef) -> void:
 			_in_counts[i].text = str(recipe.inputs[i].count)
 	_out_icon.texture = recipe.output.icon
 	_out_count.text = str(recipe.output_count)
-	tooltip_text = "%s\n%s makes %d %s\n%d seconds" % [recipe.display_name, recipe.describe_inputs(),
+	_tooltip = "%s\n%s makes %d %s\n%d seconds" % [recipe.display_name, recipe.describe_inputs(),
 			recipe.output_count, recipe.output.display_name, roundi(recipe.process_seconds)]
+	tooltip_text = _tooltip
 
 
-## Pressed when the station is making this; greyed out when it can't be
-## chosen (not enough in the hall, or the station takes poured mash).
+## Pressed when the station is making this; greyed out only when the
+## station takes poured mash instead.
 func refresh(station: Workstation, storage: Storage) -> void:
 	set_pressed_no_signal(station.recipe == recipe and not station.is_idle())
+	disabled = station.is_fed_by_station()
 	var short: bool = false
-	for stack: ItemStack in recipe.inputs:
-		if storage.count(stack.item) < stack.count:
-			short = true
-	disabled = station.is_fed_by_station() or short
+	for i: int in recipe.inputs.size():
+		var stack: ItemStack = recipe.inputs[i]
+		var is_short: bool = storage.count(stack.item) < stack.count
+		_in_counts[i].modulate = SHORT_COLOR if is_short else Color.WHITE
+		short = short or is_short
+	tooltip_text = _tooltip + ("\nNot enough in the hall yet: the station will wait" if short else "")
 
 
 func _pressed() -> void:

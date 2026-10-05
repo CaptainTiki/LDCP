@@ -12,7 +12,7 @@ config_version=5
 
 config/name="LDCP"
 config/description="Little Dwarven Computer People"
-config/version="proto-0.10.5.30"
+config/version="proto-0.10.5.31"
 run/main_scene="res://game/game.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=30

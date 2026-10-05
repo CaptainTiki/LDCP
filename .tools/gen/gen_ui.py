@@ -413,6 +413,9 @@ hud_nodes = [
     grid(PG + "/Room/Column").replace('name="Grid"', 'name="Tools"'),
     node("Station", "VBoxContainer", PG + "/Room/Column", [("visible", "false"), ("theme_override_constants/separation", 1)]),
     node("Title", "Label", PG + "/Room/Column/Station"),
+    # What the station is doing or waiting for, e.g. "Gruel, waiting for 1 Potato".
+    node("Status", "Label", PG + "/Room/Column/Station", [("autowrap_mode", 3), ("custom_minimum_size", "Vector2(100, 0)"),
+         ("theme_override_colors/font_color", "Color(0.85, 0.8, 0.7, 1)")]),
     node("Recipes", "GridContainer", PG + "/Room/Column/Station", [H_EXPAND, ("columns", 2),
          ("theme_override_constants/h_separation", 1), ("theme_override_constants/v_separation", 1)]),
     node("Stock", "HBoxContainer", PG + "/Room/Column", [("theme_override_constants/separation", 1)]),

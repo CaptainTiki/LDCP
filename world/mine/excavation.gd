@@ -128,8 +128,10 @@ func _complete_column(head: DigHead) -> void:
 		head.stand_cell = Vector2i(column, head.stand_cell.y + head.step)
 		if head.step != 0:
 			_terrain.add_plank(head.stand_cell)
-			if head.step == head.slope_dir:
-				head.slope_steps_left -= 1
+		if head.slope_steps_left > 0:
+			# A slope that couldn't go on (the surface, a deposit in the way) is
+			# over. Left pending, it would block new slopes and forks for good.
+			head.slope_steps_left = head.slope_steps_left - 1 if head.step == head.slope_dir else 0
 		head.straight_left = maxi(0, head.straight_left - 1)
 	if not _plan(head):
 		_retire(head)
@@ -174,7 +176,15 @@ func _plan(head: DigHead) -> bool:
 func _wants_fork(head: DigHead) -> bool:
 	if head.straight_left > 0 or head.slope_steps_left > 0:
 		return false
-	return _heads.size() < _def.max_heads and _rng.randf() < _def.fork_chance
+	return _tunnel_count() < _def.max_heads and _rng.randf() < _def.fork_chance
+
+
+func _tunnel_count() -> int:
+	var count: int = 0
+	for head: DigHead in _heads:
+		if not head.is_shaft:
+			count += 1
+	return count
 
 
 ## Steps to try, most wanted first: -1 up, 0 flat, 1 down.

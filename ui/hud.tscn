@@ -478,6 +478,11 @@ theme_override_constants/separation = 1
 
 [node name="Title" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Room/Column/Station"]
 
+[node name="Status" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Room/Column/Station"]
+autowrap_mode = 3
+custom_minimum_size = Vector2(100, 0)
+theme_override_colors/font_color = Color(0.85, 0.8, 0.7, 1)
+
 [node name="Recipes" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Room/Column/Station"]
 size_flags_horizontal = 3
 columns = 2

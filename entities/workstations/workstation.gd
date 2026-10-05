@@ -224,21 +224,33 @@ func sim_tick(delta: float) -> void:
 
 ## A line of text for the Look tool and the top bar.
 func describe() -> String:
-	var name_text: String = def.display_name
+	return "%s: %s" % [def.display_name, status_text()]
+
+
+## What the station is up to, or waiting for, in a few words.
+func status_text() -> String:
 	match state:
 		State.IDLE:
-			if is_fed_by_station():
-				return "%s: empty, pour in some mash" % name_text
-			return "%s: pick a recipe" % name_text
+			return "empty, pour in some mash" if is_fed_by_station() else "pick a recipe"
 		State.LOADING:
 			if can_load_by_hand():
-				return "%s: %s, click to load (%d%%)" % [name_text, recipe.display_name, roundi(receiver.ratio() * 100.0)]
+				return "%s, click to load (%d%%)" % [recipe.display_name, roundi(receiver.ratio() * 100.0)]
 			if is_fed_by_station():
-				return "%s: %s, waiting for mash" % [name_text, recipe.display_name]
-			return "%s: %s, needs %s" % [name_text, recipe.display_name, recipe.describe_inputs()]
+				return "%s, waiting for mash" % recipe.display_name
+			return "%s, waiting for %s" % [recipe.display_name, _missing_text()]
 		State.PROCESSING:
-			return "%s: making %s, %ds to go" % [name_text, recipe.display_name, ceili(_seconds_left)]
-	return "%s: %d %s ready" % [name_text, recipe.output_count, recipe.output.display_name]
+			return "making %s, %ds to go" % [recipe.display_name, ceili(_seconds_left)]
+	return "%d %s ready" % [recipe.output_count, recipe.output.display_name]
+
+
+## The ingredients the hall can't supply yet, e.g. "1 Potato".
+func _missing_text() -> String:
+	var parts: PackedStringArray = []
+	for stack: ItemStack in recipe.inputs:
+		var wanted: int = still_needs(stack.item)
+		if wanted > _hall_storage.count(stack.item):
+			parts.append("%d %s" % [wanted, stack.item.display_name])
+	return ", ".join(parts) if not parts.is_empty() else "a cook"
 
 
 func _process(delta: float) -> void:

@@ -29,5 +29,5 @@ extends Resource
 @export_range(0.0, 1.0) var slope_chance: float = 0.1
 ## Chance per column that a tunnel forks into an upper and a lower branch.
 @export_range(0.0, 1.0) var fork_chance: float = 0.04
-## Forking stops once this many tunnel ends are active.
+## Forking stops once this many tunnel ends are active (the shaft not counted).
 @export var max_heads: int = 5
