@@ -104,4 +104,4 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py`. Any PNG in `assets/` can be replaced by hand.
 - **Screenshots:** `.tools/screenshots.gd` captures town, mine, hall, kitchen and brewery views. Run Godot with `-s .tools/screenshots.gd -- <folder>`.
 - **Decision log:** `.tools/DECISIONS.md` has the reasoning behind every call made so far.
-- **Note:** `.tests/` and `.tools/` are git-ignored, so tests, generators and the decision log live only on this machine. Worth deciding whether to track them.
+- `.tests/` and `.tools/` are tracked in git, so they travel with the repo. `addons/gut/` is not: install GUT 9.7.1 on a new machine. See `CLAUDE.md`.

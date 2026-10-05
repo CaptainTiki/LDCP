@@ -4,6 +4,3 @@
 
 addons/gut/
 
-# Dev-only folders (tests, tooling, notes)
-.tests/
-.tools/
