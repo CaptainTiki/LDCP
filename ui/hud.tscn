@@ -42,6 +42,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/turn.png" id="48"]
 [ext_resource type="PackedScene" path="res://ui/recipe_slot.tscn" id="49"]
 [ext_resource type="Script" path="res://ui/dwarf_card.gd" id="50"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/camera.png" id="51"]
 
 [sub_resource type="StyleBoxFlat" id="bar_back"]
 bg_color = Color(0.12, 0.1, 0.09, 1)
@@ -222,6 +223,12 @@ mouse_filter = 2
 [node name="ViewButtons" type="HBoxContainer" parent="Root/Layout/Middle/TopBar"]
 script = ExtResource("8")
 theme_override_constants/separation = 1
+
+[node name="FollowButton" type="Button" parent="Root/Layout/Middle/TopBar/ViewButtons"]
+text = ""
+toggle_mode = true
+icon = ExtResource("51")
+tooltip_text = "Follow: the camera sticks to the dwarf you click in the roster"
 
 [node name="SurfaceButton" type="Button" parent="Root/Layout/Middle/TopBar/ViewButtons"]
 text = "Town"

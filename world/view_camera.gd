@@ -4,6 +4,9 @@ extends Camera2D
 ## town (top-down), the mine (side-on) and one building's interior
 ## (top-down). The town and the mine can each be panned within their own
 ## bounds. You never scroll from one into another.
+##
+## In follow mode the camera sticks to the dwarf last jumped to, keeping him
+## centred and changing view as he goes down the shaft or through a door.
 
 signal view_changed
 
@@ -19,6 +22,10 @@ var _world: World
 var _outdoor_view: View = View.SURFACE
 ## Where the camera was last looking in each outdoor view.
 var _saved_positions: Dictionary[View, Vector2] = {}
+## Follow mode is on: stay with `_followed`.
+var follow_enabled: bool = false
+## The dwarf last jumped to; the one follow mode sticks to.
+var _followed: Dwarf = null
 
 
 func setup(world: World) -> void:
@@ -31,9 +38,16 @@ func setup(world: World) -> void:
 
 
 func _process(delta: float) -> void:
+	if follow_enabled and _followed != null and _followed.is_active:
+		_keep_up_with(_followed)
+		return
 	var direction := Vector2(Input.get_axis(&"ui_left", &"ui_right"), Input.get_axis(&"ui_up", &"ui_down"))
 	if direction != Vector2.ZERO:
 		pan(direction * key_pan_speed * delta)
+
+
+func set_follow(enabled: bool) -> void:
+	follow_enabled = enabled
 
 
 func current_view() -> View:
@@ -58,6 +72,7 @@ func show_interior(building: Building) -> void:
 ## Jumps to wherever the dwarf is: into the room he's in, or to the town or
 ## the mine, centred on him.
 func show_dwarf(dwarf: Dwarf) -> void:
+	_followed = dwarf
 	var room: BuildingInterior = _world.interiors.room_at(dwarf.mover.cell)
 	if room != null:
 		show_interior(room.building)
@@ -68,6 +83,21 @@ func show_dwarf(dwarf: Dwarf) -> void:
 		show_mine()
 	# His simulated spot: the drawn one only catches up on the next frame.
 	position = dwarf.mover.position
+	_clamp_to_view()
+
+
+## Follow mode: switch view whenever he moves into another place, and keep
+## him centred (outdoors; rooms are shown whole).
+func _keep_up_with(dwarf: Dwarf) -> void:
+	var room: BuildingInterior = _world.interiors.room_at(dwarf.mover.cell)
+	if room != null:
+		if interior_building != room.building:
+			show_interior(room.building)
+		return
+	var view: View = View.SURFACE if _world.surface.contains_cell(dwarf.mover.cell) else View.MINE
+	if current_view() != view:
+		show_dwarf(dwarf)
+	position = dwarf.position
 	_clamp_to_view()
 
 
