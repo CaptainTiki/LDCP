@@ -282,8 +282,8 @@ func test_brewery_needs_unlocking_then_brews_ale() -> void:
 	assert_false(game.unlocks.is_unlocked(BREWERY))
 	game.wallet.earn(500)
 	assert_false(game.shop.unlock_building(BREWERY), "coins alone aren't enough")
-	world.ledger.record_harvest(BARLEY, 20)
-	assert_true(game.shop.unlock_building(BREWERY), "harvest 20 barley, then trade")
+	world.ledger.record_made(STEW, 10)
+	assert_true(game.shop.unlock_building(BREWERY), "cook 10 meals, then trade")
 	_nobody_gets_hungry()
 	storage.add(BARLEY, 3)
 	var brewery: Building = world.surface.build(BREWERY, Vector2i(40, 1)) as Building

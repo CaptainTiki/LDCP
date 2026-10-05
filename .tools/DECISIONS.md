@@ -285,3 +285,12 @@ Fixes:
 - **Tunnels wander more** (my call, data in `level_1.tres`): slope chance 10% to 20% a column, fork chance 4% to 6%, and forking stops at 8 tunnel ends instead of 5, no longer counting the shaft itself.
 
 Seen while checking, not changed: miners always prefer a found deposit to digging, and deposits never run out. In a 45-minute replay with 3 miners all three deposits were found by minute 10, and from then on nobody dug. The mine only grows if there are more miners than deposits.
+
+## Third playtest (2026-10-05)
+
+Two logs: an 80-minute run left alone after the first minute (`game_2026-10-05_14-02-10.log`, 14 clicks, no cook assigned, so nothing was cooked and miners went hungry from 19:26), and a 32-minute run played (`game_2026-10-05_15-22-37.log`).
+- The player came in every 7 to 10 minutes (bursts of 10 to 39 clicks, almost all re-sowing a farm that grew to 36 plots) and was idle in between. But each sowing kept the farm busy only 3 to 6 minutes, so the farmer went "Nothing sown" well before the next visit and plots sat empty 49% of the game. The town spends most of its time stalled waiting for the player, which reads as "always being asked to interact". Not changed yet; options are with the user.
+- Drinks ran out at 14:36 and never came back: the brewery needed 20 barley harvested, and nobody grows barley before there's a brewery to use it.
+- Stew lasted about 8.5 minutes between meals for a miner; 33 meals in 32 minutes; the smeltery ran from 16:28.
+
+**The brewery unlocks by cooking 10 meals, then 60 coins** (user's call to move it off barley; the counter is my pick from their list of potatoes, meals or ore). Its first drink, grog, is brewed from potatoes, so it's useful the moment it's built. At the played run's pace it lands around minute 15, as the starting grog runs out. Onion stays at 15 meals.

@@ -242,7 +242,7 @@ building("mine_entrance", "Mine Entrance", (2, 2), buildable=False, can_destroy=
 building("farm_plot", "Farm Plot", (1, 1), "res://entities/farm_plot/farm_plot.tscn", cost=3, blocks=False)
 building("kitchen", "Kitchen", (3, 2), "res://entities/buildings/kitchen.tscn", cost=30, stations=["stove"], door=2)
 building("brewery", "Brewery", (3, 2), "res://entities/buildings/brewery.tscn", cost=40,
-         unlock=("harvested:barley", 20, "Harvest barley", 60),
+         unlock=("meals_made", 10, "Cook meals", 60),
          stations=["mash_pot", "fermenter"], door=2)
 # Metal: the first trades that cost goods as well as coins.
 building("smeltery", "Smeltery", (3, 2), "res://entities/buildings/smeltery.tscn", cost=50,

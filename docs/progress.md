@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.31`).
+Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.32`).
 
 ## Where we are
 
@@ -64,7 +64,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Buildings:**
   - Great Hall and mine entrance: placed at start.
   - Kitchen: no unlock.
-  - Brewery: harvest 20 barley, then 60 coins.
+  - Brewery: cook 10 meals, then 60 coins.
   - Smeltery: mine 15 ore, then 80 coins + 5 ore.
   - Forge: smelt 5 ingots, then 50 coins + 3 ingots.
 

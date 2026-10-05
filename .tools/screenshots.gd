@@ -52,7 +52,7 @@ func _run() -> void:
 	await _shot("surface_later")
 	world.camera.show_interior(kitchen)
 	await _shot("kitchen")
-	world.ledger.record_harvest(load("res://data/items/barley.tres") as ItemDef, 20)
+	world.ledger.record_made(load("res://data/items/stew.tres") as ItemDef, 10)
 	game.unlocks.trade(load("res://data/buildings/brewery.tres") as BuildingDef)
 	var brewery: Building = world.surface.build(load("res://data/buildings/brewery.tres") as BuildingDef, Vector2i(40, 2)) as Building
 	world.hall.storage.add(load("res://data/items/barley.tres") as ItemDef, 6)

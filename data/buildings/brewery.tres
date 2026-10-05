@@ -9,9 +9,9 @@
 
 [sub_resource type="Resource" id="unlock"]
 script = ExtResource("6")
-counter = &"harvested:barley"
-needed = 20
-label = "Harvest barley"
+counter = &"meals_made"
+needed = 10
+label = "Cook meals"
 coins = 60
 
 [resource]
