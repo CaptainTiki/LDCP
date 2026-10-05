@@ -1,0 +1,1480 @@
+LDCP game log
+Version proto-0.10.5.31, started 2026-10-05 14:02:10.
+Times are game time (h:mm:ss). Shares are of game time.
+
+== Tuning ==
+Game: starting_coins=50 starting_dwarves=4 starting_stock=[10 Gruel, 10 Grog] starting_food_seconds=180.0 walk_speed=24.0 ladder_speed=8.0 lift_speed=64.0 base_work_rate=1.0 carry_capacity=5 eat_seconds=4.0 manual_work_per_click=0.5 hand_capacity=50 hire_cost=40 hire_cost_growth=20 lift_cost=150
+Mine level 1: size_cells=(256, 36) landing_row=4 landing_half_width=2 noise_seed=7 dirt_rows=6 dirt_edge_rows=2.5 dirt_work=2.0 rock_work=5.0 straight_start_columns=6 branch_straight_columns=2 branch_gap_rows=3 slope_chance=0.2 fork_chance=0.06 max_heads=8
+
+== Crops ==
+Potato: produce=Potato yield_count=2 seed_cost=1 unlock=- water_work=1.0 harvest_work=1.5 grow_seconds=90.0 watered_seconds=30.0
+Barley: produce=Barley yield_count=2 seed_cost=1 unlock=- water_work=1.0 harvest_work=1.5 grow_seconds=120.0 watered_seconds=30.0
+Carrot: produce=Carrot yield_count=2 seed_cost=1 unlock=(harvested 20, then 15 coins) water_work=1.0 harvest_work=1.5 grow_seconds=60.0 watered_seconds=30.0
+Onion: produce=Onion yield_count=2 seed_cost=1 unlock=(meals_made 15, then 30 coins) water_work=1.0 harvest_work=1.5 grow_seconds=150.0 watered_seconds=30.0
+Radish: produce=Radish yield_count=2 seed_cost=1 unlock=(harvested 40, then 25 coins) water_work=1.0 harvest_work=1.5 grow_seconds=70.0 watered_seconds=30.0
+Wheat: produce=Wheat yield_count=2 seed_cost=1 unlock=(drinks_made 10, then 40 coins) water_work=1.0 harvest_work=1.5 grow_seconds=120.0 watered_seconds=30.0
+
+== Items ==
+Potato: sell_price=1 buy_price=0
+Barley: sell_price=1 buy_price=0
+Carrot: sell_price=1 buy_price=0
+Onion: sell_price=2 buy_price=0
+Radish: sell_price=1 buy_price=0
+Wheat: sell_price=1 buy_price=0
+Gruel: shift_seconds=180.0 sell_price=0 buy_price=4
+Roast carrots: shift_seconds=400.0 sell_price=2 buy_price=0
+Stew: shift_seconds=600.0 sell_price=3 buy_price=0
+Onion soup: shift_seconds=960.0 sell_price=4 buy_price=0
+Grog: low_multiplier=0.5 high_multiplier=0.75 duration_seconds=180.0 sell_price=0 buy_price=3
+Ale: low_multiplier=0.5 high_multiplier=1.0 duration_seconds=360.0 sell_price=4 buy_price=0
+Wheat beer: low_multiplier=0.5 high_multiplier=0.9 duration_seconds=480.0 sell_price=4 buy_price=0
+Radish spirit: low_multiplier=0.5 high_multiplier=1.15 duration_seconds=120.0 sell_price=5 buy_price=0
+Aged Mushroom Cap Cognac: low_multiplier=0.5 high_multiplier=1.5 duration_seconds=1800.0 sell_price=0 buy_price=0
+Copper Ore: sell_price=5 buy_price=0
+Copper ingot: sell_price=20 buy_price=0
+Copper pick: job=Miner work_multiplier=1.5 sell_price=30 buy_price=0
+Copper sickle: job=Farmer work_multiplier=1.5 sell_price=30 buy_price=0
+Potato mash: sell_price=0 buy_price=0
+Barley mash: sell_price=0 buy_price=0
+Wheat mash: sell_price=0 buy_price=0
+Radish mash: sell_price=0 buy_price=0
+
+== Recipes ==
+Gruel: inputs=[1 Potato] output=Gruel output_count=1 load_work=5.0 process_seconds=20.0
+Roast carrots: inputs=[2 Carrot] output=Roast carrots output_count=1 load_work=5.0 process_seconds=30.0
+Stew: inputs=[2 Potato] output=Stew output_count=1 load_work=5.0 process_seconds=60.0
+Onion soup: inputs=[1 Onion, 2 Potato] output=Onion soup output_count=1 load_work=6.0 process_seconds=90.0
+Potato mash: inputs=[2 Potato] output=Potato mash output_count=1 load_work=5.0 process_seconds=20.0
+Barley mash: inputs=[3 Barley] output=Barley mash output_count=1 load_work=5.0 process_seconds=30.0
+Wheat mash: inputs=[3 Wheat] output=Wheat mash output_count=1 load_work=5.0 process_seconds=30.0
+Radish mash: inputs=[3 Radish] output=Radish mash output_count=1 load_work=5.0 process_seconds=25.0
+Grog: inputs=[1 Potato mash] output=Grog output_count=4 load_work=4.0 process_seconds=90.0
+Ale: inputs=[1 Barley mash] output=Ale output_count=4 load_work=4.0 process_seconds=180.0
+Wheat beer: inputs=[1 Wheat mash] output=Wheat beer output_count=4 load_work=4.0 process_seconds=150.0
+Radish spirit: inputs=[1 Radish mash] output=Radish spirit output_count=3 load_work=4.0 process_seconds=120.0
+Copper ingot: inputs=[3 Copper Ore] output=Copper ingot output_count=1 load_work=6.0 process_seconds=60.0
+Copper pick: inputs=[2 Copper ingot] output=Copper pick output_count=1 load_work=8.0 process_seconds=90.0
+Copper sickle: inputs=[2 Copper ingot] output=Copper sickle output_count=1 load_work=8.0 process_seconds=90.0
+
+== Buildings ==
+Farm Plot: footprint=(1, 1) cost=3 unlock=- buildable=true can_move=true can_destroy=true blocks_walking=false door_offset_cells=1 workstations=[]
+Kitchen: footprint=(3, 2) cost=30 unlock=- buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Stove]
+Brewery: footprint=(3, 2) cost=40 unlock=(harvested:barley 20, then 60 coins) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Mash pot, Fermenter]
+Smeltery: footprint=(3, 2) cost=50 unlock=(mined 15, then 80 coins, 5 Copper Ore) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Smelter]
+Forge: footprint=(3, 2) cost=60 unlock=(made:copper_ingot 5, then 50 coins, 3 Copper ingot) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Anvil]
+
+== Furniture ==
+Chair: footprint=(1, 1) cost=5 blocks_walking=false is_seat=true needs_front_access=false
+Table: footprint=(2, 2) cost=10 blocks_walking=true is_seat=false needs_front_access=false
+Long table: footprint=(4, 2) cost=20 blocks_walking=true is_seat=false needs_front_access=false
+
+== Play ==
+0:00:00  Start: 50 coins, storage 10 Gruel, 10 Grog
+0:00:00  Start: 9 Farm Plot, 1 Great Hall, 1 Mine Entrance; hall has 4 Chair, 2 Table
+0:00:00  Start: shaft to row 4, 3 tunnel ends
+0:00:00  Start: 4 dwarves (Norin, Durdis, Dwalbur, Thorin)
+0:00:01  Norin idle: No job
+0:00:01  Durdis idle: No job
+0:00:01  Dwalbur idle: No job
+0:00:01  Thorin idle: No job
+0:00:05  Norin: Farmer
+0:00:05  Norin still idle: Nothing sown
+0:00:08  Norin back to work after 0:00:07 idle
+0:00:17  Durdis: Miner
+0:00:17  Durdis back to work after 0:00:16 idle
+0:00:19  Thorin: Miner
+0:00:19  Thorin back to work after 0:00:18 idle
+0:00:22  Dwalbur: Miner
+0:00:22  Dwalbur back to work after 0:00:21 idle
+0:00:27  Built Kitchen at (56, 2)
+0:00:37  Kitchen Stove set to Gruel
+0:00:37  Shaft dug down to row 5
+0:00:40  Found Copper Ore deposit CopperNear (column 136, row 1)
+0:00:57  First mined: Copper Ore
+
+-- 0:01:00, minute 1 (14:03:10) --
+Coins 11 (+0 earned, -39 spent)
+Mined: 1 Copper Ore
+Storage: 10 Gruel, 10 Grog
+Plots (9): growing 58%, dry 26%, empty 16%
+Kitchen Stove: loading 69%, idle 31%
+Player: 13 clicks, sowed 9 Potato
+Mine: dug 14 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): work 50%, walk 27%, wait 11%, idle 12% | food 83%, thirsty 50%
+  Durdis (Miner): work 53%, walk 13%, climb 7%, wait 1%, idle 27% | food 82%, thirsty 50%
+  Dwalbur (Miner): work 41%, walk 13%, climb 10%, wait 1%, idle 36% | food 86%, thirsty 50%
+  Thorin (Miner): work 46%, walk 16%, climb 7%, wait 1%, idle 31% | food 85%, thirsty 50%
+0:01:53  First harvested: Potato
+
+-- 0:02:00, minute 2 (14:04:10) --
+Coins 11 (+0 earned, -0 spent)
+Harvested: 4 Potato
+Mined: 3 Copper Ore
+Storage: 10 Gruel, 10 Grog
+Plots (9): growing 86%, dry 11%, ripe 1%, empty 2%
+Kitchen Stove: loading 100%
+Player: 1 clicks
+Mine: dug 30 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): work 58%, haul 2%, walk 25%, wait 16% | food 64%, thirsty 50%
+  Durdis (Miner): work 94%, walk 4%, wait 1% | food 51%, thirsty 50%
+  Dwalbur (Miner): work 100% | food 53%, thirsty 50%
+  Thorin (Miner): work 95%, walk 4%, wait 1% | food 53%, thirsty 50%
+
+-- 0:03:00, minute 3 (14:05:10) --
+Coins 11 (+0 earned, -0 spent)
+Harvested: 12 Potato
+Mined: 4 Copper Ore
+Storage: 12 Potato, 10 Gruel, 10 Grog, 5 Copper Ore
+Plots (9): growing 6%, dry 38%, ripe 3%, empty 53%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 21 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): work 54%, haul 26%, walk 19%, wait 2% | food 46%, thirsty 50%
+  Durdis (Miner): work 95%, walk 4%, wait 1% | food 19%, thirsty 50%
+  Dwalbur (Miner): work 49%, haul 14%, walk 22%, climb 13%, wait 1% | food 37%, thirsty 50%
+  Thorin (Miner): work 91%, walk 9%, wait 0% | food 22%, thirsty 50%
+0:03:08  Norin idle: Nothing sown
+
+-- 0:04:00, minute 4 (14:06:10) --
+Coins 11 (+0 earned, -0 spent)
+Harvested: 2 Potato
+Mined: 3 Copper Ore
+Storage: 18 Potato, 10 Gruel, 10 Grog, 10 Copper Ore
+Plots (9): ripe 0%, empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 18 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): work 3%, haul 10%, wait 0%, idle 87% | food 45%, thirsty 50%
+  Durdis (Miner): work 69%, haul 10%, walk 13%, climb 7%, wait 1% | food 0%, thirsty 50%
+  Dwalbur (Miner): work 82%, walk 17%, wait 1% | food 9%, thirsty 50%
+  Thorin (Miner): work 46%, haul 14%, walk 26%, climb 13%, wait 1% | food 7%, thirsty 50%
+
+-- 0:05:00, minute 5 (14:07:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 18 Potato, 13 Copper Ore, 7 Gruel, 7 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 4 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 3 Grog, 3 Gruel
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 38%, haul 4%, walk 44%, climb 7%, eat 7%, wait 1% | food 87%, Grog 75%
+  Dwalbur (Miner): work 51%, haul 14%, walk 17%, climb 11%, eat 7%, wait 1% | food 100%, Grog 75%
+  Thorin (Miner): work 25%, walk 54%, climb 13%, eat 7%, wait 1% | food 100%, Grog 75%
+
+== Totals so far, 0:05:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 14
+Plots: growing 30%, dry 15%, ripe 1%, empty 54%
+Kitchen Stove: loading 96%, idle 4%
+Player clicks: 14
+Mine: dug 87 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 3 Grog, 3 Gruel
+Dwarves:
+  Norin: work 33%, haul 7%, walk 14%, wait 6%, idle 40%; no meals
+    idle: No job 0:00:04, Nothing sown 0:01:54
+  Durdis: work 70%, haul 3%, walk 15%, climb 4%, eat 1%, wait 1%, idle 5%; 1 meal
+    idle: No job 0:00:16
+  Dwalbur: work 65%, haul 6%, walk 14%, climb 7%, eat 1%, wait 1%, idle 7%; 1 meal
+    idle: No job 0:00:21
+  Thorin: work 61%, haul 3%, walk 22%, climb 7%, eat 1%, wait 1%, idle 6%; 1 meal
+    idle: No job 0:00:18
+0:05:01  Milestone met for Smeltery (mined 15), trade costs 80 coins, 5 Copper Ore
+
+-- 0:06:00, minute 6 (14:08:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 18 Potato, 18 Copper Ore, 7 Gruel, 7 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 27 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 55%, haul 14%, walk 17%, climb 13%, wait 0% | food 69%, Grog 74%
+  Dwalbur (Miner): work 65%, walk 32%, climb 3%, wait 1% | food 78%, Grog 75%
+  Thorin (Miner): work 92%, walk 6%, wait 2% | food 69%, Grog 74%
+
+-- 0:07:00, minute 7 (14:09:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 23 Copper Ore, 18 Potato, 7 Gruel, 7 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 26 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 82%, walk 17%, wait 1% | food 42%, Grog 73%
+  Dwalbur (Miner): work 60%, haul 14%, walk 13%, climb 13%, wait 0% | food 58%, Grog 74%
+  Thorin (Miner): work 73%, walk 26%, wait 1% | food 45%, Grog 73%
+
+-- 0:08:00, minute 8 (14:10:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 28 Copper Ore, 18 Potato, 7 Gruel, 7 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 21 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 75%, walk 24%, wait 1% | food 17%, Grog 66%
+  Dwalbur (Miner): work 72%, walk 26%, climb 1%, wait 1% | food 34%, Grog 72%
+  Thorin (Miner): work 77%, haul 14%, walk 2%, climb 7%, wait 0% | food 19%, Grog 67%
+
+-- 0:09:00, minute 9 (14:11:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 31 Copper Ore, 18 Potato, 6 Gruel, 6 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 14 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 71%, haul 14%, walk 3%, climb 7%, eat 4%, wait 1% | food 0%, Grog 75%
+  Dwalbur (Miner): work 68%, walk 32%, wait 1% | food 12%, Grog 62%
+  Thorin (Miner): work 59%, walk 34%, climb 7%, wait 1% | food 0%, thirsty 50%
+
+-- 0:10:00, minute 10 (14:12:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 33 Copper Ore, 18 Potato, 4 Gruel, 4 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 1 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 3 Gruel, 2 Grog
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 31%, walk 60%, climb 7%, eat 2%, wait 1% | food 90%, Grog 75%
+  Dwalbur (Miner): work 49%, haul 14%, walk 19%, climb 10%, eat 7%, wait 1% | food 100%, Grog 75%
+  Thorin (Miner): work 1%, walk 79%, climb 13%, eat 7%, wait 0% | food 100%, Grog 75%
+
+== Totals so far, 0:10:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 34
+Plots: growing 15%, dry 8%, ripe 0%, empty 77%
+Kitchen Stove: loading 98%, idle 2%
+Player clicks: 14
+Mine: dug 176 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 6 Grog, 6 Gruel
+Dwarves:
+  Norin: work 17%, haul 4%, walk 7%, wait 3%, idle 70%; no meals
+    idle: No job 0:00:04, Nothing sown 0:06:54
+  Durdis: work 66%, haul 4%, walk 20%, climb 5%, eat 1%, wait 1%, idle 3%; 2 meals, one every 0:04:52
+    idle: No job 0:00:16
+  Dwalbur: work 64%, haul 6%, walk 19%, climb 6%, eat 1%, wait 1%, idle 4%; 2 meals, one every 0:05:00
+    idle: No job 0:00:21
+  Thorin: work 61%, haul 3%, walk 25%, climb 6%, eat 1%, wait 1%, idle 3%; 2 meals, one every 0:04:52
+    idle: No job 0:00:18
+
+-- 0:11:00, minute 11 (14:13:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 38 Copper Ore, 18 Potato, 4 Gruel, 4 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 11 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 63%, haul 14%, walk 13%, climb 10%, wait 0% | food 69%, Grog 74%
+  Dwalbur (Miner): work 46%, walk 51%, climb 3%, wait 1% | food 85%, Grog 75%
+  Thorin (Miner): work 96%, walk 3%, wait 1% | food 68%, Grog 74%
+
+-- 0:12:00, minute 12 (14:14:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 38 Copper Ore, 18 Potato, 4 Gruel, 4 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 13 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 69%, walk 26%, climb 4%, wait 1% | food 46%, Grog 73%
+  Dwalbur (Miner): work 80%, haul 14%, climb 7% | food 58%, Grog 74%
+  Thorin (Miner): work 77%, walk 23%, wait 1% | food 42%, Grog 73%
+
+-- 0:13:00, minute 13 (14:15:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 43 Copper Ore, 18 Potato, 4 Gruel, 4 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 12 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 97%, walk 2%, wait 1% | food 13%, Grog 63%
+  Dwalbur (Miner): work 50%, haul 1%, walk 42%, climb 7%, wait 1% | food 42%, Grog 73%
+  Thorin (Miner): work 94%, walk 6%, wait 0% | food 11%, Grog 62%
+
+-- 0:14:00, minute 14 (14:16:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 48 Copper Ore, 18 Potato, 4 Gruel, 4 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 8 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 51%, haul 11%, walk 31%, climb 7%, wait 0% | food 0%, thirsty 50%
+  Dwalbur (Miner): work 80%, walk 20%, wait 1% | food 15%, Grog 65%
+  Thorin (Miner): work 29%, haul 14%, walk 43%, climb 13%, wait 1% | food 2%, Grog 52%
+
+-- 0:15:00, minute 15 (14:17:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 2 Copper Ore
+Storage: 52 Copper Ore, 18 Potato, 1 Gruel, 1 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 5, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 3 Grog, 3 Gruel
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 16%, haul 3%, walk 67%, climb 7%, eat 7%, wait 1% | food 95%, Grog 75%
+  Dwalbur (Miner): work 46%, haul 14%, walk 25%, climb 7%, eat 7%, wait 1% | food 100%, Grog 75%
+  Thorin (Miner): work 20%, walk 59%, climb 13%, eat 7%, wait 1% | food 100%, Grog 75%
+
+== Totals so far, 0:15:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 52
+Plots: growing 10%, dry 5%, ripe 0%, empty 85%
+Kitchen Stove: loading 99%, idle 1%
+Player clicks: 14
+Mine: dug 222 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 9 Grog, 9 Gruel
+Dwarves:
+  Norin: work 11%, haul 2%, walk 5%, wait 2%, idle 80%; no meals
+    idle: No job 0:00:04, Nothing sown 0:11:54
+  Durdis: work 64%, haul 5%, walk 22%, climb 5%, eat 1%, wait 1%, idle 2%; 3 meals, one every 0:04:59
+    idle: No job 0:00:16
+  Dwalbur: work 62%, haul 6%, walk 22%, climb 6%, eat 1%, wait 1%, idle 2%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 61%, haul 3%, walk 26%, climb 6%, eat 1%, wait 1%, idle 2%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 0:16:00, minute 16 (14:18:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 57 Copper Ore, 18 Potato, 1 Gruel, 1 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 10 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 74%, haul 14%, walk 5%, climb 7%, wait 0% | food 70%, Grog 74%
+  Dwalbur (Miner): work 34%, walk 60%, climb 7%, wait 0% | food 89%, Grog 75%
+  Thorin (Miner): work 68%, walk 32%, wait 1% | food 77%, Grog 75%
+
+-- 0:17:00, minute 17 (14:19:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 57 Copper Ore, 18 Potato, 1 Gruel, 1 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 19 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 49%, walk 43%, climb 7%, wait 1% | food 54%, Grog 74%
+  Dwalbur (Miner): work 90%, haul 2%, walk 5%, climb 3%, wait 0% | food 59%, Grog 74%
+  Thorin (Miner): work 92%, walk 7%, wait 1% | food 47%, Grog 73%
+
+-- 0:18:00, minute 18 (14:20:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 62 Copper Ore, 18 Potato, 1 Gruel, 1 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 22 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 93%, walk 5%, wait 2% | food 23%, Grog 69%
+  Dwalbur (Miner): work 32%, haul 13%, walk 45%, climb 11%, wait 1% | food 48%, Grog 73%
+  Thorin (Miner): work 68%, walk 32%, wait 0% | food 24%, Grog 70%
+
+-- 0:19:00, minute 19 (14:21:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 67 Copper Ore, 18 Potato, 1 Gruel, 1 Grog
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 14 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 54%, walk 46%, wait 1% | food 5%, Grog 56%
+  Dwalbur (Miner): work 97%, walk 3%, wait 1% | food 16%, Grog 65%
+  Thorin (Miner): work 29%, haul 14%, walk 43%, climb 13%, wait 1% | food 14%, Grog 64%
+0:19:26  Pantry: out of meals
+0:19:26  Pantry: out of drinks
+
+-- 0:20:00, minute 20 (14:22:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 2 Copper Ore
+Storage: 69 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Gruel
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 19%, haul 14%, walk 47%, climb 13%, eat 7%, wait 1% | food 100%, Grog 75%
+  Dwalbur (Miner): work 66%, walk 34%, wait 0% | food 0%, thirsty 50%
+  Thorin (Miner): work 57%, walk 36%, climb 7%, wait 0% | food 0%, thirsty 50%
+
+== Totals so far, 0:20:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 70
+Plots: growing 8%, dry 4%, ripe 0%, empty 88%
+Kitchen Stove: loading 99%, idle 1%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 8%, haul 2%, walk 4%, wait 1%, idle 85%; no meals
+    idle: No job 0:00:04, Nothing sown 0:16:54
+  Durdis: work 62%, haul 5%, walk 24%, climb 5%, eat 1%, wait 1%, idle 1%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 63%, haul 5%, walk 24%, climb 5%, eat 1%, wait 1%, idle 2%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 62%, haul 3%, walk 27%, climb 5%, eat 1%, wait 1%, idle 2%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+0:20:06  Thorin is waiting for food
+0:20:18  Dwalbur is waiting for food
+
+-- 0:21:00, minute 21 (14:23:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 71 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 63%, walk 37%, wait 0% | food 79%, Grog 75%
+  Dwalbur (Miner): work 2%, haul 14%, walk 5%, climb 7%, wait 1%, no food 71% | food 0%, thirsty 50%
+  Thorin (Miner): walk 9%, wait 0%, no food 91% | food 0%, thirsty 50%
+
+-- 0:22:00, minute 22 (14:24:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 76 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 58%, haul 14%, walk 14%, climb 13%, wait 1% | food 60%, Grog 74%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:23:00, minute 23 (14:25:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 81 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 59%, haul 14%, walk 13%, climb 13%, wait 0% | food 40%, Grog 73%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:24:00, minute 24 (14:26:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 81 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 98%, walk 2%, wait 0% | food 7%, Grog 58%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+0:24:58  Durdis is waiting for food
+
+-- 0:25:00, minute 25 (14:27:10) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 2 Copper Ore
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): work 25%, haul 29%, walk 22%, climb 20%, wait 1%, no food 4% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 0:25:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 6%, dry 3%, ripe 0%, empty 91%
+Kitchen Stove: loading 99%, idle 1%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 7%, haul 1%, walk 3%, wait 1%, idle 88%; no meals
+    idle: No job 0:00:04, Nothing sown 0:21:54
+  Durdis: work 62%, haul 6%, walk 23%, climb 6%, eat 1%, wait 1%, idle 1%, no food 0%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 50%, haul 5%, walk 19%, climb 4%, eat 1%, wait 1%, idle 1%, no food 19%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 49%, haul 2%, walk 22%, climb 4%, eat 1%, wait 0%, idle 1%, no food 20%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 0:26:00, minute 26 (14:28:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:27:00, minute 27 (14:29:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:28:00, minute 28 (14:30:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:29:00, minute 29 (14:31:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:30:00, minute 30 (14:32:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 0:30:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 5%, dry 3%, ripe 0%, empty 92%
+Kitchen Stove: loading 99%, idle 1%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 6%, haul 1%, walk 2%, wait 1%, idle 90%; no meals
+    idle: No job 0:00:04, Nothing sown 0:26:54
+  Durdis: work 52%, haul 5%, walk 19%, climb 5%, eat 1%, wait 1%, idle 1%, no food 17%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 42%, haul 4%, walk 16%, climb 4%, eat 1%, wait 0%, idle 1%, no food 32%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 41%, haul 2%, walk 18%, climb 4%, eat 1%, wait 0%, idle 1%, no food 33%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 0:31:00, minute 31 (14:33:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:32:00, minute 32 (14:34:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:33:00, minute 33 (14:35:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:34:00, minute 34 (14:36:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:35:00, minute 35 (14:37:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 0:35:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 4%, dry 2%, ripe 0%, empty 93%
+Kitchen Stove: loading 99%, idle 1%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 5%, haul 1%, walk 2%, wait 1%, idle 91%; no meals
+    idle: No job 0:00:04, Nothing sown 0:31:54
+  Durdis: work 44%, haul 5%, walk 16%, climb 4%, eat 1%, wait 0%, idle 1%, no food 29%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 36%, haul 3%, walk 14%, climb 3%, eat 1%, wait 0%, idle 1%, no food 42%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 35%, haul 2%, walk 16%, climb 3%, eat 1%, wait 0%, idle 1%, no food 43%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 0:36:00, minute 36 (14:38:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:37:00, minute 37 (14:39:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:38:00, minute 38 (14:40:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:39:00, minute 39 (14:41:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:40:00, minute 40 (14:42:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 0:40:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 4%, dry 2%, ripe 0%, empty 94%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 4%, haul 1%, walk 2%, wait 1%, idle 92%; no meals
+    idle: No job 0:00:04, Nothing sown 0:36:54
+  Durdis: work 39%, haul 4%, walk 14%, climb 4%, eat 1%, wait 0%, idle 1%, no food 38%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 31%, haul 3%, walk 12%, climb 3%, eat 1%, wait 0%, idle 1%, no food 49%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 31%, haul 1%, walk 14%, climb 3%, eat 1%, wait 0%, idle 1%, no food 50%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 0:41:00, minute 41 (14:43:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:42:00, minute 42 (14:44:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:43:00, minute 43 (14:45:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:44:00, minute 44 (14:46:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:45:00, minute 45 (14:47:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 0:45:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 3%, dry 2%, ripe 0%, empty 95%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 4%, haul 1%, walk 2%, wait 1%, idle 93%; no meals
+    idle: No job 0:00:04, Nothing sown 0:41:54
+  Durdis: work 34%, haul 4%, walk 13%, climb 3%, eat 1%, wait 0%, idle 1%, no food 45%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 28%, haul 3%, walk 11%, climb 2%, eat 0%, wait 0%, idle 1%, no food 55%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 27%, haul 1%, walk 12%, climb 2%, eat 0%, wait 0%, idle 1%, no food 55%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 0:46:00, minute 46 (14:48:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:47:00, minute 47 (14:49:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:48:00, minute 48 (14:50:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:49:00, minute 49 (14:51:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:50:00, minute 50 (14:52:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 0:50:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 3%, dry 2%, ripe 0%, empty 95%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 3%, haul 1%, walk 1%, wait 1%, idle 94%; no meals
+    idle: No job 0:00:04, Nothing sown 0:46:54
+  Durdis: work 31%, haul 3%, walk 11%, climb 3%, eat 1%, wait 0%, idle 1%, no food 50%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 25%, haul 2%, walk 10%, climb 2%, eat 0%, wait 0%, idle 1%, no food 59%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 25%, haul 1%, walk 11%, climb 2%, eat 0%, wait 0%, idle 1%, no food 60%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 0:51:00, minute 51 (14:53:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:52:00, minute 52 (14:54:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:53:00, minute 53 (14:55:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:54:00, minute 54 (14:56:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:55:00, minute 55 (14:57:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 0:55:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 3%, dry 1%, ripe 0%, empty 96%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 3%, haul 1%, walk 1%, wait 1%, idle 95%; no meals
+    idle: No job 0:00:04, Nothing sown 0:51:54
+  Durdis: work 28%, haul 3%, walk 10%, climb 3%, eat 0%, wait 0%, idle 0%, no food 55%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 23%, haul 2%, walk 9%, climb 2%, eat 0%, wait 0%, idle 1%, no food 63%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 22%, haul 1%, walk 10%, climb 2%, eat 0%, wait 0%, idle 1%, no food 63%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 0:56:00, minute 56 (14:58:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:57:00, minute 57 (14:59:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:58:00, minute 58 (15:00:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 0:59:00, minute 59 (15:01:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:00:00, minute 60 (15:02:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 1:00:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 3%, dry 1%, ripe 0%, empty 96%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 3%, haul 1%, walk 1%, wait 0%, idle 95%; no meals
+    idle: No job 0:00:04, Nothing sown 0:56:54
+  Durdis: work 26%, haul 3%, walk 9%, climb 2%, eat 0%, wait 0%, idle 0%, no food 58%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 21%, haul 2%, walk 8%, climb 2%, eat 0%, wait 0%, idle 1%, no food 66%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 21%, haul 1%, walk 9%, climb 2%, eat 0%, wait 0%, idle 1%, no food 67%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 1:01:00, minute 61 (15:03:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:02:00, minute 62 (15:04:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:03:00, minute 63 (15:05:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:04:00, minute 64 (15:06:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:05:00, minute 65 (15:07:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 1:05:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 2%, dry 1%, ripe 0%, empty 96%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 3%, haul 1%, walk 1%, wait 0%, idle 95%; no meals
+    idle: No job 0:00:04, Nothing sown 1:01:54
+  Durdis: work 24%, haul 2%, walk 9%, climb 2%, eat 0%, wait 0%, idle 0%, no food 62%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 19%, haul 2%, walk 7%, climb 2%, eat 0%, wait 0%, idle 1%, no food 69%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 19%, haul 1%, walk 8%, climb 2%, eat 0%, wait 0%, idle 0%, no food 69%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 1:06:00, minute 66 (15:08:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:07:00, minute 67 (15:09:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:08:00, minute 68 (15:10:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:09:00, minute 69 (15:11:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:10:00, minute 70 (15:12:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 1:10:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 2%, dry 1%, ripe 0%, empty 97%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 2%, haul 1%, walk 1%, wait 0%, idle 96%; no meals
+    idle: No job 0:00:04, Nothing sown 1:06:54
+  Durdis: work 22%, haul 2%, walk 8%, climb 2%, eat 0%, wait 0%, idle 0%, no food 64%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 18%, haul 2%, walk 7%, climb 2%, eat 0%, wait 0%, idle 1%, no food 71%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 18%, haul 1%, walk 8%, climb 2%, eat 0%, wait 0%, idle 0%, no food 71%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 1:11:00, minute 71 (15:13:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:12:00, minute 72 (15:14:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:13:00, minute 73 (15:15:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:14:00, minute 74 (15:16:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:15:00, minute 75 (15:17:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 1:15:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 2%, dry 1%, ripe 0%, empty 97%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 2%, haul 0%, walk 1%, wait 0%, idle 96%; no meals
+    idle: No job 0:00:04, Nothing sown 1:11:54
+  Durdis: work 21%, haul 2%, walk 8%, climb 2%, eat 0%, wait 0%, idle 0%, no food 67%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 17%, haul 2%, walk 6%, climb 1%, eat 0%, wait 0%, idle 0%, no food 73%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 16%, haul 1%, walk 7%, climb 1%, eat 0%, wait 0%, idle 0%, no food 73%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+-- 1:16:00, minute 76 (15:18:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:17:00, minute 77 (15:19:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:18:00, minute 78 (15:20:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:19:00, minute 79 (15:21:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+-- 1:20:00, minute 80 (15:22:10) --
+Coins 11 (+0 earned, -0 spent)
+Storage: 87 Copper Ore, 18 Potato
+Plots (9): empty 100%
+Kitchen Stove: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 5, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Norin (Farmer): idle 100% | food 45%, thirsty 50%
+  Durdis (Miner): no food 100% | food 0%, thirsty 50%
+  Dwalbur (Miner): no food 100% | food 0%, thirsty 50%
+  Thorin (Miner): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 1:20:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 2%, dry 1%, ripe 0%, empty 97%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 2%, haul 0%, walk 1%, wait 0%, idle 96%; no meals
+    idle: No job 0:00:04, Nothing sown 1:16:54
+  Durdis: work 19%, haul 2%, walk 7%, climb 2%, eat 0%, wait 0%, idle 0%, no food 69%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 16%, haul 1%, walk 6%, climb 1%, eat 0%, wait 0%, idle 0%, no food 75%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 15%, haul 1%, walk 7%, climb 1%, eat 0%, wait 0%, idle 0%, no food 75%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18
+
+== End of game, 1:20:21 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 87
+Plots: growing 2%, dry 1%, ripe 0%, empty 97%
+Kitchen Stove: loading 100%, idle 0%
+Player clicks: 14
+Mine: dug 292 cells, shaft to row 5, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Norin: work 2%, haul 0%, walk 1%, wait 0%, idle 96%; no meals
+    idle: No job 0:00:04, Nothing sown 1:17:15
+  Durdis: work 19%, haul 2%, walk 7%, climb 2%, eat 0%, wait 0%, idle 0%, no food 69%; 4 meals, one every 0:05:07
+    idle: No job 0:00:16
+  Dwalbur: work 16%, haul 1%, walk 6%, climb 1%, eat 0%, wait 0%, idle 0%, no food 75%; 3 meals, one every 0:05:02
+    idle: No job 0:00:21
+  Thorin: work 15%, haul 1%, walk 7%, climb 1%, eat 0%, wait 0%, idle 0%, no food 75%; 3 meals, one every 0:05:03
+    idle: No job 0:00:18

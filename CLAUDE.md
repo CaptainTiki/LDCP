@@ -33,7 +33,7 @@ A desktop idle game in Godot 4.7 (GDScript) that sits in a strip along the botto
   - No autoloads: the `Game` scene owns everything and passes references down.
   - Keep scripts small (~200 lines is a sign to split).
 - **Fixed-rate sim:** gameplay advances on `SimClock` ticks; visuals interpolate.
-- **Clean game folders:** dev-only material lives in dot-folders (`.tools/`, `.tests/`). Godot never imports dot-folders, so they stay out of the game.
+- **Clean game folders:** dev-only material lives in dot-folders (`.tools/`, `.tests/`, `.logs/`). Godot never imports dot-folders, so they stay out of the game.
 
 ## Project layout
 
@@ -58,10 +58,10 @@ A desktop idle game in Godot 4.7 (GDScript) that sits in a strip along the botto
   - Most scenes and data were made by these. Change content there and re-run, so regenerating never wipes a change.
   - If a scene gets hand-edited in Godot instead, note it in DECISIONS.md and stop generating that scene.
 - **Art:** `.tools/art/make_ui_art.py` and `make_world_art.py` draw all placeholder art into `assets/` from small character grids (Python + Pillow). Any PNG can be swapped for hand-drawn art without code changes.
-- **Game log:** every game run as the main scene writes `user://logs/game_<date>_<time>.log` (on Windows `%APPDATA%\Godot\app_userdata\LDCP\logs\`): the tuning in play, then events, minute summaries and totals. Read it to see how a playthrough went.
+- **Game log:** every game run as the main scene writes `user://logs/game_<date>_<time>.log` (on Windows `%APPDATA%\Godot\app_userdata\LDCP\logs\`): the tuning in play, then events, minute summaries and totals. Read it to see how a playthrough went. Logs worth keeping are copied into `.logs/` in the repo (a dot-folder, so Godot ignores it).
 - **Screenshots:** run Godot (not headless) with `-s .tools/screenshots.gd -- <output folder>` to capture the main views.
 - **Godot imports:** after adding art or resources, run Godot once with `--headless --import`.
 
 ## Logging
 
-When making a design or engineering call, append it, with the why, to `.tools/DECISIONS.md`. At the end of a session, update `docs/progress.md`.
+When making a design or engineering call, append it, with the why, to `.tools/DECISIONS.md`. At the end of a session, update `docs/progress.md` (including playtest findings and open questions) and copy that session's game logs into `.logs/`.

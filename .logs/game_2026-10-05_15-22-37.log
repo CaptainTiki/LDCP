@@ -1,0 +1,929 @@
+LDCP game log
+Version proto-0.10.5.31, started 2026-10-05 15:22:37.
+Times are game time (h:mm:ss). Shares are of game time.
+
+== Tuning ==
+Game: starting_coins=50 starting_dwarves=4 starting_stock=[10 Gruel, 10 Grog] starting_food_seconds=180.0 walk_speed=24.0 ladder_speed=8.0 lift_speed=64.0 base_work_rate=1.0 carry_capacity=5 eat_seconds=4.0 manual_work_per_click=0.5 hand_capacity=50 hire_cost=40 hire_cost_growth=20 lift_cost=150
+Mine level 1: size_cells=(256, 36) landing_row=4 landing_half_width=2 noise_seed=7 dirt_rows=6 dirt_edge_rows=2.5 dirt_work=2.0 rock_work=5.0 straight_start_columns=6 branch_straight_columns=2 branch_gap_rows=3 slope_chance=0.2 fork_chance=0.06 max_heads=8
+
+== Crops ==
+Potato: produce=Potato yield_count=2 seed_cost=1 unlock=- water_work=1.0 harvest_work=1.5 grow_seconds=90.0 watered_seconds=30.0
+Barley: produce=Barley yield_count=2 seed_cost=1 unlock=- water_work=1.0 harvest_work=1.5 grow_seconds=120.0 watered_seconds=30.0
+Carrot: produce=Carrot yield_count=2 seed_cost=1 unlock=(harvested 20, then 15 coins) water_work=1.0 harvest_work=1.5 grow_seconds=60.0 watered_seconds=30.0
+Onion: produce=Onion yield_count=2 seed_cost=1 unlock=(meals_made 15, then 30 coins) water_work=1.0 harvest_work=1.5 grow_seconds=150.0 watered_seconds=30.0
+Radish: produce=Radish yield_count=2 seed_cost=1 unlock=(harvested 40, then 25 coins) water_work=1.0 harvest_work=1.5 grow_seconds=70.0 watered_seconds=30.0
+Wheat: produce=Wheat yield_count=2 seed_cost=1 unlock=(drinks_made 10, then 40 coins) water_work=1.0 harvest_work=1.5 grow_seconds=120.0 watered_seconds=30.0
+
+== Items ==
+Potato: sell_price=1 buy_price=0
+Barley: sell_price=1 buy_price=0
+Carrot: sell_price=1 buy_price=0
+Onion: sell_price=2 buy_price=0
+Radish: sell_price=1 buy_price=0
+Wheat: sell_price=1 buy_price=0
+Gruel: shift_seconds=180.0 sell_price=0 buy_price=4
+Roast carrots: shift_seconds=400.0 sell_price=2 buy_price=0
+Stew: shift_seconds=600.0 sell_price=3 buy_price=0
+Onion soup: shift_seconds=960.0 sell_price=4 buy_price=0
+Grog: low_multiplier=0.5 high_multiplier=0.75 duration_seconds=180.0 sell_price=0 buy_price=3
+Ale: low_multiplier=0.5 high_multiplier=1.0 duration_seconds=360.0 sell_price=4 buy_price=0
+Wheat beer: low_multiplier=0.5 high_multiplier=0.9 duration_seconds=480.0 sell_price=4 buy_price=0
+Radish spirit: low_multiplier=0.5 high_multiplier=1.15 duration_seconds=120.0 sell_price=5 buy_price=0
+Aged Mushroom Cap Cognac: low_multiplier=0.5 high_multiplier=1.5 duration_seconds=1800.0 sell_price=0 buy_price=0
+Copper Ore: sell_price=5 buy_price=0
+Copper ingot: sell_price=20 buy_price=0
+Copper pick: job=Miner work_multiplier=1.5 sell_price=30 buy_price=0
+Copper sickle: job=Farmer work_multiplier=1.5 sell_price=30 buy_price=0
+Potato mash: sell_price=0 buy_price=0
+Barley mash: sell_price=0 buy_price=0
+Wheat mash: sell_price=0 buy_price=0
+Radish mash: sell_price=0 buy_price=0
+
+== Recipes ==
+Gruel: inputs=[1 Potato] output=Gruel output_count=1 load_work=5.0 process_seconds=20.0
+Roast carrots: inputs=[2 Carrot] output=Roast carrots output_count=1 load_work=5.0 process_seconds=30.0
+Stew: inputs=[2 Potato] output=Stew output_count=1 load_work=5.0 process_seconds=60.0
+Onion soup: inputs=[1 Onion, 2 Potato] output=Onion soup output_count=1 load_work=6.0 process_seconds=90.0
+Potato mash: inputs=[2 Potato] output=Potato mash output_count=1 load_work=5.0 process_seconds=20.0
+Barley mash: inputs=[3 Barley] output=Barley mash output_count=1 load_work=5.0 process_seconds=30.0
+Wheat mash: inputs=[3 Wheat] output=Wheat mash output_count=1 load_work=5.0 process_seconds=30.0
+Radish mash: inputs=[3 Radish] output=Radish mash output_count=1 load_work=5.0 process_seconds=25.0
+Grog: inputs=[1 Potato mash] output=Grog output_count=4 load_work=4.0 process_seconds=90.0
+Ale: inputs=[1 Barley mash] output=Ale output_count=4 load_work=4.0 process_seconds=180.0
+Wheat beer: inputs=[1 Wheat mash] output=Wheat beer output_count=4 load_work=4.0 process_seconds=150.0
+Radish spirit: inputs=[1 Radish mash] output=Radish spirit output_count=3 load_work=4.0 process_seconds=120.0
+Copper ingot: inputs=[3 Copper Ore] output=Copper ingot output_count=1 load_work=6.0 process_seconds=60.0
+Copper pick: inputs=[2 Copper ingot] output=Copper pick output_count=1 load_work=8.0 process_seconds=90.0
+Copper sickle: inputs=[2 Copper ingot] output=Copper sickle output_count=1 load_work=8.0 process_seconds=90.0
+
+== Buildings ==
+Farm Plot: footprint=(1, 1) cost=3 unlock=- buildable=true can_move=true can_destroy=true blocks_walking=false door_offset_cells=1 workstations=[]
+Kitchen: footprint=(3, 2) cost=30 unlock=- buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Stove]
+Brewery: footprint=(3, 2) cost=40 unlock=(harvested:barley 20, then 60 coins) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Mash pot, Fermenter]
+Smeltery: footprint=(3, 2) cost=50 unlock=(mined 15, then 80 coins, 5 Copper Ore) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Smelter]
+Forge: footprint=(3, 2) cost=60 unlock=(made:copper_ingot 5, then 50 coins, 3 Copper ingot) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Anvil]
+
+== Furniture ==
+Chair: footprint=(1, 1) cost=5 blocks_walking=false is_seat=true needs_front_access=false
+Table: footprint=(2, 2) cost=10 blocks_walking=true is_seat=false needs_front_access=false
+Long table: footprint=(4, 2) cost=20 blocks_walking=true is_seat=false needs_front_access=false
+
+== Play ==
+0:00:00  Start: 50 coins, storage 10 Gruel, 10 Grog
+0:00:00  Start: 9 Farm Plot, 1 Great Hall, 1 Mine Entrance; hall has 4 Chair, 2 Table
+0:00:00  Start: shaft to row 4, 3 tunnel ends
+0:00:00  Start: 4 dwarves (Tovdis, Kilist, Norgar, Kilok)
+0:00:01  Tovdis idle: No job
+0:00:01  Kilist idle: No job
+0:00:01  Norgar idle: No job
+0:00:01  Kilok idle: No job
+0:00:06  Kilok: Farmer
+0:00:06  Kilok still idle: Nothing sown
+0:00:09  Tovdis: Miner
+0:00:09  Tovdis back to work after 0:00:08 idle
+0:00:10  Kilist: Miner
+0:00:10  Kilist back to work after 0:00:09 idle
+0:00:13  Norgar: Miner
+0:00:13  Norgar back to work after 0:00:12 idle
+0:00:21  Kilok back to work after 0:00:20 idle
+0:00:26  Shaft dug down to row 5
+0:00:28  Built Kitchen at (56, 2)
+0:00:33  Found Copper Ore deposit CopperNear (column 136, row 1)
+0:00:37  Shaft dug down to row 6
+0:00:49  Shaft dug down to row 7
+0:00:51  First mined: Copper Ore
+0:01:00  Shaft dug down to row 8
+
+-- 0:01:00, minute 1 (15:23:37) --
+Coins 11 (+0 earned, -39 spent)
+Mined: 1 Copper Ore
+Storage: 10 Gruel, 10 Grog
+Plots (9): growing 39%, dry 25%, empty 36%
+Kitchen Stove: idle 100%
+Player: 10 clicks, sowed 9 Potato
+Mine: dug 15 cells, shaft to row 8, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 65%, walk 15%, climb 7%, wait 1%, idle 14% | food 79%, thirsty 50%
+  Kilist (Miner): work 60%, walk 17%, climb 7%, wait 1%, idle 17% | food 80%, thirsty 50%
+  Norgar (Miner): work 57%, walk 7%, climb 15%, wait 1%, idle 21% | food 81%, thirsty 50%
+  Kilok (Farmer): work 37%, walk 19%, wait 11%, idle 34% | food 88%, thirsty 50%
+0:01:11  Shaft dug down to row 9
+
+-- 0:02:00, minute 2 (15:24:37) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 10 Gruel, 10 Grog
+Plots (9): growing 91%, dry 9%
+Kitchen Stove: idle 100%
+Player: 0 clicks
+Mine: dug 24 cells, shaft to row 9, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 95%, walk 4%, wait 1% | food 47%, thirsty 50%
+  Kilist (Miner): work 91%, haul 3%, climb 7% | food 50%, thirsty 50%
+  Norgar (Miner): work 84%, walk 9%, climb 6%, wait 1% | food 53%, thirsty 50%
+  Kilok (Farmer): work 53%, walk 26%, wait 21% | food 70%, thirsty 50%
+0:02:06  First harvested: Potato
+
+-- 0:03:00, minute 3 (15:25:37) --
+Coins 11 (+0 earned, -0 spent)
+Harvested: 12 Potato
+Mined: 3 Copper Ore
+Storage: 12 Potato, 10 Gruel, 10 Grog, 5 Copper Ore
+Plots (9): growing 20%, dry 39%, ripe 3%, empty 38%
+Kitchen Stove: idle 100%
+Player: 0 clicks
+Mine: dug 18 cells, shaft to row 9, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 97%, walk 2%, wait 1% | food 14%, thirsty 50%
+  Kilist (Miner): work 62%, haul 12%, walk 19%, climb 7%, wait 1% | food 29%, thirsty 50%
+  Norgar (Miner): work 100% | food 20%, thirsty 50%
+  Kilok (Farmer): work 54%, haul 26%, walk 19%, wait 2% | food 52%, thirsty 50%
+0:03:21  Kilok idle: Nothing sown
+
+-- 0:04:00, minute 4 (15:26:37) --
+Coins 11 (+0 earned, -0 spent)
+Harvested: 6 Potato
+Mined: 3 Copper Ore
+Storage: 18 Potato, 11 Copper Ore, 9 Gruel, 9 Grog
+Plots (9): growing 0%, dry 3%, ripe 2%, empty 95%
+Kitchen Stove: idle 100%
+Player: 0 clicks
+Mine: dug 10 cells, shaft to row 9, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Gruel
+Dwarves:
+  Tovdis (Miner): work 57%, haul 14%, walk 15%, climb 7%, eat 7%, wait 1% | food 100%, Grog 75%
+  Kilist (Miner): work 89%, walk 11%, wait 1% | food 0%, thirsty 50%
+  Norgar (Miner): work 52%, haul 14%, walk 20%, climb 13%, wait 1% | food 2%, thirsty 50%
+  Kilok (Farmer): work 22%, haul 12%, wait 1%, idle 66% | food 45%, thirsty 50%
+0:04:52  Milestone met for Smeltery (mined 15), trade costs 80 coins, 5 Copper Ore
+
+-- 0:05:00, minute 5 (15:27:37) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 18 Potato, 13 Copper Ore, 7 Gruel, 7 Grog
+Plots (9): empty 100%
+Kitchen Stove: idle 100%
+Player: 0 clicks
+Mine: dug 8 cells, shaft to row 9, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Grog, 2 Gruel
+Dwarves:
+  Tovdis (Miner): work 62%, walk 31%, climb 7%, wait 1% | food 79%, Grog 75%
+  Kilist (Miner): work 38%, haul 14%, walk 27%, climb 13%, eat 7%, wait 2% | food 89%, Grog 75%
+  Norgar (Miner): work 30%, haul 14%, walk 35%, climb 13%, eat 7%, wait 1% | food 100%, Grog 75%
+  Kilok (Farmer): idle 100% | food 45%, thirsty 50%
+
+== Totals so far, 0:05:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 18, meals made 0, drinks made 0, ore mined 15
+Plots: growing 30%, dry 15%, ripe 1%, empty 54%
+Kitchen Stove: idle 100%
+Player clicks: 10
+Mine: dug 75 cells, shaft to row 9, 1 of 3 deposits found
+Eaten and drunk: 3 Grog, 3 Gruel
+Dwarves:
+  Tovdis: work 75%, haul 3%, walk 13%, climb 4%, eat 1%, wait 1%, idle 3%; 1 meal
+    idle: No job 0:00:08
+  Kilist: work 68%, haul 6%, walk 15%, climb 7%, eat 1%, wait 1%, idle 3%; 1 meal
+    idle: No job 0:00:09
+  Norgar: work 65%, haul 6%, walk 14%, climb 9%, eat 1%, wait 1%, idle 4%; 1 meal
+    idle: No job 0:00:12
+  Kilok: work 33%, haul 7%, walk 13%, wait 7%, idle 40%; no meals
+    idle: No job 0:00:05, Nothing sown 0:01:54
+
+-- 0:06:00, minute 6 (15:28:37) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 18 Copper Ore, 18 Potato, 7 Gruel, 7 Grog
+Plots (9): empty 100%
+Kitchen Stove: idle 100%
+Player: 0 clicks
+Mine: dug 28 cells, shaft to row 9, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 51%, haul 14%, walk 21%, climb 13%, wait 1% | food 63%, Grog 74%
+  Kilist (Miner): work 85%, walk 15%, wait 1% | food 60%, Grog 74%
+  Norgar (Miner): work 92%, walk 6%, wait 2% | food 69%, Grog 74%
+  Kilok (Farmer): idle 100% | food 45%, thirsty 50%
+
+-- 0:07:00, minute 7 (15:29:37) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 23 Copper Ore, 18 Potato, 7 Gruel, 7 Grog
+Plots (9): empty 100%
+Kitchen Stove: idle 100%
+Player: 0 clicks
+Mine: dug 20 cells, shaft to row 9, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 97%, walk 3%, wait 1% | food 30%, Grog 72%
+  Kilist (Miner): work 48%, haul 14%, walk 24%, climb 13%, wait 1% | food 44%, Grog 73%
+  Norgar (Miner): work 81%, walk 18%, wait 1% | food 42%, Grog 73%
+  Kilok (Farmer): idle 100% | food 45%, thirsty 50%
+0:07:27  Kilok back to work after 0:04:06 idle
+0:07:44  Can afford to unlock Smeltery
+0:07:48  Hired Dagmund (5 dwarves)
+0:07:48  Dagmund idle: No job
+0:07:52  Dagmund: Works at the Kitchen
+0:07:52  Dagmund still idle: No recipe set
+0:07:57  Kitchen Stove set to Gruel
+0:07:57  Dagmund back to work after 0:00:09 idle
+
+-- 0:08:00, minute 8 (15:30:37) --
+Coins 77 (+115 earned, -49 spent)
+Mined: 4 Copper Ore
+Storage: 18 Potato, 7 Gruel, 7 Grog, 5 Copper Ore
+Plots (9): growing 50%, dry 5%, empty 45%
+Kitchen Stove: loading 6%, idle 94%
+Player: 11 clicks, sowed 9 Potato
+Mine: dug 14 cells, shaft to row 9, 6 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 83%, walk 16%, wait 1% | food 3%, Grog 53%
+  Kilist (Miner): work 96%, walk 3%, wait 1% | food 12%, Grog 63%
+  Norgar (Miner): work 51%, haul 14%, walk 21%, climb 13%, wait 0% | food 25%, Grog 70%
+  Kilok (Farmer): work 4%, walk 7%, wait 46%, idle 44% | food 44%, thirsty 50%
+  Dagmund (Works at the Kitchen): walk 29%, idle 71% | food 100%, thirsty 50%
+0:08:01  Kitchen Stove set to Stew
+0:08:08  Kitchen Stove 2 set to Stew
+0:08:17  Built Farm Plot at (60, 5)
+0:08:17  Built Farm Plot at (60, 6)
+0:08:17  Built Farm Plot at (60, 7)
+0:08:18  Built Farm Plot at (61, 7)
+0:08:18  Built Farm Plot at (61, 6)
+0:08:18  Built Farm Plot at (61, 5)
+0:08:19  Built Farm Plot at (62, 5)
+0:08:19  Built Farm Plot at (62, 6)
+0:08:19  Built Farm Plot at (62, 7)
+
+-- 0:09:00, minute 9 (15:31:37) --
+Coins 21 (+0 earned, -56 spent)
+Mined: 3 Copper Ore
+Storage: 14 Potato, 7 Copper Ore, 6 Gruel, 6 Grog
+Plots (18): growing 45%, dry 43%, empty 13%
+Kitchen Stove: working 60%, loading 40%
+Kitchen Stove 2: working 13%, loading 82%, idle 4%
+Player: 20 clicks, sowed 9 Potato
+Mine: dug 16 cells, shaft to row 9, 6 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Gruel
+Dwarves:
+  Tovdis (Miner): work 36%, haul 14%, walk 28%, climb 13%, eat 7%, wait 1% | food 92%, Grog 75%
+  Kilist (Miner): work 64%, haul 12%, walk 18%, climb 7%, wait 0% | food 0%, thirsty 50%
+  Norgar (Miner): work 73%, walk 25%, wait 1% | food 1%, Grog 51%
+  Kilok (Farmer): work 60%, walk 28%, wait 12% | food 24%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 34%, haul 31%, walk 28%, wait 8% | food 89%, thirsty 50%
+0:09:24  First made: Stew
+0:09:35  Can afford to unlock Carrot
+0:09:49  Found Copper Ore deposit CopperWest (column 104, row 12)
+
+-- 0:10:00, minute 10 (15:32:37) --
+Coins 21 (+0 earned, -0 spent)
+Harvested: 6 Potato
+Made: 2 Stew
+Mined: 4 Copper Ore
+Storage: 18 Potato, 10 Copper Ore, 4 Gruel, 4 Grog, 1 Stew
+Plots (18): growing 37%, dry 53%, ripe 5%, empty 5%
+Kitchen Stove: working 48%, loading 47%, done 5%
+Kitchen Stove 2: working 88%, loading 7%, done 6%
+Player: 0 clicks
+Mine: dug 6 cells, shaft to row 9, 6 tunnel ends, 2 of 3 deposits found
+Eaten and drunk: 2 Grog, 2 Gruel
+Dwarves:
+  Tovdis (Miner): work 90%, walk 10%, wait 0% | food 62%, Grog 74%
+  Kilist (Miner): work 51%, haul 3%, walk 32%, climb 7%, eat 7%, wait 1% | food 83%, Grog 75%
+  Norgar (Miner): work 27%, haul 14%, walk 38%, climb 13%, eat 7%, wait 1% | food 100%, Grog 75%
+  Kilok (Farmer): work 58%, haul 15%, walk 25%, wait 3% | food 4%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 17%, haul 36%, walk 6%, wait 41% | food 83%, thirsty 50%
+
+== Totals so far, 0:10:00 ==
+Coins 21: 115 earned, 144 spent
+Harvested 24, meals made 2, drinks made 0, ore mined 36
+Plots: growing 30%, dry 22%, ripe 1%, empty 47%
+Kitchen Stove: working 11%, loading 10%, done 1%, idle 78%
+Kitchen Stove 2: working 52%, loading 43%, done 3%, idle 2%
+Player clicks: 41
+Mine: dug 159 cells, shaft to row 9, 2 of 3 deposits found
+Eaten and drunk: 6 Grog, 6 Gruel
+Dwarves:
+  Tovdis: work 73%, haul 4%, walk 14%, climb 5%, eat 1%, wait 1%, idle 1%; 2 meals, one every 0:04:27
+    idle: No job 0:00:08
+  Kilist: work 68%, haul 6%, walk 16%, climb 6%, eat 1%, wait 1%, idle 2%; 2 meals, one every 0:04:47
+    idle: No job 0:00:09
+  Norgar: work 65%, haul 6%, walk 18%, climb 7%, eat 1%, wait 1%, idle 2%; 2 meals, one every 0:04:52
+    idle: No job 0:00:12
+  Kilok: work 29%, haul 5%, walk 12%, wait 9%, idle 44%; no meals
+    idle: No job 0:00:05, Nothing sown 0:04:21
+  Dagmund: work 23%, haul 30%, walk 18%, wait 22%, idle 6%; no meals
+    idle: No job 0:00:03, No recipe set 0:00:05
+
+-- 0:11:00, minute 11 (15:33:37) --
+Coins 21 (+0 earned, -0 spent)
+Harvested: 10 Potato
+Made: 1 Stew
+Mined: 10 Copper Ore
+Storage: 24 Potato, 15 Copper Ore, 4 Gruel, 3 Grog, 1 Stew
+Plots (18): growing 0%, dry 58%, ripe 14%, empty 28%
+Kitchen Stove: working 92%, loading 3%, done 5%
+Kitchen Stove 2: working 58%, loading 43%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 9, 6 tunnel ends, 2 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Stew
+Dwarves:
+  Tovdis (Miner): work 37%, haul 14%, walk 35%, climb 13%, wait 1% | food 50%, Grog 74%
+  Kilist (Miner): work 82%, walk 18%, wait 0% | food 56%, Grog 74%
+  Norgar (Miner): work 89%, haul 11% | food 70%, Grog 74%
+  Kilok (Farmer): work 33%, haul 29%, walk 29%, eat 7%, wait 3% | food 98%, Grog 75%
+  Dagmund (Works at the Kitchen): work 17%, haul 28%, walk 11%, wait 44% | food 78%, thirsty 50%
+
+-- 0:12:00, minute 12 (15:34:37) --
+Coins 21 (+0 earned, -0 spent)
+Harvested: 2 Potato
+Made: 1 Stew
+Mined: 9 Copper Ore
+Storage: 25 Copper Ore, 24 Potato, 4 Gruel, 3 Grog, 3 Stew
+Plots (18): growing 36%, dry 14%, ripe 0%, empty 50%
+Kitchen Stove: working 56%, loading 44%
+Kitchen Stove 2: working 48%, loading 49%, done 3%
+Player: 0 clicks
+Mine: dug 1 cells, shaft to row 9, 6 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 85%, walk 15%, wait 0% | food 22%, Grog 69%
+  Kilist (Miner): work 48%, haul 14%, walk 24%, climb 13%, wait 1% | food 40%, Grog 73%
+  Norgar (Miner): work 56%, haul 16%, walk 14%, climb 13%, wait 1% | food 51%, Grog 74%
+  Kilok (Farmer): work 44%, haul 21%, walk 28%, wait 8% | food 94%, Grog 75%
+  Dagmund (Works at the Kitchen): work 34%, haul 58%, walk 6%, wait 2% | food 66%, thirsty 50%
+0:12:19  Milestone met for Radish (harvested 40), trade costs 25 coins
+
+-- 0:13:00, minute 13 (15:35:37) --
+Coins 21 (+0 earned, -0 spent)
+Harvested: 14 Potato
+Made: 2 Stew
+Mined: 7 Copper Ore
+Storage: 35 Copper Ore, 34 Potato, 4 Gruel, 4 Stew, 3 Grog
+Plots (18): growing 14%, dry 17%, ripe 1%, empty 67%
+Kitchen Stove: working 48%, loading 47%, done 5%
+Kitchen Stove 2: working 95%, loading 3%, done 3%
+Player: 0 clicks
+Mine: dug 1 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 45%, haul 27%, walk 14%, climb 13%, wait 1% | food 7%, Grog 57%
+  Kilist (Miner): work 74%, walk 26%, wait 0% | food 15%, Grog 65%
+  Norgar (Miner): work 47%, haul 14%, walk 25%, climb 13%, wait 1% | food 36%, Grog 73%
+  Kilok (Farmer): work 46%, haul 19%, walk 18%, wait 17% | food 89%, Grog 74%
+  Dagmund (Works at the Kitchen): work 17%, haul 32%, walk 7%, wait 45% | food 61%, thirsty 50%
+0:13:10  Kilok idle: Nothing sown
+
+-- 0:14:00, minute 14 (15:36:37) --
+Coins 21 (+0 earned, -0 spent)
+Harvested: 4 Potato
+Made: 1 Stew
+Mined: 6 Copper Ore
+Storage: 43 Copper Ore, 38 Potato, 4 Gruel, 4 Stew, 2 Grog
+Plots (18): growing 0%, dry 0%, ripe 0%, empty 100%
+Kitchen Stove: working 96%, done 4%
+Kitchen Stove 2: working 53%, loading 47%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Stew
+Dwarves:
+  Tovdis (Miner): work 34%, haul 14%, walk 31%, climb 13%, eat 7%, wait 1% | food 100%, Grog 75%
+  Kilist (Miner): work 35%, haul 27%, walk 25%, climb 13%, wait 0% | food 4%, Grog 54%
+  Norgar (Miner): work 88%, walk 12%, wait 0% | food 7%, Grog 57%
+  Kilok (Farmer): work 7%, haul 10%, wait 1%, idle 84% | food 89%, Grog 74%
+  Dagmund (Works at the Kitchen): work 17%, haul 29%, walk 10%, wait 44% | food 55%, thirsty 50%
+0:14:36  Pantry: out of drinks
+0:14:55  Unlocked Carrot
+0:14:57  Kilok back to work after 0:01:47 idle
+
+-- 0:15:00, minute 15 (15:37:37) --
+Coins 0 (+0 earned, -21 spent)
+Made: 1 Stew
+Mined: 7 Copper Ore
+Storage: 47 Copper Ore, 34 Potato, 4 Gruel, 4 Stew
+Plots (18): growing 2%, empty 98%
+Kitchen Stove: working 52%, loading 47%, done 1%
+Kitchen Stove 2: working 48%, loading 49%, done 3%
+Player: 11 clicks, sowed 6 Carrot
+Mine: dug 2 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Eaten and drunk: 2 Grog, 2 Stew
+Dwarves:
+  Tovdis (Miner): work 88%, haul 12% | food 91%, Grog 74%
+  Kilist (Miner): work 38%, walk 42%, climb 13%, eat 7%, wait 1% | food 99%, Grog 75%
+  Norgar (Miner): work 33%, haul 14%, walk 32%, climb 13%, eat 7%, wait 1% | food 100%, Grog 75%
+  Kilok (Farmer): walk 4%, wait 3%, idle 93% | food 89%, Grog 74%
+  Dagmund (Works at the Kitchen): work 34%, haul 61%, walk 3%, wait 2% | food 44%, thirsty 50%
+
+== Totals so far, 0:15:00 ==
+Coins 0: 115 earned, 165 spent
+Harvested 54, meals made 8, drinks made 0, ore mined 75
+Plots: growing 21%, dry 20%, ripe 2%, empty 57%
+Kitchen Stove: working 31%, loading 16%, done 1%, idle 51%
+Kitchen Stove 2: working 58%, loading 39%, done 2%, idle 1%
+Player clicks: 52
+Mine: dug 167 cells, shaft to row 9, 2 of 3 deposits found
+Eaten and drunk: 10 Grog, 6 Gruel, 4 Stew
+Dwarves:
+  Tovdis: work 68%, haul 7%, walk 16%, climb 6%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:04:49
+    idle: No job 0:00:08
+  Kilist: work 64%, haul 7%, walk 20%, climb 7%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:05:08
+    idle: No job 0:00:09
+  Norgar: work 64%, haul 8%, walk 17%, climb 8%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:04:58
+    idle: No job 0:00:12
+  Kilok: work 28%, haul 9%, walk 13%, eat 0%, wait 8%, idle 41%; 1 meal
+    idle: No job 0:00:05, Nothing sown 0:06:07
+  Dagmund: work 23%, haul 38%, walk 11%, wait 26%, idle 2%; no meals
+    idle: No job 0:00:03, No recipe set 0:00:05
+0:15:05  Can afford to unlock Radish
+0:15:19  Unlocked Radish
+0:15:25  Built Farm Plot at (64, 5)
+0:15:25  Built Farm Plot at (64, 6)
+0:15:26  Built Farm Plot at (64, 7)
+0:15:26  Built Farm Plot at (65, 7)
+0:15:27  Built Farm Plot at (65, 6)
+0:15:27  Built Farm Plot at (65, 5)
+0:15:27  Built Farm Plot at (66, 5)
+0:15:28  Built Farm Plot at (66, 6)
+0:15:28  Built Farm Plot at (66, 7)
+0:15:55  Unlocked Smeltery
+
+-- 0:16:00, minute 16 (15:38:37) --
+Coins 82 (+235 earned, -153 spent)
+Made: 2 Stew
+Mined: 10 Copper Ore
+Storage: 32 Potato, 5 Copper Ore, 5 Stew, 4 Gruel
+Plots (27): growing 52%, dry 33%, empty 15%
+Kitchen Stove: working 48%, loading 47%, done 5%
+Kitchen Stove 2: working 99%, done 1%
+Player: 32 clicks, sowed 9 Potato, 9 Radish, 3 Barley
+Mine: dug 3 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 32%, haul 15%, walk 39%, climb 13%, wait 1% | food 88%, Grog 74%
+  Kilist (Miner): work 75%, haul 14%, walk 4%, climb 7%, wait 0% | food 91%, Grog 74%
+  Norgar (Miner): work 90%, haul 7%, walk 3%, wait 0% | food 91%, Grog 74%
+  Kilok (Farmer): work 31%, walk 24%, wait 45% | food 85%, Grog 74%
+  Dagmund (Works at the Kitchen): work 16%, haul 29%, walk 10%, wait 44% | food 39%, thirsty 50%
+0:16:10  Built Smeltery at (65, 2)
+0:16:22  Hired Norra (6 dwarves)
+0:16:22  Norra idle: No job
+0:16:25  Norra: Works at the Smeltery
+0:16:25  Norra still idle: No recipe set
+0:16:28  Smeltery Smelter set to Copper ingot
+0:16:28  Norra still idle: Missing ingredients
+0:16:41  First harvested: Carrot
+0:17:00  Norra back to work after 0:00:38 idle
+
+-- 0:17:00, minute 17 (15:39:37) --
+Coins 22 (+50 earned, -110 spent)
+Harvested: 6 Carrot
+Mined: 8 Copper Ore
+Storage: 30 Potato, 6 Stew, 6 Carrot, 5 Copper Ore, 4 Gruel
+Plots (27): growing 37%, dry 58%, ripe 2%, empty 3%
+Kitchen Stove: working 100%, loading 1%
+Kitchen Stove 2: working 49%, loading 49%, done 2%
+Smeltery Smelter: loading 64%, idle 36%
+Player: 3 clicks
+Mine: dug 1 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 79%, haul 14%, climb 7%, wait 0% | food 80%, Grog 72%
+  Kilist (Miner): work 70%, walk 23%, climb 7%, wait 0% | food 84%, Grog 73%
+  Norgar (Miner): work 27%, haul 20%, walk 40%, climb 13%, wait 1% | food 88%, Grog 74%
+  Kilok (Farmer): work 54%, haul 17%, walk 25%, wait 4% | food 80%, Grog 72%
+  Dagmund (Works at the Kitchen): work 18%, haul 32%, walk 7%, wait 44% | food 33%, thirsty 50%
+  Norra (Works at the Smeltery): walk 0%, idle 100% | food 100%, thirsty 50%
+
+-- 0:18:00, minute 18 (15:40:37) --
+Coins 22 (+0 earned, -0 spent)
+Harvested: 6 Carrot
+Made: 2 Stew
+Mined: 10 Copper Ore
+Storage: 26 Potato, 12 Carrot, 8 Stew, 7 Copper Ore, 4 Gruel
+Plots (27): growing 14%, dry 64%, ripe 2%, empty 19%
+Kitchen Stove: working 48%, loading 47%, done 5%
+Kitchen Stove 2: working 51%, loading 46%, done 3%
+Smeltery Smelter: working 54%, loading 46%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 63%, walk 30%, climb 7%, wait 0% | food 74%, Grog 63%
+  Kilist (Miner): work 30%, haul 27%, walk 30%, climb 13%, wait 1% | food 81%, Grog 73%
+  Norgar (Miner): work 83%, haul 11%, climb 7% | food 80%, Grog 72%
+  Kilok (Farmer): work 48%, haul 20%, walk 29%, wait 3% | food 75%, Grog 66%
+  Dagmund (Works at the Kitchen): work 30%, haul 61%, walk 6%, wait 3% | food 23%, thirsty 50%
+  Norra (Works at the Smeltery): work 20%, haul 15%, walk 15%, wait 50% | food 93%, thirsty 50%
+0:18:28  First made: Copper ingot
+
+-- 0:19:00, minute 19 (15:41:37) --
+Coins 22 (+0 earned, -0 spent)
+Harvested: 8 Potato
+Made: 1 Stew, 1 Copper ingot
+Mined: 8 Copper Ore
+Storage: 30 Potato, 14 Copper Ore, 12 Carrot, 9 Stew, 4 Gruel, 1 Copper ingot
+Plots (27): growing 25%, dry 43%, ripe 4%, empty 28%
+Kitchen Stove: working 53%, loading 42%, done 5%
+Kitchen Stove 2: working 97%, loading 3%
+Smeltery Smelter: working 46%, loading 49%, done 5%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 45%, haul 27%, walk 14%, climb 13%, wait 1% | food 69%, thirsty 50%
+  Kilist (Miner): work 89%, haul 4%, climb 7% | food 72%, Grog 58%
+  Norgar (Miner): work 34%, haul 4%, walk 56%, climb 7%, wait 1% | food 77%, Grog 69%
+  Kilok (Farmer): work 60%, haul 15%, walk 22%, wait 3% | food 69%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 15%, haul 29%, walk 11%, wait 44% | food 18%, thirsty 50%
+  Norra (Works at the Smeltery): work 19%, haul 29%, walk 5%, wait 47% | food 87%, thirsty 50%
+
+-- 0:20:00, minute 20 (15:42:37) --
+Coins 22 (+0 earned, -0 spent)
+Harvested: 8 Potato
+Made: 1 Stew
+Mined: 7 Copper Ore
+Storage: 34 Potato, 19 Copper Ore, 12 Carrot, 10 Stew, 4 Gruel, 1 Copper ingot
+Plots (27): growing 8%, dry 42%, ripe 3%, empty 47%
+Kitchen Stove: working 95%, loading 5%
+Kitchen Stove 2: working 48%, loading 49%, done 3%
+Smeltery Smelter: working 99%, loading 1%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 100% | food 59%, thirsty 50%
+  Kilist (Miner): work 32%, haul 10%, walk 50%, climb 7%, wait 1% | food 69%, thirsty 50%
+  Norgar (Miner): work 77%, haul 16%, climb 7% | food 69%, thirsty 50%
+  Kilok (Farmer): work 55%, haul 24%, walk 18%, wait 3% | food 64%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 22%, haul 32%, walk 7%, wait 40% | food 10%, thirsty 50%
+  Norra (Works at the Smeltery): work 1%, walk 5%, wait 94% | food 87%, thirsty 50%
+
+== Totals so far, 0:20:00 ==
+Coins 22: 400 earned, 428 spent
+Harvested 82, meals made 14, drinks made 0, ore mined 118
+Plots: growing 23%, dry 32%, ripe 2%, empty 43%
+Kitchen Stove: working 41%, loading 19%, done 2%, idle 38%
+Kitchen Stove 2: working 62%, loading 35%, done 2%, idle 0%
+Smeltery Smelter: working 52%, loading 39%, done 1%, idle 8%
+Player clicks: 87
+Mine: dug 173 cells, shaft to row 9, 2 of 3 deposits found
+Eaten and drunk: 10 Grog, 6 Gruel, 4 Stew
+Dwarves:
+  Tovdis: work 67%, haul 8%, walk 16%, climb 6%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:04:49
+    idle: No job 0:00:08
+  Kilist: work 63%, haul 8%, walk 20%, climb 7%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:05:08
+    idle: No job 0:00:09
+  Norgar: work 64%, haul 9%, walk 18%, climb 7%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:04:58
+    idle: No job 0:00:12
+  Kilok: work 33%, haul 10%, walk 16%, eat 0%, wait 9%, idle 31%; 1 meal
+    idle: No job 0:00:05, Nothing sown 0:06:07
+  Dagmund: work 22%, haul 38%, walk 10%, wait 30%, idle 1%; no meals
+    idle: No job 0:00:03, No recipe set 0:00:05
+  Norra: work 11%, haul 12%, walk 7%, wait 52%, idle 17%; no meals
+    idle: No job 0:00:02, No recipe set 0:00:02, Missing ingredients 0:00:32
+0:20:03  Milestone met for Onion (meals_made 15), trade costs 30 coins
+0:20:12  First harvested: Radish
+
+-- 0:21:00, minute 21 (15:43:37) --
+Coins 22 (+0 earned, -0 spent)
+Harvested: 12 Radish
+Made: 2 Stew, 1 Copper ingot
+Mined: 7 Copper Ore
+Storage: 34 Potato, 26 Copper Ore, 12 Stew, 12 Carrot, 12 Radish, 4 Gruel, 2 Copper ingot
+Plots (27): growing 1%, dry 22%, ripe 13%, empty 64%
+Kitchen Stove: working 48%, loading 47%, done 5%
+Kitchen Stove 2: working 56%, loading 42%, done 3%
+Smeltery Smelter: working 45%, loading 50%, done 5%
+Player: 0 clicks
+Mine: dug 1 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 42%, haul 14%, walk 30%, climb 13%, wait 1% | food 55%, thirsty 50%
+  Kilist (Miner): work 93%, walk 7%, wait 0% | food 60%, thirsty 50%
+  Norgar (Miner): work 65%, haul 11%, walk 17%, climb 7%, wait 1% | food 63%, thirsty 50%
+  Kilok (Farmer): work 38%, haul 29%, walk 31%, wait 3% | food 60%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 26%, haul 61%, walk 6%, wait 7% | food 2%, thirsty 50%
+  Norra (Works at the Smeltery): work 20%, haul 29%, walk 10%, wait 41% | food 80%, thirsty 50%
+0:21:29  First harvested: Barley
+
+-- 0:22:00, minute 22 (15:44:37) --
+Coins 22 (+0 earned, -0 spent)
+Harvested: 6 Radish, 4 Barley, 2 Potato
+Made: 1 Stew, 1 Copper ingot
+Mined: 6 Copper Ore
+Storage: 34 Potato, 33 Copper Ore, 13 Radish, 12 Stew, 12 Carrot, 4 Gruel, 4 Barley, 3 Copper ingot
+Plots (27): growing 2%, dry 4%, ripe 12%, empty 82%
+Kitchen Stove: working 57%, loading 38%, done 5%
+Kitchen Stove 2: working 92%, loading 8%
+Smeltery Smelter: working 57%, loading 38%, done 5%
+Player: 0 clicks
+Mine: dug 6 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Eaten and drunk: 1 Stew
+Dwarves:
+  Tovdis (Miner): work 76%, walk 24%, wait 1% | food 47%, thirsty 50%
+  Kilist (Miner): work 45%, haul 27%, walk 14%, climb 13%, wait 1% | food 55%, thirsty 50%
+  Norgar (Miner): work 69%, haul 14%, walk 10%, climb 7%, wait 0% | food 56%, thirsty 50%
+  Kilok (Farmer): work 43%, haul 32%, walk 23%, wait 2% | food 56%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 15%, haul 29%, walk 33%, eat 7%, wait 16% | food 99%, thirsty 50%
+  Norra (Works at the Smeltery): work 8%, haul 29%, walk 5%, wait 58% | food 77%, thirsty 50%
+0:22:20  Kilok idle: Nothing sown
+
+-- 0:23:00, minute 23 (15:45:37) --
+Coins 22 (+0 earned, -0 spent)
+Harvested: 2 Barley
+Made: 1 Stew
+Mined: 7 Copper Ore
+Storage: 33 Copper Ore, 32 Potato, 18 Radish, 13 Stew, 12 Carrot, 6 Barley, 4 Gruel, 3 Copper ingot
+Plots (27): ripe 1%, empty 99%
+Kitchen Stove: working 91%, loading 9%
+Kitchen Stove 2: working 48%, loading 49%, done 3%
+Smeltery Smelter: working 88%, loading 12%
+Player: 0 clicks
+Mine: dug 4 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 97%, haul 3% | food 38%, thirsty 50%
+  Kilist (Miner): work 100% | food 45%, thirsty 50%
+  Norgar (Miner): work 71%, walk 22%, climb 7%, wait 1% | food 49%, thirsty 50%
+  Kilok (Farmer): work 5%, haul 17%, walk 10%, wait 1%, idle 68% | food 55%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 26%, haul 32%, walk 7%, wait 35% | food 97%, thirsty 50%
+  Norra (Works at the Smeltery): work 12%, walk 5%, wait 83% | food 73%, thirsty 50%
+
+-- 0:24:00, minute 24 (15:46:37) --
+Coins 22 (+0 earned, -0 spent)
+Made: 2 Stew, 1 Copper ingot
+Mined: 5 Copper Ore
+Storage: 40 Copper Ore, 28 Potato, 18 Radish, 15 Stew, 12 Carrot, 6 Barley, 4 Gruel, 4 Copper ingot
+Plots (27): empty 100%
+Kitchen Stove: working 48%, loading 47%, done 5%
+Kitchen Stove 2: working 60%, loading 37%, done 3%
+Smeltery Smelter: working 45%, loading 50%, done 5%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 48%, haul 24%, walk 14%, climb 13%, wait 1% | food 33%, thirsty 50%
+  Kilist (Miner): work 46%, haul 14%, walk 26%, climb 13%, wait 1% | food 41%, thirsty 50%
+  Norgar (Miner): work 72%, walk 28%, wait 0% | food 41%, thirsty 50%
+  Kilok (Farmer): idle 100% | food 55%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 22%, haul 61%, walk 6%, wait 12% | food 94%, thirsty 50%
+  Norra (Works at the Smeltery): work 20%, haul 29%, walk 10%, wait 41% | food 66%, thirsty 50%
+0:24:41  Milestone met for Forge (made:copper_ingot 5), trade costs 50 coins, 3 Copper ingot
+
+-- 0:25:00, minute 25 (15:47:37) --
+Coins 22 (+0 earned, -0 spent)
+Made: 1 Stew, 1 Copper ingot
+Mined: 7 Copper Ore
+Storage: 42 Copper Ore, 26 Potato, 18 Radish, 16 Stew, 12 Carrot, 6 Barley, 5 Copper ingot, 4 Gruel
+Plots (27): empty 100%
+Kitchen Stove: working 61%, loading 34%, done 5%
+Kitchen Stove 2: working 88%, loading 12%
+Smeltery Smelter: working 68%, loading 27%, done 5%
+Player: 0 clicks
+Mine: dug 4 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 87%, haul 7%, climb 7% | food 24%, thirsty 50%
+  Kilist (Miner): work 70%, walk 30%, wait 1% | food 34%, thirsty 50%
+  Norgar (Miner): work 62%, haul 27%, walk 4%, climb 7%, wait 0% | food 35%, thirsty 50%
+  Kilok (Farmer): idle 100% | food 55%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 15%, haul 29%, walk 11%, wait 44% | food 93%, thirsty 50%
+  Norra (Works at the Smeltery): haul 27%, walk 5%, wait 69% | food 66%, thirsty 50%
+
+== Totals so far, 0:25:00 ==
+Coins 22: 400 earned, 428 spent
+Harvested 108, meals made 21, drinks made 0, ore mined 150
+Plots: growing 17%, dry 24%, ripe 3%, empty 57%
+Kitchen Stove: working 45%, loading 22%, done 2%, idle 30%
+Kitchen Stove 2: working 64%, loading 34%, done 2%, idle 0%
+Smeltery Smelter: working 56%, loading 37%, done 3%, idle 4%
+Player clicks: 87
+Mine: dug 188 cells, shaft to row 9, 2 of 3 deposits found
+Eaten and drunk: 10 Grog, 6 Gruel, 5 Stew
+Dwarves:
+  Tovdis: work 68%, haul 9%, walk 16%, climb 6%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:04:49
+    idle: No job 0:00:08
+  Kilist: work 64%, haul 8%, walk 19%, climb 7%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:05:08
+    idle: No job 0:00:09
+  Norgar: work 64%, haul 9%, walk 18%, climb 7%, eat 1%, wait 1%, idle 1%; 3 meals, one every 0:04:58
+    idle: No job 0:00:12
+  Kilok: work 30%, haul 11%, walk 15%, eat 0%, wait 8%, idle 36%; 1 meal
+    idle: No job 0:00:05, Nothing sown 0:08:47
+  Dagmund: work 22%, haul 39%, walk 11%, eat 0%, wait 28%, idle 1%; 1 meal
+    idle: No job 0:00:03, No recipe set 0:00:05
+  Norra: work 12%, haul 18%, walk 7%, wait 56%, idle 7%; no meals
+    idle: No job 0:00:02, No recipe set 0:00:02, Missing ingredients 0:00:32
+
+-- 0:26:00, minute 26 (15:48:37) --
+Coins 22 (+0 earned, -0 spent)
+Made: 1 Stew
+Mined: 7 Copper Ore
+Storage: 47 Copper Ore, 24 Potato, 18 Radish, 17 Stew, 12 Carrot, 6 Barley, 5 Copper ingot, 4 Gruel
+Plots (27): empty 100%
+Kitchen Stove: working 87%, loading 14%
+Kitchen Stove 2: working 48%, loading 49%, done 3%
+Smeltery Smelter: working 77%, loading 23%
+Player: 0 clicks
+Mine: dug 7 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 52%, haul 8%, walk 32%, climb 7%, wait 1% | food 19%, thirsty 50%
+  Kilist (Miner): work 100% | food 24%, thirsty 50%
+  Norgar (Miner): work 83%, walk 10%, climb 7%, wait 0% | food 27%, thirsty 50%
+  Kilok (Farmer): idle 100% | food 55%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 31%, haul 32%, walk 7%, wait 31% | food 90%, thirsty 50%
+  Norra (Works at the Smeltery): work 20%, haul 3%, walk 5%, wait 72% | food 60%, thirsty 50%
+0:26:34  Kilok back to work after 0:04:14 idle
+0:26:52  Can afford to unlock Onion
+0:26:59  Unlocked Onion
+
+-- 0:27:00, minute 27 (15:49:37) --
+Coins 90 (+120 earned, -52 spent)
+Made: 2 Stew, 1 Copper ingot
+Mined: 4 Copper Ore
+Storage: 54 Copper Ore, 20 Potato, 19 Stew, 18 Radish, 12 Carrot, 6 Barley, 4 Gruel
+Plots (27): growing 27%, dry 3%, empty 70%
+Kitchen Stove: working 48%, loading 47%, done 5%
+Kitchen Stove 2: working 64%, loading 33%, done 3%
+Smeltery Smelter: working 45%, loading 50%, done 5%
+Player: 26 clicks, sowed 9 Potato, 9 Barley, 4 Carrot
+Mine: dug 4 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 64%, walk 36%, wait 1% | food 13%, thirsty 50%
+  Kilist (Miner): work 45%, haul 27%, walk 14%, climb 13%, wait 1% | food 19%, thirsty 50%
+  Norgar (Miner): work 51%, haul 14%, walk 21%, climb 13%, wait 0% | food 22%, thirsty 50%
+  Kilok (Farmer): work 2%, walk 13%, wait 29%, idle 56% | food 55%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 17%, haul 61%, walk 6%, wait 16% | food 88%, thirsty 50%
+  Norra (Works at the Smeltery): work 20%, haul 29%, walk 10%, wait 41% | food 53%, thirsty 50%
+0:27:13  Kitchen Stove 3 set to Roast carrots
+0:27:22  Kitchen Stove 4 set to Onion soup
+0:27:46  Built Farm Plot at (54, 5)
+0:27:47  First made: Roast carrots
+0:27:47  Built Farm Plot at (54, 6)
+0:27:47  Built Farm Plot at (54, 7)
+0:27:47  Built Farm Plot at (52, 7)
+0:27:47  Built Farm Plot at (53, 7)
+0:27:48  Built Farm Plot at (53, 6)
+0:27:48  Built Farm Plot at (52, 6)
+0:27:49  Built Farm Plot at (53, 5)
+0:27:49  Built Farm Plot at (52, 5)
+
+-- 0:28:00, minute 28 (15:50:37) --
+Coins 9 (+0 earned, -81 spent)
+Made: 1 Stew, 1 Copper ingot, 1 Roast carrots
+Mined: 8 Copper Ore
+Storage: 51 Copper Ore, 20 Stew, 18 Potato, 18 Radish, 10 Carrot, 6 Barley, 4 Gruel, 1 Copper ingot
+Plots (36): growing 43%, dry 52%, empty 5%
+Kitchen Stove: working 66%, loading 32%, done 2%
+Kitchen Stove 2: working 84%, loading 16%
+Smeltery Smelter: working 79%, loading 16%, done 5%
+Kitchen Stove 3: working 55%, loading 8%, done 25%, idle 11%
+Kitchen Stove 4: loading 94%, idle 6%
+Player: 39 clicks, sowed 9 Barley, 5 Radish
+Mine: dug 5 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 95%, haul 5% | food 3%, thirsty 50%
+  Kilist (Miner): work 100% | food 9%, thirsty 50%
+  Norgar (Miner): work 85%, walk 14%, wait 1% | food 13%, thirsty 50%
+  Kilok (Farmer): work 68%, walk 29%, wait 3% | food 48%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 17%, haul 33%, walk 46%, wait 5% | food 87%, thirsty 50%
+  Norra (Works at the Smeltery): haul 16%, walk 5%, wait 80% | food 53%, thirsty 50%
+0:28:41  Hired Brudis (7 dwarves)
+0:28:41  Brudis idle: No job
+0:28:47  Brudis: Farmer
+0:28:47  Brudis back to work after 0:00:06 idle
+
+-- 0:29:00, minute 29 (15:51:37) --
+Coins 69 (+140 earned, -80 spent)
+Harvested: 4 Carrot
+Made: 1 Stew
+Mined: 5 Copper Ore
+Storage: 37 Copper Ore, 21 Stew, 18 Radish, 14 Potato, 10 Carrot, 6 Barley, 4 Gruel, 1 Roast carrots
+Plots (36): growing 27%, dry 72%, ripe 1%, empty 0%
+Kitchen Stove: working 18%, loading 82%
+Kitchen Stove 2: working 16%, loading 66%, done 18%
+Smeltery Smelter: working 66%, loading 34%
+Kitchen Stove 3: loading 100%, done 0%
+Kitchen Stove 4: loading 100%
+Player: 2 clicks
+Mine: dug 1 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 50%, haul 22%, walk 14%, climb 13%, wait 1% | food 0%, thirsty 50%
+  Kilist (Miner): work 43%, haul 14%, walk 29%, climb 13%, wait 1% | food 5%, thirsty 50%
+  Norgar (Miner): work 86%, walk 14%, wait 0% | food 5%, thirsty 50%
+  Kilok (Farmer): work 69%, haul 2%, walk 26%, wait 3% | food 41%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 17%, haul 50%, walk 31%, wait 2% | food 85%, thirsty 50%
+  Norra (Works at the Smeltery): work 20%, haul 14%, walk 5%, wait 61% | food 46%, thirsty 50%
+  Brudis (Farmer): work 45%, walk 25%, wait 3%, idle 27% | food 95%, thirsty 50%
+
+-- 0:30:00, minute 30 (15:52:37) --
+Coins 69 (+0 earned, -0 spent)
+Harvested: 8 Radish, 4 Carrot
+Made: 1 Stew, 1 Copper ingot
+Mined: 6 Copper Ore
+Storage: 43 Copper Ore, 24 Radish, 19 Stew, 16 Carrot, 12 Potato, 6 Barley, 4 Gruel, 1 Copper ingot, 1 Roast carrots
+Plots (36): growing 19%, dry 60%, ripe 7%, empty 13%
+Kitchen Stove: working 82%, loading 17%, done 1%
+Kitchen Stove 2: working 70%, loading 30%
+Smeltery Smelter: working 45%, loading 50%, done 5%
+Kitchen Stove 3: working 20%, loading 80%
+Kitchen Stove 4: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Eaten and drunk: 2 Stew
+Dwarves:
+  Tovdis (Miner): work 34%, haul 14%, walk 31%, climb 13%, eat 7%, wait 1% | food 97%, thirsty 50%
+  Kilist (Miner): work 57%, haul 14%, walk 18%, climb 7%, eat 4%, wait 1% | food 0%, thirsty 50%
+  Norgar (Miner): work 49%, haul 27%, walk 11%, climb 7%, eat 7%, wait 1% | food 100%, thirsty 50%
+  Kilok (Farmer): work 51%, haul 17%, walk 30%, wait 3% | food 36%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 34%, haul 47%, walk 18%, wait 2% | food 81%, thirsty 50%
+  Norra (Works at the Smeltery): work 20%, haul 29%, walk 10%, wait 41% | food 40%, thirsty 50%
+  Brudis (Farmer): work 47%, haul 25%, walk 25%, wait 3% | food 79%, thirsty 50%
+
+== Totals so far, 0:30:00 ==
+Coins 69: 660 earned, 641 spent
+Harvested 124, meals made 28, drinks made 0, ore mined 180
+Plots: growing 18%, dry 28%, ripe 3%, empty 51%
+Kitchen Stove: working 47%, loading 25%, done 2%, idle 25%
+Kitchen Stove 2: working 63%, loading 35%, done 2%, idle 0%
+Smeltery Smelter: working 59%, loading 36%, done 3%, idle 2%
+Kitchen Stove 3: working 24%, loading 64%, done 8%, idle 4%
+Kitchen Stove 4: loading 98%, idle 2%
+Player clicks: 154
+Mine: dug 205 cells, shaft to row 9, 2 of 3 deposits found
+Eaten and drunk: 10 Grog, 7 Stew, 6 Gruel
+Dwarves:
+  Tovdis: work 66%, haul 9%, walk 17%, climb 6%, eat 1%, wait 1%, idle 0%; 4 meals, one every 0:08:27
+    idle: No job 0:00:08
+  Kilist: work 65%, haul 8%, walk 18%, climb 7%, eat 1%, wait 0%, idle 1%; 3 meals, one every 0:05:08
+    idle: No job 0:00:09
+  Norgar: work 65%, haul 9%, walk 17%, climb 7%, eat 1%, wait 1%, idle 1%; 4 meals, one every 0:08:24
+    idle: No job 0:00:12
+  Kilok: work 31%, haul 10%, walk 16%, eat 0%, wait 8%, idle 35%; 1 meal
+    idle: No job 0:00:05, Nothing sown 0:10:21
+  Dagmund: work 22%, haul 40%, walk 13%, eat 0%, wait 24%, idle 1%; 1 meal
+    idle: No job 0:00:03, No recipe set 0:00:05
+  Norra: work 13%, haul 18%, walk 7%, wait 57%, idle 5%; no meals
+    idle: No job 0:00:02, No recipe set 0:00:02, Missing ingredients 0:00:32
+  Brudis: work 47%, haul 19%, walk 25%, wait 3%, idle 7%; no meals
+    idle: No job 0:00:05
+
+-- 0:31:00, minute 31 (15:53:37) --
+Coins 69 (+0 earned, -0 spent)
+Harvested: 4 Barley, 2 Radish
+Made: 1 Stew, 1 Copper ingot, 1 Roast carrots
+Mined: 6 Copper Ore
+Storage: 43 Copper Ore, 26 Radish, 20 Stew, 16 Carrot, 10 Potato, 6 Barley, 4 Gruel, 2 Roast carrots, 1 Copper ingot
+Plots (36): growing 35%, dry 37%, ripe 2%, empty 26%
+Kitchen Stove: working 70%, loading 30%
+Kitchen Stove 2: working 30%, loading 69%, done 1%
+Smeltery Smelter: working 90%, loading 5%, done 5%
+Kitchen Stove 3: working 30%, loading 35%, done 34%
+Kitchen Stove 4: loading 100%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Eaten and drunk: 1 Stew
+Dwarves:
+  Tovdis (Miner): work 100% | food 87%, thirsty 50%
+  Kilist (Miner): work 58%, walk 32%, climb 7%, eat 3%, wait 1% | food 94%, thirsty 50%
+  Norgar (Miner): work 85%, walk 8%, climb 7%, wait 0% | food 91%, thirsty 50%
+  Kilok (Farmer): work 54%, haul 37%, walk 6%, wait 3% | food 31%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 18%, haul 62%, walk 18%, wait 2% | food 80%, thirsty 50%
+  Norra (Works at the Smeltery): haul 5%, walk 5%, wait 90% | food 40%, thirsty 50%
+  Brudis (Farmer): work 57%, haul 41%, wait 3% | food 61%, thirsty 50%
+
+-- 0:32:00, minute 32 (15:54:37) --
+Coins 69 (+0 earned, -0 spent)
+Harvested: 8 Barley, 4 Potato
+Made: 1 Stew
+Mined: 6 Copper Ore
+Storage: 50 Copper Ore, 28 Radish, 21 Stew, 16 Barley, 14 Carrot, 8 Potato, 4 Gruel, 2 Copper ingot, 2 Roast carrots
+Plots (36): growing 16%, dry 36%, ripe 8%, empty 39%
+Kitchen Stove: working 30%, loading 32%, done 38%
+Kitchen Stove 2: working 85%, loading 15%
+Smeltery Smelter: working 55%, loading 45%
+Kitchen Stove 3: working 35%, loading 66%
+Kitchen Stove 4: loading 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 9, 7 tunnel ends, 2 of 3 deposits found
+Dwarves:
+  Tovdis (Miner): work 45%, haul 27%, walk 14%, climb 13%, wait 1% | food 82%, thirsty 50%
+  Kilist (Miner): work 68%, walk 32%, wait 0% | food 87%, thirsty 50%
+  Norgar (Miner): work 49%, haul 14%, walk 23%, climb 13%, wait 0% | food 87%, thirsty 50%
+  Kilok (Farmer): work 48%, haul 42%, walk 7%, wait 3% | food 26%, thirsty 50%
+  Dagmund (Works at the Kitchen): work 34%, haul 46%, walk 18%, wait 2% | food 76%, thirsty 50%
+  Norra (Works at the Smeltery): work 20%, haul 24%, walk 5%, wait 51% | food 33%, thirsty 50%
+  Brudis (Farmer): work 44%, haul 37%, walk 17%, wait 3% | food 46%, thirsty 50%
+
+== End of game, 0:32:09 ==
+Coins 69: 660 earned, 641 spent
+Harvested 144, meals made 33, drinks made 0, ore mined 194
+Plots: growing 19%, dry 29%, ripe 3%, empty 49%
+Kitchen Stove: working 47%, loading 26%, done 3%, idle 24%
+Kitchen Stove 2: working 62%, loading 35%, done 2%, idle 0%
+Smeltery Smelter: working 61%, loading 35%, done 3%, idle 2%
+Kitchen Stove 3: working 30%, loading 57%, done 11%, idle 2%
+Kitchen Stove 4: loading 99%, idle 1%
+Player clicks: 154
+Mine: dug 208 cells, shaft to row 9, 2 of 3 deposits found
+Eaten and drunk: 10 Grog, 8 Stew, 6 Gruel
+Dwarves:
+  Tovdis: work 67%, haul 9%, walk 16%, climb 6%, eat 1%, wait 1%, idle 0%; 4 meals, one every 0:08:27
+    idle: No job 0:00:08
+  Kilist: work 65%, haul 8%, walk 19%, climb 6%, eat 1%, wait 0%, idle 1%; 4 meals, one every 0:08:33
+    idle: No job 0:00:09
+  Norgar: work 66%, haul 9%, walk 17%, climb 7%, eat 1%, wait 1%, idle 1%; 4 meals, one every 0:08:24
+    idle: No job 0:00:12
+  Kilok: work 33%, haul 12%, walk 15%, eat 0%, wait 7%, idle 32%; 1 meal
+    idle: No job 0:00:05, Nothing sown 0:10:21
+  Dagmund: work 23%, haul 41%, walk 13%, eat 0%, wait 22%, idle 1%; 1 meal
+    idle: No job 0:00:03, No recipe set 0:00:05
+  Norra: work 13%, haul 18%, walk 7%, wait 59%, idle 4%; no meals
+    idle: No job 0:00:02, No recipe set 0:00:02, Missing ingredients 0:00:32
+  Brudis: work 47%, haul 32%, walk 16%, wait 3%, idle 2%; no meals
+    idle: No job 0:00:05

@@ -1,0 +1,385 @@
+LDCP game log
+Version proto-0.10.5.27, started 2026-10-05 10:43:29.
+Times are game time (h:mm:ss). Shares are of game time.
+
+== Tuning ==
+Game: starting_coins=50 starting_dwarves=4 starting_stock=[6 Gruel, 6 Grog] starting_food_seconds=90.0 walk_speed=24.0 ladder_speed=8.0 lift_speed=64.0 base_work_rate=1.0 carry_capacity=5 eat_seconds=4.0 manual_work_per_click=0.5 hand_capacity=50 hire_cost=40 hire_cost_growth=20 lift_cost=150
+Mine level 1: size_cells=(256, 36) landing_row=4 landing_half_width=2 noise_seed=7 dirt_rows=6 dirt_edge_rows=2.5 dirt_work=2.0 rock_work=5.0 straight_start_columns=6 branch_straight_columns=2 branch_gap_rows=3 slope_chance=0.1 fork_chance=0.04 max_heads=5
+
+== Crops ==
+Potato: produce=Potato yield_count=2 seed_cost=1 unlock=- water_work=1.0 harvest_work=1.5 grow_seconds=45.0 watered_seconds=30.0
+Barley: produce=Barley yield_count=2 seed_cost=1 unlock=- water_work=1.0 harvest_work=1.5 grow_seconds=60.0 watered_seconds=30.0
+Carrot: produce=Carrot yield_count=2 seed_cost=1 unlock=(harvested 20, then 15 coins) water_work=1.0 harvest_work=1.5 grow_seconds=30.0 watered_seconds=30.0
+Onion: produce=Onion yield_count=2 seed_cost=1 unlock=(meals_made 15, then 30 coins) water_work=1.0 harvest_work=1.5 grow_seconds=75.0 watered_seconds=30.0
+Radish: produce=Radish yield_count=2 seed_cost=1 unlock=(harvested 40, then 25 coins) water_work=1.0 harvest_work=1.5 grow_seconds=35.0 watered_seconds=30.0
+Wheat: produce=Wheat yield_count=2 seed_cost=1 unlock=(drinks_made 10, then 40 coins) water_work=1.0 harvest_work=1.5 grow_seconds=60.0 watered_seconds=30.0
+
+== Items ==
+Potato: sell_price=1 buy_price=0
+Barley: sell_price=1 buy_price=0
+Carrot: sell_price=1 buy_price=0
+Onion: sell_price=2 buy_price=0
+Radish: sell_price=1 buy_price=0
+Wheat: sell_price=1 buy_price=0
+Gruel: shift_seconds=90.0 sell_price=0 buy_price=4
+Roast carrots: shift_seconds=200.0 sell_price=2 buy_price=0
+Stew: shift_seconds=300.0 sell_price=3 buy_price=0
+Onion soup: shift_seconds=480.0 sell_price=4 buy_price=0
+Grog: low_multiplier=0.5 high_multiplier=0.75 duration_seconds=90.0 sell_price=0 buy_price=3
+Ale: low_multiplier=0.5 high_multiplier=1.0 duration_seconds=180.0 sell_price=4 buy_price=0
+Wheat beer: low_multiplier=0.5 high_multiplier=0.9 duration_seconds=240.0 sell_price=4 buy_price=0
+Radish spirit: low_multiplier=0.5 high_multiplier=1.15 duration_seconds=60.0 sell_price=5 buy_price=0
+Aged Mushroom Cap Cognac: low_multiplier=0.5 high_multiplier=1.5 duration_seconds=1800.0 sell_price=0 buy_price=0
+Copper Ore: sell_price=5 buy_price=0
+Copper ingot: sell_price=20 buy_price=0
+Copper pick: job=Miner work_multiplier=1.5 sell_price=30 buy_price=0
+Copper sickle: job=Farmer work_multiplier=1.5 sell_price=30 buy_price=0
+Potato mash: sell_price=0 buy_price=0
+Barley mash: sell_price=0 buy_price=0
+Wheat mash: sell_price=0 buy_price=0
+Radish mash: sell_price=0 buy_price=0
+
+== Recipes ==
+Gruel: inputs=[1 Potato] output=Gruel output_count=1 load_work=5.0 process_seconds=20.0
+Roast carrots: inputs=[2 Carrot] output=Roast carrots output_count=1 load_work=5.0 process_seconds=30.0
+Stew: inputs=[2 Potato] output=Stew output_count=1 load_work=5.0 process_seconds=60.0
+Onion soup: inputs=[1 Onion, 2 Potato] output=Onion soup output_count=1 load_work=6.0 process_seconds=90.0
+Potato mash: inputs=[2 Potato] output=Potato mash output_count=1 load_work=5.0 process_seconds=20.0
+Barley mash: inputs=[3 Barley] output=Barley mash output_count=1 load_work=5.0 process_seconds=30.0
+Wheat mash: inputs=[3 Wheat] output=Wheat mash output_count=1 load_work=5.0 process_seconds=30.0
+Radish mash: inputs=[3 Radish] output=Radish mash output_count=1 load_work=5.0 process_seconds=25.0
+Grog: inputs=[1 Potato mash] output=Grog output_count=4 load_work=4.0 process_seconds=90.0
+Ale: inputs=[1 Barley mash] output=Ale output_count=4 load_work=4.0 process_seconds=180.0
+Wheat beer: inputs=[1 Wheat mash] output=Wheat beer output_count=4 load_work=4.0 process_seconds=150.0
+Radish spirit: inputs=[1 Radish mash] output=Radish spirit output_count=3 load_work=4.0 process_seconds=120.0
+Copper ingot: inputs=[3 Copper Ore] output=Copper ingot output_count=1 load_work=6.0 process_seconds=60.0
+Copper pick: inputs=[2 Copper ingot] output=Copper pick output_count=1 load_work=8.0 process_seconds=90.0
+Copper sickle: inputs=[2 Copper ingot] output=Copper sickle output_count=1 load_work=8.0 process_seconds=90.0
+
+== Buildings ==
+Farm Plot: footprint=(1, 1) cost=3 unlock=- buildable=true can_move=true can_destroy=true blocks_walking=false door_offset_cells=1 workstations=[]
+Kitchen: footprint=(3, 2) cost=30 unlock=- buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Stove]
+Brewery: footprint=(3, 2) cost=40 unlock=(harvested:barley 20, then 60 coins) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Mash pot, Fermenter]
+Smeltery: footprint=(3, 2) cost=50 unlock=(mined 15, then 80 coins, 5 Copper Ore) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Smelter]
+Forge: footprint=(3, 2) cost=60 unlock=(made:copper_ingot 5, then 50 coins, 3 Copper ingot) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Anvil]
+
+== Furniture ==
+Chair: footprint=(1, 1) cost=5 blocks_walking=false is_seat=true needs_front_access=false
+Table: footprint=(2, 2) cost=10 blocks_walking=true is_seat=false needs_front_access=false
+Long table: footprint=(4, 2) cost=20 blocks_walking=true is_seat=false needs_front_access=false
+
+== Play ==
+0:00:00  Start: 50 coins, storage 6 Gruel, 6 Grog
+0:00:00  Start: 4 Farm Plot, 1 Great Hall, 1 Mine Entrance; hall has 4 Chair, 2 Table
+0:00:00  Start: shaft to row 4, 3 tunnel ends
+0:00:00  Start: 4 dwarves (Brumund, Bomist, Brungar, Dagbur)
+0:00:01  Brumund idle: No job
+0:00:01  Bomist idle: No job
+0:00:01  Brungar idle: No job
+0:00:01  Dagbur idle: No job
+0:00:09  Built Farm Plot at (56, 6)
+0:00:10  Built Farm Plot at (57, 6)
+0:00:10  Built Farm Plot at (54, 6)
+0:00:11  Built Farm Plot at (53, 6)
+0:00:12  Built Farm Plot at (56, 7)
+0:00:12  Built Farm Plot at (57, 7)
+0:00:13  Built Farm Plot at (54, 7)
+0:00:13  Built Farm Plot at (53, 7)
+0:00:24  Brumund: Farmer
+0:00:24  Brumund back to work after 0:00:23 idle
+0:00:30  Dagbur: Miner
+0:00:30  Dagbur back to work after 0:00:29 idle
+0:00:32  Brungar: Miner
+0:00:32  Brungar back to work after 0:00:31 idle
+0:00:34  Bomist: Miner
+0:00:34  Bomist back to work after 0:00:33 idle
+0:00:53  Shaft dug down to row 5
+0:00:59  Found Copper Ore deposit CopperNear (column 136, row 1)
+
+-- 0:01:00, minute 1 (10:44:29) --
+Coins 14 (+0 earned, -36 spent)
+Storage: 6 Gruel, 6 Grog
+Plots (12): growing 19%, dry 60%, empty 21%
+Player: 20 clicks, sowed 6 Potato, 6 Barley
+Mine: dug 7 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 30%, walk 29%, wait 2%, idle 39% | food 80%, thirsty 50%
+  Bomist (Miner): work 16%, walk 18%, climb 10%, wait 1%, idle 56% | food 90%, thirsty 50%
+  Brungar (Miner): work 20%, walk 21%, climb 7%, wait 0%, idle 53% | food 87%, thirsty 50%
+  Dagbur (Miner): work 22%, walk 23%, climb 7%, wait 0%, idle 49% | food 85%, thirsty 50%
+0:01:17  First mined: Copper Ore
+0:01:52  First harvested: Barley
+
+-- 0:02:00, minute 2 (10:45:29) --
+Coins 14 (+0 earned, -0 spent)
+Harvested: 6 Barley
+Mined: 3 Copper Ore
+Storage: 6 Gruel, 6 Grog, 1 Barley
+Plots (12): growing 70%, dry 16%, ripe 12%, empty 2%
+Player: 0 clicks
+Mine: dug 28 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 65%, haul 3%, walk 29%, wait 3% | food 37%, thirsty 50%
+  Bomist (Miner): work 100% | food 23%, thirsty 50%
+  Brungar (Miner): work 95%, walk 4%, wait 1% | food 23%, thirsty 50%
+  Dagbur (Miner): work 95%, walk 4%, wait 1% | food 22%, thirsty 50%
+0:02:45  First harvested: Potato
+
+-- 0:03:00, minute 3 (10:46:29) --
+Coins 14 (+0 earned, -0 spent)
+Harvested: 6 Barley, 6 Potato
+Mined: 3 Copper Ore
+Storage: 12 Barley, 6 Copper Ore, 6 Potato, 4 Gruel, 4 Grog
+Plots (12): growing 0%, ripe 54%, empty 46%
+Player: 0 clicks
+Mine: dug 11 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 30%, haul 43%, walk 26%, wait 2% | food 17%, thirsty 50%
+  Bomist (Miner): work 58%, haul 14%, walk 14%, climb 13%, wait 1% | food 0%, thirsty 50%
+  Brungar (Miner): work 59%, haul 14%, walk 14%, climb 7%, eat 5%, wait 1% | food 0%, Grog 75%
+  Dagbur (Miner): work 36%, walk 43%, climb 13%, eat 7%, wait 1% | food 100%, Grog 75%
+0:03:08  Milestone met for Carrot (harvested 20), trade costs 15 coins
+0:03:22  Brumund idle: Nothing sown
+
+-- 0:04:00, minute 4 (10:47:29) --
+Coins 14 (+0 earned, -0 spent)
+Harvested: 6 Potato
+Mined: 5 Copper Ore
+Storage: 12 Barley, 12 Potato, 7 Copper Ore, 3 Gruel, 3 Grog
+Plots (12): ripe 5%, empty 95%
+Player: 0 clicks
+Mine: dug 27 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 15%, haul 12%, walk 7%, wait 1%, idle 65% | food 7%, thirsty 50%
+  Bomist (Miner): work 38%, haul 14%, walk 26%, climb 13%, eat 7%, wait 1% | food 77%, Grog 75%
+  Brungar (Miner): work 76%, walk 16%, climb 7%, eat 2%, wait 0% | food 50%, Grog 73%
+  Dagbur (Miner): work 91%, walk 7%, wait 2% | food 39%, Grog 73%
+0:04:57  Milestone met for Smeltery (mined 15), trade costs 80 coins, 5 Copper Ore
+0:05:00  Brumund back to work after 0:01:38 idle
+
+-- 0:05:00, minute 5 (10:48:29) --
+Coins 12 (+0 earned, -2 spent)
+Mined: 4 Copper Ore
+Storage: 12 Barley, 12 Copper Ore, 12 Potato, 3 Gruel, 3 Grog
+Plots (12): growing 0%, empty 100%
+Player: 3 clicks, sowed 2 Potato
+Mine: dug 27 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): walk 2%, idle 98% | food 7%, thirsty 50%
+  Bomist (Miner): work 88%, walk 10%, wait 2% | food 18%, Grog 67%
+  Brungar (Miner): work 43%, haul 14%, walk 28%, climb 13%, wait 1% | food 21%, Grog 68%
+  Dagbur (Miner): work 82%, haul 2%, walk 13%, climb 3%, wait 0% | food 0%, thirsty 50%
+
+== Totals so far, 0:05:00 ==
+Coins 12: 0 earned, 38 spent
+Harvested 24, meals made 0, drinks made 0, ore mined 15
+Plots: growing 18%, dry 14%, ripe 15%, empty 53%
+Player clicks: 23
+Mine: dug 100 cells, shaft to row 5, 1 of 3 deposits found
+Dwarves:
+  Brumund: work 28%, haul 12%, walk 19%, wait 1%, idle 40%
+    idle: No job 0:00:23, Nothing sown 0:01:37
+  Bomist: work 60%, haul 6%, walk 14%, climb 7%, eat 1%, wait 1%, idle 11%
+    idle: No job 0:00:33
+  Brungar: work 59%, haul 6%, walk 16%, climb 7%, eat 1%, wait 1%, idle 11%
+    idle: No job 0:00:31
+  Dagbur: work 65%, haul 0%, walk 18%, climb 5%, eat 1%, wait 1%, idle 10%
+    idle: No job 0:00:29
+0:05:46  Pantry: out of meals
+0:05:46  Pantry: out of drinks
+0:05:51  Can afford to unlock Carrot
+0:05:51  Bomist is waiting for food
+
+-- 0:06:00, minute 6 (10:49:29) --
+Coins 111 (+109 earned, -10 spent)
+Mined: 3 Copper Ore
+Storage: none
+Plots (12): growing 39%, dry 57%, empty 3%
+Player: 10 clicks, sowed 6 Barley, 4 Potato
+Mine: dug 6 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 32%, walk 59%, eat 7%, wait 3% | food 88%, Grog 75%
+  Bomist (Miner): work 49%, haul 14%, walk 15%, climb 7%, wait 1%, no food 15% | food 0%, thirsty 50%
+  Brungar (Miner): work 33%, walk 51%, climb 8%, eat 7%, wait 1% | food 100%, Grog 75%
+  Dagbur (Miner): work 24%, haul 13%, walk 46%, climb 10%, eat 7%, wait 1% | food 84%, Grog 75%
+0:06:01  Pantry: meals back in
+0:06:01  Bomist got fed after waiting 0:00:10
+0:06:02  Pantry: drinks back in
+0:06:13  Built Kitchen at (56, 2)
+0:06:19  Hired Urbur (5 dwarves)
+0:06:19  Urbur idle: No job
+0:06:23  Urbur: Works at the Kitchen
+0:06:23  Urbur still idle: No recipe set
+0:06:41  Urbur: Farmer
+0:06:41  Urbur back to work after 0:00:22 idle
+0:06:46  Milestone met for Brewery (harvested:barley 20), trade costs 60 coins
+0:06:54  Milestone met for Radish (harvested 40), trade costs 25 coins
+
+-- 0:07:00, minute 7 (10:50:29) --
+Coins 12 (+0 earned, -99 spent)
+Harvested: 12 Barley, 6 Potato
+Mined: 4 Copper Ore
+Storage: 12 Barley, 5 Copper Ore, 4 Grog, 3 Gruel, 1 Potato
+Plots (12): growing 48%, dry 4%, ripe 26%, empty 23%
+Kitchen Stove: idle 100%
+Player: 5 clicks, sowed 1 Potato
+Mine: dug 19 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 35%, haul 32%, walk 28%, wait 5% | food 64%, Grog 74%
+  Bomist (Miner): work 37%, walk 49%, climb 7%, eat 7%, wait 1%, no food 1% | food 75%, thirsty 50%
+  Brungar (Miner): work 74%, walk 19%, climb 5%, wait 2% | food 51%, Grog 74%
+  Dagbur (Miner): work 66%, haul 14%, walk 12%, climb 7%, wait 0% | food 40%, Grog 73%
+  Urbur (Farmer): work 22%, haul 9%, walk 17%, wait 1%, idle 51% | food 90%, thirsty 50%
+0:07:13  Can afford to unlock Radish
+0:07:25  Urbur: Works at the Kitchen
+0:07:29  Kitchen Stove set to Gruel
+
+-- 0:08:00, minute 8 (10:51:29) --
+Coins 9 (+25 earned, -28 spent)
+Harvested: 6 Potato
+Mined: 4 Copper Ore
+Storage: 12 Barley, 11 Potato, 4 Grog, 3 Gruel
+Plots (12): growing 46%, dry 26%, ripe 5%, empty 23%
+Kitchen Stove: loading 53%, idle 47%
+Kitchen Stove 2: idle 100%
+Player: 14 clicks, sowed 6 Barley, 2 Potato
+Mine: dug 28 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 36%, haul 27%, walk 32%, wait 5% | food 40%, Grog 73%
+  Bomist (Miner): work 100% | food 9%, thirsty 50%
+  Brungar (Miner): work 80%, walk 19%, wait 1% | food 0%, thirsty 50%
+  Dagbur (Miner): work 62%, walk 30%, climb 7%, wait 1% | food 0%, thirsty 50%
+  Urbur (Works at the Kitchen): work 30%, haul 43%, walk 25%, wait 2% | food 70%, thirsty 50%
+0:08:04  Kitchen Stove 2 set to Stew
+0:08:23  First made: Gruel
+0:08:26  Pantry: out of meals
+0:08:35  Pantry: meals back in
+
+-- 0:09:00, minute 9 (10:52:29) --
+Coins 3 (+0 earned, -6 spent)
+Harvested: 10 Barley, 6 Potato
+Made: 1 Gruel
+Mined: 3 Copper Ore
+Storage: 18 Barley, 14 Potato, 5 Copper Ore, 1 Gruel, 1 Grog
+Plots (12): growing 29%, dry 20%, ripe 19%, empty 32%
+Kitchen Stove: working 44%, loading 51%, done 5%
+Kitchen Stove 2: working 87%, loading 8%, idle 6%
+Player: 18 clicks, sowed 6 Potato
+Mine: dug 3 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 37%, haul 30%, walk 32%, wait 2% | food 16%, Grog 65%
+  Bomist (Miner): work 24%, haul 14%, walk 41%, climb 13%, eat 7%, wait 1% | food 96%, Grog 75%
+  Brungar (Miner): work 42%, walk 38%, climb 13%, eat 7%, wait 1% | food 72%, Grog 75%
+  Dagbur (Miner): work 12%, walk 67%, climb 13%, eat 7%, wait 1% | food 92%, Grog 75%
+  Urbur (Works at the Kitchen): work 21%, haul 29%, walk 25%, wait 25% | food 56%, thirsty 50%
+0:09:09  First made: Stew
+0:09:40  Built Farm Plot at (58, 5)
+0:09:40  Built Farm Plot at (58, 6)
+0:09:41  Built Farm Plot at (58, 7)
+0:09:43  Built Farm Plot at (52, 5)
+0:09:43  Built Farm Plot at (52, 6)
+0:09:43  Built Farm Plot at (52, 7)
+0:09:47  Unlocked Carrot
+
+-- 0:10:00, minute 10 (10:53:29) --
+Coins 56 (+86 earned, -33 spent)
+Harvested: 4 Potato, 2 Barley
+Made: 1 Gruel, 1 Stew
+Mined: 4 Copper Ore
+Storage: 4 Potato, 2 Gruel, 1 Grog
+Plots (18): growing 22%, dry 18%, ripe 1%, empty 59%
+Kitchen Stove: working 25%, loading 47%, done 28%
+Kitchen Stove 2: working 13%, loading 81%, done 6%
+Player: 6 clicks
+Mine: dug 30 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 28%, haul 26%, walk 20%, wait 27% | food 0%, thirsty 50%
+  Bomist (Miner): work 93%, walk 5%, wait 2% | food 33%, Grog 72%
+  Brungar (Miner): work 48%, haul 14%, walk 24%, climb 13%, wait 0% | food 40%, Grog 73%
+  Dagbur (Miner): work 73%, walk 26%, wait 1% | food 43%, Grog 73%
+  Urbur (Works at the Kitchen): work 17%, haul 45%, walk 23%, wait 15% | food 45%, thirsty 50%
+
+== Totals so far, 0:10:00 ==
+Coins 56: 220 earned, 214 spent
+Harvested 70, meals made 3, drinks made 0, ore mined 33
+Plots: growing 27%, dry 20%, ripe 12%, empty 41%
+Kitchen Stove: working 18%, loading 40%, done 9%, idle 33%
+Kitchen Stove 2: working 47%, loading 42%, done 3%, idle 8%
+Player clicks: 76
+Mine: dug 186 cells, shaft to row 5, 1 of 3 deposits found
+Dwarves:
+  Brumund: work 31%, haul 17%, walk 26%, eat 1%, wait 5%, idle 20%
+    idle: No job 0:00:23, Nothing sown 0:01:37
+  Bomist: work 60%, haul 6%, walk 18%, climb 6%, eat 2%, wait 1%, idle 6%, no food 2%
+    idle: No job 0:00:33
+  Brungar: work 57%, haul 4%, walk 23%, climb 7%, eat 2%, wait 1%, idle 5%
+    idle: No job 0:00:31
+  Dagbur: work 56%, haul 3%, walk 27%, climb 6%, eat 2%, wait 1%, idle 5%
+    idle: No job 0:00:29
+  Urbur: work 22%, haul 34%, walk 23%, wait 12%, idle 10%
+    idle: No job 0:00:03, No recipe set 0:00:17
+0:10:03  Pantry: out of drinks
+
+-- 0:11:00, minute 11 (10:54:29) --
+Coins 22 (+0 earned, -34 spent)
+Harvested: 2 Potato
+Made: 1 Gruel
+Mined: 4 Copper Ore
+Storage: 5 Copper Ore, 5 Potato, 1 Gruel
+Plots (18): growing 31%, dry 53%, ripe 8%, empty 8%
+Kitchen Stove: working 38%, loading 47%, done 16%
+Kitchen Stove 2: working 78%, loading 22%
+Kitchen Stove 3: idle 100%
+Player: 30 clicks, sowed 9 Carrot, 5 Potato
+Mine: dug 21 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 43%, haul 8%, walk 38%, eat 7%, wait 4% | food 71%, Grog 74%
+  Bomist (Miner): work 54%, walk 38%, climb 7%, wait 1% | food 0%, thirsty 50%
+  Brungar (Miner): work 56%, walk 43%, wait 1% | food 2%, Grog 53%
+  Dagbur (Miner): work 71%, haul 14%, walk 5%, climb 7%, eat 2%, wait 1% | food 0%, thirsty 50%
+  Urbur (Works at the Kitchen): work 17%, haul 48%, walk 32%, wait 3% | food 34%, thirsty 50%
+0:11:07  Pantry: out of meals
+0:11:20  First harvested: Carrot
+0:11:27  Pantry: meals back in
+0:11:30  Pantry: out of meals
+0:11:45  Pantry: meals back in
+
+-- 0:12:00, minute 12 (10:55:29) --
+Coins 22 (+0 earned, -0 spent)
+Harvested: 12 Carrot, 2 Potato
+Made: 1 Gruel, 1 Stew
+Mined: 3 Copper Ore
+Storage: 12 Carrot, 8 Potato, 6 Copper Ore, 1 Gruel
+Plots (18): growing 12%, dry 18%, ripe 45%, empty 25%
+Kitchen Stove: working 27%, loading 41%, done 32%
+Kitchen Stove 2: working 22%, loading 72%, done 6%
+Kitchen Stove 3: idle 100%
+Player: 0 clicks
+Mine: dug 4 cells, shaft to row 5, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Brumund (Farmer): work 25%, haul 45%, walk 28%, wait 2% | food 55%, Grog 74%
+  Bomist (Miner): work 28%, walk 58%, climb 7%, eat 7%, wait 1% | food 81%, thirsty 50%
+  Brungar (Miner): work 24%, haul 14%, walk 41%, climb 13%, eat 7%, wait 1% | food 100%, thirsty 50%
+  Dagbur (Miner): work 71%, walk 18%, climb 7%, eat 4%, wait 0% | food 53%, thirsty 50%
+  Urbur (Works at the Kitchen): work 11%, haul 45%, walk 21%, wait 23% | food 27%, thirsty 50%
+
+== End of game, 0:12:01 ==
+Coins 22: 220 earned, 248 spent
+Harvested 86, meals made 6, drinks made 0, ore mined 40
+Plots: growing 26%, dry 23%, ripe 16%, empty 35%
+Kitchen Stove: working 23%, loading 41%, done 14%, idle 22%
+Kitchen Stove 2: working 48%, loading 45%, done 3%, idle 4%
+Kitchen Stove 3: idle 100%
+Player clicks: 106
+Mine: dug 211 cells, shaft to row 5, 1 of 3 deposits found
+Dwarves:
+  Brumund: work 31%, haul 19%, walk 28%, eat 1%, wait 5%, idle 17%
+    idle: No job 0:00:23, Nothing sown 0:01:37
+  Bomist: work 57%, haul 5%, walk 23%, climb 6%, eat 2%, wait 1%, idle 5%, no food 1%
+    idle: No job 0:00:33
+  Brungar: work 54%, haul 5%, walk 26%, climb 7%, eat 2%, wait 1%, idle 4%
+    idle: No job 0:00:31
+  Dagbur: work 59%, haul 4%, walk 24%, climb 6%, eat 2%, wait 1%, idle 4%
+    idle: No job 0:00:29
+  Urbur: work 20%, haul 38%, walk 24%, wait 12%, idle 6%
+    idle: No job 0:00:03, No recipe set 0:00:17

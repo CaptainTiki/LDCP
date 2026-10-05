@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.32`).
+Where the project stands, what's next, and how to pick it back up. Last updated at the end of the session of 2026-10-05 (version `proto-0.10.5.33`).
 
 ## Where we are
 
@@ -68,11 +68,30 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - Smeltery: mine 15 ore, then 80 coins + 5 ore.
   - Forge: smelt 5 ingots, then 50 coins + 3 ingots.
 
+## Playtests (2026-10-05)
+
+Five runs, read back from the game log. The logs are kept in `.logs/` in the repo; DECISIONS.md has a section on each with the changes it led to.
+
+| Log | Length | How it was played | What it showed |
+|---|---|---|---|
+| `game_2026-10-05_10-43-29` | 12 min | played | Sowing was a treadmill (crops grew in 30-60s, ~20 sows a minute for 18 plots); food ran out at 5:46; one cook couldn't keep up; a cook with no recipe walked off to the hall, so assigning looked broken; dwarves couldn't be dropped inside a building. |
+| `game_2026-10-05_11-36-53` | 44 min | left alone | Farm empty 94% of the game ("Nothing sown"); the starting food ran out and miners waited half the game for more. |
+| `game_2026-10-05_12-20-32` | 46 min | mostly left alone | Food length now right (a miner eats gruel every ~5 min); the kitchen never cooked because recipes couldn't be picked before the ingredients existed; tunnels ran dead straight (a slope bug). |
+| `game_2026-10-05_14-02-10` | 80 min | left alone after minute 1 | No cook was assigned, so nothing was cooked; miners waited for food ~70% of the game. |
+| `game_2026-10-05_15-22-37` | 32 min | played | Visits every 7-10 min, but each sowing kept the farm busy only 3-6 min, so the town spent most of its time waiting on the player (plots empty 49%); drinks ran out at 14:36 with no way to brew (the brewery needed barley nobody grew); stew lasted ~8.5 min a meal; 33 meals; smeltery running from 16:28. |
+
+Changed in response: crops grow half as fast, food and drink last twice as long, 10 gruel and 10 grog and a 3x3 farm to start, right-click puts tools away, dwarves can be dropped anywhere inside a workplace, idle dwarves wait by their workplace with a "?", recipes can be picked before their ingredients exist (the station says what it's waiting for), the stuck-slope tunnelling bug is fixed and tunnels wander more, and the brewery unlocks by cooking 10 meals.
+
+**The main lesson:** the town stalls whenever the player is away. Nearly every stall traces back to sowing (only the player sows, and a sowing lasts a few minutes) or to an empty pantry. Fixing how long a sowing lasts is the next big call.
+
 ## Next up
 
-1. **Test runs.** Play the opening from a new game and tune pacing: grow times, cook and brew times, unlock milestones, prices, ladder speed. The first run (2026-10-05) halved crop growth, doubled food and drink, and grew the starting farm and pantry; see DECISIONS.md "First playtest".
-   - Next: a second long run on the new numbers. Cooks keep one trip per ingredient by design; tune ingredients per recipe, cook and load times, meal length and eating pace together from the log. Parked ideas: recipes that make several servings, and food-quality moods that slow work.
-2. **Recipes again.**
+1. **Waiting on the user's call:**
+   - **Sowing pace.** A sowing must outlast the gap between visits. Options: (1) bigger, slower crops: 3x the grow time and 3x the yield, so the same food for a third of the sowing; (2) a bag of seeds per plot that farmers replant from until it's empty; (3) replanting as an unlock around minute 15-20 (a seed shed, say), keeping early sowing by hand. Claude's pick: 1 now, 3 as the first automation unlock. A Rusty's reference for how planting and replanting work there would settle it.
+   - **Barley.** Still a starting crop with no use before the brewery. Proposal: lock barley seeds until the first drinks are brewed (brewery, grog, barley, ale, wheat).
+   - **Mine controls and finds** (proposal). A Mine tab while in the mine view: one row per found deposit with − N + miners (0 leaves it alone; the rest dig), and a "dig the shaft down" switch that runs the ladder to the bottom of the layer. Random finds while digging (copper chunks, rarer in dirt than stone) so mining out the whole layer pays. Questions: − N + per deposit or on/off per ore type; which finds first; how long digging out the copper layer should take with ~4 miners (about 2 hours at today's numbers).
+2. **More test runs** on the new numbers, reading the logs. Cooks keep one trip per ingredient by design; tune ingredients per recipe, cook and load times, meal length and eating pace together. Parked ideas: recipes that make several servings, and food-quality moods that slow work.
+3. **Recipes again.**
    - Wheat and radish have no meals yet.
    - Bread would want an oven station.
    - A third and fourth early meal could vary cook time vs. shift length further.
@@ -87,7 +106,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 
 - `docs/GDD.md` still describes the original side-view town and needs updating to match what's built.
 - **Mine:**
-  - Once the copper layer has no room left for a tunnel, spare miners sit in the hall ("No tunnel to dig").
+  - Once the copper layer has no room left for a tunnel, spare miners wait by the mine entrance ("No tunnel to dig").
   - Miners prefer found ore nodes to digging and nodes never run out, so digging stops once there's a node per miner (with 3 miners, by about minute 10).
   - There are no gems, and no wider tunnel pockets.
 - **Town:** nothing stops the player fencing off part of the town with a wall of buildings.
@@ -111,7 +130,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.
 - **Godot path:** `.tools/run_tests.ps1` defaults to a `D:` Steam install. On the other desktop Godot is at `C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\`; pass `-Godot` or set `GODOT`.
-- **Game log:** on Windows the logs are in `%APPDATA%\Godot\app_userdata\LDCP\logs\` (beside Godot's own `godot.log`).
+- **Game log:** on Windows the logs are in `%APPDATA%\Godot\app_userdata\LDCP\logs\` (beside Godot's own `godot.log`). Logs worth keeping are copied into `.logs/` in the repo at the end of a session, so they travel to the other machine.
 - **Screenshots:** `.tools/screenshots.gd` captures town, mine, hall, kitchen and brewery views. Run Godot with `-s .tools/screenshots.gd -- <folder>`.
 - **Decision log:** `.tools/DECISIONS.md` has the reasoning behind every call made so far.
-- `.tests/` and `.tools/` are tracked in git, so they travel with the repo. `addons/gut/` is not: install GUT 9.7.1 on a new machine. See `CLAUDE.md`.
+- `.tests/`, `.tools/` and `.logs/` are tracked in git, so they travel with the repo. `addons/gut/` is not: install GUT 9.7.1 on a new machine. See `CLAUDE.md`.
