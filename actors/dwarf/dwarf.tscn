@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" path="res://assets/dwarf/pick.png" id="17"]
 [ext_resource type="Texture2D" path="res://assets/dwarf/sack.png" id="18"]
 [ext_resource type="Texture2D" path="res://assets/mine/lift_car.png" id="19"]
+[ext_resource type="Script" path="res://actors/dwarf/roles/tool_errand.gd" id="20"]
 
 [node name="Dwarf" type="Node2D"]
 script = ExtResource("1")
@@ -94,3 +95,6 @@ script = ExtResource("14")
 
 [node name="MealBreak" type="Node" parent="Roles"]
 script = ExtResource("13")
+
+[node name="ToolErrand" type="Node" parent="Roles"]
+script = ExtResource("20")

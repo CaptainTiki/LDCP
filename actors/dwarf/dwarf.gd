@@ -29,6 +29,7 @@ var _active_role: DwarfRole = null
 @onready var worker: Worker = $Worker
 @onready var assignment: JobAssignment = $JobAssignment
 @onready var meal_break: MealBreak = $Roles/MealBreak
+@onready var tool_errand: ToolErrand = $Roles/ToolErrand
 @onready var _roles: Dictionary[JobAssignment.Kind, DwarfRole] = {
 	JobAssignment.Kind.NONE: $Roles/Idle as DwarfRole,
 	JobAssignment.Kind.FARMER: $Roles/Farmer as DwarfRole,
@@ -123,6 +124,8 @@ func status_text() -> String:
 		return "Waiting for a seat"
 	if meal_break.in_progress:
 		return "Meal break"
+	if _active_role == tool_errand:
+		return tool_errand.title()
 	return _roles[assignment.kind()].title()
 
 
@@ -130,11 +133,19 @@ func status_text() -> String:
 func job_badge() -> String:
 	if meal_break.is_waiting_for_food or meal_break.is_waiting_for_seat:
 		return "!"
+	if _active_role == tool_errand:
+		return tool_errand.badge()
 	return _roles[assignment.kind()].badge()
 
 
 func _choose_role() -> DwarfRole:
+	# Already heading in to eat: he'll sort his tools out at the hall anyway.
+	if meal_break.in_progress:
+		return meal_break
+	# The wrong tool for the job goes back before anything else.
+	if tool_errand.is_needed():
+		return tool_errand
 	# A hungry dwarf finishes the job in hand before he downs tools.
-	if meal_break.in_progress or (hunger.is_empty() and not worker.is_mid_unit()):
+	if hunger.is_empty() and not worker.is_mid_unit():
 		return meal_break
 	return _roles[assignment.kind()]
