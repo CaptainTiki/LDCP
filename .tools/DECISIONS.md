@@ -244,3 +244,21 @@ The game keeps a plain-text log of every session, so a playthrough can be read b
 - **How.** `GameLog` (a child of `Game`, set up last) writes the file and drives four `LogWatcher` children on the sim clock: Economy, Town, Mine, Crew. Watchers mostly compare state once a game second and write down what changed, rather than every system calling into the log; the gameplay code only gained `Ledger.counters()`, `Dwarf.job_title()`, `GridMover.is_climbing()` and `WorldInput.player_clicked`. Lines are flushed as written, so a crash or a killed window still leaves the log up to that second.
 - Only a game run as the main scene starts its own log. Tests, the screenshot tool and other tools that instance `game.tscn` don't, but can call `GameLog.start(folder)`.
 - Each unlock step is logged once, the first time it's reached, so coins hovering around a price don't make "can afford" flicker.
+
+**No replanting in the early game (user, 2026-10-05).** Farmers don't resow a harvested plot; the player sows every crop. Automatic replanting would leave the player nothing to do but watch. Revisit later in the game, if at all.
+
+## First playtest (2026-10-05)
+
+A 12-minute run, read back from the game log (`game_2026-10-05_10-43-29.log`). What it showed:
+- **Sowing was a treadmill.** The player bought 14 more plots in the first 10 minutes (18 in all), and with crops growing in 30 to 60 seconds that's about 20 sows a minute to keep up: 106 clicks in 12 minutes, mostly sowing, and no down time. Plots sat empty 35% of the time anyway.
+- **Food ran short.** The starting 6 gruel and 6 grog were gone by 5:46. Gruel's 90-second shift sent miners up the ladder to eat every minute and a half; the food bar visibly emptied in under a minute of play.
+- **The kitchen couldn't keep up.** 6 meals in 12 minutes against about 2 eaten a minute; the pantry ran out four times. The cook spent 38% of his time hauling (gruel takes 1 potato, so one trip per batch) and the stoves 41% of theirs waiting to be loaded. Not changed yet; options are with the user.
+- **Assigning a cook looked broken.** The new dwarf was dropped on the kitchen, but no stove had a recipe, so he walked straight off to sit in the hall ("No recipe set"). Dropping him inside the kitchen did nothing at all.
+- The shaft never went past row 5: with 3 miners and one deposit found, one works the deposit and two the landing's tunnels, so nobody needs the shaft.
+
+Changes (user's calls, unless noted):
+- **Crops grow half as fast:** potato 90s, barley 120s, carrot 60s, radish 70s, onion 150s, wheat 120s. Watering stays at 30s, so a farmer's work per minute is unchanged and each crop needs about twice the waterings.
+- **Food and drink last twice as long:** gruel 180s, roast carrots 400s, stew 600s, onion soup 960s; grog 180s, ale 360s, wheat beer 480s, radish spirit 120s; dwarves start with 180s of food. Cognac stays at the GDD's 30 minutes (my call: it's a late drink, not part of this feedback).
+- **The game starts with 10 gruel and 10 grog,** and a **3x3 block of 9 plots** beside the Great Hall (the user built two 3x3 blocks in the run).
+- **Right-click puts away any tool,** including furniture being placed or carried (it used to turn the piece in hand, which left no quick way to stop placing stoves). The mouse wheel now turns a piece in hand, since the wheel does nothing indoors. Supersedes the turning note in "Great Hall furniture".
+- **A dwarf dropped anywhere inside a workplace's room** (on a stove or the bare floor) is assigned to that building; dropped inside the Great Hall, he goes off duty, the same as dropping him on the hall in town.

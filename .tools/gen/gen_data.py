@@ -74,8 +74,8 @@ item("barley_mash", "Barley mash", color(0.82, 0.68, 0.32))
 item("potato_mash", "Potato mash", color(0.86, 0.8, 0.62))
 item("carrot", "Carrot", color(0.93, 0.55, 0.2), sell=1)
 item("onion", "Onion", color(0.9, 0.82, 0.6), sell=2)
-meal("roast_carrots", "Roast carrots", color(0.85, 0.45, 0.2), 200.0, sell=2)
-meal("onion_soup", "Onion soup", color(0.8, 0.65, 0.35), 480.0, sell=4)
+meal("roast_carrots", "Roast carrots", color(0.85, 0.45, 0.2), 400.0, sell=2)
+meal("onion_soup", "Onion soup", color(0.8, 0.65, 0.35), 960.0, sell=4)
 item("wheat", "Wheat", color(0.92, 0.8, 0.45), sell=1)
 item("radish", "Radish", color(0.85, 0.25, 0.35), sell=1)
 item("wheat_mash", "Wheat mash", color(0.9, 0.8, 0.55))
@@ -93,13 +93,13 @@ def tool(name, display, col, job, multiplier, sell):
 
 tool("copper_pick", "Copper pick", color(0.95, 0.6, 0.35), 3, 1.5, 30)
 tool("copper_sickle", "Copper sickle", color(0.95, 0.6, 0.35), 1, 1.5, 30)
-meal("stew", "Stew", color(0.6, 0.3, 0.15), 300.0, sell=3)
-meal("gruel", "Gruel", color(0.75, 0.72, 0.6), 90.0, buy=4)
-drink("grog", "Grog", color(0.45, 0.55, 0.35), 0.5, 0.75, 90.0, buy=3)
-drink("ale", "Ale", color(0.9, 0.65, 0.2), 0.5, 1.0, 180.0, sell=4)
+meal("stew", "Stew", color(0.6, 0.3, 0.15), 600.0, sell=3)
+meal("gruel", "Gruel", color(0.75, 0.72, 0.6), 180.0, buy=4)
+drink("grog", "Grog", color(0.45, 0.55, 0.35), 0.5, 0.75, 180.0, buy=3)
+drink("ale", "Ale", color(0.9, 0.65, 0.2), 0.5, 1.0, 360.0, sell=4)
 # Steady and long, or a short sharp kick.
-drink("wheat_beer", "Wheat beer", color(0.95, 0.82, 0.4), 0.5, 0.9, 240.0, sell=4)
-drink("radish_spirit", "Radish spirit", color(0.85, 0.3, 0.4), 0.5, 1.15, 60.0, sell=5)
+drink("wheat_beer", "Wheat beer", color(0.95, 0.82, 0.4), 0.5, 0.9, 480.0, sell=4)
+drink("radish_spirit", "Radish spirit", color(0.85, 0.3, 0.4), 0.5, 1.15, 120.0, sell=5)
 drink("cognac", "Aged Mushroom Cap Cognac", color(0.5, 0.2, 0.45), 0.5, 1.5, 1800.0)
 
 # --- Unlocks ----------------------------------------------------------------------
@@ -139,13 +139,13 @@ def crop(name, display, produce, col, grow, unlock=None):
     tres("data/crops/%s.tres" % name, "CropDef", "crop_def.gd", props, exts=exts, subs=subs)
 
 
-crop("potato", "Potato", "potato", color(0.3, 0.6, 0.25), 45.0)
-crop("barley", "Barley", "barley", color(0.75, 0.7, 0.3), 60.0)
+crop("potato", "Potato", "potato", color(0.3, 0.6, 0.25), 90.0)
+crop("barley", "Barley", "barley", color(0.75, 0.7, 0.3), 120.0)
 # Early unlocks: coins only. Ore and ingots come into trades later.
-crop("carrot", "Carrot", "carrot", color(0.4, 0.7, 0.3), 30.0, unlock=("harvested", 20, "Harvest crops", 15))
-crop("onion", "Onion", "onion", color(0.45, 0.65, 0.35), 75.0, unlock=("meals_made", 15, "Cook meals", 30))
-crop("radish", "Radish", "radish", color(0.4, 0.7, 0.3), 35.0, unlock=("harvested", 40, "Harvest crops", 25))
-crop("wheat", "Wheat", "wheat", color(0.85, 0.75, 0.35), 60.0, unlock=("drinks_made", 10, "Make drinks", 40))
+crop("carrot", "Carrot", "carrot", color(0.4, 0.7, 0.3), 60.0, unlock=("harvested", 20, "Harvest crops", 15))
+crop("onion", "Onion", "onion", color(0.45, 0.65, 0.35), 150.0, unlock=("meals_made", 15, "Cook meals", 30))
+crop("radish", "Radish", "radish", color(0.4, 0.7, 0.3), 70.0, unlock=("harvested", 40, "Harvest crops", 25))
+crop("wheat", "Wheat", "wheat", color(0.85, 0.75, 0.35), 120.0, unlock=("drinks_made", 10, "Make drinks", 40))
 
 
 # --- Recipes ---------------------------------------------------------------------
@@ -285,17 +285,17 @@ tres("data/tuning/dwarf_names.tres", "NameList", "name_list.gd", [
 subs = """[sub_resource type="Resource" id="stock_gruel"]
 script = ExtResource("2")
 item = ExtResource("3")
-count = 6
+count = 10
 
 [sub_resource type="Resource" id="stock_grog"]
 script = ExtResource("2")
 item = ExtResource("4")
-count = 6
+count = 10
 """
 tres("data/tuning/game_tuning.tres", "GameTuning", "game_tuning.gd", [
     ("starting_coins", 50), ("starting_dwarves", 4),
     ("starting_stock", 'Array[ExtResource("2")]([SubResource("stock_gruel"), SubResource("stock_grog")])'),
-    ("starting_food_seconds", 90.0),
+    ("starting_food_seconds", 180.0),
     ("walk_speed", 24.0), ("ladder_speed", 8.0), ("lift_speed", 64.0),
     ("base_work_rate", 1.0), ("carry_capacity", 5), ("eat_seconds", 4.0),
     ("manual_work_per_click", 0.5), ("hand_capacity", 50),

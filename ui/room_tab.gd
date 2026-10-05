@@ -50,7 +50,7 @@ func _rebuild() -> void:
 			child.queue_free()
 	_item_slots.clear()
 	_move_slot = _add_tool(move_icon, "Move")
-	_turn_slot = _add_tool(turn_icon, "Turn (or right-click while holding it)")
+	_turn_slot = _add_tool(turn_icon, "Turn (or mouse wheel while holding it)")
 	_destroy_slot = _add_tool(destroy_icon, "Remove")
 	for def: FurnitureDef in _buyable_in(building):
 		_add_tool(def.icon, def.display_name, def.cost, def)

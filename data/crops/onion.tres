@@ -23,6 +23,6 @@ color = Color(0.45, 0.65, 0.35, 1)
 seed_cost = 1
 water_work = 1.0
 harvest_work = 1.5
-grow_seconds = 75.0
+grow_seconds = 150.0
 watered_seconds = 30.0
 unlock = SubResource("unlock")

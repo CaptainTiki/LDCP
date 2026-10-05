@@ -393,8 +393,8 @@ world_nodes = [
     node("Ground", "Node2D", "Surface", [("z_index", -2), ("script", 'ExtResource("24")'),
                                           ("tiles", 'ExtResource("25")')]),
     node("Placeables", "Node2D", "Surface", [("y_sort_enabled", "true")]),
-    plot("FarmPlot1", 53, 5), plot("FarmPlot2", 54, 5),
-    plot("FarmPlot3", 56, 5), plot("FarmPlot4", 57, 5),
+    # The starting farm: a 3x3 block beside the Great Hall.
+] + [plot("FarmPlot%d" % (i + 1), 56 + i % 3, 5 + i // 3) for i in range(9)] + [
     placed("GreatHall", "5", "6", 60, 1),
     placed("MineEntrance", "7", "8", 68, 2),
     node("Shaft", "Node2D", ".", [("script", 'ExtResource("13")'), ("ladder_texture", 'ExtResource("27")'),

@@ -76,19 +76,39 @@ y_sort_enabled = true
 
 [node name="FarmPlot1" parent="Surface/Placeables" instance=ExtResource("9")]
 def = ExtResource("10")
-tile = Vector2i(53, 5)
+tile = Vector2i(56, 5)
 
 [node name="FarmPlot2" parent="Surface/Placeables" instance=ExtResource("9")]
 def = ExtResource("10")
-tile = Vector2i(54, 5)
+tile = Vector2i(57, 5)
 
 [node name="FarmPlot3" parent="Surface/Placeables" instance=ExtResource("9")]
 def = ExtResource("10")
-tile = Vector2i(56, 5)
+tile = Vector2i(58, 5)
 
 [node name="FarmPlot4" parent="Surface/Placeables" instance=ExtResource("9")]
 def = ExtResource("10")
-tile = Vector2i(57, 5)
+tile = Vector2i(56, 6)
+
+[node name="FarmPlot5" parent="Surface/Placeables" instance=ExtResource("9")]
+def = ExtResource("10")
+tile = Vector2i(57, 6)
+
+[node name="FarmPlot6" parent="Surface/Placeables" instance=ExtResource("9")]
+def = ExtResource("10")
+tile = Vector2i(58, 6)
+
+[node name="FarmPlot7" parent="Surface/Placeables" instance=ExtResource("9")]
+def = ExtResource("10")
+tile = Vector2i(56, 7)
+
+[node name="FarmPlot8" parent="Surface/Placeables" instance=ExtResource("9")]
+def = ExtResource("10")
+tile = Vector2i(57, 7)
+
+[node name="FarmPlot9" parent="Surface/Placeables" instance=ExtResource("9")]
+def = ExtResource("10")
+tile = Vector2i(58, 7)
 
 [node name="GreatHall" parent="Surface/Placeables" instance=ExtResource("5")]
 def = ExtResource("6")

@@ -14,5 +14,5 @@ sell_price = 5
 buy_price = 0
 low_multiplier = 0.5
 high_multiplier = 1.15
-duration_seconds = 60.0
+duration_seconds = 120.0
 taper = ExtResource("2")

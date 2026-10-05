@@ -58,7 +58,7 @@ func test_the_log_reads_like_a_session() -> void:
 	assert_string_contains(text, "idle: No job", "and dwarves going idle, with why")
 	assert_string_contains(text, "-- 0:01:00, minute 1 (", "a summary each game minute, with the clock time")
 	assert_string_contains(text, "sowed 1 Potato", "the player's sowing")
-	assert_string_contains(text, "Plots (4):")
+	assert_string_contains(text, "Plots (9):")
 	assert_string_contains(text, "  %s (Farmer): " % farmer.dwarf_name, "each dwarf's minute")
 
 

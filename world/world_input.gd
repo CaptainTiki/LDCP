@@ -78,16 +78,25 @@ func hover_ended() -> void:
 
 ## Can a dwarf dropped here be given a job (or sent back to idling)?
 func can_assign_at(world_point: Vector2) -> bool:
-	var clickable: Clickable = clickable_at(world_point)
-	if clickable == null:
-		return false
-	var entity: Node = clickable.entity()
-	return entity is GreatHall or JobAssignment.kind_for(entity) != JobAssignment.Kind.NONE
+	return _assign_target(world_point) != null
 
 
 func assign_at(dwarf: Dwarf, world_point: Vector2) -> void:
-	if can_assign_at(world_point):
-		dwarf.assignment.assign(clickable_at(world_point).entity())
+	var target: Node = _assign_target(world_point)
+	if target != null:
+		dwarf.assignment.assign(target)
+
+
+## What a dwarf dropped here would be put to work at: the workplace under
+## the point, or inside a building, anywhere in its room (a stove, the
+## floor) means the building. The Great Hall sends him back to idling.
+func _assign_target(world_point: Vector2) -> Node:
+	var clickable: Clickable = clickable_at(world_point)
+	var entity: Node = clickable.entity() if clickable != null else null
+	if entity is GreatHall or JobAssignment.kind_for(entity) != JobAssignment.Kind.NONE:
+		return entity
+	var room: BuildingInterior = _world.interiors.room_at(NavGrid.world_to_cell(world_point))
+	return room.building if room != null else null
 
 
 ## The smallest clickable under the point, so a station inside a bigger

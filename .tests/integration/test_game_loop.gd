@@ -72,7 +72,7 @@ func _plot(index: int) -> FarmPlot:
 
 func test_starting_state() -> void:
 	assert_eq(world.dwarves.active_count(), 4)
-	assert_eq(world.surface.farm_plots().size(), 4)
+	assert_eq(world.surface.farm_plots().size(), 9, "a 3x3 starting farm")
 	var tables: int = 0
 	for piece: Furniture in world.hall.interior.furniture():
 		if piece.def == TABLE:
@@ -147,16 +147,17 @@ func test_player_farms_by_hand_with_tools() -> void:
 
 
 func test_hoe_roots_up_a_plant() -> void:
+	var plots: int = world.surface.farm_plots().size()
 	var plot: FarmPlot = _plot(0)
 	plot.sow(BARLEY_CROP)
 	_run_seconds(1)
 	world.hand.select(PlayerHand.Tool.HOE)
 	_click_plot(plot)
 	assert_false(plot.is_planted(), "rooted up, growing or not")
-	assert_eq(world.surface.farm_plots().size(), 4, "the plot itself stays")
+	assert_eq(world.surface.farm_plots().size(), plots, "the plot itself stays")
 	assert_eq(storage.count(BARLEY), 0, "nothing harvested")
 	world.input.click(_tile_point(Vector2i(10, 6)))
-	assert_eq(world.surface.farm_plots().size(), 4, "the hoe doesn't make plots: they're bought in Build")
+	assert_eq(world.surface.farm_plots().size(), plots, "the hoe doesn't make plots: they're bought in Build")
 
 
 func test_look_inspects_plots() -> void:
@@ -357,19 +358,20 @@ func _tile_point(tile: Vector2i) -> Vector2:
 func test_build_move_and_destroy() -> void:
 	var surface: Surface = world.surface
 	var tool: BuildTool = world.build_tool
+	var plots: int = surface.farm_plots().size()
 	game.wallet.earn(100)
 	tool.start_place(FARM_PLOT)
 	world.input.click(_tile_point(Vector2i(10, 5)))
 	var plot: Placeable = surface.placeable_at(Vector2i(10, 5))
 	assert_not_null(plot, "placed")
-	assert_eq(surface.farm_plots().size(), 5)
+	assert_eq(surface.farm_plots().size(), plots + 1)
 	world.input.click(_tile_point(Vector2i(10, 5)))
-	assert_eq(surface.farm_plots().size(), 5, "cannot overlap what is already there")
+	assert_eq(surface.farm_plots().size(), plots + 1, "cannot overlap what is already there")
 	world.input.click(_tile_point(Vector2i(10, 9)))
-	assert_eq(surface.farm_plots().size(), 5, "cannot build off the edge of town")
+	assert_eq(surface.farm_plots().size(), plots + 1, "cannot build off the edge of town")
 	world.input.drag(_tile_point(Vector2i(11, 8)))
 	world.input.drag(_tile_point(Vector2i(12, 8)))
-	assert_eq(surface.farm_plots().size(), 7, "dragging paints a row of plots")
+	assert_eq(surface.farm_plots().size(), plots + 3, "dragging paints a row of plots")
 
 	tool.start_move()
 	world.input.click(_tile_point(Vector2i(10, 5)))
@@ -399,11 +401,12 @@ func test_dwarves_walk_around_buildings_not_through_them() -> void:
 
 
 func test_building_cannot_block_a_door() -> void:
+	var plots: int = world.surface.farm_plots().size()
 	game.wallet.earn(100)
 	world.build_tool.start_place(FARM_PLOT)
 	var doorstep: Vector2i = world.hall.tile + Vector2i(1, world.hall.def.footprint.y)
 	world.input.click(_tile_point(doorstep))
-	assert_eq(world.surface.farm_plots().size(), 4, "the row in front of a door stays clear")
+	assert_eq(world.surface.farm_plots().size(), plots, "the row in front of a door stays clear")
 	world.build_tool.cancel()
 
 
@@ -433,6 +436,20 @@ func test_assignment_by_drop_and_views() -> void:
 	world.input.assign_at(dwarf, world.mine_entrance.global_position + Vector2(16, -8))
 	assert_eq(dwarf.assignment.kind(), JobAssignment.Kind.MINER)
 	assert_false(world.input.can_assign_at(_tile_point(Vector2i(5, 7))), "empty ground is not a job")
+
+	# Inside a workplace, anywhere in the room will do: a stove, or the floor.
+	game.wallet.earn(100)
+	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
+	world.camera.show_interior(kitchen)
+	var stove: Workstation = kitchen.workstations()[0]
+	world.input.assign_at(dwarf, _room_point(kitchen.interior, stove.cell))
+	assert_eq(dwarf.assignment.target, kitchen, "dropped on the stove, he cooks")
+	world.input.assign_at(_dwarf(1), _room_point(kitchen.interior, Vector2i(0, 0)))
+	assert_eq(_dwarf(1).assignment.target, kitchen, "dropped on the floor, he cooks too")
+	world.camera.show_interior(world.hall)
+	world.input.assign_at(dwarf, _room_point(world.hall.interior, Vector2i(0, 0)))
+	assert_eq(dwarf.assignment.kind(), JobAssignment.Kind.NONE, "dropped in the hall, he's off duty")
+	world.camera.show_surface()
 
 	assert_eq(world.camera.current_view(), ViewCamera.View.SURFACE)
 	world.input.click(world.mine_entrance.global_position + Vector2(16, -8))
@@ -1008,3 +1025,31 @@ func test_spare_miners_dig_the_shaft_deeper_and_branch_off_it() -> void:
 				tunnels_off_the_shaft += 1
 				break
 	assert_gt(tunnels_off_the_shaft, 0, "and opened new tunnels off its side")
+
+
+func _mouse(area: WorldArea, button: MouseButton) -> void:
+	var press := InputEventMouseButton.new()
+	press.button_index = button
+	press.pressed = true
+	area._gui_input(press)
+	var release := InputEventMouseButton.new()
+	release.button_index = button
+	area._gui_input(release)
+
+
+func test_right_click_puts_tools_away_and_the_wheel_turns_a_held_piece() -> void:
+	var area: WorldArea = game.hud.get_node("Root/WorldArea") as WorldArea
+	var tool: FurnitureTool = world.furniture_tool
+	world.camera.show_interior(world.hall)
+	tool.start_place(LONG_TABLE)
+	_mouse(area, MOUSE_BUTTON_WHEEL_DOWN)
+	assert_eq(tool.facing, 1, "one wheel notch, one quarter turn")
+	_mouse(area, MOUSE_BUTTON_RIGHT)
+	assert_false(tool.is_active(), "right-click puts the piece away")
+	world.camera.show_surface()
+	world.build_tool.start_place(FARM_PLOT)
+	_mouse(area, MOUSE_BUTTON_RIGHT)
+	assert_false(world.build_tool.is_active(), "and the build tool")
+	world.hand.select(PlayerHand.Tool.BUCKET)
+	_mouse(area, MOUSE_BUTTON_RIGHT)
+	assert_false(world.hand.is_holding_tool(), "and a farming tool")

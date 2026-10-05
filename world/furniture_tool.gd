@@ -3,7 +3,8 @@ extends Node2D
 ## The player's hand inside the Great Hall: place new furniture on the room's
 ## floor grid, pick a piece up and move it, turn it, or take it away. The
 ## Ghost child previews where a piece would land, green when it fits and red
-## when not. While a piece is in hand, right-click turns it.
+## when not. While a piece is in hand, the mouse wheel turns it; right-click
+## puts the tool away.
 
 signal mode_changed
 
