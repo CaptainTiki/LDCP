@@ -3,6 +3,9 @@ extends Node
 ## Drink is work rate. A fresh drink starts at its high multiplier and tapers
 ## toward its low as the dwarf works it off. With nothing to drink a dwarf still works, at the floor.
 
+## For the game log's count of what gets drunk.
+signal drank(drink: DrinkDef)
+
 ## Work rate with no drink at all.
 @export var floor_multiplier: float = 0.5
 
@@ -13,6 +16,7 @@ var seconds_left: float = 0.0
 func drink_up(new_drink: DrinkDef) -> void:
 	drink = new_drink
 	seconds_left = new_drink.duration_seconds
+	drank.emit(new_drink)
 
 
 func sim_tick(delta: float) -> void:

@@ -5,6 +5,8 @@ extends GutTest
 
 const GAME_SCENE: PackedScene = preload("res://game/game.tscn")
 const POTATO_CROP: CropDef = preload("res://data/crops/potato.tres")
+const GRUEL: MealDef = preload("res://data/items/gruel.tres")
+const GROG: DrinkDef = preload("res://data/items/grog.tres")
 const TEST_DIR: String = "user://test_logs"
 
 var game: Game
@@ -67,12 +69,19 @@ func test_closing_the_game_writes_the_totals() -> void:
 	var path: String = game.game_log.file_path()
 	game.wallet.earn(1000)
 	assert_true(game.shop.hire())
-	_run_seconds(5)
+	var dwarf: Dwarf = game.world.dwarves.active()[0]
+	dwarf.hunger.eat(GRUEL)
+	_run_seconds(2)
+	dwarf.hunger.eat(GRUEL)
+	dwarf.thirst.drink_up(GROG)
+	_run_seconds(3)
 	remove_child(game)
 	var text: String = FileAccess.get_file_as_string(path)
 	assert_string_contains(text, "Hired ")
 	assert_string_contains(text, "== End of game, 0:00:05 ==")
 	assert_string_contains(text, "Coins ")
+	assert_string_contains(text, "Eaten and drunk: 2 Gruel, 1 Grog", "what was eaten and drunk")
+	assert_string_contains(text, "2 meals, one every 0:00:02", "and how often each dwarf eats")
 
 
 func test_old_logs_are_trimmed() -> void:

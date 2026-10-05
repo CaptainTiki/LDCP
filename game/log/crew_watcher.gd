@@ -3,7 +3,8 @@ extends LogWatcher
 ## Logs the dwarves: hires, jobs given, tools taken, going idle (and why),
 ## and waiting on an empty pantry. Tallies where each dwarf's time goes,
 ## tick by tick, which is the heart of tuning: how much is work, and how
-## much is walking, climbing, eating or waiting.
+## much is walking, climbing, eating or waiting. Counts what's eaten and
+## drunk, and how often each dwarf comes in for a meal.
 
 ## Ways to spend a tick, in the order they're reported. "wait" is standing
 ## at the job while it sorts itself out (a crop growing, a stove cooking);
@@ -18,6 +19,10 @@ var _idle_reason: Dictionary[Dwarf, String] = {}
 var _hungry_since: Dictionary[Dwarf, float] = {}
 ## Per dwarf: {"minute": {activity: ticks}, "total": {...}, "idle": {reason: ticks}}.
 var _ticks: Dictionary[Dwarf, Dictionary] = {}
+## What's been eaten and drunk, by name: this minute, and all game.
+var _consumed: Dictionary[String, Dictionary] = {"minute": {}, "total": {}}
+## When each dwarf finished each meal, in game seconds.
+var _meal_times: Dictionary[Dwarf, Array] = {}
 
 
 func _start() -> void:
@@ -51,6 +56,9 @@ func check() -> void:
 
 
 func minute_report() -> void:
+	if not _consumed.minute.is_empty():
+		_game_log.line("Eaten and drunk: %s" % LogFormat.counts(_consumed.minute))
+		_consumed.minute = {}
 	_game_log.line("Dwarves:")
 	for dwarf: Dwarf in _ticks:
 		var drink: String = dwarf.thirst.drink.display_name if dwarf.thirst.ratio() > 0.0 else "thirsty"
@@ -61,9 +69,10 @@ func minute_report() -> void:
 
 
 func totals_report() -> void:
+	_game_log.line("Eaten and drunk: %s" % LogFormat.counts(_consumed.total))
 	_game_log.line("Dwarves:")
 	for dwarf: Dwarf in _ticks:
-		_game_log.line("  %s: %s" % [dwarf.dwarf_name, LogFormat.shares(_ticks[dwarf].total, ACTIVITIES)])
+		_game_log.line("  %s: %s%s" % [dwarf.dwarf_name, LogFormat.shares(_ticks[dwarf].total, ACTIVITIES), _meal_pace(dwarf)])
 		var idle: Dictionary = _ticks[dwarf].idle
 		if not idle.is_empty():
 			var parts: PackedStringArray = []
@@ -76,6 +85,32 @@ func _meet(dwarf: Dwarf) -> void:
 	_ticks[dwarf] = {"minute": {}, "total": {}, "idle": {}}
 	_jobs[dwarf] = _job_of(dwarf)
 	_tools[dwarf] = _tool_of(dwarf)
+	_meal_times[dwarf] = []
+	dwarf.hunger.ate.connect(_on_ate.bind(dwarf))
+	dwarf.thirst.drank.connect(_on_drank)
+
+
+func _on_ate(meal: MealDef, dwarf: Dwarf) -> void:
+	_count(meal.display_name)
+	_meal_times[dwarf].append(_game_log.seconds())
+
+
+func _on_drank(drink: DrinkDef) -> void:
+	_count(drink.display_name)
+
+
+func _count(item_name: String) -> void:
+	for span: String in ["minute", "total"]:
+		_consumed[span][item_name] = _consumed[span].get(item_name, 0) + 1
+
+
+## "; 4 meals, one every 2:45" from the dwarf's first meal to his last.
+func _meal_pace(dwarf: Dwarf) -> String:
+	var times: Array = _meal_times[dwarf]
+	if times.size() < 2:
+		return "; no meals" if times.is_empty() else "; 1 meal"
+	var gap: float = (times[-1] - times[0]) / (times.size() - 1)
+	return "; %d meals, one every %s" % [times.size(), LogFormat.time(gap)]
 
 
 func _activity(dwarf: Dwarf) -> String:

@@ -4,6 +4,9 @@ extends Node
 ## the dwarf is actually working, and when it runs out he stops for a meal
 ## break. Hunger never hurts a dwarf, it only stalls him.
 
+## For the game log's count of what gets eaten.
+signal ate(meal: MealDef)
+
 var seconds_left: float = 0.0
 ## Length of the last meal, so the bar can show a 0..1 ratio.
 var shift_seconds: float = 1.0
@@ -11,6 +14,7 @@ var shift_seconds: float = 1.0
 
 func eat(meal: MealDef) -> void:
 	fill(meal.shift_seconds)
+	ate.emit(meal)
 
 
 func fill(seconds: float) -> void:

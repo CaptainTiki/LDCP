@@ -264,3 +264,9 @@ Changes (user's calls, unless noted):
 - **A dwarf dropped anywhere inside a workplace's room** (on a stove or the bare floor) is assigned to that building; dropped inside the Great Hall, he goes off duty, the same as dropping him on the hall in town.
 
 **Idlers stay by their workplace (user, 2026-10-05).** Supersedes "Idlers sit in the hall with a '?'" above. Sitting in the hall made the town a ghost town, and made a new cook with no recipe look unassigned as he walked off. Now a dwarf with nothing at all to do potters about near his workplace with the "?" (a random standable cell within 6 cells, then a 2-6 second pause): a miner by the mine entrance, a cook or brewer inside his building, a farmer among the plots (around the one he was dropped on), and a dwarf with no job outside the Great Hall (my call; he has no workplace). Idlers no longer take hall chairs, so the chair-sharing rule is gone. The pottering lives in `Idler.potter()`, which the old `IdleRole` wander became.
+
+**Cooks keep one trip per ingredient (user, 2026-10-05).** Hauling stays as it is: a cook fetches one batch's worth of one ingredient per trip. The trips are the movement we want to see, and they make the timings matter: ingredients per recipe (so trips per batch), loading work, cook time, how long a meal lasts and how fast it's eaten all get tuned together, from the logs. Ideas parked for that tuning, not built:
+- A recipe could make several servings (2 potatoes make 4 stew rather than 1).
+- If meals end up lasting around 5 minutes, moods could slow a dwarf's work by the quality of his food, on top of the drink's boost.
+
+**The game log counts what's eaten and drunk.** Each minute ("Eaten and drunk: 3 Gruel, 2 Grog") and in the totals, with each dwarf's meal count and how often he came in to eat (from his first meal to his last). `Hunger.ate` and `Thirst.drank` signals feed it.

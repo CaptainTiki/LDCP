@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.29`).
+Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.30`).
 
 ## Where we are
 
@@ -71,7 +71,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 ## Next up
 
 1. **Test runs.** Play the opening from a new game and tune pacing: grow times, cook and brew times, unlock milestones, prices, ladder speed. The first run (2026-10-05) halved crop growth, doubled food and drink, and grew the starting farm and pantry; see DECISIONS.md "First playtest".
-   - Open from that run: cooks spend a third of their time hauling one ingredient per batch (options with the user: stoves hold a few batches, one trip fills every stove, or more cooks).
+   - Next: a second long run on the new numbers. Cooks keep one trip per ingredient by design; tune ingredients per recipe, cook and load times, meal length and eating pace together from the log. Parked ideas: recipes that make several servings, and food-quality moods that slow work.
 2. **Recipes again.**
    - Wheat and radish have no meals yet.
    - Bread would want an oven station.
