@@ -1,8 +1,8 @@
 class_name RosterEntry
 extends PanelContainer
 ## One dwarf in the roster: portrait, job badge, and food and drink bars.
-## Hover it to point him out in the world and see his card. Drag it onto a
-## workplace to assign the dwarf.
+## Hover it to point him out in the world and see his card. Click it to jump
+## the view to him. Drag it onto a workplace to assign the dwarf.
 
 var dwarf: Dwarf
 
@@ -32,6 +32,14 @@ func refresh() -> void:
 	var lit: bool = dwarf.world.dwarves.hovered == dwarf
 	self_modulate = Color(1.6, 1.4, 0.8) if lit else Color.WHITE
 	_badge.modulate = Color(1.0, 0.8, 0.3) if lit else Color.WHITE
+
+
+## A click that didn't turn into a drag: go and look at him.
+func _gui_input(event: InputEvent) -> void:
+	var button: InputEventMouseButton = event as InputEventMouseButton
+	if button != null and button.button_index == MOUSE_BUTTON_LEFT and not button.pressed:
+		dwarf.world.camera.show_dwarf(dwarf)
+		accept_event()
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:

@@ -55,6 +55,22 @@ func show_interior(building: Building) -> void:
 	view_changed.emit()
 
 
+## Jumps to wherever the dwarf is: into the room he's in, or to the town or
+## the mine, centred on him.
+func show_dwarf(dwarf: Dwarf) -> void:
+	var room: BuildingInterior = _world.interiors.room_at(dwarf.mover.cell)
+	if room != null:
+		show_interior(room.building)
+		return
+	if _world.surface.contains_cell(dwarf.mover.cell):
+		show_surface()
+	else:
+		show_mine()
+	# His simulated spot: the drawn one only catches up on the next frame.
+	position = dwarf.mover.position
+	_clamp_to_view()
+
+
 ## Moves the camera by a world-space offset. Ignored indoors.
 func pan(offset: Vector2) -> void:
 	if interior_building != null:
