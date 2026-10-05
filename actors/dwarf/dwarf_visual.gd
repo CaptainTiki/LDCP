@@ -1,8 +1,9 @@
 class_name DwarfVisual
 extends Node2D
 ## Dwarf animation. It only reads the dwarf's state: tool swings when
-## working, a bob when walking, a slump when sitting. Everything runs at the
-## drink multiplier, so a thirsty dwarf visibly drags.
+## working, a bob when walking, a slump when sitting, a "?" when he has
+## nothing to do. Everything runs at the drink multiplier, so a thirsty
+## dwarf visibly drags.
 
 @export var swing_speed: float = 9.0
 @export var bob_speed: float = 10.0
@@ -16,6 +17,7 @@ var _anim_time: float = 0.0
 @onready var _carry_slot: Sprite2D = $CarrySlot
 @onready var _lift_car: Sprite2D = $LiftCar
 @onready var _marker: Sprite2D = $Marker
+@onready var _idle_mark: Sprite2D = $IdleMark
 
 
 func _process(delta: float) -> void:
@@ -33,7 +35,7 @@ func _process(delta: float) -> void:
 
 	if _dwarf.mover.is_moving():
 		position.y = roundf(-absf(sin(_anim_time * bob_speed)) * 1.5)
-	elif _dwarf.is_sitting:
+	elif _dwarf.is_sitting():
 		position.y = 3.0
 	else:
 		position.y = 0.0
@@ -44,3 +46,5 @@ func _process(delta: float) -> void:
 	_lift_car.visible = _dwarf.mover.is_on_lift()
 	# Points him out while he's hovered, in the world or the roster.
 	_marker.visible = _dwarf.world.dwarves.hovered == _dwarf
+	# The two share the spot over his head; the hover arrow wins.
+	_idle_mark.visible = _dwarf.idler.is_idle() and not _marker.visible

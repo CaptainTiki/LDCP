@@ -2,8 +2,9 @@ class_name MinerRole
 extends DwarfRole
 ## Miners. Assigned to one ore node, the dwarf works that node. Assigned to
 ## the mine in general, he works any free ore node that has been found, and
-## otherwise digs new tunnel. A full bag of ore is hauled up to the Great
-## Hall. That trip is the slog the lift exists to fix.
+## otherwise digs: a tunnel end, a new tunnel off the shaft, or the shaft
+## itself, deeper. A full bag of ore is hauled up to the Great Hall. That
+## trip is the slog the lift exists to fix.
 
 var _node: OreNode = null
 var _head: DigHead = null
@@ -54,10 +55,12 @@ func _work_node(delta: float) -> void:
 
 func _excavate(delta: float) -> void:
 	var excavation: Excavation = dwarf.world.mine_level.excavation
-	if _head == null or _head.is_dead:
+	# The shaft lets its digger go once there's room for a new tunnel.
+	if _head == null or _head.is_dead or _head.claimed_by != dwarf:
+		_dig_cell = NavGrid.NO_CELL
 		_head = excavation.claim_head(dwarf, dwarf.mover.cell)
 	if _head == null:
-		_wait_at_landing()
+		_nothing_to_dig()
 		return
 	if not _walk_to(_head.stand_cell):
 		return
@@ -70,12 +73,13 @@ func _excavate(delta: float) -> void:
 	dwarf.worker.work_on(_dig_work, delta)
 
 
-## Every tunnel is taken or finished. Bring up any ore, then stand by.
-func _wait_at_landing() -> void:
+## Every tunnel is taken and the mine has no room for another. Bring up any
+## ore, then sit it out in the hall.
+func _nothing_to_dig() -> void:
 	if not dwarf.carrier.is_empty():
 		_haul_to_hall()
 	else:
-		_walk_to(dwarf.world.mine_level.landing_cell())
+		dwarf.idler.sit_out("No tunnel to dig")
 
 
 ## The assigned node if we can have it, else the one we already hold, else

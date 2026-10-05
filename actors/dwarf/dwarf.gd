@@ -2,7 +2,8 @@ class_name Dwarf
 extends Node2D
 ## One dwarf. The behaviour lives in the child components. This script wires
 ## them together and, each tick, decides which role is in charge: a meal
-## break when the food bar is empty, otherwise the assigned job.
+## break when the food bar is empty, otherwise the assigned job. A job with
+## nothing at all for him sends him to sit in the hall (Idler).
 ##
 ## Dwarves are pooled: every dwarf already exists in the world scene, hidden,
 ## and hiring one just activates it.
@@ -15,8 +16,6 @@ var clock: SimClock
 var dwarf_name: String = ""
 var color: Color = Color.WHITE
 var is_active: bool = false
-## Set by the meal break while the dwarf is at a table.
-var is_sitting: bool = false
 ## The one tool he carries, or null for his bare old pick.
 var tool: ToolDef = null
 ## Reserved for the trait and experience systems.
@@ -31,6 +30,7 @@ var _active_role: DwarfRole = null
 @onready var mover: GridMover = $Mover
 @onready var worker: Worker = $Worker
 @onready var assignment: JobAssignment = $JobAssignment
+@onready var idler: Idler = $Idler
 @onready var meal_break: MealBreak = $Roles/MealBreak
 @onready var tool_errand: ToolErrand = $Roles/ToolErrand
 @onready var _roles: Dictionary[JobAssignment.Kind, DwarfRole] = {
@@ -75,6 +75,7 @@ func activate(cell: Vector2i, given_name: String, given_color: Color, food_secon
 
 func sim_tick(delta: float) -> void:
 	worker.begin_tick()
+	idler.begin_tick()
 	worker.tool_multiplier = tool.work_multiplier if tool != null and tool.job == assignment.kind() else 1.0
 	var role: DwarfRole = _choose_role()
 	if role != _active_role:
@@ -82,6 +83,7 @@ func sim_tick(delta: float) -> void:
 			_active_role.release()
 		_active_role = role
 	role.act(delta)
+	idler.end_tick()
 	# Food and drink are only used up by work. Walking, climbing, hauling
 	# and idling are free, so a long commute costs time but not the shift.
 	if worker.did_work_this_tick():
@@ -119,6 +121,11 @@ func equip_best_tool(storage: Storage) -> void:
 	tool = best
 
 
+## In a chair: eating, waiting for food, or idling.
+func is_sitting() -> bool:
+	return meal_break.is_seated or idler.is_seated
+
+
 ## One line for the Look tool.
 func summary() -> String:
 	return "%s: %s" % [dwarf_name, status_text()]
@@ -134,6 +141,8 @@ func status_text() -> String:
 		return "Meal break"
 	if _active_role == tool_errand:
 		return tool_errand.title()
+	if idler.is_idle():
+		return idler.reason
 	return _roles[assignment.kind()].title()
 
 
@@ -143,6 +152,8 @@ func job_badge() -> String:
 		return "!"
 	if _active_role == tool_errand:
 		return tool_errand.badge()
+	if idler.is_idle():
+		return "?"
 	return _roles[assignment.kind()].badge()
 
 

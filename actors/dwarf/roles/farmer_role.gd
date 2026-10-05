@@ -20,12 +20,15 @@ func act(delta: float) -> void:
 	if _plot == null:
 		_plot = _pick_plot()
 	if _plot == null:
-		# Everything is growing (or nothing is sown yet). A good moment to take
-		# the crops in, then wait by the plot he was put on.
+		# Nothing needs doing right now. A good moment to take the crops in,
+		# then wait by his plot while something grows. With nothing sown at
+		# all, only the player can give him work: he sits it out in the hall.
 		if not dwarf.carrier.is_empty():
 			_haul_to_hall()
-		else:
+		elif _anything_growing():
 			_wait_by_assigned_plot()
+		else:
+			dwarf.idler.sit_out("Nothing sown")
 		return
 	if _must_unload_before_working(_plot):
 		_haul_to_hall()
@@ -42,6 +45,13 @@ func _wait_by_assigned_plot() -> void:
 	var home: FarmPlot = dwarf.assignment.target as FarmPlot
 	if home != null:
 		_walk_to(home.work_cell())
+
+
+func _anything_growing() -> bool:
+	for plot: FarmPlot in dwarf.world.surface.farm_plots():
+		if plot.is_planted():
+			return true
+	return false
 
 
 func _still_needs_work(plot: FarmPlot) -> bool:

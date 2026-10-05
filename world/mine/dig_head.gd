@@ -19,6 +19,8 @@ var pending: Array[Vector2i] = []
 var step: int = 0
 ## The planned column is a tall one that splits into two tunnels.
 var is_fork: bool = false
+## This head digs the shaft down instead of a tunnel sideways.
+var is_shaft: bool = false
 
 var claimed_by: Node = null
 var is_dead: bool = false

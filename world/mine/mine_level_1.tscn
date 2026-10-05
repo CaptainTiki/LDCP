@@ -16,13 +16,13 @@ script = ExtResource("3")
 [node name="OreNodes" type="Node2D" parent="."]
 
 [node name="CopperNear" parent="OreNodes" instance=ExtResource("4")]
-position = Vector2(1120, 64)
+position = Vector2(1088, 8)
 ore = ExtResource("5")
 
 [node name="CopperWest" parent="OreNodes" instance=ExtResource("4")]
-position = Vector2(864, 32)
+position = Vector2(832, 96)
 ore = ExtResource("5")
 
 [node name="CopperDeep" parent="OreNodes" instance=ExtResource("4")]
-position = Vector2(1320, 96)
+position = Vector2(1280, 200)
 ore = ExtResource("5")

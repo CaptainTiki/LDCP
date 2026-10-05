@@ -32,8 +32,10 @@ func setup(world: World) -> void:
 	_world = world
 	# Start in town, looking at the Great Hall.
 	position = world.hall.global_position
+	# The mine view opens on the pit-head: the sky, the dirt and the top of
+	# the shaft, where the digging starts.
 	var shaft_x: float = NavGrid.cell_to_world(world.shaft.top_cell()).x
-	_saved_positions[View.MINE] = Vector2(shaft_x, world.mine_level.view_rect().get_center().y)
+	_saved_positions[View.MINE] = Vector2(shaft_x, world.mine_view_rect().position.y)
 	show_surface()
 
 

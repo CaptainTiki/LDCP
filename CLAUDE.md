@@ -17,8 +17,9 @@ A desktop idle game in Godot 4.7 (GDScript) that sits in a strip along the botto
 
 ## Commits
 
+- Commit each finished build (a working, tested piece of work); no need to ask first.
 - Message: a short name only (a few words). No body, no trailers.
-- Every commit bumps `config/version` in `project.godot`. Format: `proto-major.month.day.build`, e.g. `proto-0.10.5.24`. Month and day are the commit date; the build number counts up across commits and never resets.
+- Every commit bumps `config/version` in `project.godot`. Format: `proto-major.month.day.build`, e.g. `proto-0.10.5.24`. Month and day are the commit date. The build number counts up across commits and resets to 1 when a new month starts (the first commit in November is `proto-0.11.<day>.1`).
 - Don't push unless asked.
 
 ## Engineering rules

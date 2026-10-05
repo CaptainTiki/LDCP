@@ -4,28 +4,33 @@ extends Node
 ##
 ## Tunnels are two cells tall and grow one column at a time from "heads".
 ## They run mostly flat, sometimes step up or down by one cell, and sometimes
-## fork into an upper and a lower branch.
-##
-## The rule that keeps dwarves from ever being trapped: a column is only dug
-## if the cell above it and the cell below it are solid and stay solid. So no
-## dig can take the floor out from under an existing tunnel, and every new
-## column is a single step away from the one before it.
+## fork into an upper and a lower branch. Two tunnels start from the landing;
+## after that, new ones leave the side of the shaft as miners need them, and
+## the shaft is dug deeper to make room (ShaftDigging). DigSafety makes sure
+## no dig can ever trap a dwarf.
 
 var _terrain: Terrain
 var _def: MineLevelDef
 var _bounds: Rect2i
+var _safety: DigSafety
+var _shaft_digging: ShaftDigging
 var _heads: Array[DigHead] = []
-## Cells some head is about to dig, and cells some head needs to stay solid.
-var _reserved_dig: Dictionary[Vector2i, bool] = {}
-var _reserved_solid: Dictionary[Vector2i, bool] = {}
 var _rng := RandomNumberGenerator.new()
+## Distances are measured from here for a miner who isn't down the mine yet.
+var _entry_cell: Vector2i
 
 
-func setup(terrain: Terrain, def: MineLevelDef, bounds: Rect2i) -> void:
+func setup(terrain: Terrain, def: MineLevelDef, bounds: Rect2i, shaft: Shaft) -> void:
 	_terrain = terrain
 	_def = def
 	_bounds = bounds
 	_rng.seed = def.noise_seed
+	_safety = DigSafety.new(terrain, bounds)
+	_shaft_digging = ShaftDigging.new(shaft, _safety, def, bounds.position.y)
+	_entry_cell = Vector2i(shaft.column, bounds.position.y)
+	var shaft_head: DigHead = _shaft_digging.make_shaft_head()
+	if _shaft_digging.plan(shaft_head):
+		_heads.append(shaft_head)
 
 
 ## Starts a tunnel leading away from `stand_cell`.
@@ -42,17 +47,27 @@ func head_count() -> int:
 	return _heads.size()
 
 
-## Gives the miner a tunnel end to work: the one he already has, or the
-## nearest free one. Null when every tunnel is taken or finished.
+## Gives the miner a place to dig: the head he already has, else the nearest
+## free tunnel end, else a new tunnel off the shaft, else the shaft itself to
+## dig deeper. Null when the mine has no room for him.
 func claim_head(miner: Node, near: Vector2i) -> DigHead:
+	if not _bounds.has_point(near):
+		near = _entry_cell
 	var best: DigHead = null
+	var shaft_head: DigHead = null
 	for head: DigHead in _heads:
 		if head.claimed_by == miner:
 			return head
 		if head.claimed_by != null and is_instance_valid(head.claimed_by):
 			continue
-		if best == null or _distance(head.stand_cell, near) < _distance(best.stand_cell, near):
+		if head.is_shaft:
+			shaft_head = head
+		elif best == null or _distance(head.stand_cell, near) < _distance(best.stand_cell, near):
 			best = head
+	if best == null:
+		best = _open_branch()
+	if best == null:
+		best = shaft_head
 	if best != null:
 		best.claimed_by = miner
 	return best
@@ -78,12 +93,34 @@ func finish_dig_cell(head: DigHead) -> void:
 	if head.pending.is_empty():
 		return
 	_terrain.dig(head.pending.pop_front())
-	if head.pending.is_empty():
+	if not head.pending.is_empty():
+		return
+	_safety.unreserve(head)
+	if head.is_shaft:
+		_deepen_shaft(head)
+	else:
 		_complete_column(head)
 
 
+func _open_branch() -> DigHead:
+	var head: DigHead = _shaft_digging.open_branch()
+	if head == null or not _plan(head):
+		return null
+	_heads.append(head)
+	return head
+
+
+func _deepen_shaft(head: DigHead) -> void:
+	_shaft_digging.deepen(head)
+	if not _shaft_digging.plan(head):
+		_retire(head)
+	elif _shaft_digging.has_branch_spot():
+		# Deep enough for a new tunnel: the shaft digger goes and opens it.
+		# The shaft waits for whoever next has nowhere else to dig.
+		head.claimed_by = null
+
+
 func _complete_column(head: DigHead) -> void:
-	_unreserve(head)
 	var column: int = head.stand_cell.x + head.direction
 	if head.is_fork:
 		_split(head, column)
@@ -121,15 +158,15 @@ func _split(head: DigHead, column: int) -> void:
 func _plan(head: DigHead) -> bool:
 	var column: int = head.stand_cell.x + head.direction
 	var feet_row: int = head.stand_cell.y
-	if _wants_fork(head) and _fork_ok(column, feet_row):
+	if _wants_fork(head) and _safety.span_ok(column, feet_row - 2, feet_row + 1):
 		head.is_fork = true
 		head.step = 0
-		_reserve(head, column, feet_row - 2, feet_row + 1)
+		_safety.reserve(head, column, feet_row - 2, feet_row + 1)
 		return true
 	for step: int in _step_options(head):
-		if _column_ok(column, feet_row + step):
+		if _safety.span_ok(column, feet_row + step - 1, feet_row + step):
 			head.step = step
-			_reserve(head, column, feet_row + step - 1, feet_row + step)
+			_safety.reserve(head, column, feet_row + step - 1, feet_row + step)
 			return true
 	return false
 
@@ -151,53 +188,6 @@ func _step_options(head: DigHead) -> Array[int]:
 	if head.slope_steps_left > 0:
 		return [head.slope_dir, 0, -head.slope_dir]
 	return [0, either_way, -either_way]
-
-
-## Can a two-tall column with its floor at `feet_row` be dug here?
-func _column_ok(column: int, feet_row: int) -> bool:
-	return _span_ok(column, feet_row - 1, feet_row)
-
-
-func _fork_ok(column: int, feet_row: int) -> bool:
-	return _span_ok(column, feet_row - 2, feet_row + 1)
-
-
-## Checks a vertical run of cells to dig, plus the cap above and below it.
-func _span_ok(column: int, top_row: int, bottom_row: int) -> bool:
-	if column <= _bounds.position.x or column >= _bounds.end.x - 1:
-		return false
-	if top_row - 1 < _bounds.position.y or bottom_row + 1 >= _bounds.end.y:
-		return false
-	for row: int in range(top_row, bottom_row + 1):
-		var cell := Vector2i(column, row)
-		if not _terrain.is_diggable(cell) or _reserved_dig.has(cell) or _reserved_solid.has(cell):
-			return false
-	for cap: Vector2i in [Vector2i(column, top_row - 1), Vector2i(column, bottom_row + 1)]:
-		if _terrain.is_open(cap) or _reserved_dig.has(cap):
-			return false
-	return true
-
-
-func _reserve(head: DigHead, column: int, top_row: int, bottom_row: int) -> void:
-	head.pending.clear()
-	# Dig from the top down so the miner always has a floor to stand by.
-	for row: int in range(top_row, bottom_row + 1):
-		var cell := Vector2i(column, row)
-		head.pending.append(cell)
-		head.reserved_dig.append(cell)
-		_reserved_dig[cell] = true
-	for cap: Vector2i in [Vector2i(column, top_row - 1), Vector2i(column, bottom_row + 1)]:
-		head.reserved_solid.append(cap)
-		_reserved_solid[cap] = true
-
-
-func _unreserve(head: DigHead) -> void:
-	for cell: Vector2i in head.reserved_dig:
-		_reserved_dig.erase(cell)
-	for cell: Vector2i in head.reserved_solid:
-		_reserved_solid.erase(cell)
-	head.reserved_dig.clear()
-	head.reserved_solid.clear()
 
 
 func _retire(head: DigHead) -> void:

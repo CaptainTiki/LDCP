@@ -11,6 +11,8 @@ var eat_seconds: float = 4.0
 var in_progress: bool = false
 var is_waiting_for_food: bool = false
 var is_waiting_for_seat: bool = false
+## In his chair.
+var is_seated: bool = false
 
 var _meal: MealDef = null
 var _eating_left: float = 0.0
@@ -35,7 +37,7 @@ func release() -> void:
 	in_progress = false
 	is_waiting_for_food = false
 	is_waiting_for_seat = false
-	dwarf.is_sitting = false
+	is_seated = false
 	_meal = null
 	dwarf.world.hall.release_seat(dwarf)
 
@@ -44,14 +46,14 @@ func _find_a_seat_and_order(hall: GreatHall) -> void:
 	var seat: Vector2i = hall.claim_seat(dwarf)
 	is_waiting_for_seat = seat == NavGrid.NO_CELL
 	if is_waiting_for_seat:
-		dwarf.is_sitting = false
+		is_seated = false
 		_walk_to(hall.storage_cell())
 		return
 	if _walk_to(seat):
-		dwarf.is_sitting = true
+		is_seated = true
 		_try_to_get_served(hall.storage)
 	else:
-		dwarf.is_sitting = false
+		is_seated = false
 
 
 func _try_to_get_served(storage: Storage) -> void:

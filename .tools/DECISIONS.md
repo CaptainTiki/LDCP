@@ -212,3 +212,26 @@ Clicking a roster entry (without dragging) jumps the camera to that dwarf: into 
 ## Dev folders are tracked (2026-10-05)
 
 `.tests/` and `.tools/` are now in git, so the tests, generators, art scripts and this log travel with the repo (the user works on two machines). Godot still never imports dot-folders, so they stay out of the game itself. `addons/gut/` stays git-ignored at the user's choice; install GUT 9.7.1 on each machine. `CLAUDE.md` at the repo root carries the working rules for any Claude session.
+
+## The copper layer, a shaft that grows, idlers in the hall (2026-10-05)
+
+Playtest: three of four starting dwarves mined. Two took the landing's two tunnel ends and the third stood at the landing with no sign of why; forks (4% a column, none in the first 6) were the only source of new tunnel ends. Above the level sat 28 rows of undiggable bedrock, half the mine view. This entry supersedes the "Excavation" and "Ore nodes" paragraphs near the top where they differ.
+
+**The ground.** Mine level 1 is the copper layer and now starts right under the grass (it sat 28 rows down). It is 256 x 36 cells; the terrain is 38 rows, so two rows of bedrock show under it. The top `dirt_rows` (6) rows are dirt and the rest is stone. The line between them is pushed up and down by 2D noise (`dirt_edge_rows`, 2.5), so it is ragged and leaves the odd pocket. Dirt takes 2 work a cell, stone 5.
+
+**The shaft starts short** (user's call, option A over a full-depth shaft). It lands with dwarves' feet on row 4, in the dirt, about a 5-second climb. The first copper deposit sits in the dirt on the ceiling of the landing's east tunnel, so the first miner down finds it within a couple of columns. (While hidden it looks like a grey stone in the dirt: a hint, and left that way.) The landing tunnel heading for the nearest deposit is offered first. The other two deposits are out in the stone, west at rows 12-13 and deep east at rows 25-26.
+
+**Where tunnel ends come from.** One miner per tunnel end stays (the user likes one dwarf working the end of each snake). A miner looking for one takes, in order: the one he has; the nearest free tunnel end; a new tunnel off the side of the shaft; the shaft itself, to dig deeper. Only when none of these exists does he have nothing to do.
+- Branches off the shaft open at the shallowest height with room, alternating sides, and run flat for `branch_straight_columns` (2) before they may wander. A branch needs `branch_gap_rows` (3) solid rows between it and any other tunnel leaving that side of the shaft, so they are 5 rows apart. A branch is just a tunnel end whose first stand cell is a ladder rung, so the existing safety rule covers it.
+- The shaft is dug down one cell at a time by a miner standing on the bottom rung, and the ladder (or lift) follows it down. It is only dug when nobody can open a branch, and the moment it is deep enough for one, it lets its digger go to open it. So the ladder grows only as the mine needs room, and the climb gets longer as the mine does. It stops one row above the level's floor.
+- Code: `DigSafety` (the never-trap-a-dwarf rule and the reservations) and `ShaftDigging` (branch spots, digging down) were split out of `Excavation`, which keeps the heads, claims and tunnel steering. `MineLevel` now cuts the shaft itself after filling the ground.
+
+**Direction for later (user, 2026-10-05).** The lift is a later-game upgrade, not an early one. Deeper metals (iron, then gold, platinum, maybe more) each get their own layer with its own ant-farm thickness, deeper and longer than copper. The bottom of each layer's ladder becomes a door into the next level, the way buildings have doors. None of this is built yet; lift price and timing need revisiting with it.
+
+**Idlers sit in the hall with a "?".** Any dwarf whose job has nothing at all for him (unassigned, a farmer with nothing sown anywhere, a cook or brewer with no recipe set or missing ingredients, a miner with no room to dig) walks to the Great Hall and sits in a free chair, or stands by the storage pile if none is free. A "?" shows over his head, the roster badge is "?", and his card says why ("No job", "Nothing sown", "No recipe set", "Missing ingredients", "No tunnel to dig"). Wandering idlers are gone.
+- "Nothing at all" means nothing will change until the player acts. Waiting that sorts itself out isn't idling: a farmer with crops growing waits by his plot, a cook with a batch cooking (or a station another dwarf is on) waits inside, as before. That keeps the "?" meaning "you need to do something".
+- `Idler` is a dwarf component that roles call each tick they have nothing, like `Worker.work_on`; the first tick none does, he gets up. This kept the roles' "re-decide every tick" shape without a separate role per job.
+- Idlers give up their chair to anyone who comes in to eat (`GreatHall.claim_seat` stands an idler up if every chair is taken).
+- Later: a tavern that idlers prefer to the hall.
+
+**The "?" art** is the font's own "?" in near-white with a dark outline (`outlined()` in `make_ui_art.py`).

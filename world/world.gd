@@ -31,10 +31,9 @@ extends Node2D
 
 func setup(tuning: GameTuning, catalog: ContentCatalog, clock: SimClock, wallet: Wallet) -> void:
 	terrain.setup(nav)
-	# Order matters: the level fills its ground first, then the shaft is cut
-	# down through it to the landing, then the town's doors are linked up.
+	# Order matters: the level fills its ground and cuts the shaft down
+	# through it to the landing, then the town's doors are linked up.
 	mine_level.setup(self)
-	shaft.setup(nav, terrain, mine_level.landing_cell().y)
 	surface.setup(self)
 	dwarves.setup(self, tuning, clock)
 	build_tool.setup(self, wallet)

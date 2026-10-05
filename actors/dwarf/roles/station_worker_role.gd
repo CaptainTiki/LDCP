@@ -35,7 +35,11 @@ func act(delta: float) -> void:
 	if _station == null:
 		_station = _pick_station(building)
 	if _station == null:
-		_walk_to(building.interior.door_cell())  # Nothing to do: wait inside.
+		var why: String = _idle_reason(building)
+		if why.is_empty():
+			_walk_to(building.interior.door_cell())  # A batch is on: wait inside.
+		else:
+			dwarf.idler.sit_out(why)
 		return
 	if _station.has_output():
 		if _walk_to(_station.work_cell()):
@@ -111,6 +115,19 @@ func _fetch_for(station: Workstation) -> void:
 	var hall: GreatHall = dwarf.world.hall
 	if _walk_to(hall.storage_cell()) and hall.storage.remove(item, amount):
 		dwarf.carrier.add(item, amount)
+
+
+## Why none of the building's stations will want him without the player
+## stepping in, or "" if one is busy and will want him again by itself.
+func _idle_reason(building: Building) -> String:
+	var any_recipe: bool = false
+	for station: Workstation in building.workstations():
+		var claimant: Node = station.receiver.claimed_by
+		var someone_else_on_it: bool = claimant != null and is_instance_valid(claimant) and claimant != dwarf
+		if station.state == Workstation.State.PROCESSING or someone_else_on_it:
+			return ""
+		any_recipe = any_recipe or station.recipe != null
+	return "Missing ingredients" if any_recipe else "No recipe set"
 
 
 ## A station is worth keeping while there's still something to do at it.

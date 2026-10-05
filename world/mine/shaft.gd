@@ -1,8 +1,10 @@
 class_name Shaft
 extends Node2D
-## The vertical way between the pit-head and the Level 1 landing. The mine
-## entrance in town is a door onto the top of it.
-## It starts as a slow ladder. Buying the lift makes the same cells fast.
+## The vertical way between the pit-head and the mine. The mine entrance in
+## town is a door onto the top of it.
+## It starts short, down through the dirt to the landing, and miners dig it
+## deeper as the mine needs room. It starts as a slow ladder; buying the
+## lift makes the same cells fast.
 
 @export var ladder_texture: Texture2D
 @export var lift_texture: Texture2D
@@ -23,7 +25,7 @@ func setup(nav: NavGrid, terrain: Terrain, bottom_row: int) -> void:
 	position = Vector2(column * NavGrid.CELL, 0)
 	for row: int in range(0, bottom_row + 1):
 		terrain.set_cell(Vector2i(column, row), Terrain.Cell.AIR)
-	_flag_cells(NavGrid.LADDER)
+	_flag_cells(_climb_flag())
 	queue_redraw()
 
 
@@ -32,10 +34,27 @@ func top_cell() -> Vector2i:
 	return Vector2i(column, -1)
 
 
+## The ladder's lowest rung.
+func bottom_cell() -> Vector2i:
+	return Vector2i(column, _bottom_row)
+
+
+## A miner has dug out the cell under the ladder: the ladder reaches down
+## into it.
+func deepen() -> void:
+	_bottom_row += 1
+	_nav.set_flags(bottom_cell(), NavGrid.WALK | _climb_flag())
+	queue_redraw()
+
+
 func install_lift() -> void:
 	has_lift = true
-	_flag_cells(NavGrid.LIFT)
+	_flag_cells(_climb_flag())
 	queue_redraw()
+
+
+func _climb_flag() -> int:
+	return NavGrid.LIFT if has_lift else NavGrid.LADDER
 
 
 func _flag_cells(climb_flag: int) -> void:

@@ -176,10 +176,14 @@ func test_dwarf_dropped_on_an_unsown_plot_becomes_a_farmer() -> void:
 	world.input.assign_at(dwarf, plot.global_position + Vector2(8, -8))
 	assert_eq(dwarf.assignment.kind(), JobAssignment.Kind.FARMER)
 	_run_seconds(30)
-	assert_true(dwarf.mover.is_at(plot.work_cell()), "he waits by his plot until there's work")
+	assert_eq(dwarf.status_text(), "Nothing sown", "with nothing sown, he has nothing to do")
+	assert_true(dwarf.is_sitting(), "so he sits it out in the hall")
 	plot.sow(POTATO_CROP)
 	_run_seconds(30)
 	assert_gt(plot.watered_seconds_left, 0.0, "and gets to it once it's sown")
+	_run_seconds(5)
+	assert_true(dwarf.mover.is_at(plot.work_cell()), "while it grows, he waits by his plot")
+	assert_false(dwarf.idler.is_idle(), "which isn't idling: work is coming")
 
 
 func test_dragging_a_tool_sweeps_a_row_of_plots() -> void:
@@ -928,3 +932,79 @@ func test_follow_mode_sticks_to_a_dwarf_across_views() -> void:
 	world.camera.show_surface()
 	await wait_process_frames(2)
 	assert_eq(world.camera.current_view(), ViewCamera.View.SURFACE, "follow off: the camera stays put")
+
+
+func test_a_dwarf_with_nothing_to_do_sits_in_the_hall_with_a_question_mark() -> void:
+	var dwarf: Dwarf = _dwarf(0)
+	_run_seconds(40)
+	assert_eq(world.interiors.room_at(dwarf.mover.cell), world.hall.interior, "an unassigned dwarf goes to the hall")
+	assert_true(dwarf.is_sitting(), "and takes a chair")
+	assert_eq(dwarf.status_text(), "No job", "his card says why")
+	assert_eq(dwarf.job_badge(), "?")
+	await wait_process_frames(2)
+	assert_true((dwarf.get_node("Visual/IdleMark") as Sprite2D).visible, "a ? over his head")
+	dwarf.assignment.assign(_plot(0))
+	_plot(0).sow(POTATO_CROP)
+	_run_seconds(1)
+	assert_false(dwarf.idler.is_idle(), "given work, he gets up")
+	await wait_process_frames(2)
+	assert_false((dwarf.get_node("Visual/IdleMark") as Sprite2D).visible)
+
+
+func test_cooks_with_no_recipe_or_ingredients_sit_out_in_the_hall() -> void:
+	_nobody_gets_hungry()
+	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
+	var stove: Workstation = kitchen.workstations()[0]
+	var cook: Dwarf = _dwarf(0)
+	cook.assignment.assign(kitchen)
+	_run_seconds(40)
+	assert_eq(cook.status_text(), "No recipe set")
+	assert_eq(world.interiors.room_at(cook.mover.cell), world.hall.interior)
+	stove.select_recipe(STEW_RECIPE)
+	_run_seconds(1)
+	assert_eq(cook.status_text(), "Missing ingredients", "a recipe but no potatoes")
+	storage.add(POTATO, 2)
+	_run_seconds(30)
+	assert_false(cook.idler.is_idle(), "potatoes in: back to work")
+	assert_ne(stove.state, Workstation.State.IDLE)
+
+
+func test_an_idler_gives_up_his_chair_to_someone_come_to_eat() -> void:
+	var room: BuildingInterior = world.hall.interior
+	var chairs: int = 0
+	for piece: Furniture in room.furniture():
+		if piece.def.is_seat:
+			chairs += 1
+			if chairs > 1:
+				room.remove_furniture(piece)
+	var idler: Dwarf = _dwarf(0)
+	var eater: Dwarf = _dwarf(1)
+	_nobody_gets_hungry()
+	# Everyone else farms, so the idler has the one chair to himself.
+	_plot(0).sow(POTATO_CROP)
+	for i: int in range(1, world.dwarves.active_count()):
+		_dwarf(i).assignment.assign(_plot(0))
+	_run_seconds(40)
+	assert_true(idler.is_sitting(), "the one chair goes to the idler")
+	storage.add(STEW, 1)
+	eater.hunger.fill(0.0)
+	_run_seconds(40)
+	assert_false(eater.hunger.is_empty(), "the hungry dwarf got the chair and ate")
+	assert_true(idler.idler.is_idle(), "the idler is still idle")
+
+
+func test_spare_miners_dig_the_shaft_deeper_and_branch_off_it() -> void:
+	storage.add(STEW, 50)
+	var landing: Vector2i = world.mine_level.landing_cell()
+	assert_lt(landing.y, 8, "the shaft starts short, in the dirt")
+	for dwarf: Dwarf in world.dwarves.active():
+		dwarf.assignment.assign(world.mine_entrance)
+	_run_seconds(300)
+	assert_gt(world.shaft.bottom_cell().y, landing.y, "miners dug the shaft deeper")
+	var tunnels_off_the_shaft: int = 0
+	for side: int in [-1, 1]:
+		for y: int in range(landing.y + 2, world.shaft.bottom_cell().y + 1):
+			if world.terrain.is_open(Vector2i(world.shaft.column + side, y)):
+				tunnels_off_the_shaft += 1
+				break
+	assert_gt(tunnels_off_the_shaft, 0, "and opened new tunnels off its side")

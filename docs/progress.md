@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated after the session of 2026-10-04 (version `proto-0.10.5.24`).
+Where the project stands, what's next, and how to pick it back up. Last updated during the session of 2026-10-05 (version `proto-0.10.5.26`).
 
 ## Where we are
 
@@ -21,6 +21,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Needs.**
   - Food is shift length; drink is work rate (50% floor). Both drain only while working.
   - Dwarves eat sitting in a chair, and wait for a free one if all are taken.
+- **Idling.** A dwarf whose job has nothing at all for him sits in the Great Hall with a "?" over his head. His card says why: no job, nothing sown, no recipe set, missing ingredients, no tunnel to dig. Waiting that sorts itself out (crops growing, a stove cooking) isn't idling. Idlers give up their chair to anyone come to eat.
 - **Great Hall.** Furniture (chair, table, long table): placed, moved, turned and removed on a floor grid. Placement can never wall off the room. The game starts with 4 dwarves, 2 tables and 4 chairs.
 - **Stations.**
   - Stove, mash pot, fermenter, smelter and anvil are furniture that makes things.
@@ -30,8 +31,11 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Brewing.** Mash pot -> fermenter. The player pours by clicking an empty fermenter, then a finished pot. Brewers move mash themselves. One mash makes several drinks.
 - **Recipes.** Up to two ingredients. Dwarves carry one tool and one item type at a time, so two ingredients means two trips.
 - **Mining.**
+  - The copper layer starts right under the grass: about 6 rows of dirt with a ragged edge, stone below.
+  - The shaft starts short, landing in the dirt beside the first copper deposit.
   - Miners tunnel on their own (slopes, planks, forks; can never trap a dwarf), reveal hand-placed copper nodes, and haul ore up the ladder.
-  - The lift makes the climb fast.
+  - One miner per tunnel end. A miner with no free end opens a new tunnel off the side of the shaft, or digs the shaft deeper until there's room for one.
+  - The lift makes the climb fast (meant to become a later-game upgrade).
 - **Metal.** Smelter (3 ore -> 1 ingot); anvil (2 ingots -> copper pick or copper sickle).
 - **Tools.** A pick or sickle makes its job 1.5x faster. Dwarves upgrade at the hall. A reassigned dwarf with the wrong tool goes to swap it before doing anything else.
 - **Unlocks.**
@@ -70,7 +74,8 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
    - Wheat and radish have no meals yet.
    - Bread would want an oven station.
    - A third and fourth early meal could vary cook time vs. shift length further.
-3. **Metal follow-ups**, when ready:
+3. **Deeper mine**, later: the lift as a later-game upgrade; iron, gold and platinum layers, each its own ant-farm level, reached through a door at the bottom of the level above's ladder.
+4. **Metal follow-ups**, when ready:
    - Smelting fuel (coal or charcoal).
    - Tools wearing out.
    - Tools for cooks.
@@ -80,7 +85,8 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 
 - `docs/GDD.md` still describes the original side-view town and needs updating to match what's built.
 - **Mine:**
-  - A mine level can run out of tunnel ends; idle miners then wait at the landing.
+  - Once the copper layer has no room left for a tunnel, spare miners sit in the hall ("No tunnel to dig").
+  - Miners prefer found ore nodes to digging, so digging stalls once there's a node per miner.
   - There are no gems, and no wider tunnel pockets.
 - **Town:** nothing stops the player fencing off part of the town with a wall of buildings.
 - **Stations:** non-square stations would need rotation-aware click areas (all stations are 2x2 today).
@@ -95,13 +101,14 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Commits:**
   - The message is a short name only; no body.
   - Every commit bumps `config/version` in `project.godot`.
-  - Format: `proto-major.month.day.build`. The build number keeps counting up and doesn't reset.
+  - Format: `proto-major.month.day.build`. The build number counts up and resets to 1 when a new month starts.
 - **Tests:**
   - GUT, in `.tests/`. Run `.tools/run_tests.ps1`, or with Godot headless: `-s addons/gut/gut_cmdln.gd -gdir=res://.tests/unit,res://.tests/integration -gexit`.
-  - 64 tests, all passing.
+  - 71 tests, all passing.
 - **Generators** (in `.tools/`):
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
-  - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py`. Any PNG in `assets/` can be replaced by hand.
+  - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.
+- **Godot path:** `.tools/run_tests.ps1` defaults to a `D:` Steam install. On the other desktop Godot is at `C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\`; pass `-Godot` or set `GODOT`.
 - **Screenshots:** `.tools/screenshots.gd` captures town, mine, hall, kitchen and brewery views. Run Godot with `-s .tools/screenshots.gd -- <folder>`.
 - **Decision log:** `.tools/DECISIONS.md` has the reasoning behind every call made so far.
 - `.tests/` and `.tools/` are tracked in git, so they travel with the repo. `addons/gut/` is not: install GUT 9.7.1 on a new machine. See `CLAUDE.md`.

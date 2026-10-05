@@ -58,6 +58,7 @@ texture = ExtResource("26")
 stretch_mode = 1
 
 [node name="Terrain" parent="." instance=ExtResource("3")]
+size_cells = Vector2i(256, 38)
 
 [node name="Surface" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -103,7 +104,7 @@ ladder_texture = ExtResource("27")
 lift_texture = ExtResource("28")
 
 [node name="MineLevel1" parent="." instance=ExtResource("14")]
-position = Vector2(0, 224)
+position = Vector2(0, 0)
 
 [node name="Interiors" type="Node2D" parent="."]
 position = Vector2(0, -2400)

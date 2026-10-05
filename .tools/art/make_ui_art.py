@@ -748,11 +748,31 @@ SMALL_ICONS = {
 }
 
 
+def outlined(glyph, fill, edge):
+    """A font glyph's '#' cells in `fill`, with a one-pixel `edge` round it."""
+    filled = {(x + 1, y + 1) for y, row in enumerate(glyph) for x, ch in enumerate(row) if ch == "#"}
+    grid = []
+    for y in range(len(glyph) + 2):
+        row = ""
+        for x in range(len(glyph[0]) + 2):
+            if (x, y) in filled:
+                row += fill
+            elif any((x + dx, y + dy) in filled for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+                row += edge
+            else:
+                row += "."
+        grid.append(row)
+    return grid
+
+
 def icons():
     for name, grid in ICONS.items():
         save(draw(grid, size=(16, 16)), "assets/%s.png" % name)
     for name, grid in SMALL_ICONS.items():
         save(draw(grid), "assets/%s.png" % name)
+    # The "?" over a dwarf with nothing to do is the font's own, outlined so
+    # it reads on grass, dirt and floorboards alike.
+    save(draw(outlined(GLYPHS["?"], "w", "k")), "assets/ui/icons/idle.png")
     # The Ores tab shows the ore itself.
     save(draw(ICONS["items/copper_ore"], size=(16, 16)), "assets/ui/icons/tab_ores.png")
 

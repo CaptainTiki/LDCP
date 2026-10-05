@@ -130,10 +130,13 @@ scene("world/mine/mine_level_1.tscn",
        node("Excavation", "Node", ".", [("script", 'ExtResource("3")')]),
        node("OreNodes", "Node2D", "."),
        # Positions are level-local, multiples of the 8px cell. The shaft
-       # lands at x=1040, y=72..80 with the default world layout.
-       ore("CopperNear", 1120, 64),
-       ore("CopperWest", 864, 32),
-       ore("CopperDeep", 1320, 96)])
+       # (column 130, x=1040) first lands with dwarves' feet on row 4
+       # (y=32..40). The first deposit sits in the dirt right over the
+       # landing's east tunnel, so the first miner down can't miss it. The
+       # others are out in the stone, for tunnels off the deeper shaft.
+       ore("CopperNear", 1088, 8),
+       ore("CopperWest", 832, 96),
+       ore("CopperDeep", 1280, 200)])
 
 # --- Farm plot -------------------------------------------------------------------------
 # One tile of soil with one plant. The plant sprite steps through its crop's
@@ -315,7 +318,8 @@ dwarf_exts = [
     ext("Texture2D", A + "dwarf/body.png", "15"), ext("Texture2D", A + "dwarf/beard.png", "16"),
     ext("Texture2D", A + "dwarf/pick.png", "17"), ext("Texture2D", A + "dwarf/sack.png", "18"),
     ext("Texture2D", A + "mine/lift_car.png", "19"), ext("Script", D + "roles/tool_errand.gd", "20"),
-    ext("Texture2D", A + "ui/icons/marker.png", "21")]
+    ext("Texture2D", A + "ui/icons/marker.png", "21"), ext("Script", D + "components/idler.gd", "22"),
+    ext("Texture2D", A + "ui/icons/idle.png", "23")]
 
 
 def comp(name, rid, parent="."):
@@ -334,9 +338,11 @@ scene("actors/dwarf/dwarf.tscn", dwarf_exts, [
     node("ToolPivot", "Node2D", "Visual", [("visible", "false"), ("position", "Vector2(3, -7)")]),
     # Shown over his head while he's hovered.
     sprite("Marker", "Visual", "21", -3, -23, [("visible", "false")]),
+    # Shown over his head while he has nothing to do.
+    sprite("IdleMark", "Visual", "23", -3, -27, [("visible", "false")]),
     sprite("Pick", "Visual/ToolPivot", "17", -4, -10),
     comp("Hunger", "3"), comp("Thirst", "4"), comp("Carrier", "5"), comp("Mover", "6"),
-    comp("Worker", "7"), comp("JobAssignment", "8"),
+    comp("Worker", "7"), comp("JobAssignment", "8"), comp("Idler", "22"),
     node("Roles", "Node", "."),
     comp("Idle", "9", "Roles"), comp("Farmer", "10", "Roles"), comp("StationWorker", "11", "Roles"),
     comp("Miner", "12", "Roles"), comp("DigWork", "14", "Roles/Miner"), comp("MealBreak", "13", "Roles"),
@@ -379,7 +385,8 @@ world_nodes = [
     node("Ledger", "Node", ".", [("script", 'ExtResource("30")')]),
     rect("MineSky", ".", -1024, -200, 3072, 0, (0.45, 0.62, 0.78, 1), [("z_index", -1)]),
     tiled("MineGrass", ".", "26", 0, -4, 2048, 2),
-    node("Terrain", None, ".", [], instance="3"),
+    # The copper level fills the terrain but for a strip of bedrock below it.
+    node("Terrain", None, ".", [("size_cells", "Vector2i(256, 38)")], instance="3"),
     # The town sits well above the mine in world space. Only doors join them.
     node("Surface", "Node2D", ".", [("y_sort_enabled", "true"), ("position", "Vector2(0, -1200)"),
                                      ("script", 'ExtResource("4")'), ("size_tiles", "Vector2i(128, 9)")]),
@@ -392,7 +399,7 @@ world_nodes = [
     placed("MineEntrance", "7", "8", 68, 2),
     node("Shaft", "Node2D", ".", [("script", 'ExtResource("13")'), ("ladder_texture", 'ExtResource("27")'),
                                    ("lift_texture", 'ExtResource("28")')]),
-    node("MineLevel1", None, ".", [("position", "Vector2(0, 224)")], instance="14"),
+    node("MineLevel1", None, ".", [("position", "Vector2(0, 0)")], instance="14"),
     node("Interiors", "Node2D", ".", [("position", "Vector2(0, -2400)"), ("script", 'ExtResource("15")')]),
     node("Dwarves", "Node2D", ".", [("y_sort_enabled", "true"), ("script", 'ExtResource("16")'),
                                      ("names", 'ExtResource("17")')]),
