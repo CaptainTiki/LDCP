@@ -5,12 +5,17 @@ extends Node2D
 ## freed while the game runs.
 
 signal roster_changed
+## The hovered dwarf changed (in the world or the roster).
+signal hover_changed
 
 @export var names: NameList
 
 var _world: World
 var _tuning: GameTuning
 var _rng := RandomNumberGenerator.new()
+
+## The dwarf under the cursor, in the world or the roster, or null.
+var hovered: Dwarf = null
 
 
 func setup(world: World, tuning: GameTuning, clock: SimClock) -> void:
@@ -34,6 +39,22 @@ func active() -> Array[Dwarf]:
 		if dwarf.is_active:
 			result.append(dwarf)
 	return result
+
+
+func set_hovered(dwarf: Dwarf) -> void:
+	if dwarf != hovered:
+		hovered = dwarf
+		hover_changed.emit()
+
+
+## The dwarf drawn at a world point, if any (the front-most one).
+func dwarf_at(world_point: Vector2) -> Dwarf:
+	var found: Dwarf = null
+	for dwarf: Dwarf in active():
+		if Dwarf.BODY_RECT.has_point(world_point - dwarf.global_position):
+			if found == null or dwarf.global_position.y > found.global_position.y:
+				found = dwarf
+	return found
 
 
 func active_count() -> int:

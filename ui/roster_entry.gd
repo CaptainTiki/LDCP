@@ -1,8 +1,8 @@
 class_name RosterEntry
 extends PanelContainer
 ## One dwarf in the roster: portrait, job badge, and food and drink bars.
-## The name and status are in the tooltip. Drag it onto a workplace to
-## assign the dwarf.
+## Hover it to point him out in the world and see his card. Drag it onto a
+## workplace to assign the dwarf.
 
 var dwarf: Dwarf
 
@@ -15,6 +15,10 @@ var dwarf: Dwarf
 
 func setup(for_dwarf: Dwarf) -> void:
 	dwarf = for_dwarf
+	mouse_entered.connect(func() -> void: dwarf.world.dwarves.set_hovered(dwarf))
+	mouse_exited.connect(func() -> void:
+		if dwarf.world.dwarves.hovered == dwarf:
+			dwarf.world.dwarves.set_hovered(null))
 	_name.text = dwarf.dwarf_name
 	_portrait.color = dwarf.color
 	refresh()
@@ -24,9 +28,10 @@ func refresh() -> void:
 	_badge.text = dwarf.job_badge()
 	_food.value = dwarf.hunger.ratio()
 	_drink.value = dwarf.thirst.ratio()
-	var work_rate: int = roundi(dwarf.thirst.multiplier() * 100.0)
-	var tool_name: String = dwarf.tool.display_name if dwarf.tool != null else "Old pick"
-	tooltip_text = "%s\n%s\nWork rate %d%%\nTool: %s" % [dwarf.dwarf_name, dwarf.status_text(), work_rate, tool_name]
+	# The details are on the card that appears while he's hovered.
+	var lit: bool = dwarf.world.dwarves.hovered == dwarf
+	self_modulate = Color(1.6, 1.4, 0.8) if lit else Color.WHITE
+	_badge.modulate = Color(1.0, 0.8, 0.3) if lit else Color.WHITE
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:

@@ -7,6 +7,9 @@ extends Node2D
 ## Dwarves are pooled: every dwarf already exists in the world scene, hidden,
 ## and hiring one just activates it.
 
+## Where his sprite is drawn, relative to his feet. For hovering and clicks.
+const BODY_RECT: Rect2 = Rect2(-6, -17, 12, 18)
+
 var world: World
 var clock: SimClock
 var dwarf_name: String = ""
@@ -114,6 +117,11 @@ func equip_best_tool(storage: Storage) -> void:
 	if best != null:
 		storage.remove(best, 1)
 	tool = best
+
+
+## One line for the Look tool.
+func summary() -> String:
+	return "%s: %s" % [dwarf_name, status_text()]
 
 
 ## A short description of what the dwarf is up to, for the roster.

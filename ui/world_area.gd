@@ -15,6 +15,10 @@ func setup(world: World) -> void:
 	_world = world
 
 
+func _ready() -> void:
+	mouse_exited.connect(func() -> void: _world.input.hover_ended())
+
+
 func _gui_input(event: InputEvent) -> void:
 	var button: InputEventMouseButton = event as InputEventMouseButton
 	if button != null:

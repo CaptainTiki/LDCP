@@ -23,6 +23,12 @@ func click(world_point: Vector2) -> void:
 	if _world.build_tool.is_active():
 		_world.build_tool.click(world_point, clickable)
 		return
+	if _world.hand.tool == PlayerHand.Tool.LOOK:
+		var dwarf: Dwarf = _world.dwarves.dwarf_at(world_point)
+		if dwarf != null:
+			_world.hand.inspect_text = dwarf.summary()
+			_world.hand.notify_changed()
+			return
 	var entity: Node = clickable.entity() if clickable != null else null
 	if _world.hand.use_on(entity):
 		return
@@ -58,6 +64,12 @@ func drag(world_point: Vector2) -> void:
 func hover(world_point: Vector2) -> void:
 	_world.build_tool.hover(world_point)
 	_world.furniture_tool.hover(world_point)
+	_world.dwarves.set_hovered(_world.dwarves.dwarf_at(world_point))
+
+
+## The cursor left the world (onto a panel, or out of the window).
+func hover_ended() -> void:
+	_world.dwarves.set_hovered(null)
 
 
 ## Can a dwarf dropped here be given a job (or sent back to idling)?

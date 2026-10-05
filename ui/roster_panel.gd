@@ -18,6 +18,7 @@ var _show_all: bool = true
 func setup(world: World) -> void:
 	_world = world
 	world.dwarves.roster_changed.connect(_rebuild)
+	world.dwarves.hover_changed.connect(_refresh)
 	_here_button.pressed.connect(_set_show_all.bind(false))
 	_all_button.pressed.connect(_set_show_all.bind(true))
 	_refresh_timer.timeout.connect(_refresh)

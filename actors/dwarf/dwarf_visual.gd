@@ -15,6 +15,7 @@ var _anim_time: float = 0.0
 @onready var _pick: Sprite2D = $ToolPivot/Pick
 @onready var _carry_slot: Sprite2D = $CarrySlot
 @onready var _lift_car: Sprite2D = $LiftCar
+@onready var _marker: Sprite2D = $Marker
 
 
 func _process(delta: float) -> void:
@@ -41,3 +42,5 @@ func _process(delta: float) -> void:
 	if _carry_slot.visible:
 		_carry_slot.modulate = _dwarf.carrier.item.color
 	_lift_car.visible = _dwarf.mover.is_on_lift()
+	# Points him out while he's hovered, in the world or the roster.
+	_marker.visible = _dwarf.world.dwarves.hovered == _dwarf

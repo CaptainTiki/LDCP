@@ -16,6 +16,7 @@ extends CanvasLayer
 @onready var _options_tab: OptionsTab = $Root/Layout/SidePanel/Row/Pages/Options
 @onready var _room_tab: RoomTab = $Root/Layout/SidePanel/Row/Pages/Room
 @onready var _side_panel: SidePanel = $Root/Layout/SidePanel
+@onready var _dwarf_card: DwarfCard = $Root/DwarfCard
 
 
 func setup(game: Game) -> void:
@@ -32,3 +33,4 @@ func setup(game: Game) -> void:
 	_options_tab.setup(game)
 	_room_tab.setup(game)
 	_side_panel.setup(game.world.camera)
+	_dwarf_card.setup(game.world.dwarves)
