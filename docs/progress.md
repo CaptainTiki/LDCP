@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated at the end of the session of 2026-10-05 (version `proto-0.10.5.34`).
+Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.37`).
 
 ## Where we are
 
@@ -98,9 +98,28 @@ A review of the logs afterwards found:
 
 Changed in response: crops grow 3x as long for 3x the yield, so a sowing lasts about 2.5x longer; dwarves carry 6; barley, wheat and radish unlock from drinks made; and the log splits a station's waiting into loading, unattended and no ingredients. See DECISIONS.md "Slow crops, brewing crops after the brewery, station waits in the log".
 
+## Playtest (2026-10-06)
+
+`game_2026-10-06_09-19-59`: 74 minutes, played, on `proto-0.10.5.34` (before the watering change and the HUD refactor). Got through every building: kitchen, smeltery (15:34), brewery (35:17), forge (50:33). 486 crops harvested, 73 meals, 88 drinks, 277 ore. Visits at minutes 1, 8-10, 16-17, 36-37, 41-43, 47-51 and 62.
+
+What the log showed:
+- **Watering:** one farmer couldn't keep 18-27 plots watered; plots were dry about as often as growing. Fixed the same morning (2 waterings per crop, ±10% growth, ±20% per watering).
+- **HUD:** the top bar grew until it pushed the roster and side panel off screen. Fixed the same morning (HUD refactor).
+- **Dwarves were thirsty 63% of the time** (244 of 387 dwarf-minutes at the 50% floor), even with 47-69 grog in the hall. They only drink when they come in to eat, and a meal lasts much longer than a drink: stew 600s of work, grog 180s.
+- **The farm sat empty 55% of the game.** The farmer was idle with "Nothing sown" for 15 minutes; the 19-minute gap between visits (17 to 36) left all 27 plots empty for about 10 minutes. The watering change makes sowings shorter still (27 plots: about 10 minutes, was 20).
+- **Potatoes were the bottleneck, while carrots and onions piled up.** Gruel, stew, onion soup and potato mash all need potatoes; carrots only make roast carrots. After the first two potato sowings the player sowed 35 carrots and 18 onions, and no more potatoes. For the last 10 minutes two stoves and a mash pot had "no ingredients", with 132 carrots and 104 onions in the hall.
+- **Much more food made than eaten:** 73 meals made, 18 eaten; 88 drinks made, 17 drunk. Hunger only drains while working, and station workers spent 30-60% of their time hauling, so they ate about one meal in 40 minutes.
+- **Coins only came from selling during visits,** and sat at 0 from minute 62 on despite the hall's stock. The brewery's milestone came at 16:46, but the coins for it came at the next visit, at 34:41.
+- **Mining:** only 1 of 3 deposits found in 74 minutes (the known gap: miners prefer found nodes to digging).
+- **Hauling:** the smeltery and brewery workers hauled 43-49% of the time, and the smeltery's 3 smelters each stood unattended 15-25% of the time.
+- The forge's smith waited 62% of his time while the anvil ran its 90s timer. Expected with one anvil; not a bug.
+
 ## Next up
 
 1. **Waiting on the user's call:**
+   - **Drinks between meals.** Dwarves only drink at meal time, so they work at the 50% floor most of the time. Options: dwarves come in for a drink when theirs runs out; drinks last as long as meals; or a drink is carried along.
+   - **Keeping the farm going while the player is away.** Longer grow times, replanting as an unlock (below), or both.
+   - **Potato dependency.** Carrots and onions have one use each; potatoes go into almost everything.
    - **Replanting as a later unlock** (say a seed shed around minute 15-20). As Claude remembers it, Rusty's bots replant whatever crop a plot is set to, so "only the player sows" may already differ from Rusty's. A Rusty's screenshot would settle it.
    - **Mine controls and finds** (proposal). A Mine tab while in the mine view: one row per found deposit with − N + miners (0 leaves it alone; the rest dig), and a "dig the shaft down" switch that runs the ladder to the bottom of the layer. Random finds while digging (copper chunks, rarer in dirt than stone) so mining out the whole layer pays. Questions: − N + per deposit or on/off per ore type; which finds first; how long digging out the copper layer should take with ~4 miners (about 2 hours at today's numbers).
 2. **More test runs** on the new numbers, reading the logs. Watch:
