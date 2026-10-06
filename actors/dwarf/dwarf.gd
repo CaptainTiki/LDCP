@@ -126,11 +126,6 @@ func is_sitting() -> bool:
 	return meal_break.is_seated
 
 
-## One line for the Look tool.
-func summary() -> String:
-	return "%s: %s" % [dwarf_name, status_text()]
-
-
 ## A short description of what the dwarf is up to, for the roster.
 func status_text() -> String:
 	if meal_break.is_waiting_for_food:

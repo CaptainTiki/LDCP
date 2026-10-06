@@ -1,11 +1,8 @@
 class_name DwarfCard
-extends PanelContainer
+extends CursorCard
 ## A small card that follows the cursor while a dwarf is hovered, in the
 ## world or in the roster: who he is, what he's doing, his food and drink,
 ## what he's carrying and his tool.
-
-## Gap between the cursor and the card, in UI pixels.
-const CURSOR_GAP: Vector2 = Vector2(8, 8)
 
 var _pool: DwarfPool
 
@@ -46,14 +43,4 @@ func _refresh() -> void:
 	var carrier: Carrier = dwarf.carrier
 	_carrying.text = "Carrying %d %s" % [carrier.count, carrier.item.display_name] if not carrier.is_empty() else "Carrying nothing"
 	_tool.text = "Tool: %s" % (dwarf.tool.display_name if dwarf.tool != null else "old pick")
-	_follow_cursor()
-
-
-## Sits beside the cursor, flipping to the other side near the screen edges.
-func _follow_cursor() -> void:
-	var screen: Vector2 = get_viewport_rect().size
-	var spot: Vector2 = get_global_mouse_position() + CURSOR_GAP
-	if spot.x + size.x > screen.x:
-		spot.x = get_global_mouse_position().x - CURSOR_GAP.x - size.x
-	spot = spot.clamp(Vector2.ZERO, (screen - size).max(Vector2.ZERO))
-	global_position = spot.round()
+	follow_cursor()

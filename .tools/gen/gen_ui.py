@@ -153,10 +153,14 @@ scene("ui/catalog_button.tscn", [ext("Script", "res://ui/catalog_button.gd", "1"
       [node("CatalogButton", "Button", None, [("alignment", 0), ("icon", 'ExtResource("2")'),
                                               ("icon_alignment", 2), s("1")])])
 
-scene("ui/sell_row.tscn", [ext("Script", "res://ui/sell_row.gd", "1")],
-      [node("SellRow", "HBoxContainer", None, [s("1")]),
-       node("Label", "Label", ".", [H_EXPAND]),
-       button("OneButton", ".", "1"), button("AllButton", ".", "All")])
+scene("ui/stock_slot.tscn", [ext("Script", "res://ui/stock_slot.gd", "1"), ext("Texture2D", COIN, "2")],
+      [node("StockSlot", "Button", None, [("custom_minimum_size", "Vector2(49, 22)"), ("toggle_mode", "true"), s("1")]),
+       node("Margin", "MarginContainer", ".", [("layout_mode", 1)] + FULL + [IGNORE,
+            ("theme_override_constants/margin_left", 3), ("theme_override_constants/margin_top", 2),
+            ("theme_override_constants/margin_right", 3), ("theme_override_constants/margin_bottom", 2)]),
+       node("Row", "HBoxContainer", "Margin", [IGNORE, ("alignment", 1), ("theme_override_constants/separation", 2)]),
+       icon_rect("Icon", "Margin/Row", None)]
+      + numbers("Margin/Row", "2"))
 
 scene("ui/farm_slot.tscn", [ext("Script", "res://ui/farm_slot.gd", "1"), ext("Texture2D", COIN, "2")],
       [node("FarmSlot", "Button", None, [("custom_minimum_size", "Vector2(49, 22)"), ("toggle_mode", "true"), s("1")]),
@@ -247,12 +251,12 @@ hud_exts = [
     ext("Script", U + "hud.gd", "1"), ext("Theme", U + "theme.tres", "2"),
     ext("Script", U + "world_area.gd", "3"), ext("Script", U + "roster_panel.gd", "4"),
     ext("PackedScene", U + "roster_entry.tscn", "5"), ext("Script", U + "fold_button.gd", "6"),
-    ext("Script", U + "resource_readout.gd", "7"), ext("Script", U + "view_buttons.gd", "8"),
+    ext("Script", U + "status_readout.gd", "7"), ext("Script", U + "view_buttons.gd", "8"),
     ext("Script", U + "build_tab.gd", "9"), ext("PackedScene", U + "catalog_button.tscn", "10"),
-    ext("Script", U + "shop_tab.gd", "11"), ext("PackedScene", U + "sell_row.tscn", "12"),
+    ext("Script", U + "shop_tab.gd", "11"), ext("PackedScene", U + "stock_slot.tscn", "12"),
     ext("Script", U + "debug_tab.gd", "13"), ext("Script", U + "side_panel.gd", "14"),
     ext("Script", U + "farm_tab.gd", "15"), ext("PackedScene", U + "farm_slot.tscn", "16"),
-    ext("Script", U + "options_tab.gd", "17"), ext("Script", U + "hand_status.gd", "18"),
+    ext("Script", U + "options_tab.gd", "17"), ext("Script", U + "look_card.gd", "18"),
     ext("Script", U + "ores_tab.gd", "19"), ext("PackedScene", U + "item_slot.tscn", "20"),
     ext("PackedScene", U + "resource_chip.tscn", "21"),
     ext("Texture2D", COIN, "30"), ext("Texture2D", ICONS + "close.png", "31"),
@@ -267,17 +271,21 @@ hud_exts = [
     ext("Texture2D", ICONS + "destroy.png", "47"), ext("Texture2D", ICONS + "turn.png", "48"),
     ext("PackedScene", U + "recipe_slot.tscn", "49"), ext("Script", U + "dwarf_card.gd", "50"),
     ext("Texture2D", ICONS + "camera.png", "51"),
+    ext("Script", U + "zigzag_tabs.gd", "52"), ext("Script", U + "inventory_tab.gd", "53"),
+    ext("Script", U + "look_button.gd", "54"), ext("Texture2D", ICONS + "tab_inventory.png", "55"),
+    ext("Texture2D", ICONS + "idle.png", "56"),
     BAR_STYLES]
 L = "Root/Layout"
 R = L + "/Roster"
 M = L + "/Middle"
 P = L + "/SidePanel"
 TC = P + "/Row/TabColumn"
+TABS = TC + "/Tabs"
 PG = P + "/Row/Pages"
 
 
-def tab(name, icon_id, tip):
-    return button(name, TC, "", [("custom_minimum_size", "Vector2(22, 20)"), ("toggle_mode", "true"),
+def tab(name, icon_id, tip, parent=TABS, extra=()):
+    return button(name, parent, "", list(extra) + [("custom_minimum_size", "Vector2(22, 20)"), ("toggle_mode", "true"),
                                   ("tooltip_text", '"%s"' % tip), ("icon", 'ExtResource("%s")' % icon_id),
                                   ("icon_alignment", 1)])
 
@@ -309,6 +317,13 @@ hud_nodes = [
     node("Label", "Label", "Root/DwarfCard/Column/DrinkRow", [IGNORE]),
     node("Carrying", "Label", "Root/DwarfCard/Column", [IGNORE]),
     node("Tool", "Label", "Root/DwarfCard/Column", [IGNORE]),
+    # The Look tool's pop-up, and the hand's reminders. Never catches the mouse.
+    node("LookCard", "PanelContainer", "Root", [("visible", "false"), ("z_index", 20), ("layout_mode", 0),
+                                                ("custom_minimum_size", "Vector2(140, 0)"), IGNORE, s("18")]),
+    node("Column", "VBoxContainer", "Root/LookCard", [IGNORE, ("theme_override_constants/separation", 1)]),
+    node("Title", "Label", "Root/LookCard/Column", [IGNORE, ("autowrap_mode", 3),
+         ("theme_override_colors/font_color", "Color(0.95, 0.8, 0.45, 1)")]),
+    node("Body", "Label", "Root/LookCard/Column", [IGNORE, ("autowrap_mode", 3)]),
 
     # Left: the dwarf roster, two across.
     node("Roster", "PanelContainer", L, [s("4"), ("entry_scene", 'ExtResource("5")')]),
@@ -324,15 +339,20 @@ hud_nodes = [
           ("theme_override_constants/v_separation", 1), ("columns", 2)]),
     with_paths(button("FoldButton", R + "/Row", "<", [s("6"), ("target", 'NodePath("../Body")')]), ["target"]),
 
-    # Middle: chips for coins and food/drink, what's in hand, and the views.
+    # Middle: the town at a glance (coins, plants growing, idle dwarves), the
+    # Look tool, and the views. Nothing here grows with the town, so it can
+    # never push the side panels off the screen.
     node("Middle", "VBoxContainer", L, [H_EXPAND, IGNORE]),
     node("TopBar", "HBoxContainer", M, [IGNORE, ("theme_override_constants/separation", 1)]),
-    node("ResourceReadout", "HBoxContainer", M + "/TopBar", [IGNORE, ("theme_override_constants/separation", 1),
-                                                            s("7"), ("chip_scene", 'ExtResource("21")'),
-                                                            ("coin_icon", 'ExtResource("30")')]),
-    node("HandStatus", "PanelContainer", M + "/TopBar", [SLOT_STYLE, s("18")]),
-    node("Label", "Label", M + "/TopBar/HandStatus", [V_CENTER]),
+    node("StatusReadout", "HBoxContainer", M + "/TopBar", [IGNORE, ("theme_override_constants/separation", 1),
+                                                          s("7"), ("chip_scene", 'ExtResource("21")'),
+                                                          ("coin_icon", 'ExtResource("30")'),
+                                                          ("plant_icon", 'ExtResource("32")'),
+                                                          ("idle_icon", 'ExtResource("56")')]),
+    node("RefreshTimer", "Timer", M + "/TopBar/StatusReadout", [("wait_time", 0.5), ("autostart", "true")]),
     node("Spacer", "Control", M + "/TopBar", [H_EXPAND, IGNORE]),
+    button("LookButton", M + "/TopBar", "", [("toggle_mode", "true"), ("icon", 'ExtResource("39")'), s("54"),
+           ("tooltip_text", '"Look: hover anything to see what it is up to. Click to put it away"')]),
     node("ViewButtons", "HBoxContainer", M + "/TopBar", [s("8"), ("theme_override_constants/separation", 1)]),
     button("FollowButton", M + "/TopBar/ViewButtons", "", [("toggle_mode", "true"), ("icon", 'ExtResource("51")'),
            ("tooltip_text", '"Follow: the camera sticks to the dwarf you click in the roster"')]),
@@ -344,16 +364,18 @@ hud_nodes = [
     node("SidePanel", "PanelContainer", L, [s("14")]),
     node("Row", "HBoxContainer", P, [("theme_override_constants/separation", 2)]),
     node("TabColumn", "VBoxContainer", P + "/Row", [("theme_override_constants/separation", 1)]),
-    button("CloseButton", TC, "", [("custom_minimum_size", "Vector2(22, 14)"), ("tooltip_text", '"Fold away"'),
-                                   ("icon", 'ExtResource("31")'), ("icon_alignment", 1)]),
+    # Zigzag: the X top right, then each tab a half step down on the other side.
+    node("Tabs", "Container", TC, [V_EXPAND, s("52")]),
+    button("CloseButton", TABS, "", [("custom_minimum_size", "Vector2(22, 14)"), ("tooltip_text", '"Fold away"'),
+                                     ("icon", 'ExtResource("31")'), ("icon_alignment", 1)]),
     tab("RoomButton", "45", "This building"),
     tab("FarmButton", "32", "Farming"),
-    tab("OresButton", "33", "Ores"),
     tab("BuildButton", "34", "Buildings"),
+    tab("OresButton", "33", "Ores"),
+    tab("InventoryButton", "55", "Inventory"),
     tab("ShopButton", "35", "Shop"),
     tab("DebugButton", "36", "Debug"),
-    node("Spacer", "Control", TC, [V_EXPAND, IGNORE]),
-    tab("OptionsButton", "37", "Options"),
+    tab("OptionsButton", "37", "Options", TC, [("size_flags_horizontal", 0)]),
     node("Pages", "TabContainer", P + "/Row", [("custom_minimum_size", "Vector2(199, 0)"),
                                                 ("tabs_visible", "false")]),
 
@@ -378,11 +400,8 @@ hud_nodes = [
     node("Scroll", "ScrollContainer", PG + "/Build", [V_EXPAND, NO_HSCROLL]),
     node("List", "VBoxContainer", PG + "/Build/Scroll", [H_EXPAND, ("theme_override_constants/separation", 1)]),
 
-    node("Shop", "ScrollContainer", PG, [NO_HSCROLL, s("11"), ("button_scene", 'ExtResource("10")'),
-                                         ("sell_row_scene", 'ExtResource("12")')]),
+    node("Shop", "ScrollContainer", PG, [NO_HSCROLL, s("11"), ("button_scene", 'ExtResource("10")')]),
     node("List", "VBoxContainer", PG + "/Shop", [H_EXPAND, ("theme_override_constants/separation", 1)]),
-    node("SellHeader", "Label", PG + "/Shop/List", [("text", '"Sell"')]),
-    node("SellList", "VBoxContainer", PG + "/Shop/List", [("theme_override_constants/separation", 1)]),
     node("BuyHeader", "Label", PG + "/Shop/List", [("text", '"Buy"')]),
     node("BuyList", "VBoxContainer", PG + "/Shop/List", [("theme_override_constants/separation", 1)]),
     button("HireButton", PG + "/Shop/List", "Hire a dwarf", [("alignment", 0), ("icon", 'ExtResource("30")'),
@@ -423,6 +442,17 @@ hud_nodes = [
          ("theme_override_constants/h_separation", 1), ("theme_override_constants/v_separation", 1)]),
     node("Drinks", "GridContainer", PG + "/Room/Column/Stock", [H_EXPAND, ("columns", 2),
          ("theme_override_constants/h_separation", 1), ("theme_override_constants/v_separation", 1)]),
+
+    # Everything in the Great Hall, and a bar for selling the picked item.
+    node("Inventory", "VBoxContainer", PG, [s("53"), ("slot_scene", 'ExtResource("12")'),
+                                            ("theme_override_constants/separation", 1)]),
+    node("SellBar", "HBoxContainer", PG + "/Inventory", [("theme_override_constants/separation", 2)]),
+    icon_rect("Icon", PG + "/Inventory/SellBar", None),
+    node("Label", "Label", PG + "/Inventory/SellBar", [H_EXPAND, V_CENTER, ("clip_text", "true")]),
+    button("OneButton", PG + "/Inventory/SellBar", "1", [("tooltip_text", '"Sell one"')]),
+    button("AllButton", PG + "/Inventory/SellBar", "All", [("tooltip_text", '"Sell them all"')]),
+    node("Scroll", "ScrollContainer", PG + "/Inventory", [V_EXPAND, NO_HSCROLL]),
+    grid(PG + "/Inventory/Scroll"),
 ]
 scene("ui/hud.tscn", hud_exts, hud_nodes)
 print("ui written")

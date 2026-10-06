@@ -2,7 +2,8 @@ class_name PlayerHand
 extends Node
 ## What the player is holding. The Farming tab hands out the tools:
 ##   Hoe     roots up a plant, to clear the plot for something else
-##   Look    inspects whatever is clicked
+##   Look    shows what whatever is under the cursor is up to. Any click
+##           in the world puts it away
 ##   Bucket  waters a growing plant
 ##   Shears  harvests a ripe plant into the player's hands
 ##   Seeds   sow an empty plot (costs the crop's seed price)
@@ -20,8 +21,8 @@ enum Tool { NONE, HOE, LOOK, BUCKET, SHEARS, SEEDS }
 var tool: Tool = Tool.NONE
 ## Which crop the SEEDS tool sows.
 var seed_crop: CropDef = null
-## What the Look tool last saw.
-var inspect_text: String = ""
+## What the Look tool is over: a station, plot, building or deposit, or null.
+var looked_at: Node = null
 ## The station whose recipes the room tab shows.
 var selected_station: Workstation = null
 ## An empty station waiting for the player to pick a finished one to pour
@@ -54,6 +55,12 @@ func put_away() -> void:
 
 func is_holding_tool() -> bool:
 	return tool != Tool.NONE
+
+
+## Points the Look tool at whatever is under the cursor. Ignored unless the
+## Look tool is in hand.
+func set_looked_at(entity: Node) -> void:
+	looked_at = entity if tool == Tool.LOOK else null
 
 
 ## Something about a station changed that the UI should show.
@@ -101,9 +108,6 @@ func _use_tool(entity: Node) -> bool:
 	match tool:
 		Tool.HOE:
 			return plot != null and plot.uproot()
-		Tool.LOOK:
-			inspect_text = _describe(entity)
-			return entity != null
 		Tool.SEEDS:
 			return plot != null and _sow(plot)
 		Tool.BUCKET:
@@ -128,21 +132,9 @@ func _harvest(plot: FarmPlot) -> bool:
 	return true
 
 
-func _describe(entity: Node) -> String:
-	if entity is FarmPlot:
-		return (entity as FarmPlot).describe()
-	if entity is Workstation:
-		return (entity as Workstation).describe()
-	if entity is OreNode:
-		return "%s deposit" % (entity as OreNode).ore.display_name
-	if entity is Placeable:
-		return (entity as Placeable).def.display_name
-	return ""
-
-
 func _set_tool(new_tool: Tool) -> void:
 	tool = new_tool
-	inspect_text = ""
+	looked_at = null
 	selected_station = null
 	pour_target = null
 	changed.emit()

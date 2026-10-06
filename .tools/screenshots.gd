@@ -70,6 +70,18 @@ func _run() -> void:
 	world.input.click(pot.global_position + Vector2(8, 8))
 	await _frames(10)
 	await _shot("brewery")
+	# The Look tool's pop-up over the fermenter.
+	world.hand.select(PlayerHand.Tool.LOOK)
+	var clickable: Clickable = fermenter.get_node("Clickable")
+	var middle: Vector2 = clickable.global_position + clickable.size / 2.0
+	root.warp_mouse(root.get_canvas_transform() * middle)
+	world.input.hover(middle)
+	await _frames(4)
+	await _shot("brewery_look")
+	world.hand.put_away()
+	world.camera.show_surface()
+	(game.hud.get_node("Root/Layout/SidePanel/Row/TabColumn/Tabs/InventoryButton") as Button).pressed.emit()
+	await _shot("inventory")
 	quit()
 
 

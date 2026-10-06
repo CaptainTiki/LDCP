@@ -222,9 +222,21 @@ func sim_tick(delta: float) -> void:
 	_update_bar()
 
 
-## A line of text for the Look tool and the top bar.
-func describe() -> String:
-	return "%s: %s" % [def.display_name, status_text()]
+## What the Look tool shows: the station, its recipe, what it's up to,
+## what has gone in so far, and who is working it.
+func look_lines() -> PackedStringArray:
+	var lines: PackedStringArray = [def.display_name]
+	if recipe != null:
+		lines.append("%s > %d %s" % [recipe.describe_inputs(), recipe.output_count, recipe.output.display_name])
+	lines.append(status_text())
+	if state == State.LOADING:
+		for stack: ItemStack in recipe.inputs:
+			var wanted: int = recipe.needs(stack.item)
+			lines.append("%d of %d %s in" % [wanted - still_needs(stack.item), wanted, stack.item.display_name])
+	var worker: Node = receiver.claimed_by
+	if worker != null and is_instance_valid(worker) and worker is Dwarf:
+		lines.append("Worked by %s" % (worker as Dwarf).dwarf_name)
+	return lines
 
 
 ## What the station is up to, or waiting for, in a few words.

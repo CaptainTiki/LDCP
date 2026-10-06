@@ -6,18 +6,18 @@
 [ext_resource type="Script" path="res://ui/roster_panel.gd" id="4"]
 [ext_resource type="PackedScene" path="res://ui/roster_entry.tscn" id="5"]
 [ext_resource type="Script" path="res://ui/fold_button.gd" id="6"]
-[ext_resource type="Script" path="res://ui/resource_readout.gd" id="7"]
+[ext_resource type="Script" path="res://ui/status_readout.gd" id="7"]
 [ext_resource type="Script" path="res://ui/view_buttons.gd" id="8"]
 [ext_resource type="Script" path="res://ui/build_tab.gd" id="9"]
 [ext_resource type="PackedScene" path="res://ui/catalog_button.tscn" id="10"]
 [ext_resource type="Script" path="res://ui/shop_tab.gd" id="11"]
-[ext_resource type="PackedScene" path="res://ui/sell_row.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://ui/stock_slot.tscn" id="12"]
 [ext_resource type="Script" path="res://ui/debug_tab.gd" id="13"]
 [ext_resource type="Script" path="res://ui/side_panel.gd" id="14"]
 [ext_resource type="Script" path="res://ui/farm_tab.gd" id="15"]
 [ext_resource type="PackedScene" path="res://ui/farm_slot.tscn" id="16"]
 [ext_resource type="Script" path="res://ui/options_tab.gd" id="17"]
-[ext_resource type="Script" path="res://ui/hand_status.gd" id="18"]
+[ext_resource type="Script" path="res://ui/look_card.gd" id="18"]
 [ext_resource type="Script" path="res://ui/ores_tab.gd" id="19"]
 [ext_resource type="PackedScene" path="res://ui/item_slot.tscn" id="20"]
 [ext_resource type="PackedScene" path="res://ui/resource_chip.tscn" id="21"]
@@ -43,6 +43,11 @@
 [ext_resource type="PackedScene" path="res://ui/recipe_slot.tscn" id="49"]
 [ext_resource type="Script" path="res://ui/dwarf_card.gd" id="50"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/camera.png" id="51"]
+[ext_resource type="Script" path="res://ui/zigzag_tabs.gd" id="52"]
+[ext_resource type="Script" path="res://ui/inventory_tab.gd" id="53"]
+[ext_resource type="Script" path="res://ui/look_button.gd" id="54"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/tab_inventory.png" id="55"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/idle.png" id="56"]
 
 [sub_resource type="StyleBoxFlat" id="bar_back"]
 bg_color = Color(0.12, 0.1, 0.09, 1)
@@ -152,6 +157,27 @@ mouse_filter = 2
 [node name="Tool" type="Label" parent="Root/DwarfCard/Column"]
 mouse_filter = 2
 
+[node name="LookCard" type="PanelContainer" parent="Root"]
+visible = false
+z_index = 20
+layout_mode = 0
+custom_minimum_size = Vector2(140, 0)
+mouse_filter = 2
+script = ExtResource("18")
+
+[node name="Column" type="VBoxContainer" parent="Root/LookCard"]
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="Title" type="Label" parent="Root/LookCard/Column"]
+mouse_filter = 2
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.95, 0.8, 0.45, 1)
+
+[node name="Body" type="Label" parent="Root/LookCard/Column"]
+mouse_filter = 2
+autowrap_mode = 3
+
 [node name="Roster" type="PanelContainer" parent="Root/Layout"]
 script = ExtResource("4")
 entry_scene = ExtResource("5")
@@ -202,23 +228,29 @@ mouse_filter = 2
 mouse_filter = 2
 theme_override_constants/separation = 1
 
-[node name="ResourceReadout" type="HBoxContainer" parent="Root/Layout/Middle/TopBar"]
+[node name="StatusReadout" type="HBoxContainer" parent="Root/Layout/Middle/TopBar"]
 mouse_filter = 2
 theme_override_constants/separation = 1
 script = ExtResource("7")
 chip_scene = ExtResource("21")
 coin_icon = ExtResource("30")
+plant_icon = ExtResource("32")
+idle_icon = ExtResource("56")
 
-[node name="HandStatus" type="PanelContainer" parent="Root/Layout/Middle/TopBar"]
-theme_type_variation = &"SlotPanel"
-script = ExtResource("18")
-
-[node name="Label" type="Label" parent="Root/Layout/Middle/TopBar/HandStatus"]
-size_flags_vertical = 4
+[node name="RefreshTimer" type="Timer" parent="Root/Layout/Middle/TopBar/StatusReadout"]
+wait_time = 0.5
+autostart = true
 
 [node name="Spacer" type="Control" parent="Root/Layout/Middle/TopBar"]
 size_flags_horizontal = 3
 mouse_filter = 2
+
+[node name="LookButton" type="Button" parent="Root/Layout/Middle/TopBar"]
+text = ""
+toggle_mode = true
+icon = ExtResource("39")
+script = ExtResource("54")
+tooltip_text = "Look: hover anything to see what it is up to. Click to put it away"
 
 [node name="ViewButtons" type="HBoxContainer" parent="Root/Layout/Middle/TopBar"]
 script = ExtResource("8")
@@ -248,14 +280,18 @@ theme_override_constants/separation = 2
 [node name="TabColumn" type="VBoxContainer" parent="Root/Layout/SidePanel/Row"]
 theme_override_constants/separation = 1
 
-[node name="CloseButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+[node name="Tabs" type="Container" parent="Root/Layout/SidePanel/Row/TabColumn"]
+size_flags_vertical = 3
+script = ExtResource("52")
+
+[node name="CloseButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn/Tabs"]
 text = ""
 custom_minimum_size = Vector2(22, 14)
 tooltip_text = "Fold away"
 icon = ExtResource("31")
 icon_alignment = 1
 
-[node name="RoomButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+[node name="RoomButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn/Tabs"]
 text = ""
 custom_minimum_size = Vector2(22, 20)
 toggle_mode = true
@@ -263,7 +299,7 @@ tooltip_text = "This building"
 icon = ExtResource("45")
 icon_alignment = 1
 
-[node name="FarmButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+[node name="FarmButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn/Tabs"]
 text = ""
 custom_minimum_size = Vector2(22, 20)
 toggle_mode = true
@@ -271,15 +307,7 @@ tooltip_text = "Farming"
 icon = ExtResource("32")
 icon_alignment = 1
 
-[node name="OresButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
-text = ""
-custom_minimum_size = Vector2(22, 20)
-toggle_mode = true
-tooltip_text = "Ores"
-icon = ExtResource("33")
-icon_alignment = 1
-
-[node name="BuildButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+[node name="BuildButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn/Tabs"]
 text = ""
 custom_minimum_size = Vector2(22, 20)
 toggle_mode = true
@@ -287,7 +315,23 @@ tooltip_text = "Buildings"
 icon = ExtResource("34")
 icon_alignment = 1
 
-[node name="ShopButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+[node name="OresButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn/Tabs"]
+text = ""
+custom_minimum_size = Vector2(22, 20)
+toggle_mode = true
+tooltip_text = "Ores"
+icon = ExtResource("33")
+icon_alignment = 1
+
+[node name="InventoryButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn/Tabs"]
+text = ""
+custom_minimum_size = Vector2(22, 20)
+toggle_mode = true
+tooltip_text = "Inventory"
+icon = ExtResource("55")
+icon_alignment = 1
+
+[node name="ShopButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn/Tabs"]
 text = ""
 custom_minimum_size = Vector2(22, 20)
 toggle_mode = true
@@ -295,7 +339,7 @@ tooltip_text = "Shop"
 icon = ExtResource("35")
 icon_alignment = 1
 
-[node name="DebugButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
+[node name="DebugButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn/Tabs"]
 text = ""
 custom_minimum_size = Vector2(22, 20)
 toggle_mode = true
@@ -303,12 +347,9 @@ tooltip_text = "Debug"
 icon = ExtResource("36")
 icon_alignment = 1
 
-[node name="Spacer" type="Control" parent="Root/Layout/SidePanel/Row/TabColumn"]
-size_flags_vertical = 3
-mouse_filter = 2
-
 [node name="OptionsButton" type="Button" parent="Root/Layout/SidePanel/Row/TabColumn"]
 text = ""
+size_flags_horizontal = 0
 custom_minimum_size = Vector2(22, 20)
 toggle_mode = true
 tooltip_text = "Options"
@@ -382,16 +423,9 @@ theme_override_constants/separation = 1
 horizontal_scroll_mode = 0
 script = ExtResource("11")
 button_scene = ExtResource("10")
-sell_row_scene = ExtResource("12")
 
 [node name="List" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Shop"]
 size_flags_horizontal = 3
-theme_override_constants/separation = 1
-
-[node name="SellHeader" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
-text = "Sell"
-
-[node name="SellList" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
 theme_override_constants/separation = 1
 
 [node name="BuyHeader" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Shop/List"]
@@ -501,5 +535,42 @@ theme_override_constants/v_separation = 1
 [node name="Drinks" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Room/Column/Stock"]
 size_flags_horizontal = 3
 columns = 2
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+
+[node name="Inventory" type="VBoxContainer" parent="Root/Layout/SidePanel/Row/Pages"]
+script = ExtResource("53")
+slot_scene = ExtResource("12")
+theme_override_constants/separation = 1
+
+[node name="SellBar" type="HBoxContainer" parent="Root/Layout/SidePanel/Row/Pages/Inventory"]
+theme_override_constants/separation = 2
+
+[node name="Icon" type="TextureRect" parent="Root/Layout/SidePanel/Row/Pages/Inventory/SellBar"]
+custom_minimum_size = Vector2(16, 16)
+mouse_filter = 2
+size_flags_vertical = 4
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="Root/Layout/SidePanel/Row/Pages/Inventory/SellBar"]
+size_flags_horizontal = 3
+size_flags_vertical = 4
+clip_text = true
+
+[node name="OneButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Inventory/SellBar"]
+text = "1"
+tooltip_text = "Sell one"
+
+[node name="AllButton" type="Button" parent="Root/Layout/SidePanel/Row/Pages/Inventory/SellBar"]
+text = "All"
+tooltip_text = "Sell them all"
+
+[node name="Scroll" type="ScrollContainer" parent="Root/Layout/SidePanel/Row/Pages/Inventory"]
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="Root/Layout/SidePanel/Row/Pages/Inventory/Scroll"]
+size_flags_horizontal = 3
+columns = 4
 theme_override_constants/h_separation = 1
 theme_override_constants/v_separation = 1

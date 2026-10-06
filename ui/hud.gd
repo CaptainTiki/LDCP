@@ -4,8 +4,8 @@ extends CanvasLayer
 ## panel to the parts of the game it talks to.
 
 @onready var _world_area: WorldArea = $Root/WorldArea
-@onready var _readout: ResourceReadout = $Root/Layout/Middle/TopBar/ResourceReadout
-@onready var _hand_status: HandStatus = $Root/Layout/Middle/TopBar/HandStatus
+@onready var _readout: StatusReadout = $Root/Layout/Middle/TopBar/StatusReadout
+@onready var _look_button: LookButton = $Root/Layout/Middle/TopBar/LookButton
 @onready var _view_buttons: ViewButtons = $Root/Layout/Middle/TopBar/ViewButtons
 @onready var _roster: RosterPanel = $Root/Layout/Roster
 @onready var _farm_tab: FarmTab = $Root/Layout/SidePanel/Row/Pages/Farming
@@ -15,14 +15,16 @@ extends CanvasLayer
 @onready var _debug_tab: DebugTab = $Root/Layout/SidePanel/Row/Pages/Debug
 @onready var _options_tab: OptionsTab = $Root/Layout/SidePanel/Row/Pages/Options
 @onready var _room_tab: RoomTab = $Root/Layout/SidePanel/Row/Pages/Room
+@onready var _inventory_tab: InventoryTab = $Root/Layout/SidePanel/Row/Pages/Inventory
 @onready var _side_panel: SidePanel = $Root/Layout/SidePanel
 @onready var _dwarf_card: DwarfCard = $Root/DwarfCard
+@onready var _look_card: LookCard = $Root/LookCard
 
 
 func setup(game: Game) -> void:
 	_world_area.setup(game.world)
-	_readout.setup(game.wallet, game.world.hall.storage, game.catalog)
-	_hand_status.setup(game.world.hand)
+	_readout.setup(game.wallet, game.world)
+	_look_button.setup(game.world.hand)
 	_view_buttons.setup(game.world.camera)
 	_roster.setup(game.world)
 	_farm_tab.setup(game)
@@ -32,5 +34,7 @@ func setup(game: Game) -> void:
 	_debug_tab.setup(game)
 	_options_tab.setup(game)
 	_room_tab.setup(game)
+	_inventory_tab.setup(game)
 	_side_panel.setup(game.world.camera)
 	_dwarf_card.setup(game.world.dwarves)
+	_look_card.setup(game.world)

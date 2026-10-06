@@ -340,3 +340,22 @@ Measured headless (one farmer, nobody hungry, every plot sown with potatoes at o
 | 27, two farmers | 10.8 min, 49% | 7.6 min, 9% |
 
 The farmer keeps up now. Most of his time goes on harvesting and hauling (a harvest of 6 fills his back, so each plot is a trip to the hall). The trade-off: last session stretched sowings by making watering the bottleneck. With that gone, a sowing lasts about the grow time plus the harvest, so 27 plots last about 10 minutes rather than 20, and a farmer makes food about twice as fast. Grow times are unchanged until a playtest says otherwise.
+
+## HUD refactor: a top bar that can't grow, zigzag tabs, Inventory, the Look pop-up (2026-10-06)
+
+From the user's playtest screenshot: inside a kitchen, the roster was pushed off the left edge and the side panel off the right. The top bar is one row whose minimum width kept growing: a chip for every meal and drink type in the hall, plus the hand-status text ("Stove: making stew, 20s to go"), plus the view buttons. Once it was wider than the gap between the roster and the side panel, the whole layout overflowed both ways. The status text also kept describing the last station clicked long after the player had moved on.
+
+**The top bar is the town at a glance** (user's call): coins, plants growing (planted plots / all plots) and idle dwarves, then the Look button and the view buttons. Nothing in it grows as the town does. The food and drink chips are gone; the Inventory tab has the counts. Plots and idle dwarves have no change signals, so the readout polls them twice a second.
+
+**The hand-status line is gone** (user's call). What it said moved:
+- A selected station's status: the Look pop-up, and the room tab (unchanged).
+- The pour prompt and "click the Great Hall" with crops in hand: the same pop-up beside the cursor, shown while they apply (my call, so the pour flow stays discoverable).
+- The held-tool hints ("Bucket: click dry plants"): dropped. The Farm tab's tooltips say the same.
+
+**Look is a hover tool, always in the top bar** (user's call). Pick up the magnifying glass and hover anything: a pop-up beside the cursor says what it is and what it's up to. A station shows its recipe, status, what's gone in and who's working it. A plot shows its crop, % grown, seconds to go, whether it's wet and how many waterings are left. Buildings, the mine entrance and deposits show their workers. A dwarf keeps his own card. **Any click in the world puts the glass away** and does nothing else (user's call). The Farm tab keeps its Look square too.
+
+**Inventory tab** (user's call): a square for every kind of item the Great Hall holds (hidden at zero), with its count and sell price. Pick a square and the bar along the top sells one or all. Selling moved here from the Shop tab, which keeps Buy, Hire, the lift and Unlocks.
+
+**Tabs zigzag in two staggered columns** (user's call). The 150px-tall tab column had no room for an eighth button. The X sits top right, then each tab drops half a step to the other side: Farm, Build, Ores, Inventory, Shop, Debug. Options stays at the bottom. Hidden tabs are skipped, so indoors the room tab closes up under the X. The side panel is 22px wider for it.
+
+A test now checks the HUD's minimum width against the 640px canvas with one of everything in the hall, both in town and in a kitchen with a stove's recipes showing.

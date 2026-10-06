@@ -196,15 +196,20 @@ func test_hoe_roots_up_a_plant() -> void:
 	assert_eq(world.surface.farm_plots().size(), plots, "the hoe doesn't make plots: they're bought in Build")
 
 
-func test_look_inspects_plots() -> void:
-	var hand: PlayerHand = world.hand
-	hand.select(PlayerHand.Tool.LOOK)
-	_click_plot(_plot(0))
-	assert_string_contains(hand.inspect_text, "Empty plot")
+func test_look_shows_what_a_plot_is_up_to() -> void:
+	var card: LookCard = game.hud.get_node("Root/LookCard")
+	var spot: Vector2 = _plot(0).global_position + Vector2(8, -8)
+	world.hand.select(PlayerHand.Tool.LOOK)
+	world.input.hover(spot)
+	assert_eq(card.current_lines()[0], "Empty plot")
 	_plot(0).sow(POTATO_CROP)
-	_click_plot(_plot(0))
-	assert_string_contains(hand.inspect_text, "Potato")
-	assert_string_contains(hand.inspect_text, "dry")
+	assert_eq(card.current_lines()[0], "Potato")
+	assert_has(card.current_lines(), "Dry, needs water")
+	assert_has(card.current_lines(), "2 more waterings")
+	world.input.click(spot)
+	assert_false(world.hand.is_holding_tool(), "any click puts the glass away")
+	assert_true(card.current_lines().is_empty(), "and the pop-up goes with it")
+	assert_eq(_plot(0).current_task(), FarmPlot.Task.WATER, "the click did nothing else")
 
 
 func test_dwarf_dropped_on_an_unsown_plot_becomes_a_farmer() -> void:
@@ -565,8 +570,8 @@ func test_dwarves_wait_for_a_free_chair() -> void:
 
 
 func test_the_hall_tab_replaces_the_usual_tabs_inside_the_hall() -> void:
-	var farm_button: Button = game.hud.get_node("Root/Layout/SidePanel/Row/TabColumn/FarmButton")
-	var hall_button: Button = game.hud.get_node("Root/Layout/SidePanel/Row/TabColumn/RoomButton")
+	var farm_button: Button = game.hud.get_node("Root/Layout/SidePanel/Row/TabColumn/Tabs/FarmButton")
+	var hall_button: Button = game.hud.get_node("Root/Layout/SidePanel/Row/TabColumn/Tabs/RoomButton")
 	var pages: TabContainer = game.hud.get_node("Root/Layout/SidePanel/Row/Pages")
 	assert_true(farm_button.visible)
 	assert_false(hall_button.visible)
@@ -965,8 +970,9 @@ func test_hovering_a_dwarf_points_him_out_and_shows_his_card() -> void:
 	assert_false(card.visible)
 
 	world.hand.select(PlayerHand.Tool.LOOK)
-	world.input.click(dwarf.global_position + Vector2(0, -8))
-	assert_string_contains(world.hand.inspect_text, dwarf.dwarf_name, "the Look tool names him")
+	world.input.hover(spot)
+	assert_true(card.visible, "with the Look tool too, he gets his own card")
+	assert_null(world.hand.looked_at, "so the Look pop-up stays out of the way")
 
 
 func test_clicking_a_roster_entry_jumps_to_the_dwarf() -> void:

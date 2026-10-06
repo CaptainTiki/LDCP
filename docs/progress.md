@@ -19,7 +19,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - The player sows (1 coin per seed); farmers water, harvest and haul, but never sow.
   - Crops are slow and big: 3 to 7.5 minutes of watered growth for 6 crops, and 2 waterings each. Dry soil pauses growth.
   - Each plant's grow time is ±10% and each watering's length ±20%, so a field ripens and dries unevenly. One farmer keeps up with 27 plots, and a sowing of 27 lasts about 10 minutes.
-  - Player tools: Hoe (roots up a plant), Look, Bucket, Shears. Harvests go into the player's hands and are dropped off at the Great Hall.
+  - Player tools: Hoe (roots up a plant), Bucket, Shears. Harvests go into the player's hands and are dropped off at the Great Hall.
 - **Needs.**
   - Food is shift length; drink is work rate (50% floor). Both drain only while working.
   - Dwarves eat sitting in a chair, and wait for a free one if all are taken.
@@ -45,9 +45,11 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - Each unlock is a milestone (any Ledger counter), then a trade (coins early; ore and ingots later).
   - Locked squares show their progress, then an offer.
 - **UI.**
-  - Rusty's-style side panel: tabs for Farm, Ores, Build, Shop, Debug and Options. Inside a building, a room tab replaces them.
+  - Rusty's-style side panel: tabs for Farm, Build, Ores, Inventory, Shop, Debug and Options, zigzagging down two staggered columns. Inside a building, a room tab replaces them.
+  - Inventory tab: everything in the Great Hall with counts and prices; pick one to sell one or all.
   - Left roster of dwarves. Hovering one shows a card and an arrow over him; clicking jumps the camera to him; the camera toggle makes it follow him.
-  - Top bar: coins and food/drink chips, plus a status line.
+  - Top bar: coins, plants growing, idle dwarves; the Look button (magnifying glass); the view buttons. It never grows, so the panels stay on screen.
+  - Look: with the glass in hand, hovering a station, plot, building or deposit pops up what it's up to. Any click puts it away. The same pop-up reminds the player where crops in hand go and how to finish a pour.
 - **Art.** Generated placeholder pixel art for everything, with a 5x7 pixel font.
 - **Game log.** Each session writes `user://logs/game_<date>_<time>.log`: the tuning in play, events as they happen, a summary each game minute (including where each dwarf's time went) and totals. See DECISIONS.md.
 
@@ -142,7 +144,7 @@ Changed in response: crops grow 3x as long for 3x the yield, so a sowing lasts a
   - Format: `proto-major.month.day.build`. The build number counts up and resets to 1 when a new month starts.
 - **Tests:**
   - GUT, in `.tests/`. Run `.tools/run_tests.ps1`, or with Godot headless: `-s addons/gut/gut_cmdln.gd -gdir=res://.tests/unit,res://.tests/integration -gexit`.
-  - 79 tests, all passing.
+  - 87 tests, all passing.
 - **Generators** (in `.tools/`):
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.

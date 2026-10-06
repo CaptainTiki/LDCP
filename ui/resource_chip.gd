@@ -11,5 +11,5 @@ func setup(icon: Texture2D, tip: String) -> void:
 	tooltip_text = tip
 
 
-func set_value(value: int) -> void:
-	_value.text = str(value)
+func set_text(text: String) -> void:
+	_value.text = text

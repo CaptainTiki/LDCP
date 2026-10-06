@@ -1,24 +1,26 @@
 class_name SidePanel
 extends PanelContainer
-## The fold-out panel on the right, laid out like Rusty's: a column of tabs
-## down its left edge and the chosen tab's page beside it. The X at the top
-## folds the page away. Picking any tab opens it again.
+## The fold-out panel on the right, laid out like Rusty's: tabs down its
+## left edge (two staggered columns, so they all fit) and the chosen tab's
+## page beside it. The X at the top folds the page away. Picking any tab
+## opens it again.
 ##
 ## Inside any building the usual tabs give way to the room tab, and they
 ## come back on the way out.
 
 @onready var _pages: TabContainer = $Row/Pages
-@onready var _close_button: Button = $Row/TabColumn/CloseButton
-@onready var _room_button: Button = $Row/TabColumn/RoomButton
+@onready var _close_button: Button = $Row/TabColumn/Tabs/CloseButton
+@onready var _room_button: Button = $Row/TabColumn/Tabs/RoomButton
 ## In the same order as the pages.
 @onready var _tab_buttons: Array[Button] = [
-	$Row/TabColumn/FarmButton as Button,
-	$Row/TabColumn/OresButton as Button,
-	$Row/TabColumn/BuildButton as Button,
-	$Row/TabColumn/ShopButton as Button,
-	$Row/TabColumn/DebugButton as Button,
+	$Row/TabColumn/Tabs/FarmButton as Button,
+	$Row/TabColumn/Tabs/OresButton as Button,
+	$Row/TabColumn/Tabs/BuildButton as Button,
+	$Row/TabColumn/Tabs/ShopButton as Button,
+	$Row/TabColumn/Tabs/DebugButton as Button,
 	$Row/TabColumn/OptionsButton as Button,
-	$Row/TabColumn/RoomButton as Button,
+	$Row/TabColumn/Tabs/RoomButton as Button,
+	$Row/TabColumn/Tabs/InventoryButton as Button,
 ]
 ## Tabs that stay put indoors.
 @onready var _always_shown: Array[Button] = [$Row/TabColumn/OptionsButton as Button]

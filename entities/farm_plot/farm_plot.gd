@@ -126,15 +126,27 @@ func uproot() -> bool:
 	return true
 
 
-## A line of text for the Look tool.
-func describe() -> String:
+## What the Look tool shows: the crop, how far along it is, and its soil.
+func look_lines() -> PackedStringArray:
 	if not _is_planted:
-		return "Empty plot: sow some seeds"
+		return ["Empty plot", "Sow some seeds"]
 	if is_ripe():
-		return "%s: ripe, ready to harvest" % crop.display_name
+		return [crop.display_name, "Ripe, ready to harvest"]
 	var percent: int = roundi(100.0 * growth_seconds / _ripe_seconds)
-	var soil: String = "watered" if watered_seconds_left > 0.0 else "dry, needs water"
-	return "%s: %d%% grown, %s" % [crop.display_name, percent, soil]
+	var lines: PackedStringArray = [crop.display_name,
+			"%d%% grown, %ds to go" % [percent, ceili(_ripe_seconds - growth_seconds)]]
+	if watered_seconds_left > 0.0:
+		lines.append("Wet for %ds" % ceili(watered_seconds_left))
+	else:
+		lines.append("Dry, needs water")
+	match _waterings_left:
+		0:
+			lines.append("Last watering")
+		1:
+			lines.append("1 more watering")
+		_:
+			lines.append("%d more waterings" % _waterings_left)
+	return lines
 
 
 ## A farmer finished the job the receiver was set up for.
