@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.41`).
+Where the project stands, what's next, and how to pick it back up. Last updated at the end of the session of 2026-10-06 (version `proto-0.10.6.42`).
 
 ## Where we are
 
@@ -130,29 +130,26 @@ Changed in response: gruel takes 1 of any crop and grog comes from a rough mash 
 ## Next up
 
 1. **Waiting on the user's call:**
+   - **Drinks between meals.** Dwarves only drink when they come in to eat. Thirsty (at the 50% floor) 63% of the time in the morning playtest; 28% in the afternoon one, now that food runs down all the time and they eat more often. Options: come in for a drink when it runs out; drinks last as long as meals; carry one along.
+   - **One worker for three smelters.** In the afternoon playtest each smelter stood unattended 66-75% of the time: the smeltery worker spends most of his time hauling. More workers per building, or less hauling (a bigger load of ore, output that waits for a full trip)?
+   - **Mine controls and finds** (proposal). A Mine tab while in the mine view: one row per found deposit with − N + miners (0 leaves it alone; the rest dig), and a "dig the shaft down" switch that runs the ladder to the bottom of the layer. Random finds while digging (copper chunks, rarer in dirt than stone) so mining out the whole layer pays. Questions: − N + per deposit or on/off per ore type; which finds first; how long digging out the copper layer should take with ~4 miners (about 2 hours at today's numbers). Only 1 of 3 deposits was found in either of today's playtests.
    - Later: fertilizer as an endgame upgrade, for more food from fewer plots (user's idea).
    - Later: meals that give bonuses (move speed and the like), so better food is worth more than its length (user's idea).
-   - **Drinks between meals.** Dwarves only drink at meal time, so they work at the 50% floor most of the time. Options: dwarves come in for a drink when theirs runs out; drinks last as long as meals; or a drink is carried along.
-   - **Keeping the farm going while the player is away.** Longer grow times, replanting as an unlock (below), or both.
-   - **Potato dependency.** Carrots and onions have one use each; potatoes go into almost everything.
-   - **Replanting as a later unlock** (say a seed shed around minute 15-20). As Claude remembers it, Rusty's bots replant whatever crop a plot is set to, so "only the player sows" may already differ from Rusty's. A Rusty's screenshot would settle it.
-   - **Mine controls and finds** (proposal). A Mine tab while in the mine view: one row per found deposit with − N + miners (0 leaves it alone; the rest dig), and a "dig the shaft down" switch that runs the ladder to the bottom of the layer. Random finds while digging (copper chunks, rarer in dirt than stone) so mining out the whole layer pays. Questions: − N + per deposit or on/off per ore type; which finds first; how long digging out the copper layer should take with ~4 miners (about 2 hours at today's numbers).
-2. **More test runs** on the new numbers, reading the logs. Watch:
-   - running out of food: 9 plots now feed about 4 dwarves, and when food runs out everyone waits in the hall until the player buys gruel or works by hand (the user's call to keep that stall);
-   - when the brewery (cook 10 meals) and onions (15 meals) unlock, now that a plot makes a sixth of the meals it did;
+2. **A long test run** on `proto-0.10.6.41` (cooking from whatever's on hand), reading the log. Watch:
+   - running out of food: 9 plots feed about 4 dwarves. Gruel from any crop should make the stall rare; when it does come, everyone waits in the hall until the player buys gruel or works by hand (the user's call to keep that stall);
+   - whether the kitchen eats the brewery's barley, wheat and radish as gruel or rough mash;
+   - whether 40 starting gruel lasts until the first cooked meal (the first potatoes come in around minute 10);
+   - when the brewery (cook 10 meals) and onions (15 meals) unlock;
    - whether the market's passive income keeps unlocks moving between visits;
-   - whether a sowing now outlasts the gap between visits;
-   - whether the first harvest (now about 5-6 minutes in) comes before the starting gruel runs out;
-   - stations' "unattended" vs "no ingredients" shares;
-   - the smelter: its worker waited 59% of the time in the third playtest while ore piled up to about 50.
+   - stations' "unattended" vs "no ingredients" shares.
 
-   Also: Cooks keep one trip per ingredient by design; tune ingredients per recipe, cook and load times, meal length and eating pace together. Parked ideas: recipes that make several servings, and food-quality moods that slow work.
+   `.tools/food_chain.gd` re-checks the food math after any tuning change: about 2.1 plots of potatoes per dwarf today.
 3. **Recipes again.**
-   - Wheat and radish have no meals yet.
+   - Wheat and radish only make gruel and their drinks.
    - Bread would want an oven station.
-   - A third and fourth early meal could vary cook time vs. shift length further.
-3. **Deeper mine**, later: the lift as a later-game upgrade; iron, gold and platinum layers, each its own ant-farm level, reached through a door at the bottom of the level above's ladder.
-4. **Metal follow-ups**, when ready:
+   - Onion soup still needs potatoes as well as onions.
+4. **Deeper mine**, later: the lift as a later-game upgrade; iron, gold and platinum layers, each its own ant-farm level, reached through a door at the bottom of the level above's ladder.
+5. **Metal follow-ups**, when ready:
    - Smelting fuel (coal or charcoal).
    - Tools wearing out.
    - Tools for cooks.

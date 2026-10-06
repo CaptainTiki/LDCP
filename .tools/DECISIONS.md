@@ -458,3 +458,7 @@ Gruel's 90 seconds meant 40 starting gruel instead of 20 to cover the start, and
 To watch: gruel and rough mash will happily use barley, wheat and radish, so the kitchen can eat the brewery's crops when they're the cheapest and most plentiful on hand.
 
 Later (user's idea): meals that give bonuses (move speed and the like), so better food is worth more than its length.
+
+## Only the player sows, for now (2026-10-06)
+
+Replanting as a later unlock had been waiting on the user's call. With stations now running themselves, the user's answer: "farming i think we keep exactly as we are - player selects plants to sow". Instead, crops grow longer (a potato takes 10 minutes) so a sowing lasts between visits, and the market sells the surplus. Replanting stays off the list unless a playtest brings it back.

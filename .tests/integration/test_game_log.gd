@@ -53,7 +53,8 @@ func test_the_log_reads_like_a_session() -> void:
 	var plot: FarmPlot = game.world.surface.farm_plots()[0]
 	plot.sow(POTATO_CROP)
 	farmer.assignment.assign(plot)
-	_run_seconds(POTATO_CROP.grow_seconds + 60.0)
+	# A plant can roll up to grow_spread longer, and the farmer has two waterings to walk to.
+	_run_seconds(POTATO_CROP.grow_seconds * (1.0 + POTATO_CROP.grow_spread) + 120.0)
 	var text: String = _log_text()
 	assert_string_contains(text, "== Tuning ==")
 	assert_string_contains(text, "grow_seconds=", "crop numbers are in the header")

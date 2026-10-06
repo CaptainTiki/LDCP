@@ -93,7 +93,7 @@ func test_farmer_waters_harvests_and_hauls_but_never_sows() -> void:
 	_click_plot(_plot(1))
 	world.hand.put_away()
 	_dwarf(0).assignment.assign(_plot(0))
-	_run_seconds(POTATO_CROP.grow_seconds + 150.0)
+	_run_seconds(POTATO_CROP.grow_seconds * (1.0 + POTATO_CROP.grow_spread) + 150.0)
 	assert_eq(storage.count(POTATO), POTATO_CROP.yield_count * 2, "both plants watered, harvested and hauled")
 	assert_false(_plot(0).is_planted(), "left empty for the player to sow again")
 	assert_false(_plot(2).is_planted(), "farmers never sow")
