@@ -83,7 +83,7 @@ static func _value(value: Variant) -> String:
 		return "-"
 	if value is ItemStack:
 		var stack: ItemStack = value
-		return "%d %s" % [stack.count, name_of(stack.item)]
+		return stack.describe()
 	if value is UnlockDef:
 		var unlock: UnlockDef = value
 		return "(%s %d, then %s)" % [unlock.counter, unlock.needed, unlock.describe_price()]

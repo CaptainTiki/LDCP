@@ -106,11 +106,19 @@ func _stock_for(building: Building) -> Array[Array]:
 		for def: WorkstationDef in building.def.workstations:
 			for r: RecipeDef in def.recipes:
 				for stack: ItemStack in r.inputs:
-					if def.fed_by == null and not left.has(stack.item):
-						left.append(stack.item)
+					if def.fed_by == null:
+						_add_ingredient(left, stack)
 				if not passed_on.has(r.output) and not right.has(r.output):
 					right.append(r.output)
 	return [left, right]
+
+
+## Adds what `stack` takes to a stock list: its item, or for "any crop"
+## every crop.
+func _add_ingredient(list: Array[ItemDef], stack: ItemStack) -> void:
+	for item: ItemDef in _game.catalog.items:
+		if stack.accepts(item) and not list.has(item):
+			list.append(item)
 
 
 func _add_tool(icon: Texture2D, tip: String, price: int = -1, payload: Resource = null) -> IconSlot:

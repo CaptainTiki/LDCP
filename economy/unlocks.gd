@@ -70,6 +70,8 @@ func trade(thing: Resource) -> bool:
 ## A recipe is on the menu once every crop it needs can be grown.
 func recipe_available(recipe: RecipeDef, catalog: ContentCatalog) -> bool:
 	for stack: ItemStack in recipe.inputs:
+		if stack.is_any():
+			continue  # Whatever is on hand will do.
 		for crop: CropDef in catalog.crops:
 			if crop.produce == stack.item and not is_unlocked(crop):
 				return false

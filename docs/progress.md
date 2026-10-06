@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.40`).
+Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.41`).
 
 ## Where we are
 
@@ -24,7 +24,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - Food is shift length and runs down all the time; drink is work rate (50% floor) and only drains while working.
   - Dwarves eat sitting in a chair, and wait for a free one if all are taken.
 - **Idling.** A dwarf whose job has nothing at all for him potters about near his workplace with a "?" over his head: by the mine entrance, inside his kitchen or brewery, among the plots, or outside the Great Hall with no job. His card says why: no job, nothing sown, no recipe set, missing ingredients, no tunnel to dig. Waiting that sorts itself out (crops growing, a stove cooking) isn't idling.
-- **Great Hall.** Furniture (chair, table, long table): placed, moved, turned and removed on a floor grid. Placement can never wall off the room. The game starts with 4 dwarves, 2 tables and 4 chairs, a 3x3 block of 9 farm plots, and 20 gruel and 10 grog.
+- **Great Hall.** Furniture (chair, table, long table): placed, moved, turned and removed on a floor grid. Placement can never wall off the room. The game starts with 4 dwarves, 2 tables and 4 chairs, a 3x3 block of 9 farm plots, and 40 gruel and 10 grog.
 - **Stations.**
   - Stove, mash pot, fermenter, smelter and anvil are furniture that makes things.
   - A station rests with no recipe. A worker picks the best-quality thing he can make from the hall (each meal, drink and mash has a quality number), brings the ingredients, sets the recipe and loads it; then it runs on a timer. A tool is only forged while a dwarf in its job lacks one.
@@ -68,8 +68,8 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 
 Brewing crops (barley, wheat, radish) only unlock once the brewery is making drinks, so nothing is grown before it can be used.
 
-- **Meals:** gruel (2 potatoes), roast carrots (4 carrots), stew (4 potatoes), onion soup (2 onions + 4 potatoes).
-- **Drinks:** grog (potato mash), ale (barley mash), wheat beer (wheat mash; long and steady), radish spirit (radish mash; short and sharp).
+- **Meals,** worst to best: gruel (1 of any crop), potato soup (2 potatoes), roast carrots (4 carrots), stew (4 potatoes), onion soup (2 onions + 4 potatoes). Each is more food per crop than the one before.
+- **Drinks:** grog (rough mash: any 2 crops), ale (barley mash), wheat beer (wheat mash; long and steady), radish spirit (radish mash; short and sharp).
 - **Buildings:**
   - Great Hall and mine entrance: placed at start.
   - Kitchen: no unlock.
@@ -117,10 +117,21 @@ What the log showed:
 - **Hauling:** the smeltery and brewery workers hauled 43-49% of the time, and the smeltery's 3 smelters each stood unattended 15-25% of the time.
 - The forge's smith waited 62% of his time while the anvil ran its 90s timer. Expected with one anvil; not a bug.
 
+## Playtest (2026-10-06, afternoon)
+
+`game_2026-10-06_13-49-55`: 72 minutes, played, on `proto-0.10.6.40` (stations running themselves, food all the time, harvests of 2, the market). The pacing felt good until the player moved on to carrots, onions and wheat and stopped sowing potatoes:
+- Every meal and the brewery's mash needed potatoes. The cook was idle ("Missing ingredients") 38 of 72 minutes, and 164 crops made only 29 meals.
+- The pantry ran out of meals twice (52:16, 56:30). The player bought gruel twice, and even after resowing, potatoes took too long to come back.
+- The trader had nothing to sell for 29 minutes; there was never a surplus.
+- The smelters stood unattended 66-75% of the time with one worker for three.
+
+Changed in response: gruel takes 1 of any crop and grog comes from a rough mash of any 2, so the kitchen only stops when the hall has no crops at all. Potato soup (2 potatoes) sits just above gruel. Better meals give more food per crop. See DECISIONS.md "Cooking from whatever's on hand".
+
 ## Next up
 
 1. **Waiting on the user's call:**
    - Later: fertilizer as an endgame upgrade, for more food from fewer plots (user's idea).
+   - Later: meals that give bonuses (move speed and the like), so better food is worth more than its length (user's idea).
    - **Drinks between meals.** Dwarves only drink at meal time, so they work at the 50% floor most of the time. Options: dwarves come in for a drink when theirs runs out; drinks last as long as meals; or a drink is carried along.
    - **Keeping the farm going while the player is away.** Longer grow times, replanting as an unlock (below), or both.
    - **Potato dependency.** Carrots and onions have one use each; potatoes go into almost everything.
@@ -170,7 +181,7 @@ What the log showed:
   - Format: `proto-major.month.day.build`. The build number counts up and resets to 1 when a new month starts.
 - **Tests:**
   - GUT, in `.tests/`. Run `.tools/run_tests.ps1`, or with Godot headless: `-s addons/gut/gut_cmdln.gd -gdir=res://.tests/unit,res://.tests/integration -gexit`.
-  - 92 tests, all passing.
+  - 96 tests, all passing.
 - **Generators** (in `.tools/`):
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.

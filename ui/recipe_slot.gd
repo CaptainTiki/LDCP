@@ -9,6 +9,9 @@ signal chosen(recipe: RecipeDef)
 
 const SHORT_COLOR: Color = Color(1.0, 0.45, 0.4)
 
+## Shown for an ingredient that's "any crop" rather than one item.
+@export var any_icon: Texture2D
+
 var recipe: RecipeDef
 var _tooltip: String = ""
 
@@ -25,7 +28,8 @@ func setup(for_recipe: RecipeDef) -> void:
 		_in_icons[i].visible = has_input
 		_in_counts[i].visible = has_input
 		if has_input:
-			_in_icons[i].texture = recipe.inputs[i].item.icon
+			var stack: ItemStack = recipe.inputs[i]
+			_in_icons[i].texture = any_icon if stack.is_any() else stack.item.icon
 			_in_counts[i].text = str(recipe.inputs[i].count)
 	_out_icon.texture = recipe.output.icon
 	_out_count.text = str(recipe.output_count)
@@ -42,7 +46,7 @@ func refresh(station: Workstation, storage: Storage) -> void:
 	var short: bool = false
 	for i: int in recipe.inputs.size():
 		var stack: ItemStack = recipe.inputs[i]
-		var is_short: bool = storage.count(stack.item) < stack.count
+		var is_short: bool = stack.available_in(storage) < stack.count
 		_in_counts[i].modulate = SHORT_COLOR if is_short else Color.WHITE
 		short = short or is_short
 	tooltip_text = _tooltip + ("\nNot enough in the hall yet" if short else "")

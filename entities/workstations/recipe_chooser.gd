@@ -21,7 +21,7 @@ static func best_for(station: Workstation, world: World) -> RecipeDef:
 ## Is everything for one batch in `storage`?
 static func can_make(recipe: RecipeDef, storage: Storage) -> bool:
 	for stack: ItemStack in recipe.inputs:
-		if storage.count(stack.item) < stack.count:
+		if stack.available_in(storage) < stack.count:
 			return false
 	return true
 

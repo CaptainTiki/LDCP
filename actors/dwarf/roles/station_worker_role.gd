@@ -110,12 +110,20 @@ func _plan_for(station: Workstation) -> RecipeDef:
 
 
 ## The ingredient we'd fetch from the hall next for this station, or null.
+## One kind of item must be there in full; "any crop" can come in parts, a
+## kind at a time, cheapest first.
 func _next_ingredient(station: Workstation) -> ItemDef:
 	var storage: Storage = dwarf.world.hall.storage
 	if station.needs_loading():
 		for stack: ItemStack in station.recipe.inputs:
-			var wanted: int = station.still_needs(stack.item)
-			if wanted > 0 and storage.count(stack.item) >= wanted:
+			var wanted: int = station.still_needs_for(stack)
+			if wanted <= 0:
+				continue
+			if stack.is_any():
+				var pick: ItemDef = stack.pick_from(storage)
+				if pick != null:
+					return pick
+			elif storage.count(stack.item) >= wanted:
 				return stack.item
 		return null
 	if station.is_fed_by_station() and station.is_idle():
@@ -126,8 +134,8 @@ func _next_ingredient(station: Workstation) -> ItemDef:
 		return null
 	if station == _station and station.is_idle() and _plan != null:
 		for stack: ItemStack in _plan.inputs:
-			if storage.count(stack.item) >= stack.count:
-				return stack.item
+			if stack.available_in(storage) >= stack.count:
+				return stack.pick_from(storage)
 	return null
 
 
@@ -140,9 +148,10 @@ func _fetch_for(station: Workstation) -> void:
 	if amount == 0:
 		var batch: RecipeDef = station.recipe_for_input(item) if station.is_fed_by_station() else _plan
 		amount = batch.needs(item)
-	amount = mini(amount, dwarf.carrier.capacity)
 	var hall: GreatHall = dwarf.world.hall
-	if _walk_to(hall.storage_cell()) and hall.storage.remove(item, amount):
+	# "Any crop" may be a few of this kind and the rest of another.
+	amount = mini(amount, mini(dwarf.carrier.capacity, hall.storage.count(item)))
+	if amount > 0 and _walk_to(hall.storage_cell()) and hall.storage.remove(item, amount):
 		dwarf.carrier.add(item, amount)
 
 

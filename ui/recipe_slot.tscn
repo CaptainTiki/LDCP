@@ -1,11 +1,13 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://ui/recipe_slot.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/any_crop.png" id="2"]
 
 [node name="RecipeSlot" type="Button"]
 custom_minimum_size = Vector2(99, 22)
 toggle_mode = true
 script = ExtResource("1")
+any_icon = ExtResource("2")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1

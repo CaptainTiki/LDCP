@@ -7,7 +7,7 @@ const POTATO: ItemDef = preload("res://data/items/potato.tres")
 const BARLEY: ItemDef = preload("res://data/items/barley.tres")
 const COPPER: ItemDef = preload("res://data/items/copper_ore.tres")
 const BARLEY_MASH: ItemDef = preload("res://data/items/barley_mash.tres")
-const POTATO_MASH: ItemDef = preload("res://data/items/potato_mash.tres")
+const ROUGH_MASH: ItemDef = preload("res://data/items/rough_mash.tres")
 const STEW: MealDef = preload("res://data/items/stew.tres")
 const GRUEL: MealDef = preload("res://data/items/gruel.tres")
 const GROG: DrinkDef = preload("res://data/items/grog.tres")
@@ -27,7 +27,7 @@ const FERMENTER: WorkstationDef = preload("res://data/workstations/fermenter.tre
 const STEW_RECIPE: RecipeDef = preload("res://data/recipes/stew.tres")
 const GRUEL_RECIPE: RecipeDef = preload("res://data/recipes/gruel.tres")
 const BARLEY_MASH_RECIPE: RecipeDef = preload("res://data/recipes/barley_mash.tres")
-const POTATO_MASH_RECIPE: RecipeDef = preload("res://data/recipes/potato_mash.tres")
+const ROUGH_MASH_RECIPE: RecipeDef = preload("res://data/recipes/rough_mash.tres")
 const ALE_RECIPE: RecipeDef = preload("res://data/recipes/ale.tres")
 const GROG_RECIPE: RecipeDef = preload("res://data/recipes/grog.tres")
 const CHAIR: FurnitureDef = preload("res://data/furniture/chair.tres")
@@ -771,11 +771,11 @@ func test_player_pours_mash_from_pot_to_fermenter() -> void:
 	var pot: Workstation = brewery.workstations()[0]
 	var fermenter: Workstation = brewery.workstations()[1]
 	world.camera.show_interior(brewery)
-	pot.player_recipe = POTATO_MASH_RECIPE
+	pot.player_recipe = ROUGH_MASH_RECIPE
 	_click_station(pot)
 	while pot.needs_loading():
 		_click_station(pot)
-	_run_seconds(POTATO_MASH_RECIPE.process_seconds + 1)
+	_run_seconds(ROUGH_MASH_RECIPE.process_seconds + 1)
 	assert_true(pot.has_output(), "potato mash is ready")
 
 	_click_station(fermenter)
@@ -795,10 +795,11 @@ func test_player_pours_mash_from_pot_to_fermenter() -> void:
 	assert_eq(world.hand.carrier.count, GROG_RECIPE.output_count, "one mash, four grogs")
 
 
-func test_gruel_and_grog_both_come_from_potatoes() -> void:
-	assert_eq(GRUEL_RECIPE.inputs[0].item, POTATO)
-	assert_eq(POTATO_MASH_RECIPE.inputs[0].item, POTATO)
-	assert_eq(GROG_RECIPE.inputs[0].item, POTATO_MASH)
+func test_gruel_and_grog_take_any_crop() -> void:
+	assert_true(GRUEL_RECIPE.inputs[0].is_any())
+	assert_true(GRUEL_RECIPE.inputs[0].accepts(BARLEY), "gruel takes brewing crops too")
+	assert_true(ROUGH_MASH_RECIPE.inputs[0].accepts(POTATO))
+	assert_eq(GROG_RECIPE.inputs[0].item, ROUGH_MASH)
 
 
 func test_ledger_counts_harvests_meals_and_ore() -> void:

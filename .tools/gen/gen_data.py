@@ -81,11 +81,14 @@ item("barley", "Barley", color(0.9, 0.8, 0.35), sell=1, category=CROP)
 item("copper_ore", "Copper Ore", color(0.85, 0.5, 0.25), sell=5, category=METAL)
 # In-between brewing goods: made in a mash pot, poured into a fermenter.
 item("barley_mash", "Barley mash", color(0.82, 0.68, 0.32), quality=2, category=BREWING)
-item("potato_mash", "Potato mash", color(0.86, 0.8, 0.62), quality=1, category=BREWING)
+item("rough_mash", "Rough mash", color(0.7, 0.62, 0.45), quality=1, category=BREWING)
 item("carrot", "Carrot", color(0.93, 0.55, 0.2), sell=1, category=CROP)
 item("onion", "Onion", color(0.9, 0.82, 0.6), sell=2, category=CROP)
-meal("roast_carrots", "Roast carrots", color(0.85, 0.45, 0.2), 400.0, sell=2, quality=2)
-meal("onion_soup", "Onion soup", color(0.8, 0.65, 0.35), 960.0, sell=4, quality=4)
+# Each step up the ladder is more food per crop: gruel 90 work-seconds a
+# crop, potato soup 120, roast carrots 130, stew 150, onion soup 160.
+meal("potato_soup", "Potato soup", color(0.85, 0.75, 0.5), 240.0, sell=2, quality=2)
+meal("roast_carrots", "Roast carrots", color(0.85, 0.45, 0.2), 520.0, sell=2, quality=3)
+meal("onion_soup", "Onion soup", color(0.8, 0.65, 0.35), 960.0, sell=4, quality=5)
 item("wheat", "Wheat", color(0.92, 0.8, 0.45), sell=1, category=CROP)
 item("radish", "Radish", color(0.85, 0.25, 0.35), sell=1, category=CROP)
 item("wheat_mash", "Wheat mash", color(0.9, 0.8, 0.55), quality=3, category=BREWING)
@@ -103,8 +106,8 @@ def tool(name, display, col, job, multiplier, sell):
 
 tool("copper_pick", "Copper pick", color(0.95, 0.6, 0.35), 3, 1.5, 30)
 tool("copper_sickle", "Copper sickle", color(0.95, 0.6, 0.35), 1, 1.5, 30)
-meal("stew", "Stew", color(0.6, 0.3, 0.15), 600.0, sell=3, quality=3)
-meal("gruel", "Gruel", color(0.75, 0.72, 0.6), 180.0, buy=4, quality=1)
+meal("stew", "Stew", color(0.6, 0.3, 0.15), 600.0, sell=3, quality=4)
+meal("gruel", "Gruel", color(0.75, 0.72, 0.6), 90.0, buy=2, quality=1)
 drink("grog", "Grog", color(0.45, 0.55, 0.35), 0.5, 0.75, 180.0, buy=3, quality=1)
 drink("ale", "Ale", color(0.9, 0.65, 0.2), 0.5, 1.0, 360.0, sell=4, quality=2)
 # Steady and long, or a short sharp kick. Later unlocks rank higher.
@@ -172,11 +175,19 @@ crop("radish", "Radish", "radish", color(0.4, 0.7, 0.3), 480.0, unlock=("drinks_
 
 
 # --- Recipes ---------------------------------------------------------------------
+ANY_CROP = "any_crop"
+
+
 def recipe(name, display, inputs, out, n_out, work, seconds):
-    """`inputs` is a list of (item, count): one or two kinds of ingredient."""
+    """`inputs` is a list of (item, count): one or two kinds of ingredient.
+    ANY_CROP for the item takes whatever crops are on hand."""
     exts = [("Script", DEFS + "item_stack.gd"), ("Resource", "res://data/items/%s.tres" % out)]
     subs = []
     for k, (item, count) in enumerate(inputs):
+        if item == ANY_CROP:
+            subs.append('[sub_resource type="Resource" id="in%d"]\nscript = ExtResource("2")\ncount = %d\n'
+                        "any_category = %d\n" % (k, count, CROP))
+            continue
         exts.append(("Resource", "res://data/items/%s.tres" % item))
         subs.append('[sub_resource type="Resource" id="in%d"]\nscript = ExtResource("2")\nitem = ExtResource("%d")\n'
                     "count = %d\n" % (k, len(exts) + 1, count))
@@ -188,20 +199,24 @@ def recipe(name, display, inputs, out, n_out, work, seconds):
 
 
 # Stove. Quick and thin, or slow and filling (see each meal's shift_seconds).
-# Meals take twice the crops they first did, so a plot feeds fewer dwarves
-# (the food chain tool, .tools/food_chain.gd, has the numbers).
-recipe("gruel", "Gruel", [("potato", 2)], "gruel", 1, 5.0, 20.0)
+# Gruel takes one of any crop, so a cook never stops while there's anything
+# in the hall; it's made only when nothing better is (it's the lowest
+# quality). Better meals give more food per crop (the food chain tool,
+# .tools/food_chain.gd, has the numbers).
+recipe("gruel", "Gruel", [(ANY_CROP, 1)], "gruel", 1, 5.0, 20.0)
+recipe("potato_soup", "Potato soup", [("potato", 2)], "potato_soup", 1, 5.0, 30.0)
 recipe("roast_carrots", "Roast carrots", [("carrot", 4)], "roast_carrots", 1, 5.0, 30.0)
 recipe("stew", "Stew", [("potato", 4)], "stew", 1, 5.0, 60.0)
 recipe("onion_soup", "Onion soup", [("onion", 2), ("potato", 4)], "onion_soup", 1, 6.0, 90.0)
 # Mash pot
 recipe("barley_mash", "Barley mash", [("barley", 3)], "barley_mash", 1, 5.0, 30.0)
-recipe("potato_mash", "Potato mash", [("potato", 2)], "potato_mash", 1, 5.0, 20.0)
+# Rough mash takes any two crops, so there's always grog while there's anything.
+recipe("rough_mash", "Rough mash", [(ANY_CROP, 2)], "rough_mash", 1, 5.0, 20.0)
 recipe("wheat_mash", "Wheat mash", [("wheat", 3)], "wheat_mash", 1, 5.0, 30.0)
 recipe("radish_mash", "Radish mash", [("radish", 3)], "radish_mash", 1, 5.0, 25.0)
 # Fermenter: one mash makes several drinks, slowly. Loading is the pour.
 recipe("ale", "Ale", [("barley_mash", 1)], "ale", 4, 4.0, 180.0)
-recipe("grog", "Grog", [("potato_mash", 1)], "grog", 4, 4.0, 90.0)
+recipe("grog", "Grog", [("rough_mash", 1)], "grog", 4, 4.0, 90.0)
 recipe("wheat_beer", "Wheat beer", [("wheat_mash", 1)], "wheat_beer", 4, 4.0, 150.0)
 recipe("radish_spirit", "Radish spirit", [("radish_mash", 1)], "radish_spirit", 3, 4.0, 120.0)
 # Smelter and anvil
@@ -229,8 +244,8 @@ def station(name, display, cost, recipes, fed_by=None):
     tres("data/workstations/%s.tres" % name, "WorkstationDef", "workstation_def.gd", props, exts=exts)
 
 
-station("stove", "Stove", 20, ["gruel", "roast_carrots", "stew", "onion_soup"])
-station("mash_pot", "Mash pot", 20, ["potato_mash", "barley_mash", "wheat_mash", "radish_mash"])
+station("stove", "Stove", 20, ["gruel", "potato_soup", "roast_carrots", "stew", "onion_soup"])
+station("mash_pot", "Mash pot", 20, ["rough_mash", "barley_mash", "wheat_mash", "radish_mash"])
 station("fermenter", "Fermenter", 25, ["grog", "ale", "wheat_beer", "radish_spirit"], fed_by="mash_pot")
 station("smelter", "Smelter", 30, ["copper_ingot"])
 station("anvil", "Anvil", 30, ["copper_pick", "copper_sickle"])
@@ -313,7 +328,8 @@ tres("data/tuning/dwarf_names.tres", "NameList", "name_list.gd", [
 # --- Tuning ----------------------------------------------------------------
 # Food runs down all the time, so the starting gruel has to last until the
 # first potatoes are grown and cooked (about minute 13 with 10-minute potatoes).
-STARTING_GRUEL = 20
+# Gruel lasts 90 seconds.
+STARTING_GRUEL = 40
 subs = """[sub_resource type="Resource" id="stock_gruel"]
 script = ExtResource("2")
 item = ExtResource("3")
@@ -341,7 +357,7 @@ tres("data/tuning/game_tuning.tres", "GameTuning", "game_tuning.gd", [
 # --- Catalog ---------------------------------------------------------------
 item_names = ["potato", "barley", "carrot", "onion", "radish", "wheat", "gruel", "roast_carrots", "stew", "onion_soup",
               "grog", "ale", "wheat_beer", "radish_spirit", "cognac", "copper_ore", "copper_ingot", "copper_pick",
-              "copper_sickle", "potato_mash", "barley_mash", "wheat_mash", "radish_mash"]
+              "copper_sickle", "rough_mash", "barley_mash", "wheat_mash", "radish_mash", "potato_soup"]
 building_names = ["farm_plot", "kitchen", "brewery", "smeltery", "forge", "market"]
 exts = [("Script", DEFS + "item_def.gd")]
 item_refs = []

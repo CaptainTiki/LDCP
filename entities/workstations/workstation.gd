@@ -40,6 +40,9 @@ var _ledger: Ledger
 var _seconds_left: float = 0.0
 ## Ingredients dropped in so far for the current batch.
 var _stock: Dictionary[ItemDef, int] = {}
+## What the batch cooking now was made from, so a cancel hands back exactly
+## that (a recipe taking "any crop" doesn't say which).
+var _used: Dictionary[ItemDef, int] = {}
 var _jiggle_time: float = 0.0
 
 @onready var receiver: WorkReceiver = $WorkReceiver
@@ -90,7 +93,7 @@ func is_stocked() -> bool:
 	if state != State.LOADING:
 		return false
 	for stack: ItemStack in recipe.inputs:
-		if still_needs(stack.item) > 0:
+		if still_needs_for(stack) > 0:
 			return false
 	return true
 
@@ -99,7 +102,20 @@ func is_stocked() -> bool:
 func still_needs(item: ItemDef) -> int:
 	if state != State.LOADING:
 		return 0
-	return maxi(0, recipe.needs(item) - _stock.get(item, 0))
+	var stack: ItemStack = recipe.stack_for(item)
+	return still_needs_for(stack) if stack != null else 0
+
+
+## How many more the batch needs for one of its ingredients. For "any
+## crop", whatever crops are in already count.
+func still_needs_for(stack: ItemStack) -> int:
+	if state != State.LOADING:
+		return 0
+	var inside: int = 0
+	for item: ItemDef in _stock:
+		if stack.accepts(item):
+			inside += _stock[item]
+	return maxi(0, stack.count - inside)
 
 
 ## The floor cell a dwarf stands in to use the station.
@@ -132,8 +148,8 @@ func cancel_batch() -> bool:
 		State.LOADING:
 			_return_stock()
 		State.PROCESSING:
-			for stack: ItemStack in recipe.inputs:
-				_hall_storage.add(stack.item, stack.count)
+			for item: ItemDef in _used:
+				_hall_storage.add(item, _used[item])
 			set_process(false)
 			_sprite.scale = Vector2.ONE
 		_:
@@ -206,7 +222,7 @@ func can_load_by_hand() -> bool:
 	if is_fed_by_station():
 		return false
 	for stack: ItemStack in recipe.inputs:
-		if _hall_storage.count(stack.item) < still_needs(stack.item):
+		if stack.available_in(_hall_storage) < still_needs_for(stack):
 			return false
 	return true
 
@@ -256,8 +272,7 @@ func look_lines() -> PackedStringArray:
 	lines.append(status_text())
 	if state == State.LOADING:
 		for stack: ItemStack in recipe.inputs:
-			var wanted: int = recipe.needs(stack.item)
-			lines.append("%d of %d %s in" % [wanted - still_needs(stack.item), wanted, stack.item.display_name])
+			lines.append("%d of %s in" % [stack.count - still_needs_for(stack), stack.describe()])
 	var worker: Node = receiver.claimed_by
 	if worker != null and is_instance_valid(worker) and worker is Dwarf:
 		lines.append("Worked by %s" % (worker as Dwarf).dwarf_name)
@@ -288,9 +303,9 @@ func status_text() -> String:
 func _missing_text() -> String:
 	var parts: PackedStringArray = []
 	for stack: ItemStack in recipe.inputs:
-		var wanted: int = still_needs(stack.item)
-		if wanted > _hall_storage.count(stack.item):
-			parts.append("%d %s" % [wanted, stack.item.display_name])
+		var wanted: int = still_needs_for(stack)
+		if wanted > stack.available_in(_hall_storage):
+			parts.append(stack.describe(wanted))
 	return ", ".join(parts) if not parts.is_empty() else "a cook"
 
 
@@ -308,6 +323,7 @@ func _on_loaded(worker: Node) -> void:
 	if not is_stocked():
 		if worker != null or is_fed_by_station() or not _take_missing_from_hall():
 			return
+	_used = _stock.duplicate()
 	_stock.clear()
 	state = State.PROCESSING
 	_seconds_left = recipe.process_seconds
@@ -317,12 +333,17 @@ func _on_loaded(worker: Node) -> void:
 
 func _take_missing_from_hall() -> bool:
 	for stack: ItemStack in recipe.inputs:
-		if _hall_storage.count(stack.item) < still_needs(stack.item):
+		if stack.available_in(_hall_storage) < still_needs_for(stack):
 			return false
 	for stack: ItemStack in recipe.inputs:
-		var amount: int = still_needs(stack.item)
-		_hall_storage.remove(stack.item, amount)
-		_stock[stack.item] = _stock.get(stack.item, 0) + amount
+		var wanted: int = still_needs_for(stack)
+		while wanted > 0:
+			# "Any crop" may come from several kinds: cheapest first.
+			var item: ItemDef = stack.pick_from(_hall_storage)
+			var amount: int = mini(wanted, _hall_storage.count(item))
+			_hall_storage.remove(item, amount)
+			_stock[item] = _stock.get(item, 0) + amount
+			wanted -= amount
 	return true
 
 

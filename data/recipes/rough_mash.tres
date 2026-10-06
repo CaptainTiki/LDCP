@@ -2,17 +2,17 @@
 
 [ext_resource type="Script" path="res://data/defs/recipe_def.gd" id="1"]
 [ext_resource type="Script" path="res://data/defs/item_stack.gd" id="2"]
-[ext_resource type="Resource" path="res://data/items/gruel.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/rough_mash.tres" id="3"]
 
 [sub_resource type="Resource" id="in0"]
 script = ExtResource("2")
-count = 1
+count = 2
 any_category = 1
 
 [resource]
 script = ExtResource("1")
-id = &"gruel"
-display_name = "Gruel"
+id = &"rough_mash"
+display_name = "Rough mash"
 inputs = Array[ExtResource("2")]([SubResource("in0")])
 output = ExtResource("3")
 output_count = 1

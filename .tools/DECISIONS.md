@@ -428,3 +428,33 @@ The user's idea: with food now tight per plot, surplus is still worth something 
 ## Running out of food stays a stall (2026-10-06)
 
 With food tight, the town will run out when the player is away, and then everyone waits in the hall, the farmer and cook included, so it can't restart by itself. Offered: hungry dwarves with no food work on at half pace. **The user kept the stall**: it's the cost of running out, and the player ends it by buying gruel or by working the farm and stove by hand.
+
+## Cooking from whatever's on hand (2026-10-06)
+
+From the afternoon playtest (`game_2026-10-06_13-49-55`, 72 minutes, on `proto-0.10.6.40`). The pacing felt good until the player moved on to carrots, onions and wheat and stopped sowing potatoes. Then the town fell apart:
+- Gruel, stew, onion soup and the brewery's potato mash all needed potatoes; carrots only made roast carrots and wheat only beer.
+- The cook was idle with "Missing ingredients" for 38 of 72 minutes, and the stoves had nothing to cook 60-65% of the time, while the farm was growing something 68% of the time. 164 crops were harvested and only 29 meals made. 10 onions sat unused for 15 minutes, because onion soup needs potatoes too.
+- The pantry ran out of meals at 52:16 and 56:30. Four dwarves waited 4-5 minutes; the player bought gruel twice.
+- The trader had "Nothing to sell" for 29 minutes: there was never a surplus.
+
+**Gruel takes one of any crop, and grog comes from a rough mash of any two** (user's call). Unless the hall has no crops at all, the kitchen and the brewery never stop. A recipe ingredient can now be "N of any crop" (`ItemStack.any_category`, with no item). The station tracks what actually went in, so a cancel hands back exactly that. Potato mash is gone; rough mash replaces it.
+
+**Potato soup** (user's call): 2 potatoes, just above gruel, so gruel is only made when nothing better is possible. The quality ranking already does that.
+
+**Better meals give more food per crop** (user's call). Gruel at 180 seconds from one crop would have been the most food per crop of any meal, so a cook making stew would have been wasting potatoes. The meal ladder, as work-seconds of food per crop:
+
+| Meal | Takes | Lasts | Per crop | Quality |
+|---|---|---|---|---|
+| Gruel | 1 any crop | 90s | 90 | 1 |
+| Potato soup | 2 potatoes | 240s | 120 | 2 |
+| Roast carrots | 4 carrots | 520s | 130 | 3 |
+| Stew | 4 potatoes | 600s | 150 | 4 |
+| Onion soup | 2 onions + 4 potatoes | 960s | 160 | 5 |
+
+Gruel's 90 seconds meant 40 starting gruel instead of 20 to cover the start, and bought gruel costs 2 coins instead of 4, so a coin still buys the same food (my calls, offered with the option). The food chain tool still says about 2.1 plots per dwarf.
+
+**"Any crop" takes the cheapest to sell first** (user's call), keeping onions (2 coins) for selling; between crops that sell the same, whichever the hall has most of (my tie-break).
+
+To watch: gruel and rough mash will happily use barley, wheat and radish, so the kitchen can eat the brewery's crops when they're the cheapest and most plentiful on hand.
+
+Later (user's idea): meals that give bonuses (move speed and the like), so better food is worth more than its length.

@@ -180,8 +180,10 @@ scene("ui/icon_slot.tscn", [ext("Script", "res://ui/icon_slot.gd", "1"), ext("Te
        icon_rect("Icon", "Margin/Row", None)]
       + numbers("Margin/Row", "2"))
 
-scene("ui/recipe_slot.tscn", [ext("Script", "res://ui/recipe_slot.gd", "1")],
-      [node("RecipeSlot", "Button", None, [("custom_minimum_size", "Vector2(99, 22)"), ("toggle_mode", "true"), s("1")]),
+scene("ui/recipe_slot.tscn", [ext("Script", "res://ui/recipe_slot.gd", "1"),
+                              ext("Texture2D", "res://assets/ui/icons/any_crop.png", "2")],
+      [node("RecipeSlot", "Button", None, [("custom_minimum_size", "Vector2(99, 22)"), ("toggle_mode", "true"), s("1"),
+                                           ("any_icon", 'ExtResource("2")')]),
        node("Margin", "MarginContainer", ".", [("layout_mode", 1)] + FULL + [IGNORE,
             ("theme_override_constants/margin_left", 3), ("theme_override_constants/margin_top", 2),
             ("theme_override_constants/margin_right", 3), ("theme_override_constants/margin_bottom", 2)]),

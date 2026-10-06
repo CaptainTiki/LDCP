@@ -1,0 +1,2088 @@
+LDCP game log
+Version proto-0.10.6.40, started 2026-10-06 13:49:55.
+Times are game time (h:mm:ss). Shares are of game time.
+
+== Tuning ==
+Game: starting_coins=50 starting_dwarves=4 starting_stock=[20 Gruel, 10 Grog] starting_food_seconds=180.0 walk_speed=24.0 ladder_speed=8.0 lift_speed=64.0 base_work_rate=1.0 carry_capacity=6 eat_seconds=4.0 manual_work_per_click=0.5 hand_capacity=50 sell_work_per_item=2.0 hire_cost=40 hire_cost_growth=20 lift_cost=150
+Mine level 1: size_cells=(256, 36) landing_row=4 landing_half_width=2 noise_seed=7 dirt_rows=6 dirt_edge_rows=2.5 dirt_work=2.0 rock_work=5.0 straight_start_columns=6 branch_straight_columns=2 branch_gap_rows=3 slope_chance=0.2 fork_chance=0.06 max_heads=8
+
+== Crops ==
+Potato: produce=Potato yield_count=2 seed_cost=1 unlock=- water_work=1.0 harvest_work=1.5 grow_seconds=600.0 grow_spread=0.1 waterings=2 water_spread=0.2
+Carrot: produce=Carrot yield_count=2 seed_cost=1 unlock=(harvested 15, then 15 coins) water_work=1.0 harvest_work=1.5 grow_seconds=400.0 grow_spread=0.1 waterings=2 water_spread=0.2
+Onion: produce=Onion yield_count=2 seed_cost=1 unlock=(meals_made 15, then 30 coins) water_work=1.0 harvest_work=1.5 grow_seconds=1000.0 grow_spread=0.1 waterings=2 water_spread=0.2
+Barley: produce=Barley yield_count=2 seed_cost=1 unlock=(drinks_made 4, then 20 coins) water_work=1.0 harvest_work=1.5 grow_seconds=800.0 grow_spread=0.1 waterings=2 water_spread=0.2
+Wheat: produce=Wheat yield_count=2 seed_cost=1 unlock=(drinks_made 10, then 40 coins) water_work=1.0 harvest_work=1.5 grow_seconds=800.0 grow_spread=0.1 waterings=2 water_spread=0.2
+Radish: produce=Radish yield_count=2 seed_cost=1 unlock=(drinks_made 20, then 50 coins) water_work=1.0 harvest_work=1.5 grow_seconds=480.0 grow_spread=0.1 waterings=2 water_spread=0.2
+
+== Items ==
+Potato: sell_price=1 buy_price=0 quality=0 category=Crop
+Barley: sell_price=1 buy_price=0 quality=0 category=Crop
+Carrot: sell_price=1 buy_price=0 quality=0 category=Crop
+Onion: sell_price=2 buy_price=0 quality=0 category=Crop
+Radish: sell_price=1 buy_price=0 quality=0 category=Crop
+Wheat: sell_price=1 buy_price=0 quality=0 category=Crop
+Gruel: shift_seconds=180.0 sell_price=0 buy_price=4 quality=1 category=Meal
+Roast carrots: shift_seconds=400.0 sell_price=2 buy_price=0 quality=2 category=Meal
+Stew: shift_seconds=600.0 sell_price=3 buy_price=0 quality=3 category=Meal
+Onion soup: shift_seconds=960.0 sell_price=4 buy_price=0 quality=4 category=Meal
+Grog: low_multiplier=0.5 high_multiplier=0.75 duration_seconds=180.0 sell_price=0 buy_price=3 quality=1 category=Drink
+Ale: low_multiplier=0.5 high_multiplier=1.0 duration_seconds=360.0 sell_price=4 buy_price=0 quality=2 category=Drink
+Wheat beer: low_multiplier=0.5 high_multiplier=0.9 duration_seconds=480.0 sell_price=4 buy_price=0 quality=3 category=Drink
+Radish spirit: low_multiplier=0.5 high_multiplier=1.15 duration_seconds=120.0 sell_price=5 buy_price=0 quality=4 category=Drink
+Aged Mushroom Cap Cognac: low_multiplier=0.5 high_multiplier=1.5 duration_seconds=1800.0 sell_price=0 buy_price=0 quality=5 category=Drink
+Copper Ore: sell_price=5 buy_price=0 quality=0 category=Metal
+Copper ingot: sell_price=20 buy_price=0 quality=0 category=Metal
+Copper pick: job=Miner work_multiplier=1.5 sell_price=30 buy_price=0 quality=0 category=Tool
+Copper sickle: job=Farmer work_multiplier=1.5 sell_price=30 buy_price=0 quality=0 category=Tool
+Potato mash: sell_price=0 buy_price=0 quality=1 category=Brewing
+Barley mash: sell_price=0 buy_price=0 quality=2 category=Brewing
+Wheat mash: sell_price=0 buy_price=0 quality=3 category=Brewing
+Radish mash: sell_price=0 buy_price=0 quality=4 category=Brewing
+
+== Recipes ==
+Gruel: inputs=[2 Potato] output=Gruel output_count=1 load_work=5.0 process_seconds=20.0
+Roast carrots: inputs=[4 Carrot] output=Roast carrots output_count=1 load_work=5.0 process_seconds=30.0
+Stew: inputs=[4 Potato] output=Stew output_count=1 load_work=5.0 process_seconds=60.0
+Onion soup: inputs=[2 Onion, 4 Potato] output=Onion soup output_count=1 load_work=6.0 process_seconds=90.0
+Potato mash: inputs=[2 Potato] output=Potato mash output_count=1 load_work=5.0 process_seconds=20.0
+Barley mash: inputs=[3 Barley] output=Barley mash output_count=1 load_work=5.0 process_seconds=30.0
+Wheat mash: inputs=[3 Wheat] output=Wheat mash output_count=1 load_work=5.0 process_seconds=30.0
+Radish mash: inputs=[3 Radish] output=Radish mash output_count=1 load_work=5.0 process_seconds=25.0
+Grog: inputs=[1 Potato mash] output=Grog output_count=4 load_work=4.0 process_seconds=90.0
+Ale: inputs=[1 Barley mash] output=Ale output_count=4 load_work=4.0 process_seconds=180.0
+Wheat beer: inputs=[1 Wheat mash] output=Wheat beer output_count=4 load_work=4.0 process_seconds=150.0
+Radish spirit: inputs=[1 Radish mash] output=Radish spirit output_count=3 load_work=4.0 process_seconds=120.0
+Copper ingot: inputs=[3 Copper Ore] output=Copper ingot output_count=1 load_work=6.0 process_seconds=60.0
+Copper pick: inputs=[2 Copper ingot] output=Copper pick output_count=1 load_work=8.0 process_seconds=90.0
+Copper sickle: inputs=[2 Copper ingot] output=Copper sickle output_count=1 load_work=8.0 process_seconds=90.0
+
+== Buildings ==
+Farm Plot: footprint=(1, 1) cost=3 unlock=- buildable=true can_move=true can_destroy=true blocks_walking=false door_offset_cells=1 workstations=[]
+Kitchen: footprint=(3, 2) cost=30 unlock=- buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Stove]
+Brewery: footprint=(3, 2) cost=40 unlock=(meals_made 10, then 60 coins) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Mash pot, Fermenter]
+Smeltery: footprint=(3, 2) cost=50 unlock=(mined 15, then 80 coins, 5 Copper Ore) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Smelter]
+Forge: footprint=(3, 2) cost=60 unlock=(made:copper_ingot 5, then 50 coins, 3 Copper ingot) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[Anvil]
+Market: footprint=(3, 2) cost=30 unlock=(sold 30, then 30 coins) buildable=true can_move=true can_destroy=true blocks_walking=true door_offset_cells=2 workstations=[]
+
+== Furniture ==
+Chair: footprint=(1, 1) cost=5 blocks_walking=false is_seat=true needs_front_access=false
+Table: footprint=(2, 2) cost=10 blocks_walking=true is_seat=false needs_front_access=false
+Long table: footprint=(4, 2) cost=20 blocks_walking=true is_seat=false needs_front_access=false
+
+== Play ==
+0:00:00  Start: 50 coins, storage 20 Gruel, 10 Grog
+0:00:00  Start: 9 Farm Plot, 1 Great Hall, 1 Mine Entrance; hall has 4 Chair, 2 Table
+0:00:00  Start: shaft to row 4, 3 tunnel ends
+0:00:00  Start: 4 dwarves (Thorvi, Balrek, Thorra, Kilda)
+0:00:01  Thorvi idle: No job
+0:00:01  Balrek idle: No job
+0:00:01  Thorra idle: No job
+0:00:01  Kilda idle: No job
+0:00:12  Balrek: Farmer
+0:00:12  Balrek back to work after 0:00:11 idle
+0:00:15  Kilda: Miner
+0:00:15  Kilda back to work after 0:00:14 idle
+0:00:17  Thorvi: Miner
+0:00:17  Thorvi back to work after 0:00:16 idle
+0:00:22  Built Kitchen at (56, 2)
+0:00:25  Thorra: Works at the Kitchen
+0:00:25  Thorra still idle: Missing ingredients
+0:00:31  Kitchen Stove: player picked Stew
+0:00:40  Found Copper Ore deposit CopperNear (column 136, row 1)
+0:00:58  First mined: Copper Ore
+
+-- 0:01:00, minute 1 (13:50:55) --
+Coins 11 (+0 earned, -39 spent)
+Mined: 1 Copper Ore
+Storage: 20 Gruel, 10 Grog
+Plots (9): growing 51%, dry 39%, empty 10%
+Kitchen Stove: no ingredients 100%
+Player: 11 clicks, sowed 9 Potato
+Mine: dug 9 cells, shaft to row 4, 3 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 46%, walk 19%, climb 7%, wait 1%, idle 28% | food 67%, thirsty 50%
+  Balrek (Farmer): work 30%, walk 20%, wait 31%, idle 20% | food 67%, thirsty 50%
+  Thorra (Works at the Kitchen): idle 100% | food 67%, thirsty 50%
+  Kilda (Miner): work 53%, walk 15%, climb 7%, wait 1%, idle 25% | food 67%, thirsty 50%
+
+-- 0:02:00, minute 2 (13:51:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 20 Gruel, 10 Grog
+Plots (9): growing 100%
+Kitchen Stove: no ingredients 100%
+Player: 0 clicks
+Mine: dug 13 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 100% | food 33%, thirsty 50%
+  Balrek (Farmer): wait 100% | food 33%, thirsty 50%
+  Thorra (Works at the Kitchen): idle 100% | food 33%, thirsty 50%
+  Kilda (Miner): work 96%, walk 3%, wait 1% | food 33%, thirsty 50%
+
+-- 0:03:00, minute 3 (13:52:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 20 Gruel, 10 Grog, 6 Copper Ore
+Plots (9): growing 100%
+Kitchen Stove: no ingredients 100%
+Player: 0 clicks
+Mine: dug 6 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 57%, haul 14%, walk 15%, climb 13%, wait 1% | food 0%, thirsty 50%
+  Balrek (Farmer): wait 100% | food 0%, thirsty 50%
+  Thorra (Works at the Kitchen): idle 100% | food 0%, thirsty 50%
+  Kilda (Miner): work 93%, walk 6%, wait 0% | food 0%, thirsty 50%
+0:03:01  Thorra back to work after 0:03:00 idle
+0:03:17  Thorra idle: Missing ingredients
+
+-- 0:04:00, minute 4 (13:53:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 16 Gruel, 9 Copper Ore, 6 Grog
+Plots (9): growing 100%
+Kitchen Stove: no ingredients 100%
+Player: 2 clicks
+Mine: dug 6 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 4 Grog, 4 Gruel
+Dwarves:
+  Thorvi (Miner): work 47%, walk 33%, climb 13%, eat 7%, wait 1% | food 77%, Grog 75%
+  Balrek (Farmer): walk 27%, eat 7%, wait 66% | food 74%, Grog 75%
+  Thorra (Works at the Kitchen): walk 20%, eat 7%, wait 0%, idle 73% | food 76%, Grog 75%
+  Kilda (Miner): work 44%, haul 14%, walk 21%, climb 13%, eat 7%, wait 1% | food 83%, Grog 75%
+0:04:37  Milestone met for Smeltery (mined 15), trade costs 80 coins, 5 Copper Ore
+
+-- 0:05:00, minute 5 (13:54:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 16 Gruel, 15 Copper Ore, 6 Grog
+Plots (9): growing 100%, dry 0%
+Kitchen Stove: no ingredients 100%
+Player: 0 clicks
+Mine: dug 12 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 61%, haul 14%, walk 13%, climb 12%, wait 0% | food 44%, Grog 74%
+  Balrek (Farmer): walk 2%, wait 99% | food 40%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 42%, Grog 75%
+  Kilda (Miner): work 85%, walk 13%, wait 1% | food 49%, Grog 74%
+
+== Totals so far, 0:05:00 ==
+Coins 11: 0 earned, 39 spent
+Harvested 0, meals made 0, drinks made 0, ore mined 16
+Plots: growing 90%, dry 8%, empty 2%
+Kitchen Stove: no ingredients 100%
+Player clicks: 13
+Mine: dug 46 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 4 Grog, 4 Gruel
+Dwarves:
+  Thorvi: work 62%, haul 6%, walk 16%, climb 9%, eat 1%, wait 0%, idle 6%; 1 meal
+    idle: No job 0:00:16
+  Balrek: work 6%, walk 10%, eat 1%, wait 79%, idle 4%; 1 meal
+    idle: No job 0:00:11
+  Thorra: walk 4%, eat 1%, wait 0%, idle 95%; 1 meal
+    idle: No job 0:00:24, Missing ingredients 0:04:19
+  Kilda: work 74%, haul 3%, walk 12%, climb 4%, eat 1%, wait 1%, idle 5%; 1 meal
+    idle: No job 0:00:14
+
+-- 0:06:00, minute 6 (13:55:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 16 Gruel, 15 Copper Ore, 6 Grog
+Plots (9): growing 97%, dry 3%
+Kitchen Stove: no ingredients 100%
+Player: 0 clicks
+Mine: dug 14 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 76%, walk 21%, climb 2%, wait 2% | food 10%, Grog 73%
+  Balrek (Farmer): work 15%, walk 11%, wait 74% | food 7%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 9%, Grog 75%
+  Kilda (Miner): work 80%, haul 13%, climb 7% | food 16%, Grog 73%
+0:06:17  Thorra back to work after 0:03:00 idle
+0:06:29  Thorra idle: Missing ingredients
+
+-- 0:07:00, minute 7 (13:56:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 24 Copper Ore, 12 Gruel, 2 Grog
+Plots (9): growing 97%, dry 3%
+Kitchen Stove: no ingredients 100%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 4 Grog, 4 Gruel
+Dwarves:
+  Thorvi (Miner): work 46%, haul 14%, walk 21%, climb 12%, eat 7%, wait 1% | food 93%, Grog 75%
+  Balrek (Farmer): work 7%, walk 26%, eat 7%, wait 61% | food 80%, Grog 75%
+  Thorra (Works at the Kitchen): walk 13%, eat 7%, wait 0%, idle 80% | food 82%, Grog 75%
+  Kilda (Miner): work 16%, haul 1%, walk 58%, climb 17%, eat 7%, wait 1% | food 94%, Grog 75%
+
+-- 0:08:00, minute 8 (13:57:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 24 Copper Ore, 12 Gruel, 2 Grog
+Plots (9): growing 100%
+Kitchen Stove: no ingredients 100%
+Player: 0 clicks
+Mine: dug 16 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 96%, walk 2%, climb 2%, wait 0% | food 60%, Grog 74%
+  Balrek (Farmer): wait 100% | food 46%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 49%, Grog 75%
+  Kilda (Miner): work 82%, walk 14%, climb 3%, wait 2% | food 61%, Grog 75%
+
+-- 0:09:00, minute 9 (13:58:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 30 Copper Ore, 12 Gruel, 2 Grog
+Plots (9): growing 100%
+Kitchen Stove: no ingredients 100%
+Player: 2 clicks
+Mine: dug 4 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 51%, haul 14%, walk 21%, climb 13%, wait 1% | food 26%, Grog 74%
+  Balrek (Farmer): wait 100% | food 13%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 16%, Grog 75%
+  Kilda (Miner): work 83%, walk 17%, wait 0% | food 27%, Grog 73%
+0:09:29  Thorra back to work after 0:03:00 idle
+0:09:39  Pantry: out of drinks
+0:09:43  First harvested: Potato
+0:09:43  Thorra idle: Missing ingredients
+0:09:52  Thorra back to work after 0:00:09 idle
+0:09:58  First sold: Copper Ore
+
+-- 0:10:00, minute 10 (13:59:55) --
+Coins 76 (+65 earned, -0 spent)
+Harvested: 6 Potato
+Mined: 5 Copper Ore
+Storage: 23 Copper Ore, 10 Gruel
+Plots (9): growing 90%, ripe 4%, empty 6%
+Kitchen Stove: loading 14%, no ingredients 87%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Grog, 2 Gruel
+Dwarves:
+  Thorvi (Miner): work 73%, haul 11%, walk 9%, climb 7%, wait 1% | food 0%, Grog 71%
+  Balrek (Farmer): work 11%, haul 13%, walk 30%, eat 7%, wait 40% | food 86%, Grog 75%
+  Thorra (Works at the Kitchen): haul 2%, walk 28%, eat 7%, wait 1%, idle 63% | food 90%, Grog 75%
+  Kilda (Miner): work 37%, haul 14%, walk 28%, climb 20%, wait 0% | food 0%, Grog 72%
+
+== Totals so far, 0:10:00 ==
+Coins 76: 65 earned, 39 spent
+Harvested 6, meals made 0, drinks made 0, ore mined 38
+Plots: growing 93%, dry 5%, ripe 0%, empty 2%
+Kitchen Stove: loading 1%, no ingredients 99%
+Player clicks: 15
+Mine: dug 86 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 10 Grog, 10 Gruel
+Dwarves:
+  Thorvi: work 65%, haul 7%, walk 15%, climb 8%, eat 1%, wait 1%, idle 3%; 2 meals, one every 0:03:28
+    idle: No job 0:00:16
+  Balrek: work 6%, haul 1%, walk 12%, eat 2%, wait 77%, idle 2%; 3 meals, one every 0:03:10
+    idle: No job 0:00:11
+  Thorra: haul 0%, walk 6%, eat 2%, wait 0%, idle 92%; 3 meals, one every 0:03:13
+    idle: No job 0:00:24, Missing ingredients 0:08:44
+  Kilda: work 67%, haul 4%, walk 18%, climb 7%, eat 1%, wait 1%, idle 2%; 2 meals, one every 0:03:20
+    idle: No job 0:00:14
+0:10:01  Can afford to unlock Smeltery
+
+-- 0:11:00, minute 11 (14:00:55) --
+Coins 91 (+15 earned, -0 spent)
+Harvested: 4 Potato
+Mined: 2 Copper Ore
+Storage: 22 Copper Ore, 8 Gruel, 6 Potato
+Plots (9): growing 57%, ripe 1%, empty 42%
+Kitchen Stove: working 76%, loading 24%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Gruel
+Dwarves:
+  Thorvi (Miner): work 60%, haul 4%, walk 23%, climb 7%, eat 7%, wait 1% | food 72%, Grog 58%
+  Balrek (Farmer): work 7%, haul 27%, walk 34%, wait 33% | food 52%, Grog 75%
+  Thorra (Works at the Kitchen): work 11%, haul 13%, walk 5%, wait 71% | food 57%, Grog 75%
+  Kilda (Miner): work 50%, walk 36%, climb 7%, eat 7%, wait 1% | food 72%, Grog 65%
+0:11:15  First made: Stew
+0:11:27  Can afford to unlock Carrot
+0:11:38  Balrek idle: Nothing sown
+
+-- 0:12:00, minute 12 (14:01:55) --
+Coins 91 (+0 earned, -0 spent)
+Harvested: 8 Potato
+Made: 1 Stew
+Mined: 4 Copper Ore
+Storage: 22 Copper Ore, 10 Potato, 8 Gruel, 1 Stew
+Plots (9): growing 10%, ripe 3%, empty 87%
+Kitchen Stove: working 54%, loading 26%, unattended 15%, done 5%
+Player: 0 clicks
+Mine: dug 6 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 82%, haul 12%, climb 7% | food 39%, thirsty 50%
+  Balrek (Farmer): work 14%, haul 37%, walk 11%, wait 1%, idle 37% | food 19%, Grog 75%
+  Thorra (Works at the Kitchen): work 11%, haul 29%, walk 10%, wait 50% | food 24%, Grog 75%
+  Kilda (Miner): work 85%, walk 15%, wait 1% | food 39%, thirsty 50%
+0:12:35  Balrek back to work after 0:00:57 idle
+0:12:46  Balrek idle: Nothing sown
+
+-- 0:13:00, minute 13 (14:02:55) --
+Coins 91 (+0 earned, -0 spent)
+Made: 1 Stew
+Mined: 3 Copper Ore
+Storage: 28 Copper Ore, 10 Potato, 7 Gruel
+Plots (9): empty 100%
+Kitchen Stove: working 71%, done 29%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Stew, 1 Gruel
+Dwarves:
+  Thorvi (Miner): work 67%, haul 3%, walk 23%, climb 7%, wait 1% | food 5%, thirsty 50%
+  Balrek (Farmer): walk 12%, eat 7%, wait 0%, idle 81% | food 98%, Grog 75%
+  Thorra (Works at the Kitchen): walk 22%, eat 7%, wait 71% | food 98%, Grog 75%
+  Kilda (Miner): work 100% | food 5%, thirsty 50%
+
+-- 0:14:00, minute 14 (14:03:55) --
+Coins 91 (+0 earned, -0 spent)
+Mined: 2 Copper Ore
+Storage: 33 Copper Ore, 6 Gruel, 6 Potato
+Plots (9): empty 100%
+Kitchen Stove: working 47%, loading 26%, unattended 15%, done 12%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Stew, 1 Gruel
+Dwarves:
+  Thorvi (Miner): work 38%, walk 41%, climb 13%, eat 7%, wait 1% | food 96%, thirsty 50%
+  Balrek (Farmer): idle 100% | food 88%, Grog 75%
+  Thorra (Works at the Kitchen): work 11%, haul 29%, walk 17%, wait 43% | food 64%, Grog 75%
+  Kilda (Miner): work 33%, haul 14%, walk 32%, climb 13%, eat 7%, wait 1% | food 87%, thirsty 50%
+
+-- 0:15:00, minute 15 (14:04:55) --
+Coins 91 (+0 earned, -0 spent)
+Made: 1 Stew
+Mined: 4 Copper Ore
+Storage: 33 Copper Ore, 6 Gruel, 2 Potato, 1 Stew
+Plots (9): empty 100%
+Kitchen Stove: working 54%, loading 26%, unattended 15%, done 5%
+Player: 0 clicks
+Mine: dug 6 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 100% | food 86%, thirsty 50%
+  Balrek (Farmer): idle 100% | food 78%, Grog 75%
+  Thorra (Works at the Kitchen): work 11%, haul 29%, walk 5%, wait 55% | food 31%, Grog 75%
+  Kilda (Miner): work 98%, walk 2%, wait 1% | food 54%, thirsty 50%
+
+== Totals so far, 0:15:00 ==
+Coins 91: 80 earned, 39 spent
+Harvested 18, meals made 3, drinks made 0, ore mined 53
+Plots: growing 67%, dry 3%, ripe 1%, empty 30%
+Kitchen Stove: working 20%, loading 8%, unattended 3%, no ingredients 65%, done 4%
+Player clicks: 15
+Mine: dug 108 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 14 Gruel, 10 Grog, 2 Stew
+Dwarves:
+  Thorvi: work 67%, haul 6%, walk 16%, climb 8%, eat 2%, wait 1%, idle 2%; 4 meals, one every 0:03:25
+    idle: No job 0:00:16
+  Balrek: work 6%, haul 5%, walk 11%, eat 2%, wait 54%, idle 23%; 4 meals, one every 0:03:10
+    idle: No job 0:00:11, Nothing sown 0:03:11
+  Thorra: work 3%, haul 7%, walk 8%, eat 2%, wait 19%, idle 61%; 4 meals, one every 0:03:13
+    idle: No job 0:00:24, Missing ingredients 0:08:44
+  Kilda: work 69%, haul 4%, walk 17%, climb 6%, eat 2%, wait 1%, idle 2%; 4 meals, one every 0:03:22
+    idle: No job 0:00:14
+
+-- 0:16:00, minute 16 (14:05:55) --
+Coins 91 (+0 earned, -0 spent)
+Made: 1 Stew
+Mined: 3 Copper Ore
+Storage: 39 Copper Ore, 6 Gruel, 2 Potato, 1 Stew
+Plots (9): empty 100%
+Kitchen Stove: working 100%, done 0%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 45%, haul 14%, walk 27%, climb 13%, wait 1% | food 76%, thirsty 50%
+  Balrek (Farmer): idle 100% | food 68%, Grog 75%
+  Thorra (Works at the Kitchen): walk 12%, wait 88% | food 0%, Grog 75%
+  Kilda (Miner): work 87%, walk 13%, wait 0% | food 21%, thirsty 50%
+0:16:58  Unlocked Carrot
+0:17:00  Balrek back to work after 0:04:14 idle
+
+-- 0:17:00, minute 17 (14:06:55) --
+Coins 74 (+0 earned, -17 spent)
+Mined: 4 Copper Ore
+Storage: 39 Copper Ore, 6 Gruel, 1 Stew
+Plots (9): dry 0%, empty 100%
+Kitchen Stove: working 31%, loading 26%, unattended 15%, done 28%
+Player: 2 clicks, sowed 2 Carrot
+Mine: dug 13 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Stew
+Dwarves:
+  Thorvi (Miner): work 82%, walk 17%, wait 1% | food 66%, thirsty 50%
+  Balrek (Farmer): walk 1%, idle 100% | food 58%, Grog 75%
+  Thorra (Works at the Kitchen): work 11%, haul 29%, walk 25%, eat 7%, wait 28% | food 91%, Grog 75%
+  Kilda (Miner): work 86%, haul 8%, climb 7% | food 0%, thirsty 50%
+0:17:02  First made: Gruel
+0:17:06  Built Farm Plot at (60, 5)
+0:17:07  Built Farm Plot at (60, 6)
+0:17:07  Built Farm Plot at (60, 7)
+0:17:08  Built Farm Plot at (61, 7)
+0:17:08  Built Farm Plot at (61, 6)
+0:17:08  Built Farm Plot at (61, 5)
+0:17:09  Built Farm Plot at (62, 5)
+0:17:09  Built Farm Plot at (62, 6)
+0:17:09  Built Farm Plot at (62, 7)
+0:17:14  Thorra idle: Missing ingredients
+0:17:24  Kitchen Stove 2: player picked Roast carrots
+0:17:41  Can afford to unlock Market
+0:17:57  Unlocked Market
+
+-- 0:18:00, minute 18 (14:07:55) --
+Coins 101 (+120 earned, -93 spent)
+Made: 1 Gruel
+Mined: 3 Copper Ore
+Storage: 20 Copper Ore, 7 Gruel
+Plots (18): growing 63%, dry 31%, empty 6%
+Kitchen Stove: working 2%, no ingredients 93%, done 5%
+Kitchen Stove 2: no ingredients 100%
+Player: 30 clicks, sowed 10 Carrot, 6 Potato
+Mine: dug 2 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Stew
+Dwarves:
+  Thorvi (Miner): work 94%, walk 6%, wait 0% | food 56%, thirsty 50%
+  Balrek (Farmer): work 42%, walk 35%, wait 23% | food 48%, Grog 75%
+  Thorra (Works at the Kitchen): haul 15%, walk 5%, wait 3%, idle 78% | food 81%, Grog 75%
+  Kilda (Miner): work 47%, haul 7%, walk 32%, climb 7%, eat 7%, wait 1% | food 92%, thirsty 50%
+0:18:01  Unlocked Smeltery
+0:18:20  Built Market at (64, 2)
+
+-- 0:19:00, minute 19 (14:08:55) --
+Coins 46 (+55 earned, -110 spent)
+Mined: 3 Copper Ore
+Storage: 10 Copper Ore, 7 Gruel
+Plots (18): growing 100%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Player: 2 clicks
+Mine: dug 4 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 67%, haul 14%, walk 12%, climb 7%, wait 0% | food 46%, thirsty 50%
+  Balrek (Farmer): wait 100% | food 38%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 71%, Grog 75%
+  Kilda (Miner): work 84%, walk 16%, wait 1% | food 82%, thirsty 50%
+0:19:35  Built Smeltery at (71, 2)
+
+-- 0:20:00, minute 20 (14:09:55) --
+Coins 16 (+20 earned, -50 spent)
+Mined: 4 Copper Ore
+Storage: 7 Gruel, 6 Copper Ore
+Plots (18): growing 100%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 2 clicks
+Mine: dug 4 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 78%, walk 15%, climb 7%, wait 1% | food 36%, thirsty 50%
+  Balrek (Farmer): wait 100% | food 28%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 61%, Grog 75%
+  Kilda (Miner): work 100% | food 72%, thirsty 50%
+
+== Totals so far, 0:20:00 ==
+Coins 16: 275 earned, 309 spent
+Harvested 18, meals made 5, drinks made 0, ore mined 70
+Plots: growing 66%, dry 5%, ripe 0%, empty 29%
+Kitchen Stove: working 22%, loading 7%, unattended 3%, no ingredients 63%, done 4%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player clicks: 51
+Mine: dug 133 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 14 Gruel, 10 Grog, 4 Stew
+Dwarves:
+  Thorvi: work 68%, haul 6%, walk 16%, climb 7%, eat 1%, wait 1%, idle 1%; 4 meals, one every 0:03:25
+    idle: No job 0:00:16
+  Balrek: work 6%, haul 4%, walk 10%, eat 1%, wait 51%, idle 27%; 4 meals, one every 0:03:10
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 3%, haul 7%, walk 8%, eat 2%, wait 20%, idle 60%; 5 meals, one every 0:03:12
+    idle: No job 0:00:24, Missing ingredients 0:11:31
+  Kilda: work 72%, haul 4%, walk 16%, climb 5%, eat 2%, wait 1%, idle 1%; 5 meals, one every 0:03:25
+    idle: No job 0:00:14
+
+-- 0:21:00, minute 21 (14:10:55) --
+Coins 16 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 12 Copper Ore, 7 Gruel
+Plots (18): growing 96%, dry 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 85%, walk 15%, wait 1% | food 26%, thirsty 50%
+  Balrek (Farmer): work 16%, walk 30%, wait 53% | food 18%, Grog 74%
+  Thorra (Works at the Kitchen): idle 100% | food 51%, Grog 75%
+  Kilda (Miner): work 43%, haul 14%, walk 29%, climb 13%, wait 0% | food 62%, thirsty 50%
+
+-- 0:22:00, minute 22 (14:11:55) --
+Coins 16 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 12 Copper Ore, 7 Gruel
+Plots (18): growing 96%, dry 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 100% | food 16%, thirsty 50%
+  Balrek (Farmer): work 19%, walk 37%, wait 44% | food 8%, Grog 74%
+  Thorra (Works at the Kitchen): idle 100% | food 41%, Grog 75%
+  Kilda (Miner): work 98%, walk 2%, wait 1% | food 52%, thirsty 50%
+
+-- 0:23:00, minute 23 (14:12:55) --
+Coins 16 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 18 Copper Ore, 6 Gruel
+Plots (18): growing 99%, dry 1%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Gruel
+Dwarves:
+  Thorvi (Miner): work 43%, haul 14%, walk 29%, climb 13%, wait 1% | food 6%, thirsty 50%
+  Balrek (Farmer): work 7%, walk 25%, eat 7%, wait 61% | food 98%, Grog 74%
+  Thorra (Works at the Kitchen): idle 100% | food 31%, Grog 75%
+  Kilda (Miner): work 83%, walk 17%, wait 0% | food 42%, thirsty 50%
+0:23:40  First harvested: Carrot
+
+-- 0:24:00, minute 24 (14:13:55) --
+Coins 16 (+0 earned, -0 spent)
+Harvested: 6 Carrot
+Mined: 4 Copper Ore
+Storage: 18 Copper Ore, 5 Gruel
+Plots (18): growing 95%, ripe 2%, empty 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 4 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 59%, walk 32%, climb 7%, eat 2%, wait 1% | food 0%, thirsty 50%
+  Balrek (Farmer): work 11%, haul 27%, walk 6%, wait 57% | food 64%, Grog 74%
+  Thorra (Works at the Kitchen): idle 100% | food 21%, Grog 75%
+  Kilda (Miner): work 96%, haul 2%, climb 2% | food 32%, thirsty 50%
+0:24:01  Thorra back to work after 0:06:47 idle
+0:24:55  First made: Roast carrots
+
+-- 0:25:00, minute 25 (14:14:55) --
+Coins 16 (+0 earned, -0 spent)
+Harvested: 18 Carrot
+Made: 1 Roast carrots
+Mined: 2 Copper Ore
+Storage: 24 Copper Ore, 10 Carrot, 5 Gruel
+Plots (18): growing 52%, ripe 10%, empty 37%
+Kitchen Stove: working 50%, loading 40%, unattended 4%, no ingredients 1%, done 5%
+Kitchen Stove 2: working 16%, loading 42%, unattended 14%, no ingredients 28%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Gruel
+Dwarves:
+  Thorvi (Miner): work 73%, walk 16%, climb 7%, eat 5%, wait 0% | food 68%, thirsty 50%
+  Balrek (Farmer): work 32%, haul 41%, walk 25%, wait 3% | food 31%, Grog 73%
+  Thorra (Works at the Kitchen): work 22%, haul 35%, walk 40%, wait 2%, idle 1% | food 11%, Grog 75%
+  Kilda (Miner): work 44%, haul 13%, walk 32%, climb 11%, wait 1% | food 22%, thirsty 50%
+
+== Totals so far, 0:25:00 ==
+Coins 16: 275 earned, 309 spent
+Harvested 42, meals made 6, drinks made 0, ore mined 86
+Plots: growing 73%, dry 4%, ripe 1%, empty 22%
+Kitchen Stove: working 20%, loading 7%, unattended 3%, no ingredients 67%, done 4%
+Kitchen Stove 2: working 2%, loading 5%, unattended 2%, no ingredients 91%
+Smeltery Smelter: unattended 100%
+Player clicks: 51
+Mine: dug 150 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 16 Gruel, 10 Grog, 4 Stew
+Dwarves:
+  Thorvi: work 69%, haul 5%, walk 16%, climb 7%, eat 1%, wait 0%, idle 1%; 5 meals, one every 0:05:11
+    idle: No job 0:00:16
+  Balrek: work 8%, haul 6%, walk 13%, eat 1%, wait 50%, idle 22%; 5 meals, one every 0:04:55
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 3%, haul 7%, walk 8%, eat 1%, wait 16%, idle 64%; 5 meals, one every 0:03:12
+    idle: No job 0:00:24, Missing ingredients 0:15:31
+  Kilda: work 72%, haul 4%, walk 16%, climb 5%, eat 1%, wait 1%, idle 1%; 5 meals, one every 0:03:25
+    idle: No job 0:00:14
+
+-- 0:26:00, minute 26 (14:15:55) --
+Coins 16 (+0 earned, -0 spent)
+Made: 2 Roast carrots
+Mined: 4 Copper Ore
+Storage: 24 Copper Ore, 8 Carrot, 5 Gruel, 2 Roast carrots
+Plots (18): growing 33%, empty 67%
+Kitchen Stove: working 50%, loading 26%, unattended 21%, done 2%
+Kitchen Stove 2: working 50%, loading 28%, unattended 17%, done 6%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 88%, haul 5%, climb 7% | food 35%, thirsty 50%
+  Balrek (Farmer): haul 6%, walk 17%, wait 77% | food 0%, Grog 73%
+  Thorra (Works at the Kitchen): work 23%, haul 68%, walk 7%, wait 2% | food 1%, Grog 74%
+  Kilda (Miner): work 87%, walk 13%, wait 0% | food 12%, thirsty 50%
+
+-- 0:27:00, minute 27 (14:16:55) --
+Coins 16 (+0 earned, -0 spent)
+Harvested: 8 Potato
+Made: 1 Roast carrots
+Mined: 3 Copper Ore
+Storage: 30 Copper Ore, 5 Gruel, 2 Potato, 2 Roast carrots
+Plots (18): growing 28%, ripe 1%, empty 71%
+Kitchen Stove: working 43%, loading 36%, unattended 22%
+Kitchen Stove 2: working 34%, loading 24%, unattended 17%, done 25%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Roast carrots
+Dwarves:
+  Thorvi (Miner): work 52%, haul 9%, walk 31%, climb 7%, wait 1% | food 2%, thirsty 50%
+  Balrek (Farmer): work 14%, haul 20%, walk 27%, eat 7%, wait 33% | food 87%, Grog 73%
+  Thorra (Works at the Kitchen): work 19%, haul 64%, walk 8%, eat 7%, wait 3% | food 89%, Grog 74%
+  Kilda (Miner): work 89%, walk 11%, wait 0% | food 2%, thirsty 50%
+0:27:05  Milestone met for Brewery (meals_made 10), trade costs 60 coins
+0:27:36  Can afford to unlock Brewery
+0:27:49  Hired Kilbur (5 dwarves)
+0:27:49  Kilbur idle: No job
+0:27:52  Kilbur: Trader
+0:27:52  Kilbur still idle: Nothing to sell
+0:27:56  Unlocked Brewery
+0:28:00  Pantry: drinks back in
+
+-- 0:28:00, minute 28 (14:17:55) --
+Coins 9 (+120 earned, -127 spent)
+Harvested: 4 Potato
+Made: 2 Roast carrots
+Mined: 1 Copper Ore
+Storage: 10 Copper Ore, 5 Gruel, 4 Grog, 2 Roast carrots
+Plots (18): growing 30%, dry 30%, ripe 1%, empty 40%
+Kitchen Stove: working 56%, loading 26%, unattended 15%, done 2%
+Kitchen Stove 2: working 50%, loading 29%, unattended 17%, done 5%
+Smeltery Smelter: unattended 100%
+Player: 16 clicks, sowed 9 Carrot, 6 Potato
+Mine: dug 1 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Roast carrots
+Dwarves:
+  Thorvi (Miner): work 15%, walk 65%, climb 13%, eat 7%, wait 0% | food 94%, thirsty 50%
+  Balrek (Farmer): work 42%, haul 34%, walk 11%, wait 13% | food 72%, Grog 71%
+  Thorra (Works at the Kitchen): work 23%, haul 62%, walk 12%, wait 2% | food 74%, Grog 74%
+  Kilda (Miner): work 42%, haul 14%, walk 23%, climb 13%, eat 7%, wait 1% | food 93%, thirsty 50%
+  Kilbur (Trader): idle 100% | food 94%, thirsty 50%
+
+-- 0:29:00, minute 29 (14:18:55) --
+Coins 0 (+0 earned, -9 spent)
+Made: 1 Stew
+Mined: 4 Copper Ore
+Storage: 10 Copper Ore, 7 Grog, 5 Gruel, 2 Roast carrots, 1 Stew
+Plots (18): growing 83%, empty 17%
+Kitchen Stove: working 53%, loading 27%, unattended 15%, done 5%
+Kitchen Stove 2: working 97%, loading 3%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 97%, walk 2%, wait 1% | food 79%, thirsty 50%
+  Balrek (Farmer): haul 4%, walk 10%, wait 86% | food 57%, Grog 71%
+  Thorra (Works at the Kitchen): work 15%, haul 29%, walk 14%, wait 42% | food 59%, Grog 73%
+  Kilda (Miner): work 100% | food 78%, thirsty 50%
+  Kilbur (Trader): idle 100% | food 61%, thirsty 50%
+
+-- 0:30:00, minute 30 (14:19:55) --
+Coins 0 (+0 earned, -0 spent)
+Made: 2 Stew
+Mined: 3 Copper Ore
+Storage: 16 Copper Ore, 7 Grog, 5 Gruel, 2 Stew, 2 Roast carrots
+Plots (18): growing 83%, empty 17%
+Kitchen Stove: working 98%, done 2%
+Kitchen Stove 2: working 3%, no ingredients 90%, done 7%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 79%, walk 21%, wait 0% | food 64%, thirsty 50%
+  Balrek (Farmer): wait 100% | food 42%, Grog 71%
+  Thorra (Works at the Kitchen): haul 16%, walk 22%, wait 62% | food 44%, Grog 73%
+  Kilda (Miner): work 41%, haul 14%, walk 31%, climb 13%, wait 1% | food 63%, thirsty 50%
+  Kilbur (Trader): idle 100% | food 27%, thirsty 50%
+
+== Totals so far, 0:30:00 ==
+Coins 0: 395 earned, 445 spent
+Harvested 54, meals made 14, drinks made 0, ore mined 101
+Plots: growing 68%, dry 4%, ripe 1%, empty 27%
+Kitchen Stove: working 26%, loading 10%, unattended 5%, no ingredients 55%, done 3%
+Kitchen Stove 2: working 20%, loading 10%, unattended 5%, no ingredients 62%, done 3%
+Smeltery Smelter: unattended 100%
+Player clicks: 67
+Mine: dug 166 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 16 Gruel, 10 Grog, 4 Stew, 4 Roast carrots
+Dwarves:
+  Thorvi: work 69%, haul 5%, walk 18%, climb 6%, eat 1%, wait 0%, idle 1%; 6 meals, one every 0:04:51
+    idle: No job 0:00:16
+  Balrek: work 9%, haul 7%, walk 13%, eat 1%, wait 52%, idle 18%; 6 meals, one every 0:04:34
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 5%, haul 14%, walk 9%, eat 1%, wait 17%, idle 53%; 6 meals, one every 0:04:36
+    idle: No job 0:00:24, Missing ingredients 0:15:31
+  Kilda: work 72%, haul 4%, walk 16%, climb 5%, eat 1%, wait 1%, idle 1%; 6 meals, one every 0:04:48
+    idle: No job 0:00:14
+  Kilbur: idle 100%; no meals
+    idle: No job 0:00:02, Nothing to sell 0:02:08
+0:30:11  Thorra idle: Missing ingredients
+0:30:50  Kilbur back to work after 0:03:01 idle
+0:31:00  Kilbur idle: Nothing to sell
+
+-- 0:31:00, minute 31 (14:20:55) --
+Coins 0 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 16 Copper Ore, 6 Grog, 5 Gruel, 2 Stew, 2 Roast carrots
+Plots (18): growing 82%, dry 1%, empty 17%
+Kitchen Stove: no ingredients 97%, done 3%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 6 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Stew
+Dwarves:
+  Thorvi (Miner): work 100% | food 49%, thirsty 50%
+  Balrek (Farmer): work 8%, walk 18%, wait 75% | food 27%, Grog 71%
+  Thorra (Works at the Kitchen): haul 15%, walk 3%, wait 1%, idle 82% | food 29%, Grog 73%
+  Kilda (Miner): work 98%, walk 2%, wait 1% | food 48%, thirsty 50%
+  Kilbur (Trader): walk 11%, eat 7%, wait 0%, idle 82% | food 100%, Grog 75%
+0:31:24  Kilbur back to work after 0:00:24 idle
+0:31:45  Kilbur idle: Nothing to sell
+
+-- 0:32:00, minute 32 (14:21:55) --
+Coins 10 (+10 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 20 Copper Ore, 6 Grog, 5 Gruel, 2 Stew, 2 Roast carrots
+Plots (18): growing 81%, dry 2%, empty 17%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 38%, haul 14%, walk 34%, climb 13%, wait 1% | food 34%, thirsty 50%
+  Balrek (Farmer): work 20%, walk 43%, wait 37% | food 12%, Grog 68%
+  Thorra (Works at the Kitchen): idle 100% | food 14%, Grog 73%
+  Kilda (Miner): work 80%, walk 20%, wait 0% | food 33%, thirsty 50%
+  Kilbur (Trader): work 9%, haul 14%, walk 10%, wait 1%, idle 66% | food 90%, Grog 75%
+0:32:57  Thorra back to work after 0:02:46 idle
+
+-- 0:33:00, minute 33 (14:22:55) --
+Coins 10 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 20 Copper Ore, 5 Gruel, 5 Grog, 2 Roast carrots, 1 Stew
+Plots (18): growing 83%, dry 0%, empty 17%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Stew
+Dwarves:
+  Thorvi (Miner): work 98%, walk 2%, wait 0% | food 19%, thirsty 50%
+  Balrek (Farmer): work 5%, walk 21%, eat 7%, wait 67% | food 100%, Grog 75%
+  Thorra (Works at the Kitchen): walk 6%, idle 94% | food 0%, Grog 73%
+  Kilda (Miner): work 99%, haul 1% | food 18%, thirsty 50%
+  Kilbur (Trader): idle 100% | food 80%, Grog 75%
+0:33:11  Thorra idle: Missing ingredients
+0:33:13  Kilbur back to work after 0:01:28 idle
+0:33:45  Kilbur idle: Nothing to sell
+
+-- 0:34:00, minute 34 (14:23:55) --
+Coins 40 (+30 earned, -0 spent)
+Mined: 2 Copper Ore
+Storage: 20 Copper Ore, 5 Gruel, 4 Grog, 2 Roast carrots
+Plots (18): growing 83%, dry 0%, ripe 0%, empty 17%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Stew
+Dwarves:
+  Thorvi (Miner): work 76%, walk 24%, wait 0% | food 4%, thirsty 50%
+  Balrek (Farmer): work 5%, walk 13%, wait 83% | food 90%, Grog 75%
+  Thorra (Works at the Kitchen): walk 10%, eat 7%, wait 0%, idle 83% | food 92%, Grog 75%
+  Kilda (Miner): work 38%, haul 14%, walk 35%, climb 13%, wait 1% | food 3%, thirsty 50%
+  Kilbur (Trader): work 27%, haul 14%, walk 12%, wait 1%, idle 46% | food 70%, Grog 75%
+0:34:15  Thorra back to work after 0:01:04 idle
+0:34:32  Kilbur back to work after 0:00:47 idle
+0:34:59  Kilbur idle: Nothing to sell
+
+-- 0:35:00, minute 35 (14:24:55) --
+Coins 60 (+20 earned, -0 spent)
+Harvested: 12 Carrot
+Mined: 2 Copper Ore
+Storage: 20 Copper Ore, 5 Gruel, 4 Carrot, 2 Grog
+Plots (18): growing 56%, ripe 3%, empty 41%
+Kitchen Stove: working 38%, loading 38%, no ingredients 25%
+Kitchen Stove 2: loading 38%, unattended 15%, no ingredients 48%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 4 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Grog, 2 Roast carrots
+Dwarves:
+  Thorvi (Miner): work 42%, haul 14%, walk 23%, climb 13%, eat 7%, wait 1% | food 95%, Grog 75%
+  Balrek (Farmer): work 21%, haul 25%, walk 21%, wait 33% | food 80%, Grog 75%
+  Thorra (Works at the Kitchen): work 17%, haul 31%, walk 26%, wait 1%, idle 25% | food 82%, Grog 75%
+  Kilda (Miner): work 30%, walk 50%, climb 13%, eat 7%, wait 0% | food 97%, Grog 75%
+  Kilbur (Trader): work 18%, haul 14%, walk 13%, wait 1%, idle 55% | food 60%, Grog 75%
+
+== Totals so far, 0:35:00 ==
+Coins 60: 455 earned, 445 spent
+Harvested 66, meals made 14, drinks made 0, ore mined 116
+Plots: growing 70%, dry 4%, ripe 1%, empty 26%
+Kitchen Stove: working 24%, loading 10%, unattended 4%, no ingredients 60%, done 3%
+Kitchen Stove 2: working 14%, loading 9%, unattended 4%, no ingredients 70%, done 2%
+Smeltery Smelter: unattended 100%
+Player clicks: 67
+Mine: dug 183 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 16 Gruel, 15 Grog, 7 Stew, 6 Roast carrots
+Dwarves:
+  Thorvi: work 69%, haul 5%, walk 17%, climb 6%, eat 1%, wait 0%, idle 1%; 7 meals, one every 0:05:13
+    idle: No job 0:00:16
+  Balrek: work 9%, haul 7%, walk 15%, eat 1%, wait 53%, idle 15%; 7 meals, one every 0:04:57
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 5%, haul 13%, walk 9%, eat 1%, wait 15%, idle 57%; 7 meals, one every 0:04:58
+    idle: No job 0:00:24, Missing ingredients 0:19:22
+  Kilda: work 72%, haul 4%, walk 17%, climb 5%, eat 1%, wait 1%, idle 1%; 7 meals, one every 0:05:13
+    idle: No job 0:00:14
+  Kilbur: work 8%, haul 6%, walk 6%, eat 1%, wait 0%, idle 79%; 1 meal
+    idle: No job 0:00:02, Nothing to sell 0:05:37
+0:35:08  Can afford to unlock Onion
+
+-- 0:36:00, minute 36 (14:25:55) --
+Coins 60 (+0 earned, -0 spent)
+Harvested: 6 Carrot
+Made: 2 Roast carrots
+Mined: 6 Copper Ore
+Storage: 20 Copper Ore, 5 Gruel, 2 Grog, 2 Carrot, 2 Roast carrots
+Plots (18): growing 35%, ripe 1%, empty 64%
+Kitchen Stove: working 54%, loading 26%, unattended 15%, done 5%
+Kitchen Stove 2: working 50%, loading 28%, unattended 17%, done 6%
+Smeltery Smelter: unattended 100%
+Player: 0 clicks
+Mine: dug 6 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 97%, haul 2%, climb 2% | food 80%, Grog 74%
+  Balrek (Farmer): work 11%, haul 17%, walk 13%, wait 60% | food 70%, Grog 75%
+  Thorra (Works at the Kitchen): work 22%, haul 62%, walk 13%, wait 3% | food 72%, Grog 75%
+  Kilda (Miner): work 72%, walk 28%, climb 0%, wait 1% | food 82%, Grog 75%
+  Kilbur (Trader): idle 100% | food 50%, Grog 75%
+0:36:11  Kilbur back to work after 0:01:12 idle
+0:36:24  Unlocked Onion
+0:36:42  Kilbur idle: Nothing to sell
+0:36:48  Thorra idle: Missing ingredients
+0:37:00  Thorra back to work after 0:00:12 idle
+
+-- 0:37:00, minute 37 (14:26:55) --
+Coins 101 (+80 earned, -39 spent)
+Harvested: 2 Potato
+Made: 2 Roast carrots
+Mined: 4 Copper Ore
+Storage: 10 Copper Ore, 5 Gruel, 4 Roast carrots, 2 Grog, 2 Potato, 2 Carrot
+Plots (18): growing 50%, dry 9%, ripe 2%, empty 39%
+Kitchen Stove: working 9%, loading 1%, no ingredients 88%, done 2%
+Kitchen Stove 2: working 50%, loading 5%, unattended 1%, no ingredients 37%, done 7%
+Smeltery Smelter: unattended 100%
+Player: 13 clicks, sowed 9 Onion
+Mine: dug 6 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 37%, haul 13%, walk 38%, climb 12%, wait 1% | food 65%, Grog 74%
+  Balrek (Farmer): work 25%, haul 11%, walk 20%, wait 45% | food 60%, Grog 75%
+  Thorra (Works at the Kitchen): work 5%, haul 31%, walk 23%, wait 21%, idle 20% | food 62%, Grog 75%
+  Kilda (Miner): work 78%, walk 22%, wait 0% | food 67%, Grog 74%
+  Kilbur (Trader): work 27%, haul 14%, walk 10%, wait 1%, idle 48% | food 40%, Grog 75%
+0:37:07  Built Brewery at (52, 2)
+0:37:11  Hired Ostok (6 dwarves)
+0:37:11  Ostok idle: No job
+0:37:14  Ostok: Works at the Brewery
+0:37:14  Ostok back to work after 0:00:03 idle
+0:37:54  Thorra idle: Missing ingredients
+0:37:58  Thorra back to work after 0:00:04 idle
+0:37:59  First made: Potato mash
+
+-- 0:38:00, minute 38 (14:27:55) --
+Coins 1 (+0 earned, -100 spent)
+Harvested: 4 Potato
+Made: 1 Gruel, 1 Potato mash
+Mined: 4 Copper Ore
+Storage: 16 Copper Ore, 6 Gruel, 4 Roast carrots, 2 Grog, 2 Potato, 2 Carrot
+Plots (18): growing 71%, ripe 1%, empty 28%
+Kitchen Stove: working 33%, loading 40%, no ingredients 22%, done 5%
+Kitchen Stove 2: unattended 22%, no ingredients 78%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: working 38%, loading 46%, unattended 3%, no ingredients 10%, done 3%
+Brewery Fermenter: idle 100%
+Player: 1 clicks
+Mine: dug 6 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 69%, walk 31%, wait 1% | food 50%, Grog 71%
+  Balrek (Farmer): work 7%, haul 20%, walk 22%, wait 51% | food 50%, Grog 75%
+  Thorra (Works at the Kitchen): work 11%, haul 29%, walk 24%, wait 30%, idle 7% | food 52%, Grog 75%
+  Kilda (Miner): work 38%, haul 14%, walk 34%, climb 13%, wait 1% | food 52%, Grog 73%
+  Kilbur (Trader): idle 100% | food 30%, Grog 75%
+  Ostok (Works at the Brewery): work 21%, haul 22%, walk 15%, wait 37%, idle 5% | food 73%, thirsty 50%
+
+-- 0:39:00, minute 39 (14:28:55) --
+Coins 1 (+0 earned, -0 spent)
+Harvested: 6 Potato
+Made: 1 Gruel
+Mined: 4 Copper Ore
+Storage: 16 Copper Ore, 7 Gruel, 4 Roast carrots, 2 Grog, 2 Carrot
+Plots (18): growing 52%, ripe 1%, empty 47%
+Kitchen Stove: working 33%, loading 30%, no ingredients 24%, done 13%
+Kitchen Stove 2: working 26%, loading 38%, unattended 3%, no ingredients 33%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: working 15%, loading 49%, unattended 3%, no ingredients 33%, done 1%
+Brewery Fermenter: working 82%, loading 18%, idle 1%
+Player: 0 clicks
+Mine: dug 7 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 81%, haul 13%, climb 7% | food 35%, Grog 53%
+  Balrek (Farmer): work 11%, haul 19%, walk 16%, wait 55% | food 40%, Grog 75%
+  Thorra (Works at the Kitchen): work 22%, haul 46%, walk 29%, wait 4% | food 42%, Grog 75%
+  Kilda (Miner): work 78%, walk 22%, wait 1% | food 37%, Grog 62%
+  Kilbur (Trader): idle 100% | food 20%, Grog 75%
+  Ostok (Works at the Brewery): work 30%, haul 22%, walk 25%, wait 24% | food 39%, thirsty 50%
+0:39:02  Kilbur back to work after 0:02:20 idle
+0:39:23  Kilbur idle: Nothing to sell
+0:39:42  First made: Grog
+0:39:42  Milestone met for Barley (drinks_made 4), trade costs 20 coins
+0:39:59  Thorra idle: Missing ingredients
+
+-- 0:40:00, minute 40 (14:29:55) --
+Coins 11 (+10 earned, -0 spent)
+Made: 4 Grog, 1 Stew, 1 Potato mash
+Mined: 3 Copper Ore
+Storage: 20 Copper Ore, 7 Gruel, 6 Grog, 4 Roast carrots, 2 Carrot, 1 Stew
+Plots (18): growing 50%, empty 50%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: working 74%, no ingredients 19%, done 7%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: working 19%, no ingredients 78%, done 4%
+Brewery Fermenter: working 69%, loading 3%, done 7%, idle 21%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 55%, haul 2%, walk 37%, climb 7%, wait 1% | food 20%, thirsty 50%
+  Balrek (Farmer): wait 100% | food 30%, Grog 75%
+  Thorra (Works at the Kitchen): haul 16%, walk 7%, wait 74%, idle 3% | food 32%, Grog 75%
+  Kilda (Miner): work 97%, walk 3%, wait 0% | food 22%, thirsty 50%
+  Kilbur (Trader): work 9%, haul 14%, walk 12%, wait 1%, idle 64% | food 10%, Grog 74%
+  Ostok (Works at the Brewery): haul 42%, walk 24%, wait 34% | food 6%, thirsty 50%
+
+== Totals so far, 0:40:00 ==
+Coins 11: 545 earned, 584 spent
+Harvested 84, meals made 21, drinks made 4, ore mined 137
+Plots: growing 67%, dry 3%, ripe 1%, empty 29%
+Kitchen Stove: working 24%, loading 11%, unattended 4%, no ingredients 58%, done 3%
+Kitchen Stove 2: working 20%, loading 10%, unattended 5%, no ingredients 62%, done 3%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: working 23%, loading 31%, unattended 2%, no ingredients 41%, done 2%
+Brewery Fermenter: working 52%, loading 7%, done 2%, idle 38%
+Player clicks: 81
+Mine: dug 211 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 16 Gruel, 15 Grog, 7 Stew, 6 Roast carrots
+Dwarves:
+  Thorvi: work 69%, haul 5%, walk 18%, climb 6%, eat 1%, wait 0%, idle 1%; 7 meals, one every 0:05:13
+    idle: No job 0:00:16
+  Balrek: work 9%, haul 7%, walk 15%, eat 1%, wait 54%, idle 13%; 7 meals, one every 0:04:57
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 6%, haul 16%, walk 10%, eat 1%, wait 16%, idle 50%; 7 meals, one every 0:04:58
+    idle: No job 0:00:24, Missing ingredients 0:19:39
+  Kilda: work 72%, haul 4%, walk 17%, climb 5%, eat 1%, wait 0%, idle 1%; 7 meals, one every 0:05:13
+    idle: No job 0:00:14
+  Kilbur: work 7%, haul 6%, walk 6%, eat 1%, wait 0%, idle 80%; 1 meal
+    idle: No job 0:00:02, Nothing to sell 0:09:44
+  Ostok: work 17%, haul 29%, walk 22%, wait 31%, idle 2%; no meals
+    idle: No job 0:00:02
+0:40:49  Kilbur back to work after 0:01:26 idle
+
+-- 0:41:00, minute 41 (14:30:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 20 Copper Ore, 7 Gruel, 5 Grog, 4 Roast carrots, 2 Carrot
+Plots (18): growing 50%, empty 50%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: working 18%, loading 51%, idle 31%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Stew
+Dwarves:
+  Thorvi (Miner): work 75%, walk 25%, wait 1% | food 5%, thirsty 50%
+  Balrek (Farmer): wait 100% | food 20%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 22%, Grog 75%
+  Kilda (Miner): work 59%, haul 14%, walk 13%, climb 13%, wait 0% | food 7%, thirsty 50%
+  Kilbur (Trader): haul 8%, walk 11%, wait 0%, idle 80% | food 0%, Grog 74%
+  Ostok (Works at the Brewery): work 9%, haul 60%, walk 13%, eat 7%, wait 12% | food 95%, Grog 75%
+0:41:21  Can afford to unlock Barley
+0:41:26  Built Farm Plot at (54, 5)
+0:41:26  Built Farm Plot at (54, 6)
+0:41:27  Built Farm Plot at (54, 7)
+0:41:27  Built Farm Plot at (53, 7)
+0:41:27  Built Farm Plot at (53, 6)
+0:41:28  Built Farm Plot at (53, 5)
+0:41:29  Built Farm Plot at (52, 5)
+0:41:30  Built Farm Plot at (52, 6)
+0:41:30  Built Farm Plot at (52, 7)
+0:41:39  Kilbur idle: Nothing to sell
+
+-- 0:42:00, minute 42 (14:31:55) --
+Coins 46 (+80 earned, -45 spent)
+Mined: 2 Copper Ore
+Storage: 12 Copper Ore, 7 Gruel, 2 Grog, 2 Carrot, 1 Roast carrots
+Plots (27): growing 73%, dry 15%, empty 12%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: working 100%
+Player: 29 clicks, sowed 9 Carrot, 9 Potato
+Mine: dug 1 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 3 Grog, 3 Roast carrots
+Dwarves:
+  Thorvi (Miner): work 42%, haul 14%, walk 23%, climb 13%, eat 7%, wait 1% | food 95%, Grog 75%
+  Balrek (Farmer): work 42%, walk 32%, wait 27% | food 10%, Grog 74%
+  Thorra (Works at the Kitchen): idle 100% | food 12%, Grog 75%
+  Kilda (Miner): work 9%, walk 77%, climb 7%, eat 7%, wait 1% | food 99%, Grog 75%
+  Kilbur (Trader): work 27%, haul 22%, walk 6%, eat 7%, wait 1%, idle 37% | food 88%, Grog 75%
+  Ostok (Works at the Brewery): wait 100% | food 85%, Grog 75%
+0:42:37  Ostok idle: Missing ingredients
+
+-- 0:43:00, minute 43 (14:32:55) --
+Coins 46 (+0 earned, -0 spent)
+Made: 4 Grog
+Mined: 5 Copper Ore
+Storage: 12 Copper Ore, 7 Gruel, 6 Grog, 2 Carrot, 1 Roast carrots
+Plots (27): growing 100%, dry 0%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: working 33%, done 7%, idle 61%
+Player: 0 clicks
+Mine: dug 10 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 100% | food 80%, Grog 74%
+  Balrek (Farmer): work 2%, walk 11%, wait 86% | food 0%, Grog 74%
+  Thorra (Works at the Kitchen): idle 100% | food 2%, Grog 75%
+  Kilda (Miner): work 57%, walk 36%, climb 7%, wait 1% | food 84%, Grog 75%
+  Kilbur (Trader): idle 100% | food 73%, Grog 75%
+  Ostok (Works at the Brewery): haul 21%, walk 7%, wait 33%, idle 39% | food 75%, Grog 75%
+0:43:11  Thorra back to work after 0:03:12 idle
+0:43:23  Thorra idle: Missing ingredients
+
+-- 0:44:00, minute 44 (14:33:55) --
+Coins 56 (+70 earned, -60 spent)
+Mined: 4 Copper Ore
+Storage: 6 Gruel, 4 Grog, 4 Copper Ore, 2 Carrot
+Plots (27): growing 100%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 3 clicks
+Mine: dug 2 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Grog, 1 Roast carrots, 1 Gruel
+Dwarves:
+  Thorvi (Miner): work 34%, haul 14%, walk 38%, climb 13%, wait 1% | food 65%, Grog 74%
+  Balrek (Farmer): walk 18%, eat 7%, wait 76% | food 87%, Grog 75%
+  Thorra (Works at the Kitchen): walk 15%, eat 7%, wait 0%, idle 79% | food 79%, Grog 75%
+  Kilda (Miner): work 68%, walk 32%, wait 0% | food 69%, Grog 74%
+  Kilbur (Trader): idle 100% | food 58%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 65%, Grog 75%
+0:44:04  First sold: Carrot
+
+-- 0:45:00, minute 45 (14:34:55) --
+Coins 78 (+22 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 6 Gruel, 6 Copper Ore, 4 Grog
+Plots (27): growing 98%, dry 2%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 48%, no ingredients 52%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 48%, no ingredients 52%
+Smeltery Smelter 3: unattended 48%, no ingredients 52%
+Player: 0 clicks
+Mine: dug 4 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 71%, walk 29%, wait 1% | food 50%, Grog 72%
+  Balrek (Farmer): work 21%, walk 42%, wait 38% | food 72%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 46%, Grog 75%
+  Kilda (Miner): work 43%, haul 14%, walk 29%, climb 13%, wait 0% | food 54%, Grog 73%
+  Kilbur (Trader): idle 100% | food 43%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 55%, Grog 75%
+
+== Totals so far, 0:45:00 ==
+Coins 78: 717 earned, 689 spent
+Harvested 84, meals made 21, drinks made 8, ore mined 155
+Plots: growing 70%, dry 3%, ripe 1%, empty 26%
+Kitchen Stove: working 21%, loading 10%, unattended 3%, no ingredients 63%, done 3%
+Kitchen Stove 2: working 16%, loading 8%, unattended 4%, no ingredients 69%, done 2%
+Smeltery Smelter: unattended 98%, no ingredients 2%
+Brewery Mash pot: working 8%, loading 11%, unattended 1%, no ingredients 79%, done 1%
+Brewery Fermenter: working 38%, loading 9%, done 2%, idle 51%
+Smeltery Smelter 2: unattended 70%, no ingredients 30%
+Smeltery Smelter 3: unattended 70%, no ingredients 30%
+Player clicks: 113
+Mine: dug 231 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 21 Grog, 17 Gruel, 10 Roast carrots, 8 Stew
+Dwarves:
+  Thorvi: work 68%, haul 5%, walk 18%, climb 6%, eat 1%, wait 0%, idle 1%; 8 meals, one every 0:05:29
+    idle: No job 0:00:16
+  Balrek: work 10%, haul 7%, walk 15%, eat 1%, wait 55%, idle 12%; 8 meals, one every 0:05:42
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 5%, haul 14%, walk 9%, eat 1%, wait 15%, idle 55%; 8 meals, one every 0:05:43
+    idle: No job 0:00:24, Missing ingredients 0:24:26
+  Kilda: work 69%, haul 4%, walk 20%, climb 5%, eat 1%, wait 0%, idle 1%; 8 meals, one every 0:05:29
+    idle: No job 0:00:14
+  Kilbur: work 7%, haul 6%, walk 5%, eat 1%, wait 0%, idle 81%; 2 meals, one every 0:10:11
+    idle: No job 0:00:02, Nothing to sell 0:13:54
+  Ostok: work 7%, haul 21%, walk 10%, eat 1%, wait 30%, idle 31%; 1 meal
+    idle: No job 0:00:02, Missing ingredients 0:02:23
+
+-- 0:46:00, minute 46 (14:35:55) --
+Coins 78 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 6 Gruel, 6 Copper Ore, 4 Grog
+Plots (27): growing 99%, dry 1%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 7 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 95%, haul 2%, climb 4% | food 35%, thirsty 50%
+  Balrek (Farmer): work 14%, walk 30%, wait 56% | food 57%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 13%, Grog 75%
+  Kilda (Miner): work 84%, walk 16%, wait 1% | food 39%, Grog 66%
+  Kilbur (Trader): idle 100% | food 28%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 45%, Grog 75%
+0:46:23  Thorra back to work after 0:03:00 idle
+0:46:36  Thorra idle: Missing ingredients
+
+-- 0:47:00, minute 47 (14:36:55) --
+Coins 78 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 12 Copper Ore, 5 Gruel, 3 Grog
+Plots (27): growing 98%, dry 2%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Gruel
+Dwarves:
+  Thorvi (Miner): work 40%, haul 13%, walk 37%, climb 10%, wait 1% | food 20%, thirsty 50%
+  Balrek (Farmer): work 14%, walk 44%, wait 42% | food 42%, Grog 75%
+  Thorra (Works at the Kitchen): walk 14%, eat 7%, wait 0%, idle 79% | food 86%, Grog 75%
+  Kilda (Miner): work 80%, walk 20%, wait 0% | food 24%, thirsty 50%
+  Kilbur (Trader): idle 100% | food 13%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 35%, Grog 75%
+0:47:52  Kilbur back to work after 0:06:13 idle
+
+-- 0:48:00, minute 48 (14:37:55) --
+Coins 78 (+0 earned, -0 spent)
+Harvested: 8 Carrot
+Mined: 3 Copper Ore
+Storage: 18 Copper Ore, 4 Gruel, 2 Grog, 2 Carrot
+Plots (27): growing 92%, dry 2%, ripe 2%, empty 5%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 4 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog
+Dwarves:
+  Thorvi (Miner): work 75%, walk 25%, wait 1% | food 5%, thirsty 50%
+  Balrek (Farmer): work 23%, haul 40%, walk 30%, wait 7% | food 27%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 53%, Grog 75%
+  Kilda (Miner): work 72%, haul 14%, walk 7%, climb 7%, wait 0% | food 9%, thirsty 50%
+  Kilbur (Trader): walk 13%, eat 2%, wait 0%, idle 85% | food 0%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 25%, Grog 75%
+0:48:03  Kilbur idle: Nothing to sell
+0:48:04  Thorra back to work after 0:01:28 idle
+0:48:59  Pantry: out of drinks
+
+-- 0:49:00, minute 49 (14:38:55) --
+Coins 78 (+0 earned, -0 spent)
+Harvested: 10 Carrot
+Made: 1 Roast carrots
+Mined: 2 Copper Ore
+Storage: 20 Copper Ore, 10 Carrot, 2 Gruel
+Plots (27): growing 76%, dry 1%, ripe 1%, empty 22%
+Kitchen Stove: working 50%, loading 39%, no ingredients 7%, done 4%
+Kitchen Stove 2: working 11%, loading 43%, unattended 40%, no ingredients 7%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Gruel, 2 Grog
+Dwarves:
+  Thorvi (Miner): work 50%, haul 14%, walk 21%, climb 8%, eat 7%, wait 1% | food 94%, Grog 75%
+  Balrek (Farmer): work 20%, haul 30%, walk 40%, wait 11% | food 12%, Grog 74%
+  Thorra (Works at the Kitchen): work 22%, haul 31%, walk 39%, wait 2%, idle 7% | food 20%, Grog 75%
+  Kilda (Miner): work 11%, walk 72%, climb 13%, eat 3%, wait 0% | food 0%, Grog 75%
+  Kilbur (Trader): eat 4%, wait 0%, idle 96% | food 68%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 15%, Grog 75%
+
+-- 0:50:00, minute 50 (14:39:55) --
+Coins 78 (+0 earned, -0 spent)
+Made: 2 Roast carrots
+Mined: 5 Copper Ore
+Storage: 20 Copper Ore, 2 Gruel, 2 Carrot
+Plots (27): growing 67%, empty 33%
+Kitchen Stove: working 50%, loading 26%, unattended 15%, done 9%
+Kitchen Stove 2: working 39%, loading 29%, unattended 27%, done 6%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 4 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Roast carrots, 1 Gruel
+Dwarves:
+  Thorvi (Miner): work 92%, walk 2%, climb 6%, wait 0% | food 61%, Grog 74%
+  Balrek (Farmer): walk 14%, eat 7%, wait 79% | food 100%, Grog 74%
+  Thorra (Works at the Kitchen): work 20%, haul 62%, walk 8%, eat 7%, wait 3% | food 96%, Grog 75%
+  Kilda (Miner): work 48%, walk 41%, climb 7%, eat 3%, wait 1% | food 68%, Grog 75%
+  Kilbur (Trader): idle 100% | food 35%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 5%, Grog 75%
+
+== Totals so far, 0:50:00 ==
+Coins 78: 717 earned, 689 spent
+Harvested 102, meals made 24, drinks made 8, ore mined 173
+Plots: growing 73%, dry 3%, ripe 1%, empty 23%
+Kitchen Stove: working 21%, loading 10%, unattended 3%, no ingredients 63%, done 3%
+Kitchen Stove 2: working 15%, loading 9%, unattended 6%, no ingredients 68%, done 2%
+Smeltery Smelter: unattended 98%, no ingredients 2%
+Brewery Mash pot: working 5%, loading 7%, unattended 0%, no ingredients 87%, done 1%
+Brewery Fermenter: working 23%, loading 6%, done 1%, idle 70%
+Smeltery Smelter 2: unattended 92%, no ingredients 8%
+Smeltery Smelter 3: unattended 92%, no ingredients 8%
+Player clicks: 113
+Mine: dug 248 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 25 Grog, 21 Gruel, 12 Roast carrots, 8 Stew
+Dwarves:
+  Thorvi: work 68%, haul 5%, walk 18%, climb 6%, eat 1%, wait 0%, idle 1%; 9 meals, one every 0:05:41
+    idle: No job 0:00:16
+  Balrek: work 10%, haul 7%, walk 17%, eat 1%, wait 54%, idle 11%; 9 meals, one every 0:05:50
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 6%, haul 15%, walk 10%, eat 1%, wait 13%, idle 55%; 10 meals, one every 0:05:09
+    idle: No job 0:00:24, Missing ingredients 0:27:17
+  Kilda: work 68%, haul 4%, walk 21%, climb 5%, eat 1%, wait 0%, idle 0%; 9 meals, one every 0:05:41
+    idle: No job 0:00:14
+  Kilbur: work 5%, haul 5%, walk 4%, eat 1%, wait 0%, idle 85%; 3 meals, one every 0:08:31
+    idle: No job 0:00:02, Nothing to sell 0:18:43
+  Ostok: work 4%, haul 13%, walk 6%, eat 1%, wait 18%, idle 58%; 1 meal
+    idle: No job 0:00:02, Missing ingredients 0:07:23
+0:50:22  Kilbur back to work after 0:02:19 idle
+0:50:30  Ostok back to work after 0:07:53 idle
+0:50:45  Ostok idle: Missing ingredients
+0:50:46  Thorra idle: Missing ingredients
+0:50:54  Kilbur idle: Nothing to sell
+
+-- 0:51:00, minute 51 (14:40:55) --
+Coins 108 (+30 earned, -0 spent)
+Made: 1 Roast carrots
+Mined: 4 Copper Ore
+Storage: 20 Copper Ore, 2 Gruel, 2 Carrot, 1 Roast carrots
+Plots (27): growing 67%, empty 33%
+Kitchen Stove: no ingredients 96%, done 4%
+Kitchen Stove 2: working 50%, loading 2%, no ingredients 41%, done 7%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 2 cells, shaft to row 4, 5 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Roast carrots
+Dwarves:
+  Thorvi (Miner): work 32%, haul 14%, walk 40%, climb 13%, wait 1% | food 28%, Grog 74%
+  Balrek (Farmer): walk 9%, wait 91% | food 85%, Grog 74%
+  Thorra (Works at the Kitchen): work 2%, haul 31%, walk 18%, wait 25%, idle 24% | food 81%, Grog 75%
+  Kilda (Miner): work 70%, walk 30%, wait 0% | food 34%, Grog 74%
+  Kilbur (Trader): work 27%, haul 14%, walk 12%, wait 1%, idle 47% | food 1%, Grog 75%
+  Ostok (Works at the Brewery): walk 18%, eat 7%, wait 0%, idle 75% | food 96%, Grog 75%
+0:51:03  Kilbur back to work after 0:00:09 idle
+0:51:15  Kilbur idle: Nothing to sell
+0:51:34  Thorra back to work after 0:00:48 idle
+0:51:34  Ostok back to work after 0:00:49 idle
+0:51:45  Kilbur back to work after 0:00:30 idle
+
+-- 0:52:00, minute 52 (14:41:55) --
+Coins 108 (+0 earned, -0 spent)
+Harvested: 10 Potato
+Mined: 4 Copper Ore
+Storage: 20 Copper Ore, 4 Potato, 2 Gruel, 2 Carrot
+Plots (27): growing 54%, ripe 2%, empty 43%
+Kitchen Stove: working 5%, loading 39%, no ingredients 56%
+Kitchen Stove 2: loading 5%, unattended 22%, no ingredients 73%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: loading 44%, no ingredients 56%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 4, 6 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Roast carrots
+Dwarves:
+  Thorvi (Miner): work 71%, haul 1%, walk 28%, wait 1% | food 0%, Grog 73%
+  Balrek (Farmer): work 19%, haul 51%, walk 25%, wait 6% | food 70%, Grog 74%
+  Thorra (Works at the Kitchen): work 11%, haul 15%, walk 18%, wait 1%, idle 56% | food 66%, Grog 75%
+  Kilda (Miner): work 54%, haul 14%, walk 18%, climb 13%, wait 0% | food 1%, Grog 73%
+  Kilbur (Trader): haul 14%, walk 24%, eat 7%, wait 1%, idle 55% | food 89%, Grog 75%
+  Ostok (Works at the Brewery): work 8%, haul 18%, walk 18%, wait 1%, idle 56% | food 81%, Grog 75%
+0:52:02  First harvested: Onion
+0:52:16  Pantry: out of meals
+0:52:37  Kilbur idle: Nothing to sell
+
+-- 0:53:00, minute 53 (14:42:55) --
+Coins 143 (+35 earned, -0 spent)
+Harvested: 8 Potato, 6 Onion
+Made: 1 Stew, 1 Potato mash
+Mined: 2 Copper Ore
+Storage: 20 Copper Ore, 6 Onion, 2 Potato, 2 Carrot
+Plots (27): growing 29%, ripe 7%, empty 64%
+Kitchen Stove: working 95%, done 5%
+Kitchen Stove 2: working 62%, loading 38%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: working 33%, loading 50%, unattended 4%, no ingredients 10%, done 4%
+Brewery Fermenter: working 47%, loading 13%, idle 40%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 1 cells, shaft to row 4, 6 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Gruel
+Dwarves:
+  Thorvi (Miner): work 43%, haul 13%, walk 23%, climb 13%, eat 7%, wait 1% | food 77%, Grog 68%
+  Balrek (Farmer): work 23%, haul 37%, walk 38%, wait 2% | food 55%, Grog 74%
+  Thorra (Works at the Kitchen): work 11%, haul 16%, walk 22%, wait 51% | food 51%, Grog 75%
+  Kilda (Miner): work 16%, walk 63%, climb 13%, eat 7%, wait 1% | food 77%, Grog 73%
+  Kilbur (Trader): work 32%, haul 14%, walk 14%, wait 1%, idle 40% | food 74%, Grog 75%
+  Ostok (Works at the Brewery): work 20%, haul 22%, walk 28%, wait 31% | food 66%, Grog 75%
+0:53:10  Pantry: meals back in
+0:53:57  Hired Norok (7 dwarves)
+0:53:57  Norok idle: No job
+
+-- 0:54:00, minute 54 (14:43:55) --
+Coins 63 (+0 earned, -80 spent)
+Harvested: 8 Onion
+Made: 1 Stew, 1 Potato mash
+Mined: 4 Copper Ore
+Storage: 20 Copper Ore, 10 Onion, 2 Stew, 2 Carrot, 1 Potato mash
+Plots (27): growing 14%, ripe 2%, empty 84%
+Kitchen Stove: working 26%, loading 59%, unattended 15%, done 0%
+Kitchen Stove 2: working 38%, no ingredients 24%, done 38%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: working 46%, loading 32%, unattended 18%, done 4%
+Brewery Fermenter: working 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 9 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 87%, haul 7%, climb 7% | food 44%, thirsty 50%
+  Balrek (Farmer): work 14%, haul 39%, walk 33%, wait 15% | food 40%, Grog 74%
+  Thorra (Works at the Kitchen): work 14%, haul 60%, walk 24%, wait 3% | food 36%, Grog 75%
+  Kilda (Miner): work 84%, walk 15%, wait 1% | food 44%, Grog 60%
+  Kilbur (Trader): idle 100% | food 59%, Grog 75%
+  Ostok (Works at the Brewery): work 14%, haul 35%, walk 10%, wait 40% | food 51%, Grog 75%
+  Norok (Idle): idle 100% | food 98%, thirsty 50%
+0:54:02  Can afford to unlock Wheat
+0:54:02  Norok: Works at the Smeltery
+0:54:02  Norok back to work after 0:00:05 idle
+0:54:04  Kilbur back to work after 0:01:27 idle
+0:54:07  Smeltery Smelter 3: player picked Copper ingot
+0:54:11  Smeltery Smelter 2: player picked Copper ingot
+0:54:15  Smeltery Smelter: player picked Copper ingot
+0:54:19  Pantry: drinks back in
+0:54:22  First sold: Onion
+0:54:25  Kilbur idle: Nothing to sell
+0:54:29  Unlocked Wheat
+0:54:29  Kilbur back to work after 0:00:04 idle
+0:54:50  Kilbur idle: Nothing to sell
+
+-- 0:55:00, minute 55 (14:44:55) --
+Coins 5 (+8 earned, -66 spent)
+Harvested: 2 Onion
+Made: 4 Grog, 1 Potato mash
+Mined: 3 Copper Ore
+Storage: 17 Copper Ore, 10 Onion, 4 Grog, 2 Stew, 2 Carrot, 1 Potato mash
+Plots (27): growing 12%, dry 29%, ripe 1%, empty 58%
+Kitchen Stove: working 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: working 72%, loading 26%, unattended 2%
+Brewery Mash pot: working 21%, no ingredients 51%, done 28%
+Brewery Fermenter: working 41%, loading 13%, done 7%, idle 39%
+Smeltery Smelter 2: working 78%, unattended 22%
+Smeltery Smelter 3: working 84%, unattended 16%
+Player: 70 clicks, sowed 9 Wheat, 9 Onion, 8 Carrot
+Mine: dug 2 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 44%, haul 8%, walk 41%, climb 7%, wait 1% | food 11%, thirsty 50%
+  Balrek (Farmer): work 28%, haul 11%, walk 42%, wait 19% | food 25%, Grog 73%
+  Thorra (Works at the Kitchen): walk 2%, wait 98% | food 21%, Grog 75%
+  Kilda (Miner): work 79%, walk 21%, wait 0% | food 11%, thirsty 50%
+  Kilbur (Trader): work 18%, haul 28%, walk 24%, wait 1%, idle 28% | food 44%, Grog 75%
+  Ostok (Works at the Brewery): work 9%, haul 25%, walk 31%, wait 35% | food 36%, Grog 75%
+  Norok (Works at the Smeltery): haul 37%, walk 24%, wait 37%, idle 2% | food 65%, thirsty 50%
+
+== Totals so far, 0:55:00 ==
+Coins 5: 790 earned, 835 spent
+Harvested 136, meals made 27, drinks made 12, ore mined 190
+Plots: growing 68%, dry 3%, ripe 1%, empty 28%
+Kitchen Stove: working 23%, loading 11%, unattended 3%, no ingredients 60%, done 3%
+Kitchen Stove 2: working 17%, loading 9%, unattended 6%, no ingredients 65%, done 3%
+Smeltery Smelter: working 2%, loading 1%, unattended 96%, no ingredients 1%
+Brewery Mash pot: working 9%, loading 12%, unattended 1%, no ingredients 75%, done 2%
+Brewery Fermenter: working 27%, loading 5%, done 1%, idle 66%
+Smeltery Smelter 2: working 7%, unattended 89%, no ingredients 4%
+Smeltery Smelter 3: working 7%, unattended 88%, no ingredients 4%
+Player clicks: 183
+Mine: dug 267 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 25 Grog, 23 Gruel, 14 Roast carrots, 8 Stew
+Dwarves:
+  Thorvi: work 67%, haul 5%, walk 19%, climb 6%, eat 1%, wait 0%, idle 1%; 10 meals, one every 0:05:26
+    idle: No job 0:00:16
+  Balrek: work 11%, haul 9%, walk 18%, eat 1%, wait 51%, idle 10%; 9 meals, one every 0:05:50
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 6%, haul 16%, walk 10%, eat 1%, wait 15%, idle 52%; 10 meals, one every 0:05:09
+    idle: No job 0:00:24, Missing ingredients 0:28:06
+  Kilda: work 67%, haul 4%, walk 22%, climb 5%, eat 1%, wait 0%, idle 0%; 10 meals, one every 0:05:25
+    idle: No job 0:00:14
+  Kilbur: work 7%, haul 6%, walk 6%, eat 1%, wait 0%, idle 79%; 4 meals, one every 0:06:45
+    idle: No job 0:00:02, Nothing to sell 0:21:24
+  Ostok: work 6%, haul 15%, walk 10%, eat 1%, wait 19%, idle 49%; 2 meals, one every 0:10:15
+    idle: No job 0:00:02, Missing ingredients 0:08:41
+  Norok: haul 35%, walk 23%, wait 35%, idle 7%; no meals
+    idle: No job 0:00:04
+0:55:10  First made: Copper ingot
+0:55:15  First made: Onion soup
+0:55:27  Thorra idle: Missing ingredients
+0:55:44  Kilbur back to work after 0:00:54 idle
+
+-- 0:56:00, minute 56 (14:45:55) --
+Coins 5 (+0 earned, -0 spent)
+Harvested: 2 Onion
+Made: 3 Copper ingot, 1 Onion soup
+Mined: 2 Copper Ore
+Storage: 22 Copper Ore, 10 Onion, 2 Grog, 2 Carrot, 2 Copper ingot, 1 Stew, 1 Potato mash
+Plots (27): growing 77%, dry 20%, ripe 1%, empty 2%
+Kitchen Stove: working 24%, no ingredients 71%, done 5%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: working 28%, unattended 29%, done 43%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: working 100%
+Smeltery Smelter 2: working 22%, done 78%
+Smeltery Smelter 3: working 16%, unattended 76%, done 9%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 2 Grog, 1 Onion soup, 1 Stew
+Dwarves:
+  Thorvi (Miner): work 40%, walk 46%, climb 7%, eat 7%, wait 1% | food 100%, Grog 75%
+  Balrek (Farmer): work 40%, haul 17%, walk 23%, wait 21% | food 10%, Grog 71%
+  Thorra (Works at the Kitchen): haul 15%, walk 5%, wait 25%, idle 56% | food 6%, Grog 75%
+  Kilda (Miner): work 52%, haul 14%, walk 19%, climb 7%, eat 7%, wait 1% | food 99%, Grog 75%
+  Kilbur (Trader): work 1%, haul 14%, walk 12%, wait 1%, idle 73% | food 29%, Grog 75%
+  Ostok (Works at the Brewery): wait 100% | food 21%, Grog 75%
+  Norok (Works at the Smeltery): haul 46%, walk 37%, wait 17% | food 31%, thirsty 50%
+0:56:23  Thorra back to work after 0:00:56 idle
+0:56:28  Kilbur idle: Nothing to sell
+0:56:30  Pantry: out of meals
+0:56:34  Thorra idle: Missing ingredients
+0:56:46  Balrek is waiting for food
+
+-- 0:57:00, minute 57 (14:46:55) --
+Coins 19 (+14 earned, -0 spent)
+Made: 4 Grog
+Mined: 5 Copper Ore
+Storage: 17 Copper Ore, 10 Onion, 5 Grog, 3 Copper ingot, 2 Carrot
+Plots (27): growing 96%, empty 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: working 19%, loading 42%, unattended 39%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: working 42%, loading 30%, done 7%, idle 21%
+Smeltery Smelter 2: loading 13%, unattended 71%, done 16%
+Smeltery Smelter 3: unattended 100%
+Player: 1 clicks
+Mine: dug 4 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Stew
+Dwarves:
+  Thorvi (Miner): work 51%, walk 42%, climb 7%, wait 1% | food 90%, Grog 75%
+  Balrek (Farmer): walk 11%, wait 65%, no food 24% | food 0%, Grog 71%
+  Thorra (Works at the Kitchen): walk 12%, eat 7%, wait 0%, idle 82% | food 96%, Grog 75%
+  Kilda (Miner): work 90%, walk 4%, climb 7%, wait 0% | food 93%, Grog 74%
+  Kilbur (Trader): work 17%, haul 14%, walk 14%, wait 1%, idle 54% | food 14%, Grog 74%
+  Ostok (Works at the Brewery): work 9%, haul 42%, walk 13%, wait 36% | food 6%, Grog 75%
+  Norok (Works at the Smeltery): work 20%, haul 44%, walk 34%, wait 1% | food 0%, thirsty 50%
+0:57:04  Norok is waiting for food
+0:57:24  Kilbur back to work after 0:00:56 idle
+0:57:37  Ostok is waiting for food
+0:57:49  Kilbur idle: Nothing to sell
+0:57:55  Kilbur back to work after 0:00:06 idle
+
+-- 0:58:00, minute 58 (14:47:55) --
+Coins 34 (+15 earned, -0 spent)
+Made: 1 Copper ingot
+Mined: 3 Copper Ore
+Storage: 20 Copper Ore, 10 Onion, 5 Grog, 3 Copper ingot, 2 Carrot
+Plots (27): growing 96%, dry 1%, empty 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: working 81%, done 19%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: working 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 3 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 70%, walk 30%, wait 0% | food 80%, Grog 74%
+  Balrek (Farmer): no food 100% | food 0%, Grog 71%
+  Thorra (Works at the Kitchen): idle 100% | food 86%, Grog 75%
+  Kilda (Miner): work 33%, haul 14%, walk 39%, climb 13%, wait 1% | food 87%, Grog 74%
+  Kilbur (Trader): work 14%, haul 14%, walk 22%, wait 1%, idle 50% | food 0%, Grog 74%
+  Ostok (Works at the Brewery): walk 20%, wait 41%, no food 39% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): walk 6%, wait 0%, no food 94% | food 0%, thirsty 50%
+0:58:07  Kilbur is waiting for food
+0:58:13  Milestone met for Radish (drinks_made 20), trade costs 50 coins
+
+-- 0:59:00, minute 59 (14:48:55) --
+Coins 34 (+0 earned, -0 spent)
+Made: 4 Grog
+Mined: 4 Copper Ore
+Storage: 26 Copper Ore, 10 Onion, 5 Grog, 3 Copper ingot, 2 Carrot
+Plots (27): growing 85%, dry 11%, empty 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: done 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: working 21%, done 79%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 56%, haul 14%, walk 16%, climb 13%, wait 0% | food 70%, Grog 73%
+  Balrek (Farmer): no food 100% | food 0%, Grog 71%
+  Thorra (Works at the Kitchen): idle 100% | food 76%, Grog 75%
+  Kilda (Miner): work 73%, walk 27%, wait 1% | food 80%, Grog 72%
+  Kilbur (Trader): walk 11%, wait 0%, no food 89% | food 0%, Grog 74%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): no food 100% | food 0%, thirsty 50%
+
+-- 1:00:00, minute 60 (14:49:55) --
+Coins 34 (+0 earned, -0 spent)
+Mined: 5 Copper Ore
+Storage: 26 Copper Ore, 10 Onion, 5 Grog, 3 Copper ingot, 2 Carrot
+Plots (27): growing 68%, dry 28%, empty 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: done 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: done 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 6 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 73%, walk 27%, wait 1% | food 60%, Grog 66%
+  Balrek (Farmer): no food 100% | food 0%, Grog 71%
+  Thorra (Works at the Kitchen): idle 100% | food 66%, Grog 75%
+  Kilda (Miner): work 100% | food 74%, Grog 52%
+  Kilbur (Trader): no food 100% | food 0%, Grog 74%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): no food 100% | food 0%, thirsty 50%
+
+== Totals so far, 1:00:00 ==
+Coins 34: 819 earned, 835 spent
+Harvested 138, meals made 28, drinks made 20, ore mined 209
+Plots: growing 70%, dry 4%, ripe 1%, empty 25%
+Kitchen Stove: working 22%, loading 10%, unattended 3%, no ingredients 63%, done 3%
+Kitchen Stove 2: working 15%, loading 8%, unattended 5%, no ingredients 69%, done 3%
+Smeltery Smelter: working 5%, loading 2%, unattended 86%, no ingredients 1%, done 6%
+Brewery Mash pot: working 7%, loading 9%, unattended 1%, no ingredients 80%, done 2%
+Brewery Fermenter: working 33%, loading 6%, done 9%, idle 53%
+Smeltery Smelter 2: working 6%, loading 1%, unattended 85%, no ingredients 3%, done 6%
+Smeltery Smelter 3: working 6%, unattended 90%, no ingredients 3%, done 1%
+Player clicks: 184
+Mine: dug 288 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 28 Grog, 23 Gruel, 14 Roast carrots, 10 Stew, 1 Onion soup
+Dwarves:
+  Thorvi: work 66%, haul 5%, walk 20%, climb 6%, eat 1%, wait 0%, idle 0%; 11 meals, one every 0:05:16
+    idle: No job 0:00:16
+  Balrek: work 11%, haul 9%, walk 17%, eat 1%, wait 48%, idle 9%, no food 5%; 9 meals, one every 0:05:50
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 5%, haul 15%, walk 10%, eat 1%, wait 14%, idle 55%; 11 meals, one every 0:05:19
+    idle: No job 0:00:24, Missing ingredients 0:32:28
+  Kilda: work 67%, haul 4%, walk 21%, climb 5%, eat 1%, wait 0%, idle 0%; 11 meals, one every 0:05:14
+    idle: No job 0:00:14
+  Kilbur: work 7%, haul 7%, walk 7%, eat 1%, wait 0%, idle 72%, no food 6%; 4 meals, one every 0:06:45
+    idle: No job 0:00:02, Nothing to sell 0:23:10
+  Ostok: work 5%, haul 13%, walk 10%, eat 1%, wait 23%, idle 38%, no food 10%; 2 meals, one every 0:10:15
+    idle: No job 0:00:02, Missing ingredients 0:08:41
+  Norok: work 3%, haul 21%, walk 17%, wait 9%, idle 1%, no food 49%; no meals
+    idle: No job 0:00:04
+
+-- 1:01:00, minute 61 (14:50:55) --
+Coins 34 (+0 earned, -0 spent)
+Mined: 3 Copper Ore
+Storage: 32 Copper Ore, 10 Onion, 5 Grog, 3 Copper ingot, 2 Carrot
+Plots (27): growing 62%, dry 34%, empty 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: done 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: done 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 2 clicks
+Mine: dug 1 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 68%, walk 32%, wait 0% | food 50%, thirsty 50%
+  Balrek (Farmer): no food 100% | food 0%, Grog 71%
+  Thorra (Works at the Kitchen): idle 100% | food 56%, Grog 75%
+  Kilda (Miner): work 27%, haul 14%, walk 44%, climb 13%, wait 1% | food 68%, thirsty 50%
+  Kilbur (Trader): no food 100% | food 0%, Grog 74%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): no food 100% | food 0%, thirsty 50%
+1:01:17  Hall furniture now 4 Chair, 3 Table
+1:01:18  Hall furniture now 4 Table, 4 Chair
+1:01:22  Hall furniture now 5 Chair, 4 Table
+1:01:23  Hall furniture now 6 Chair, 4 Table
+1:01:55  Balrek got fed after waiting 0:05:09
+
+-- 1:02:00, minute 62 (14:51:55) --
+Coins 0 (+0 earned, -34 spent)
+Mined: 4 Copper Ore
+Storage: 32 Copper Ore, 10 Onion, 4 Grog, 3 Copper ingot, 2 Carrot
+Plots (27): growing 49%, dry 47%, empty 4%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: done 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: done 100%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 16 clicks
+Mine: dug 5 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 1 Grog, 1 Gruel
+Dwarves:
+  Thorvi (Miner): work 89%, haul 4%, climb 7% | food 40%, thirsty 50%
+  Balrek (Farmer): walk 2%, eat 7%, wait 0%, no food 91% | food 99%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 46%, Grog 75%
+  Kilda (Miner): work 88%, walk 12%, wait 0% | food 62%, thirsty 50%
+  Kilbur (Trader): no food 100% | food 0%, Grog 74%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): no food 100% | food 0%, thirsty 50%
+1:02:03  Can afford to unlock Radish
+1:02:08  Kilbur got fed after waiting 0:04:01
+1:02:09  Pantry: meals back in
+1:02:09  Ostok got fed after waiting 0:04:32
+1:02:09  Norok got fed after waiting 0:05:05
+1:02:13  Kilbur idle: Nothing to sell
+1:02:21  Built Farm Plot at (64, 5)
+1:02:21  Built Farm Plot at (64, 6)
+1:02:22  Built Farm Plot at (64, 7)
+1:02:22  Built Farm Plot at (65, 7)
+1:02:22  Built Farm Plot at (65, 6)
+1:02:22  Built Farm Plot at (65, 5)
+1:02:23  Built Farm Plot at (66, 5)
+1:02:23  Built Farm Plot at (66, 6)
+1:02:23  Built Farm Plot at (66, 7)
+1:02:42  Ostok idle: Missing ingredients
+
+-- 1:03:00, minute 63 (14:52:55) --
+Coins 32 (+110 earned, -78 spent)
+Mined: 2 Copper Ore
+Storage: 13 Copper Ore, 11 Grog, 10 Onion, 4 Copper ingot, 3 Gruel, 2 Carrot
+Plots (36): growing 54%, dry 41%, empty 5%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: loading 32%, unattended 22%, done 46%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: done 48%, idle 52%
+Smeltery Smelter 2: unattended 100%
+Smeltery Smelter 3: unattended 100%
+Player: 18 clicks, sowed 9 Potato
+Mine: dug 5 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 3 Grog, 3 Gruel
+Dwarves:
+  Thorvi (Miner): work 36%, haul 10%, walk 46%, climb 7%, wait 1% | food 30%, thirsty 50%
+  Balrek (Farmer): work 53%, walk 43%, wait 4% | food 66%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 36%, Grog 75%
+  Kilda (Miner): work 80%, walk 20%, wait 0% | food 55%, thirsty 50%
+  Kilbur (Trader): eat 7%, wait 0%, idle 80%, no food 13% | food 73%, Grog 75%
+  Ostok (Works at the Brewery): haul 21%, walk 27%, eat 7%, wait 1%, idle 31%, no food 14% | food 73%, Grog 75%
+  Norok (Works at the Smeltery): work 10%, haul 43%, walk 25%, eat 7%, wait 1%, no food 14% | food 74%, Grog 75%
+
+-- 1:04:00, minute 64 (14:53:55) --
+Coins 32 (+0 earned, -0 spent)
+Mined: 4 Copper Ore
+Storage: 11 Grog, 10 Onion, 7 Copper Ore, 4 Copper ingot, 3 Gruel, 2 Carrot
+Plots (36): growing 91%, dry 6%, empty 3%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: working 97%, loading 3%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: working 39%, loading 58%, unattended 3%
+Smeltery Smelter 3: loading 38%, unattended 62%
+Player: 0 clicks
+Mine: dug 11 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 77%, walk 22%, wait 1% | food 20%, thirsty 50%
+  Balrek (Farmer): work 29%, walk 34%, wait 37% | food 33%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 26%, Grog 75%
+  Kilda (Miner): work 81%, haul 12%, climb 7% | food 49%, thirsty 50%
+  Kilbur (Trader): idle 100% | food 40%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 40%, Grog 75%
+  Norok (Works at the Smeltery): work 17%, haul 38%, walk 44%, wait 1% | food 40%, Grog 75%
+1:04:02  Milestone met for Forge (made:copper_ingot 5), trade costs 50 coins, 3 Copper ingot
+1:04:18  Can afford to unlock Forge
+1:04:20  Unlocked Forge
+
+-- 1:05:00, minute 65 (14:54:55) --
+Coins 7 (+25 earned, -50 spent)
+Made: 2 Copper ingot
+Mined: 2 Copper Ore
+Storage: 11 Grog, 10 Onion, 5 Copper Ore, 3 Gruel, 2 Carrot, 2 Copper ingot
+Plots (36): growing 97%, empty 3%
+Kitchen Stove: no ingredients 100%
+Kitchen Stove 2: no ingredients 100%
+Smeltery Smelter: working 19%, loading 35%, unattended 22%, done 24%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: working 62%, unattended 14%, done 24%
+Smeltery Smelter 3: working 77%, loading 23%
+Player: 2 clicks
+Mine: dug 2 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): work 78%, walk 22%, wait 0% | food 10%, thirsty 50%
+  Balrek (Farmer): walk 2%, wait 98% | food 0%, Grog 75%
+  Thorra (Works at the Kitchen): idle 100% | food 16%, Grog 75%
+  Kilda (Miner): work 47%, haul 2%, walk 43%, climb 7%, wait 1% | food 43%, thirsty 50%
+  Kilbur (Trader): idle 100% | food 7%, Grog 75%
+  Ostok (Works at the Brewery): idle 100% | food 7%, Grog 75%
+  Norok (Works at the Smeltery): work 27%, haul 67%, walk 5%, wait 2% | food 7%, Grog 75%
+
+== Totals so far, 1:05:00 ==
+Coins 7: 954 earned, 997 spent
+Harvested 138, meals made 28, drinks made 20, ore mined 224
+Plots: growing 70%, dry 7%, ripe 1%, empty 22%
+Kitchen Stove: working 20%, loading 9%, unattended 3%, no ingredients 65%, done 2%
+Kitchen Stove 2: working 14%, loading 7%, unattended 4%, no ingredients 72%, done 2%
+Smeltery Smelter: working 7%, loading 3%, unattended 77%, no ingredients 1%, done 12%
+Brewery Mash pot: working 6%, loading 8%, unattended 1%, no ingredients 84%, done 2%
+Brewery Fermenter: working 27%, loading 5%, done 16%, idle 52%
+Smeltery Smelter 2: working 9%, loading 3%, unattended 80%, no ingredients 2%, done 5%
+Smeltery Smelter 3: working 8%, loading 3%, unattended 86%, no ingredients 2%, done 0%
+Player clicks: 222
+Mine: dug 312 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 32 Grog, 27 Gruel, 14 Roast carrots, 10 Stew, 1 Onion soup
+Dwarves:
+  Thorvi: work 67%, haul 5%, walk 20%, climb 6%, eat 1%, wait 0%, idle 0%; 11 meals, one every 0:05:16
+    idle: No job 0:00:16
+  Balrek: work 11%, haul 8%, walk 17%, eat 1%, wait 47%, idle 8%, no food 8%; 10 meals, one every 0:06:31
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 5%, haul 14%, walk 9%, eat 1%, wait 13%, idle 58%; 11 meals, one every 0:05:19
+    idle: No job 0:00:24, Missing ingredients 0:37:28
+  Kilda: work 67%, haul 4%, walk 21%, climb 5%, eat 1%, wait 0%, idle 0%; 11 meals, one every 0:05:14
+    idle: No job 0:00:14
+  Kilbur: work 6%, haul 6%, walk 6%, eat 1%, wait 0%, idle 70%, no food 11%; 5 meals, one every 0:07:48
+    idle: No job 0:00:02, Nothing to sell 0:25:58
+  Ostok: work 4%, haul 12%, walk 9%, eat 1%, wait 19%, idle 40%, no food 16%; 3 meals, one every 0:10:51
+    idle: No job 0:00:02, Missing ingredients 0:11:00
+  Norok: work 7%, haul 25%, walk 16%, eat 1%, wait 5%, idle 1%, no food 46%; 1 meal
+    idle: No job 0:00:04
+1:05:13  Kilbur back to work after 0:03:00 idle
+1:05:13  Ostok back to work after 0:02:31 idle
+1:05:24  Kilbur idle: Nothing to sell
+1:05:25  Pantry: out of meals
+1:05:26  Ostok is waiting for food
+1:05:33  Thorra back to work after 0:08:59 idle
+
+-- 1:06:00, minute 66 (14:55:55) --
+Coins 7 (+0 earned, -0 spent)
+Harvested: 4 Carrot
+Made: 2 Copper ingot
+Mined: 4 Copper Ore
+Storage: 10 Onion, 8 Grog, 5 Copper Ore, 3 Copper ingot, 2 Carrot
+Plots (36): growing 95%, ripe 0%, empty 4%
+Kitchen Stove: working 7%, loading 39%, no ingredients 55%
+Kitchen Stove 2: unattended 13%, no ingredients 88%
+Smeltery Smelter: working 84%, done 16%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: loading 12%, unattended 77%, no ingredients 12%
+Smeltery Smelter 3: working 23%, unattended 22%, done 55%
+Player: 0 clicks
+Mine: dug 5 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 3 Grog, 3 Gruel
+Dwarves:
+  Thorvi (Miner): work 83%, haul 11%, climb 7% | food 0%, thirsty 50%
+  Balrek (Farmer): work 7%, haul 15%, walk 40%, eat 7%, wait 32% | food 72%, Grog 75%
+  Thorra (Works at the Kitchen): work 11%, haul 15%, walk 17%, wait 2%, idle 55% | food 6%, Grog 75%
+  Kilda (Miner): work 81%, walk 18%, wait 0% | food 37%, thirsty 50%
+  Kilbur (Trader): walk 13%, eat 7%, wait 0%, idle 81% | food 80%, Grog 75%
+  Ostok (Works at the Brewery): walk 22%, wait 0%, idle 21%, no food 58% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): haul 54%, walk 38%, eat 7%, wait 2% | food 82%, Grog 75%
+1:06:05  Thorvi is waiting for food
+1:06:39  Kilbur back to work after 0:01:15 idle
+1:06:44  Thorra is waiting for food
+
+-- 1:07:00, minute 67 (14:56:55) --
+Coins 8 (+1 earned, -0 spent)
+Harvested: 12 Carrot
+Made: 1 Roast carrots
+Mined: 3 Copper Ore
+Storage: 12 Carrot, 10 Onion, 8 Grog, 8 Copper Ore, 5 Copper ingot
+Plots (36): growing 80%, ripe 2%, empty 18%
+Kitchen Stove: working 44%, done 57%
+Kitchen Stove 2: loading 18%, unattended 44%, no ingredients 38%
+Smeltery Smelter: working 18%, loading 35%, unattended 22%, done 25%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: loading 18%, unattended 82%
+Smeltery Smelter 3: unattended 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): haul 4%, walk 3%, wait 1%, no food 93% | food 0%, thirsty 50%
+  Balrek (Farmer): work 21%, haul 36%, walk 39%, wait 3% | food 39%, Grog 75%
+  Thorra (Works at the Kitchen): haul 16%, walk 17%, wait 39%, no food 28% | food 0%, Grog 75%
+  Kilda (Miner): work 84%, walk 16%, wait 0% | food 30%, thirsty 50%
+  Kilbur (Trader): work 8%, haul 14%, walk 13%, wait 1%, idle 64% | food 46%, Grog 75%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): work 14%, haul 46%, walk 40%, wait 2% | food 49%, Grog 75%
+1:07:24  Kilbur idle: Nothing to sell
+1:07:59  First harvested: Wheat
+
+-- 1:08:00, minute 68 (14:57:55) --
+Coins 11 (+3 earned, -0 spent)
+Harvested: 2 Wheat
+Made: 1 Copper ingot
+Mined: 3 Copper Ore
+Storage: 10 Carrot, 10 Onion, 8 Grog, 8 Copper Ore, 5 Copper ingot
+Plots (36): growing 73%, dry 1%, ripe 1%, empty 25%
+Kitchen Stove: done 100%
+Kitchen Stove 2: unattended 100%
+Smeltery Smelter: working 82%, done 18%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: working 60%, loading 40%
+Smeltery Smelter 3: loading 60%, unattended 40%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): no food 100% | food 0%, thirsty 50%
+  Balrek (Farmer): work 11%, haul 3%, walk 26%, wait 61% | food 5%, Grog 75%
+  Thorra (Works at the Kitchen): no food 100% | food 0%, Grog 75%
+  Kilda (Miner): work 77%, haul 14%, walk 2%, climb 7%, wait 0% | food 24%, thirsty 50%
+  Kilbur (Trader): work 11%, haul 14%, walk 14%, wait 1%, idle 61% | food 13%, Grog 75%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): work 25%, haul 48%, walk 26%, wait 1% | food 16%, Grog 75%
+1:08:23  Balrek is waiting for food
+1:08:24  Kilbur back to work after 0:01:00 idle
+1:08:32  Kilbur is waiting for food
+1:08:45  Norok is waiting for food
+
+-- 1:09:00, minute 69 (14:58:55) --
+Coins 11 (+0 earned, -0 spent)
+Made: 1 Copper ingot
+Mined: 2 Copper Ore
+Storage: 10 Carrot, 10 Onion, 8 Grog, 8 Copper Ore, 6 Copper ingot, 2 Wheat
+Plots (36): growing 63%, dry 7%, ripe 2%, empty 28%
+Kitchen Stove: done 100%
+Kitchen Stove 2: unattended 100%
+Smeltery Smelter: loading 20%, unattended 75%, done 6%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: working 40%, done 60%
+Smeltery Smelter 3: working 98%, loading 2%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): no food 100% | food 0%, thirsty 50%
+  Balrek (Farmer): work 2%, haul 25%, walk 9%, wait 1%, no food 63% | food 0%, Grog 75%
+  Thorra (Works at the Kitchen): no food 100% | food 0%, Grog 75%
+  Kilda (Miner): work 80%, walk 13%, climb 7%, wait 0% | food 18%, thirsty 50%
+  Kilbur (Trader): walk 13%, wait 0%, idle 40%, no food 47% | food 0%, Grog 75%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): work 2%, haul 61%, walk 9%, wait 1%, no food 27% | food 0%, Grog 75%
+
+-- 1:10:00, minute 70 (14:59:55) --
+Coins 11 (+0 earned, -0 spent)
+Made: 1 Copper ingot
+Mined: 4 Copper Ore
+Storage: 10 Carrot, 10 Onion, 8 Grog, 8 Copper Ore, 6 Copper ingot, 2 Wheat
+Plots (36): growing 51%, dry 13%, ripe 8%, empty 28%
+Kitchen Stove: done 100%
+Kitchen Stove 2: unattended 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: done 100%
+Smeltery Smelter 3: working 2%, done 98%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): no food 100% | food 0%, thirsty 50%
+  Balrek (Farmer): no food 100% | food 0%, Grog 75%
+  Thorra (Works at the Kitchen): no food 100% | food 0%, Grog 75%
+  Kilda (Miner): work 81%, haul 13%, climb 7% | food 12%, thirsty 50%
+  Kilbur (Trader): no food 100% | food 0%, Grog 75%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): no food 100% | food 0%, Grog 75%
+
+== Totals so far, 1:10:00 ==
+Coins 11: 958 earned, 997 spent
+Harvested 156, meals made 29, drinks made 20, ore mined 240
+Plots: growing 70%, dry 7%, ripe 1%, empty 22%
+Kitchen Stove: working 19%, loading 9%, unattended 3%, no ingredients 62%, done 7%
+Kitchen Stove 2: working 12%, loading 7%, unattended 11%, no ingredients 68%, done 2%
+Smeltery Smelter: working 10%, loading 4%, unattended 73%, no ingredients 1%, done 12%
+Brewery Mash pot: working 5%, loading 7%, unattended 1%, no ingredients 86%, done 1%
+Brewery Fermenter: working 23%, loading 4%, done 14%, idle 59%
+Smeltery Smelter 2: working 11%, loading 5%, unattended 71%, no ingredients 2%, done 10%
+Smeltery Smelter 3: working 11%, loading 5%, unattended 76%, no ingredients 2%, done 6%
+Player clicks: 222
+Mine: dug 317 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 35 Grog, 30 Gruel, 14 Roast carrots, 10 Stew, 1 Onion soup
+Dwarves:
+  Thorvi: work 63%, haul 5%, walk 19%, climb 6%, eat 1%, wait 0%, idle 0%, no food 6%; 11 meals, one every 0:05:16
+    idle: No job 0:00:16
+  Balrek: work 11%, haul 9%, walk 17%, eat 1%, wait 45%, idle 8%, no food 10%; 11 meals, one every 0:06:11
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 5%, haul 13%, walk 9%, eat 1%, wait 13%, idle 55%, no food 5%; 11 meals, one every 0:05:19
+    idle: No job 0:00:24, Missing ingredients 0:38:01
+  Kilda: work 68%, haul 4%, walk 21%, climb 5%, eat 1%, wait 0%, idle 0%; 11 meals, one every 0:05:14
+    idle: No job 0:00:14
+  Kilbur: work 6%, haul 6%, walk 7%, eat 1%, wait 0%, idle 67%, no food 13%; 6 meals, one every 0:06:52
+    idle: No job 0:00:02, Nothing to sell 0:28:25
+  Ostok: work 4%, haul 10%, walk 8%, eat 1%, wait 16%, idle 34%, no food 28%; 3 meals, one every 0:10:51
+    idle: No job 0:00:02, Missing ingredients 0:11:12
+  Norok: work 7%, haul 30%, walk 18%, eat 1%, wait 4%, idle 0%, no food 39%; 2 meals, one every 0:03:15
+    idle: No job 0:00:04
+
+-- 1:11:00, minute 71 (15:00:55) --
+Coins 11 (+0 earned, -0 spent)
+Mined: 2 Copper Ore
+Storage: 14 Copper Ore, 10 Carrot, 10 Onion, 8 Grog, 6 Copper ingot, 2 Wheat
+Plots (36): growing 36%, dry 14%, ripe 23%, empty 28%
+Kitchen Stove: done 100%
+Kitchen Stove 2: unattended 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: no ingredients 100%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: done 100%
+Smeltery Smelter 3: done 100%
+Player: 0 clicks
+Mine: dug 0 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Dwarves:
+  Thorvi (Miner): no food 100% | food 0%, thirsty 50%
+  Balrek (Farmer): no food 100% | food 0%, Grog 75%
+  Thorra (Works at the Kitchen): no food 100% | food 0%, Grog 75%
+  Kilda (Miner): work 77%, haul 2%, walk 14%, climb 7%, wait 1% | food 5%, thirsty 50%
+  Kilbur (Trader): no food 100% | food 0%, Grog 75%
+  Ostok (Works at the Brewery): no food 100% | food 0%, Grog 75%
+  Norok (Works at the Smeltery): no food 100% | food 0%, Grog 75%
+1:11:23  Thorvi got fed after waiting 0:05:18
+1:11:23  Balrek got fed after waiting 0:03:00
+1:11:35  First sold: Copper ingot
+1:11:41  Pantry: meals back in
+1:11:41  Thorra got fed after waiting 0:04:57
+1:11:41  Kilbur got fed after waiting 0:03:09
+1:11:41  Ostok got fed after waiting 0:06:15
+1:11:41  Norok got fed after waiting 0:02:56
+1:11:45  Kilbur idle: Nothing to sell
+1:11:45  Ostok idle: Missing ingredients
+1:11:59  Ostok back to work after 0:00:14 idle
+
+-- 1:12:00, minute 72 (15:01:55) --
+Coins 41 (+75 earned, -45 spent)
+Harvested: 6 Wheat
+Mined: 4 Copper Ore
+Storage: 10 Carrot, 10 Onion, 8 Wheat, 7 Copper Ore, 4 Copper ingot, 3 Gruel, 2 Grog
+Plots (36): growing 28%, dry 19%, ripe 28%, empty 25%
+Kitchen Stove: unattended 6%, done 95%
+Kitchen Stove 2: unattended 100%
+Smeltery Smelter: unattended 100%
+Brewery Mash pot: loading 3%, no ingredients 97%
+Brewery Fermenter: idle 100%
+Smeltery Smelter 2: done 100%
+Smeltery Smelter 3: done 100%
+Player: 9 clicks, sowed 9 Potato
+Mine: dug 0 cells, shaft to row 4, 7 tunnel ends, 1 of 3 deposits found
+Eaten and drunk: 6 Grog, 6 Gruel
+Dwarves:
+  Thorvi (Miner): walk 49%, climb 7%, eat 7%, wait 0%, no food 38% | food 82%, Grog 75%
+  Balrek (Farmer): work 11%, haul 18%, walk 26%, eat 7%, wait 1%, no food 38% | food 82%, Grog 75%
+  Thorra (Works at the Kitchen): haul 5%, walk 21%, eat 7%, wait 1%, no food 67% | food 91%, Grog 75%
+  Kilda (Miner): work 84%, haul 9%, climb 7% | food 0%, thirsty 50%
+  Kilbur (Trader): eat 7%, wait 0%, idle 26%, no food 67% | food 91%, Grog 75%
+  Ostok (Works at the Brewery): walk 3%, eat 7%, wait 0%, idle 23%, no food 67% | food 91%, Grog 75%
+  Norok (Works at the Smeltery): walk 26%, eat 7%, wait 0%, no food 67% | food 91%, Grog 75%
+
+== End of game, 1:12:10 ==
+Coins 41: 1033 earned, 1042 spent
+Harvested 164, meals made 29, drinks made 20, ore mined 246
+Plots: growing 68%, dry 7%, ripe 2%, empty 22%
+Kitchen Stove: working 19%, loading 9%, unattended 3%, no ingredients 60%, done 10%
+Kitchen Stove 2: working 12%, loading 7%, unattended 14%, no ingredients 65%, done 2%
+Smeltery Smelter: working 10%, loading 4%, unattended 75%, no ingredients 1%, done 11%
+Brewery Mash pot: working 5%, loading 7%, unattended 1%, no ingredients 87%, done 1%
+Brewery Fermenter: working 21%, loading 4%, done 13%, idle 62%
+Smeltery Smelter 2: working 10%, loading 5%, unattended 66%, no ingredients 2%, done 17%
+Smeltery Smelter 3: working 10%, loading 4%, unattended 70%, no ingredients 2%, done 13%
+Player clicks: 231
+Mine: dug 317 cells, shaft to row 4, 1 of 3 deposits found
+Eaten and drunk: 42 Grog, 37 Gruel, 14 Roast carrots, 10 Stew, 1 Onion soup
+Dwarves:
+  Thorvi: work 61%, haul 5%, walk 19%, climb 5%, eat 1%, wait 0%, idle 0%, no food 7%; 12 meals, one every 0:06:11
+    idle: No job 0:00:16
+  Balrek: work 11%, haul 9%, walk 17%, eat 1%, wait 43%, idle 7%, no food 11%; 12 meals, one every 0:06:12
+    idle: No job 0:00:11, Nothing sown 0:05:10
+  Thorra: work 5%, haul 13%, walk 9%, eat 1%, wait 13%, idle 53%, no food 7%; 12 meals, one every 0:06:13
+    idle: No job 0:00:24, Missing ingredients 0:38:01
+  Kilda: work 68%, haul 4%, walk 20%, climb 5%, eat 1%, wait 0%, idle 0%; 12 meals, one every 0:06:14
+    idle: No job 0:00:14
+  Kilbur: work 5%, haul 5%, walk 6%, eat 1%, wait 0%, idle 65%, no food 16%; 7 meals, one every 0:06:47
+    idle: No job 0:00:02, Nothing to sell 0:28:51
+  Ostok: work 3%, haul 9%, walk 8%, eat 1%, wait 15%, idle 33%, no food 31%; 4 meals, one every 0:10:25
+    idle: No job 0:00:02, Missing ingredients 0:11:26
+  Norok: work 6%, haul 27%, walk 17%, eat 1%, wait 4%, idle 0%, no food 44%; 3 meals, one every 0:04:46
+    idle: No job 0:00:04
