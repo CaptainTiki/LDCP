@@ -5,6 +5,9 @@ extends Placeable
 ## stages, and is harvested, leaving the plot empty for the next sowing.
 ## A dry plant just pauses: nothing the player neglects is ever lost.
 ##
+## Each plant rolls its own grow time and each watering its own length, so
+## a field sown together ripens and dries out unevenly, like a real one.
+##
 ## Farmers water and harvest. Only the player sows.
 
 enum Task { NONE, WATER, HARVEST }
@@ -12,6 +15,9 @@ enum Task { NONE, WATER, HARVEST }
 ## Number of growth stages drawn between sown and ripe. The crop's
 ## growth_frames hold one frame per stage, then the ripe frame.
 const GROWTH_STAGES: int = 3
+## The last watering lasts at least this long past ripe, so rounding in the
+## sim can never leave a plant a hair short of ripe on dry soil.
+const LAST_WATERING_SLACK_SECONDS: float = 1.0
 
 @export var dry_soil: Texture2D
 @export var wet_soil: Texture2D
@@ -22,6 +28,10 @@ var growth_seconds: float = 0.0
 var watered_seconds_left: float = 0.0
 
 var _is_planted: bool = false
+## Watered seconds this plant needs to ripen, rolled when it was sown.
+var _ripe_seconds: float = 0.0
+## Waterings this plant still needs, counting the one in the soil now as done.
+var _waterings_left: int = 0
 ## The task the work receiver is currently set up for.
 var _receiver_task: Task = Task.NONE
 
@@ -51,14 +61,22 @@ func is_planted() -> bool:
 
 
 func is_ripe() -> bool:
-	return _is_planted and growth_seconds >= crop.grow_seconds
+	return _is_planted and growth_seconds >= _ripe_seconds
+
+
+## Watered seconds this plant needs to ripen: its crop's grow time, give or
+## take the crop's spread.
+func ripe_seconds() -> float:
+	return _ripe_seconds
 
 
 func sim_tick(delta: float) -> void:
-	# Only watered soil grows the plant. Dry soil pauses it.
-	if _is_planted and not is_ripe() and watered_seconds_left > 0.0:
-		growth_seconds += delta
-		watered_seconds_left -= delta
+	# Wet soil dries whatever is in it, and only wet soil grows the plant.
+	# Dry soil pauses it.
+	if watered_seconds_left > 0.0:
+		if _is_planted and not is_ripe():
+			growth_seconds += delta
+		watered_seconds_left = maxf(0.0, watered_seconds_left - delta)
 	_sync()
 
 
@@ -69,15 +87,18 @@ func sow(new_crop: CropDef) -> bool:
 	crop = new_crop
 	_is_planted = true
 	growth_seconds = 0.0
+	_ripe_seconds = crop.grow_seconds * randf_range(1.0 - crop.grow_spread, 1.0 + crop.grow_spread)
+	_waterings_left = crop.waterings
 	_sync()
 	return true
 
 
-## Wets the soil under a growing plant. Returns whether it needed it.
+## Wets dry soil under a growing plant. Returns whether it needed it.
 func water() -> bool:
-	if not _is_planted or is_ripe():
+	if not _is_planted or is_ripe() or watered_seconds_left > 0.0:
 		return false
-	watered_seconds_left = crop.watered_seconds
+	watered_seconds_left = _next_watering_seconds()
+	_waterings_left = maxi(0, _waterings_left - 1)
 	_sync()
 	return true
 
@@ -111,7 +132,7 @@ func describe() -> String:
 		return "Empty plot: sow some seeds"
 	if is_ripe():
 		return "%s: ripe, ready to harvest" % crop.display_name
-	var percent: int = roundi(100.0 * growth_seconds / crop.grow_seconds)
+	var percent: int = roundi(100.0 * growth_seconds / _ripe_seconds)
 	var soil: String = "watered" if watered_seconds_left > 0.0 else "dry, needs water"
 	return "%s: %d%% grown, %s" % [crop.display_name, percent, soil]
 
@@ -142,7 +163,19 @@ func _sync() -> void:
 func _growth_stage() -> int:
 	if is_ripe():
 		return GROWTH_STAGES
-	return mini(GROWTH_STAGES - 1, floori(GROWTH_STAGES * growth_seconds / crop.grow_seconds))
+	return mini(GROWTH_STAGES - 1, floori(GROWTH_STAGES * growth_seconds / _ripe_seconds))
+
+
+## How long a watering keeps the soil wet: an even share of the growing still
+## to do, give or take the crop's spread. The last one always lasts until the
+## plant is ripe, so every plant takes exactly its crop's waterings.
+func _next_watering_seconds() -> float:
+	var still_to_grow: float = _ripe_seconds - growth_seconds
+	var share: float = still_to_grow / maxi(1, _waterings_left)
+	var seconds: float = share * randf_range(1.0 - crop.water_spread, 1.0 + crop.water_spread)
+	if _waterings_left <= 1:
+		seconds = maxf(seconds, still_to_grow + LAST_WATERING_SLACK_SECONDS)
+	return seconds
 
 
 func _work_for(task: Task) -> float:

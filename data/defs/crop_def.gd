@@ -20,7 +20,16 @@ extends Resource
 @export var harvest_work: float = 1.5
 
 @export_group("Growth")
-## Seconds of *watered* time needed to ripen. Dry time does not count.
+## Seconds of *watered* time a typical plant needs to ripen. Dry time does
+## not count.
 @export var grow_seconds: float = 45.0
-## How long one watering lasts before the soil dries out again.
-@export var watered_seconds: float = 30.0
+## Each plant ripens up to this fraction faster or slower than grow_seconds
+## (0.1 is 10% either way), rolled when it's sown, so a field sown together
+## doesn't ripen together.
+@export var grow_spread: float = 0.1
+## How many times a plant is watered between sowing and ripe. Each watering
+## keeps the soil wet for about its share of the growing.
+@export var waterings: int = 2
+## How far each watering's length strays from an even share (0.2 is 20%
+## either way), so plots dry out at different times.
+@export var water_spread: float = 0.2

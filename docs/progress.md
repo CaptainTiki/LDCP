@@ -17,7 +17,8 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Farming.**
   - Farm plots are 1-tile buildings, bought, moved and destroyed in the Build tab.
   - The player sows (1 coin per seed); farmers water, harvest and haul, but never sow.
-  - Crops are slow and big: 3 to 7.5 minutes of watered growth for 6 crops. Dry soil pauses growth, so the farmers' pace decides how long a sowing lasts (27 plots keep one farmer busy about 20 minutes).
+  - Crops are slow and big: 3 to 7.5 minutes of watered growth for 6 crops, and 2 waterings each. Dry soil pauses growth.
+  - Each plant's grow time is ±10% and each watering's length ±20%, so a field ripens and dries unevenly. One farmer keeps up with 27 plots, and a sowing of 27 lasts about 10 minutes.
   - Player tools: Hoe (roots up a plant), Look, Bucket, Shears. Harvests go into the player's hands and are dropped off at the Great Hall.
 - **Needs.**
   - Food is shift length; drink is work rate (50% floor). Both drain only while working.

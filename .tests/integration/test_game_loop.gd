@@ -103,12 +103,48 @@ func test_unwatered_crops_pause_and_never_die() -> void:
 	var plot: FarmPlot = _plot(0)
 	plot.sow(POTATO_CROP)
 	plot.water()
-	_run_seconds(plot.crop.watered_seconds + 5.0)
+	var wet_for: float = plot.watered_seconds_left
+	assert_false(plot.water(), "wet soil takes no more water")
+	_run_seconds(wet_for + 5.0)
 	var grown: float = plot.growth_seconds
-	assert_almost_eq(grown, plot.crop.watered_seconds, 0.5, "grew while watered")
+	assert_almost_eq(grown, wet_for, 0.5, "grew while watered")
 	_run_seconds(120)
 	assert_eq(plot.growth_seconds, grown, "growth paused while dry")
 	assert_eq(plot.current_task(), FarmPlot.Task.WATER, "still alive, just thirsty")
+
+
+func test_every_plant_takes_exactly_its_crops_waterings() -> void:
+	var plots: Array[FarmPlot] = world.surface.farm_plots()
+	var waterings: Dictionary[FarmPlot, int] = {}
+	for plot: FarmPlot in plots:
+		plot.sow(POTATO_CROP)
+		waterings[plot] = 0
+	var longest: float = POTATO_CROP.grow_seconds * (1.0 + POTATO_CROP.grow_spread)
+	for _second: int in ceili(longest) + 5:
+		for plot: FarmPlot in plots:
+			if plot.current_task() == FarmPlot.Task.WATER and plot.water():
+				waterings[plot] += 1
+		_run_seconds(1)
+	for plot: FarmPlot in plots:
+		assert_true(plot.is_ripe(), "ripe within the spread")
+		assert_eq(waterings[plot], POTATO_CROP.waterings, "however its numbers fell")
+
+
+func test_a_field_sown_together_ripens_and_dries_unevenly() -> void:
+	var ripe_at: Array[float] = []
+	var wet_for: Array[float] = []
+	for plot: FarmPlot in world.surface.farm_plots():
+		plot.sow(POTATO_CROP)
+		plot.water()
+		ripe_at.append(plot.ripe_seconds())
+		wet_for.append(plot.watered_seconds_left)
+	var grow: float = POTATO_CROP.grow_seconds
+	var spread: float = POTATO_CROP.grow_spread
+	for seconds: float in ripe_at:
+		assert_between(seconds, grow * (1.0 - spread), grow * (1.0 + spread), "near the crop's grow time")
+	# Nine rolls landing within 5 seconds of each other is vanishingly unlikely.
+	assert_gt(ripe_at.max() - ripe_at.min(), 5.0, "each plant ripens in its own time")
+	assert_gt(wet_for.max() - wet_for.min(), 5.0, "and its soil dries in its own time")
 
 
 func _click_plot(plot: FarmPlot) -> void:

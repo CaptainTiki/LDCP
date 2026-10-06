@@ -319,3 +319,24 @@ From a review of the third playtest's logs.
 - "no ingredients": the hall lacks an ingredient, so the town is short of crops.
 
 The playtests had both stalls showing as "loading": a stove set to onion soup when no onion had ever been sown, and (in the 80-minute run) a gruel stove that had no cook for the whole game.
+
+## Fewer, longer waterings and uneven growth (2026-10-06)
+
+From the user's morning playtest (`game_2026-10-06_09-19-59`). One farmer on 18 plots ran nonstop and still couldn't keep them watered: the water ran out just as he got round to each plot. And because every plant had the same numbers, a plant watered right at the end of a stage jumped a stage the moment it got water, as if it had been waiting on it.
+
+**Each crop takes a set number of waterings** (user's call). Early crops take 2; slow later crops (around 20 minutes) are meant to take 3-4. `CropDef.waterings` replaces `watered_seconds` (30s, so a potato used to take 9). A watering keeps the soil wet for an even share of the growing still to do, so a potato's soil stays wet about 2.25 minutes.
+
+**Plants and waterings vary** (user's call; the ±20% on water is my pick). Each plant's grow time is rolled when it's sown, ±10% (`grow_spread`), and each watering's length strays ±20% from an even share (`water_spread`). The last watering always lasts until the plant is ripe (my call), so a plant takes exactly its crop's waterings whatever the rolls; without that, about half the plants would need one more. Wet soil now dries under ripe plants and empty plots too, so plots dry out at varied times after harvest as well.
+
+**Wet soil takes no more water** (my call). The bucket does nothing on wet soil; topping it up would spend one of the plant's waterings early.
+
+Measured headless (one farmer, nobody hungry, every plot sown with potatoes at once):
+
+| Plots | Before: farm empty after, planted plots dry | Now |
+|---|---|---|
+| 9 | 7.4 min, 27% | 6.7 min, 6% |
+| 18 | 13.2 min, 58% | 8.3 min, 10% |
+| 27 | 20.3 min, 70% | 10.4 min, 12% |
+| 27, two farmers | 10.8 min, 49% | 7.6 min, 9% |
+
+The farmer keeps up now. Most of his time goes on harvesting and hauling (a harvest of 6 fills his back, so each plot is a trip to the hall). The trade-off: last session stretched sowings by making watering the bottleneck. With that gone, a sowing lasts about the grow time plus the harvest, so 27 plots last about 10 minutes rather than 20, and a farmer makes food about twice as fast. Grow times are unchanged until a playtest says otherwise.

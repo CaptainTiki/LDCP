@@ -125,13 +125,17 @@ def unlock_sub(exts, counter, needed, label, coins, items=()):
 
 
 # --- Crops -----------------------------------------------------------------
-def crop(name, display, produce, col, grow, unlock=None):
+def crop(name, display, produce, col, grow, waterings=2, unlock=None):
+    """Each plant's grow time strays up to 10% from `grow`, and each of its
+    `waterings` up to 20% from an even share, so a field ripens and dries
+    unevenly. Early crops take 2 waterings; slow later crops are meant to
+    take 3-4."""
     exts = [("Resource", "res://data/items/%s.tres" % produce),
             ("Texture2D", "res://assets/crops/%s_growth.png" % name)]
     props = [("id", '&"%s"' % name), ("display_name", '"%s"' % display),
              ("produce", 'ExtResource("2")'), ("growth_frames", 'ExtResource("3")'), ("yield_count", 6), ("color", col),
              ("seed_cost", 1), ("water_work", 1.0), ("harvest_work", 1.5),
-             ("grow_seconds", grow), ("watered_seconds", 30.0)]
+             ("grow_seconds", grow), ("grow_spread", 0.1), ("waterings", waterings), ("water_spread", 0.2)]
     subs = ""
     if unlock:
         subs = unlock_sub(exts, *unlock)
