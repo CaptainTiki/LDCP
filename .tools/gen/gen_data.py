@@ -129,7 +129,7 @@ def crop(name, display, produce, col, grow, unlock=None):
     exts = [("Resource", "res://data/items/%s.tres" % produce),
             ("Texture2D", "res://assets/crops/%s_growth.png" % name)]
     props = [("id", '&"%s"' % name), ("display_name", '"%s"' % display),
-             ("produce", 'ExtResource("2")'), ("growth_frames", 'ExtResource("3")'), ("yield_count", 2), ("color", col),
+             ("produce", 'ExtResource("2")'), ("growth_frames", 'ExtResource("3")'), ("yield_count", 6), ("color", col),
              ("seed_cost", 1), ("water_work", 1.0), ("harvest_work", 1.5),
              ("grow_seconds", grow), ("watered_seconds", 30.0)]
     subs = ""
@@ -139,13 +139,17 @@ def crop(name, display, produce, col, grow, unlock=None):
     tres("data/crops/%s.tres" % name, "CropDef", "crop_def.gd", props, exts=exts, subs=subs)
 
 
-crop("potato", "Potato", "potato", color(0.3, 0.6, 0.25), 90.0)
-crop("barley", "Barley", "barley", color(0.75, 0.7, 0.3), 120.0)
+# Slow crops with big yields (3x the first playtest's grow time and yield), so
+# one sowing keeps a farmer busy for a long stretch between the player's visits.
+crop("potato", "Potato", "potato", color(0.3, 0.6, 0.25), 270.0)
 # Early unlocks: coins only. Ore and ingots come into trades later.
-crop("carrot", "Carrot", "carrot", color(0.4, 0.7, 0.3), 60.0, unlock=("harvested", 20, "Harvest crops", 15))
-crop("onion", "Onion", "onion", color(0.45, 0.65, 0.35), 150.0, unlock=("meals_made", 15, "Cook meals", 30))
-crop("radish", "Radish", "radish", color(0.4, 0.7, 0.3), 70.0, unlock=("harvested", 40, "Harvest crops", 25))
-crop("wheat", "Wheat", "wheat", color(0.85, 0.75, 0.35), 120.0, unlock=("drinks_made", 10, "Make drinks", 40))
+crop("carrot", "Carrot", "carrot", color(0.4, 0.7, 0.3), 180.0, unlock=("harvested", 20, "Harvest crops", 15))
+crop("onion", "Onion", "onion", color(0.45, 0.65, 0.35), 450.0, unlock=("meals_made", 15, "Cook meals", 30))
+# Brewing crops only unlock once the brewery is making drinks, so they're never
+# grown with nothing to use them.
+crop("barley", "Barley", "barley", color(0.75, 0.7, 0.3), 360.0, unlock=("drinks_made", 4, "Make drinks", 20))
+crop("wheat", "Wheat", "wheat", color(0.85, 0.75, 0.35), 360.0, unlock=("drinks_made", 10, "Make drinks", 40))
+crop("radish", "Radish", "radish", color(0.4, 0.7, 0.3), 210.0, unlock=("drinks_made", 20, "Make drinks", 50))
 
 
 # --- Recipes ---------------------------------------------------------------------
@@ -297,7 +301,7 @@ tres("data/tuning/game_tuning.tres", "GameTuning", "game_tuning.gd", [
     ("starting_stock", 'Array[ExtResource("2")]([SubResource("stock_gruel"), SubResource("stock_grog")])'),
     ("starting_food_seconds", 180.0),
     ("walk_speed", 24.0), ("ladder_speed", 8.0), ("lift_speed", 64.0),
-    ("base_work_rate", 1.0), ("carry_capacity", 5), ("eat_seconds", 4.0),
+    ("base_work_rate", 1.0), ("carry_capacity", 6), ("eat_seconds", 4.0),
     ("manual_work_per_click", 0.5), ("hand_capacity", 50),
     ("hire_cost", 40), ("hire_cost_growth", 20), ("lift_cost", 150)],
     exts=[("Script", DEFS + "item_stack.gd"),
@@ -324,7 +328,7 @@ for n in building_names:
 exts.append(("Script", DEFS + "crop_def.gd"))
 crop_script = len(exts) + 1
 crop_refs = []
-for n in ["potato", "barley", "carrot", "onion", "radish", "wheat"]:
+for n in ["potato", "carrot", "onion", "barley", "wheat", "radish"]:  # unlock order
     exts.append(("Resource", "res://data/crops/%s.tres" % n))
     crop_refs.append('ExtResource("%d")' % (len(exts) + 1))
 ore_refs = []

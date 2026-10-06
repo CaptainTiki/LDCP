@@ -294,3 +294,28 @@ Two logs: an 80-minute run left alone after the first minute (`game_2026-10-05_1
 - Stew lasted about 8.5 minutes between meals for a miner; 33 meals in 32 minutes; the smeltery ran from 16:28.
 
 **The brewery unlocks by cooking 10 meals, then 60 coins** (user's call to move it off barley; the counter is my pick from their list of potatoes, meals or ore). Its first drink, grog, is brewed from potatoes, so it's useful the moment it's built. At the played run's pace it lands around minute 15, as the starting grog runs out. Onion stays at 15 meals.
+
+## Slow crops, brewing crops after the brewery, station waits in the log (2026-10-05)
+
+From a review of the third playtest's logs.
+
+**Crops grow 3x as long and yield 3x** (user's call, option 1 of the sowing-pace options): potato 270s, carrot 180s, radish 210s, barley and wheat 360s, onion 450s, all yielding 6. Watering still lasts 30s, so each plant needs 3x the waterings. That's the point: dry soil pauses growth, and in the third playtest planted plots were dry more of the time than they were growing, so the farmer, not the grow time, decides how long a sowing lasts. Tripling his work per plot stretches each sowing about 3x for the same food per farmer-minute.
+- Checked headless (one farmer, nobody hungry, all potatoes): 9 plots kept the farm busy 2.9 minutes before, 7.4 now; 27 plots 8.3 minutes before, 20.3 now (11.0 with two farmers). The player's visits were 7 to 10 minutes apart.
+- This gives the player two levers: more plots keep the farm going longer while they're away; more farmers turn it into food faster.
+- Replanting (option 3) stays a candidate for a later unlock.
+- Seeds still cost 1 coin, so they cost a third as much per crop. The carrot milestone (harvest 20) now comes with the first harvest rather than the second. Both left as they are until a playtest says otherwise.
+
+**Dwarves carry 6, not 5** (my call), so one plot's harvest fits on a farmer's back. At 5, every harvest left one crop that went into the hall without being carried. Miners carry one more ore per trip as a result. A farmer already carrying something now takes it in first if the whole harvest won't fit on top of it (before, one more had to fit and the rest went to the hall uncarried).
+
+**Brewing crops unlock from drinks** (user's call, extending the barley proposal to radish). In the third playtest 16 barley and 28 radishes sat unused, and 25 coins went on radish seeds. Now a crop doesn't unlock until something can use it:
+- Barley: make 4 drinks (the first batch of grog), then 20 coins. It used to be a starting crop.
+- Wheat: make 10 drinks, then 40 coins (unchanged).
+- Radish: make 20 drinks, then 50 coins (it was harvest 40 crops, then 25 coins). The numbers are my pick.
+- Until barley is unlocked, barley mash is off the mash pot's menu (`Unlocks.recipe_available`). The Farm tab lists crops in unlock order: potato, carrot, onion, barley, wheat, radish.
+
+**The log splits a station's waiting into three.** "loading" used to cover everything with a recipe set. Now:
+- "loading": a worker is stocking or loading it.
+- "unattended": everything is to hand but nobody is on it, so the town is short of workers.
+- "no ingredients": the hall lacks an ingredient, so the town is short of crops.
+
+The playtests had both stalls showing as "loading": a stove set to onion soup when no onion had ever been sown, and (in the 80-minute run) a gruel stove that had no cook for the whole game.

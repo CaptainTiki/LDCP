@@ -64,8 +64,11 @@ func _still_needs_work(plot: FarmPlot) -> bool:
 func _must_unload_before_working(plot: FarmPlot) -> bool:
 	if dwarf.carrier.is_full():
 		return true
+	# Take what he has in first if the whole harvest wouldn't fit on top of it,
+	# so none of it has to go to the hall without being carried.
 	var is_harvest: bool = plot.current_task() == FarmPlot.Task.HARVEST
-	return is_harvest and not dwarf.carrier.can_take(plot.crop.produce)
+	var carrying: bool = not dwarf.carrier.is_empty()
+	return is_harvest and carrying and not dwarf.carrier.has_room_for(plot.crop.produce, plot.crop.yield_count)
 
 
 ## The nearest plot that needs something done and nobody else is doing it.

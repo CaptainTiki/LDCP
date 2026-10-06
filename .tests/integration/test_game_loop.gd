@@ -93,7 +93,7 @@ func test_farmer_waters_harvests_and_hauls_but_never_sows() -> void:
 	_click_plot(_plot(1))
 	world.hand.put_away()
 	_dwarf(0).assignment.assign(_plot(0))
-	_run_seconds(300)
+	_run_seconds(POTATO_CROP.grow_seconds + 150.0)
 	assert_eq(storage.count(POTATO), POTATO_CROP.yield_count * 2, "both plants watered, harvested and hauled")
 	assert_false(_plot(0).is_planted(), "left empty for the player to sow again")
 	assert_false(_plot(2).is_planted(), "farmers never sow")
@@ -805,16 +805,22 @@ func test_removing_a_station_returns_what_was_in_it() -> void:
 	assert_eq(storage.count(POTATO), 2, "the potatoes went back to the hall")
 
 
-func test_wheat_and_radish_unlock_and_brew_new_drinks() -> void:
+func test_brewing_crops_unlock_from_drinks_and_brew_new_drinks() -> void:
 	var wheat_crop: CropDef = load("res://data/crops/wheat.tres")
 	var radish_crop: CropDef = load("res://data/crops/radish.tres")
-	assert_false(game.unlocks.is_unlocked(wheat_crop))
-	assert_false(game.unlocks.is_unlocked(radish_crop))
+	assert_true(game.unlocks.is_unlocked(POTATO_CROP), "potatoes from the start")
+	for crop: CropDef in [BARLEY_CROP, wheat_crop, radish_crop]:
+		assert_false(game.unlocks.is_unlocked(crop), "%s waits for the brewery" % crop.display_name)
+	assert_false(game.unlocks.recipe_available(BARLEY_MASH_RECIPE, game.catalog), "no barley mash without barley")
 	game.wallet.earn(200)
-	world.ledger.record_harvest(POTATO, 40)
-	assert_true(game.unlocks.trade(radish_crop), "radishes after 40 crops")
-	world.ledger.record_made(ALE, 10)
+	world.ledger.record_made(GROG, 4)
+	assert_true(game.unlocks.trade(BARLEY_CROP), "barley after the first batch of grog")
+	assert_true(game.unlocks.recipe_available(BARLEY_MASH_RECIPE, game.catalog))
+	world.ledger.record_made(ALE, 6)
 	assert_true(game.unlocks.trade(wheat_crop), "wheat after 10 drinks")
+	assert_false(game.unlocks.can_trade(radish_crop), "radishes take more")
+	world.ledger.record_made(ALE, 10)
+	assert_true(game.unlocks.trade(radish_crop), "radishes after 20 drinks")
 
 	var fermenter_def: WorkstationDef = FERMENTER
 	var outputs: Array[String] = []

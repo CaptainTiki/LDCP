@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated at the end of the session of 2026-10-05 (version `proto-0.10.5.33`).
+Where the project stands, what's next, and how to pick it back up. Last updated at the end of the session of 2026-10-05 (version `proto-0.10.5.34`).
 
 ## Where we are
 
@@ -17,6 +17,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Farming.**
   - Farm plots are 1-tile buildings, bought, moved and destroyed in the Build tab.
   - The player sows (1 coin per seed); farmers water, harvest and haul, but never sow.
+  - Crops are slow and big: 3 to 7.5 minutes of watered growth for 6 crops. Dry soil pauses growth, so the farmers' pace decides how long a sowing lasts (27 plots keep one farmer busy about 20 minutes).
   - Player tools: Hoe (roots up a plant), Look, Bucket, Shears. Harvests go into the player's hands and are dropped off at the Great Hall.
 - **Needs.**
   - Food is shift length; drink is work rate (50% floor). Both drain only while working.
@@ -53,11 +54,14 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 
 | Crops | Unlock |
 |---|---|
-| Potato, Barley | start |
+| Potato | start |
 | Carrot | harvest 20 crops, 15 coins |
 | Onion | cook 15 meals, 30 coins |
-| Radish | harvest 40 crops, 25 coins |
+| Barley | make 4 drinks, 20 coins |
 | Wheat | make 10 drinks, 40 coins |
+| Radish | make 20 drinks, 50 coins |
+
+Brewing crops (barley, wheat, radish) only unlock once the brewery is making drinks, so nothing is grown before it can be used.
 
 - **Meals:** gruel (1 potato), roast carrots (2 carrots), stew (2 potatoes), onion soup (1 onion + 2 potatoes).
 - **Drinks:** grog (potato mash), ale (barley mash), wheat beer (wheat mash; long and steady), radish spirit (radish mash; short and sharp).
@@ -82,15 +86,27 @@ Five runs, read back from the game log. The logs are kept in `.logs/` in the rep
 
 Changed in response: crops grow half as fast, food and drink last twice as long, 10 gruel and 10 grog and a 3x3 farm to start, right-click puts tools away, dwarves can be dropped anywhere inside a workplace, idle dwarves wait by their workplace with a "?", recipes can be picked before their ingredients exist (the station says what it's waiting for), the stuck-slope tunnelling bug is fixed and tunnels wander more, and the brewery unlocks by cooking 10 meals.
 
-**The main lesson:** the town stalls whenever the player is away. Nearly every stall traces back to sowing (only the player sows, and a sowing lasts a few minutes) or to an empty pantry. Fixing how long a sowing lasts is the next big call.
+**The main lesson:** the town stalls whenever the player is away. Nearly every stall traces back to sowing (only the player sows, and a sowing lasts a few minutes) or to an empty pantry.
+
+A review of the logs afterwards found:
+- The farmer is the real limit on the farm: dry soil pauses growth, and planted plots were dry more of the time than growing.
+- Barley and radish were grown with no use for them.
+- The log's "loading" hid both a stove with no ingredients and one with no cook.
+
+Changed in response: crops grow 3x as long for 3x the yield, so a sowing lasts about 2.5x longer; dwarves carry 6; barley, wheat and radish unlock from drinks made; and the log splits a station's waiting into loading, unattended and no ingredients. See DECISIONS.md "Slow crops, brewing crops after the brewery, station waits in the log".
 
 ## Next up
 
 1. **Waiting on the user's call:**
-   - **Sowing pace.** A sowing must outlast the gap between visits. Options: (1) bigger, slower crops: 3x the grow time and 3x the yield, so the same food for a third of the sowing; (2) a bag of seeds per plot that farmers replant from until it's empty; (3) replanting as an unlock around minute 15-20 (a seed shed, say), keeping early sowing by hand. Claude's pick: 1 now, 3 as the first automation unlock. A Rusty's reference for how planting and replanting work there would settle it.
-   - **Barley.** Still a starting crop with no use before the brewery. Proposal: lock barley seeds until the first drinks are brewed (brewery, grog, barley, ale, wheat).
+   - **Replanting as a later unlock** (say a seed shed around minute 15-20). As Claude remembers it, Rusty's bots replant whatever crop a plot is set to, so "only the player sows" may already differ from Rusty's. A Rusty's screenshot would settle it.
    - **Mine controls and finds** (proposal). A Mine tab while in the mine view: one row per found deposit with − N + miners (0 leaves it alone; the rest dig), and a "dig the shaft down" switch that runs the ladder to the bottom of the layer. Random finds while digging (copper chunks, rarer in dirt than stone) so mining out the whole layer pays. Questions: − N + per deposit or on/off per ore type; which finds first; how long digging out the copper layer should take with ~4 miners (about 2 hours at today's numbers).
-2. **More test runs** on the new numbers, reading the logs. Cooks keep one trip per ingredient by design; tune ingredients per recipe, cook and load times, meal length and eating pace together. Parked ideas: recipes that make several servings, and food-quality moods that slow work.
+2. **More test runs** on the new numbers, reading the logs. Watch:
+   - whether a sowing now outlasts the gap between visits;
+   - whether the first harvest (now about 5-6 minutes in) comes before the starting gruel runs out;
+   - stations' "unattended" vs "no ingredients" shares;
+   - the smelter: its worker waited 59% of the time in the third playtest while ore piled up to about 50.
+
+   Also: Cooks keep one trip per ingredient by design; tune ingredients per recipe, cook and load times, meal length and eating pace together. Parked ideas: recipes that make several servings, and food-quality moods that slow work.
 3. **Recipes again.**
    - Wheat and radish have no meals yet.
    - Bread would want an oven station.
@@ -125,11 +141,12 @@ Changed in response: crops grow half as fast, food and drink last twice as long,
   - Format: `proto-major.month.day.build`. The build number counts up and resets to 1 when a new month starts.
 - **Tests:**
   - GUT, in `.tests/`. Run `.tools/run_tests.ps1`, or with Godot headless: `-s addons/gut/gut_cmdln.gd -gdir=res://.tests/unit,res://.tests/integration -gexit`.
-  - 78 tests, all passing.
+  - 79 tests, all passing.
 - **Generators** (in `.tools/`):
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.
 - **Godot path:** `.tools/run_tests.ps1` defaults to a `D:` Steam install. On the other desktop Godot is at `C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\`; pass `-Godot` or set `GODOT`.
+- **After pulling on the other machine,** run Godot once with `--headless --import` before the tests. Scripts with a new `class_name` aren't in that machine's class cache until then, and most tests fail with errors like "Could not find type LogWatcher".
 - **Game log:** on Windows the logs are in `%APPDATA%\Godot\app_userdata\LDCP\logs\` (beside Godot's own `godot.log`). Logs worth keeping are copied into `.logs/` in the repo at the end of a session, so they travel to the other machine.
 - **Screenshots:** `.tools/screenshots.gd` captures town, mine, hall, kitchen and brewery views. Run Godot with `-s .tools/screenshots.gd -- <folder>`.
 - **Decision log:** `.tools/DECISIONS.md` has the reasoning behind every call made so far.

@@ -7,6 +7,9 @@ const GAME_SCENE: PackedScene = preload("res://game/game.tscn")
 const POTATO_CROP: CropDef = preload("res://data/crops/potato.tres")
 const GRUEL: MealDef = preload("res://data/items/gruel.tres")
 const GROG: DrinkDef = preload("res://data/items/grog.tres")
+const POTATO: ItemDef = preload("res://data/items/potato.tres")
+const KITCHEN: BuildingDef = preload("res://data/buildings/kitchen.tres")
+const GRUEL_RECIPE: RecipeDef = preload("res://data/recipes/gruel.tres")
 const TEST_DIR: String = "user://test_logs"
 
 var game: Game
@@ -50,7 +53,7 @@ func test_the_log_reads_like_a_session() -> void:
 	var plot: FarmPlot = game.world.surface.farm_plots()[0]
 	plot.sow(POTATO_CROP)
 	farmer.assignment.assign(plot)
-	_run_seconds(150)
+	_run_seconds(POTATO_CROP.grow_seconds + 60.0)
 	var text: String = _log_text()
 	assert_string_contains(text, "== Tuning ==")
 	assert_string_contains(text, "grow_seconds=", "crop numbers are in the header")
@@ -62,6 +65,22 @@ func test_the_log_reads_like_a_session() -> void:
 	assert_string_contains(text, "sowed 1 Potato", "the player's sowing")
 	assert_string_contains(text, "Plots (9):")
 	assert_string_contains(text, "  %s (Farmer): " % farmer.dwarf_name, "each dwarf's minute")
+
+
+func test_a_station_says_whether_it_waits_on_the_farm_or_on_workers() -> void:
+	game.game_log.start(TEST_DIR)
+	var kitchen: Building = game.world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
+	var stove: Workstation = kitchen.workstations()[0]
+	stove.select_recipe(GRUEL_RECIPE)
+	_run_seconds(60)
+	game.world.hall.storage.add(POTATO, 1)
+	_run_seconds(60)
+	game.world.dwarves.active()[0].assignment.assign(kitchen)
+	_run_seconds(60)
+	var minutes: PackedStringArray = _log_text().split("-- 0:0")
+	assert_string_contains(minutes[1], "Kitchen Stove: no ingredients 100%", "no potatoes: waiting on the farm")
+	assert_string_contains(minutes[2], "Kitchen Stove: unattended 100%", "a potato but no cook: waiting on workers")
+	assert_string_contains(minutes[3], "loading", "a cook on it")
 
 
 func test_closing_the_game_writes_the_totals() -> void:

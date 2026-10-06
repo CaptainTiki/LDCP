@@ -6,7 +6,7 @@ extends LogWatcher
 ## on what.
 
 const PLOT_STATES: Array[String] = ["growing", "dry", "ripe", "empty"]
-const STATION_STATES: Array[String] = ["working", "loading", "done", "idle"]
+const STATION_STATES: Array[String] = ["working", "loading", "unattended", "no ingredients", "done", "idle"]
 
 ## Things on the town grid, by instance id, and how they read in the log.
 var _placeables: Dictionary[int, String] = {}
@@ -158,10 +158,24 @@ func _station_state(station: Workstation) -> String:
 		Workstation.State.PROCESSING:
 			return "working"
 		Workstation.State.LOADING:
-			return "loading"
+			return _loading_state(station)
 		Workstation.State.OUTPUT_READY:
 			return "done"
 	return "idle"
+
+
+## A station with a recipe set is waiting on one of three things, and the log
+## keeps them apart because each has a different fix: a worker is stocking or
+## loading it ("loading"), everything is to hand but nobody is on it, so the
+## workers are short ("unattended"), or the hall lacks an ingredient, so the
+## farm is short ("no ingredients").
+func _loading_state(station: Workstation) -> String:
+	var claimant: Node = station.receiver.claimed_by
+	if claimant != null and is_instance_valid(claimant):
+		return "loading"
+	if station.can_load_by_hand():
+		return "unattended"
+	return "no ingredients"
 
 
 func _crop_in(plot: FarmPlot) -> String:
