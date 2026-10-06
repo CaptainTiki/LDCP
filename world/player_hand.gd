@@ -12,7 +12,10 @@ extends Node
 ##
 ## With no tool in hand, clicking a station selects it (the room tab shows
 ## its recipes), loads it a little, or takes its finished goods into hand.
-## Clicking an empty fermenter asks for a finished mash pot to pour from.
+## Clicking a free station starts a batch of the recipe picked for it in the
+## room tab (Workstation.player_recipe): the player's own cooking, separate
+## from what the dwarves choose. Clicking an empty fermenter asks for a
+## finished mash pot to pour from.
 
 signal changed
 
@@ -81,6 +84,9 @@ func use_station(station: Workstation, manual_work: float) -> void:
 	pour_target = null
 	if station.has_output():
 		station.take_output(carrier)
+	elif station.player_recipe != null and station.can_start(station.player_recipe):
+		station.start_batch(station.player_recipe)
+		station.receiver.apply_work(manual_work)
 	elif station.can_load_by_hand():
 		station.receiver.apply_work(manual_work)
 	elif station.is_idle() and station.is_fed_by_station():

@@ -28,6 +28,7 @@ var _shown_station: Workstation = null
 @onready var _station_title: Label = $Column/Station/Title
 @onready var _station_status: Label = $Column/Station/Status
 @onready var _recipes: GridContainer = $Column/Station/Recipes
+@onready var _cancel_button: Button = $Column/Station/CancelButton
 
 
 func setup(game: Game) -> void:
@@ -38,6 +39,7 @@ func setup(game: Game) -> void:
 	game.world.hall.storage.changed.connect(_refresh)
 	game.world.hand.changed.connect(_refresh)
 	game.unlocks.changed.connect(_on_unlocks_changed)
+	_cancel_button.pressed.connect(_on_cancel_pressed)
 
 
 ## Fills the tab for whichever building is open.
@@ -173,6 +175,7 @@ func _refresh_station() -> void:
 		return
 	_station_title.text = station.def.display_name
 	_station_status.text = station.status_text()
+	_cancel_button.visible = station.state == Workstation.State.LOADING or station.state == Workstation.State.PROCESSING
 	for child: Node in _recipes.get_children():
 		(child as RecipeSlot).refresh(station, _game.world.hall.storage)
 
@@ -183,9 +186,16 @@ func _on_unlocks_changed() -> void:
 	_refresh()
 
 
+## The player's own pick for this station. Picking it again clears it.
 func _on_recipe_chosen(recipe: RecipeDef) -> void:
 	if _shown_station != null:
-		_shown_station.select_recipe(recipe)
+		_shown_station.player_recipe = null if _shown_station.player_recipe == recipe else recipe
+		_game.world.hand.notify_changed()
+
+
+func _on_cancel_pressed() -> void:
+	if _shown_station != null:
+		_shown_station.cancel_batch()
 		_game.world.hand.notify_changed()
 
 

@@ -37,23 +37,26 @@ def icon_ext(name):
     return ("Texture2D", "res://assets/items/%s.png" % name)
 
 
-def item(name, display, col, sell=0, buy=0):
+# `quality` decides what a worker makes when he picks for himself: the best
+# his station can make from what's in the hall. Meals, drinks and the mash
+# for each drink have one; everything else is 0.
+def item(name, display, col, sell=0, buy=0, quality=0):
     tres("data/items/%s.tres" % name, "ItemDef", "item_def.gd", [
         ("id", '&"%s"' % name), ("display_name", '"%s"' % display), ("icon", 'ExtResource("2")'),
-        ("color", col), ("sell_price", sell), ("buy_price", buy)], exts=[icon_ext(name)])
+        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality)], exts=[icon_ext(name)])
 
 
-def meal(name, display, col, shift, sell=0, buy=0):
+def meal(name, display, col, shift, sell=0, buy=0, quality=0):
     tres("data/items/%s.tres" % name, "MealDef", "meal_def.gd", [
         ("id", '&"%s"' % name), ("display_name", '"%s"' % display), ("icon", 'ExtResource("2")'),
-        ("color", col), ("sell_price", sell), ("buy_price", buy), ("shift_seconds", shift)],
+        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality), ("shift_seconds", shift)],
         exts=[icon_ext(name)])
 
 
-def drink(name, display, col, low, high, duration, sell=0, buy=0):
+def drink(name, display, col, low, high, duration, sell=0, buy=0, quality=0):
     tres("data/items/%s.tres" % name, "DrinkDef", "drink_def.gd", [
         ("id", '&"%s"' % name), ("display_name", '"%s"' % display), ("icon", 'ExtResource("3")'),
-        ("color", col), ("sell_price", sell), ("buy_price", buy), ("low_multiplier", low),
+        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality), ("low_multiplier", low),
         ("high_multiplier", high), ("duration_seconds", duration),
         ("taper", 'ExtResource("2")')],
         exts=[("Curve", "res://data/items/default_taper.tres"), icon_ext(name)])
@@ -70,16 +73,16 @@ item("potato", "Potato", color(0.8, 0.65, 0.4), sell=1)
 item("barley", "Barley", color(0.9, 0.8, 0.35), sell=1)
 item("copper_ore", "Copper Ore", color(0.85, 0.5, 0.25), sell=5)
 # In-between brewing goods: made in a mash pot, poured into a fermenter.
-item("barley_mash", "Barley mash", color(0.82, 0.68, 0.32))
-item("potato_mash", "Potato mash", color(0.86, 0.8, 0.62))
+item("barley_mash", "Barley mash", color(0.82, 0.68, 0.32), quality=2)
+item("potato_mash", "Potato mash", color(0.86, 0.8, 0.62), quality=1)
 item("carrot", "Carrot", color(0.93, 0.55, 0.2), sell=1)
 item("onion", "Onion", color(0.9, 0.82, 0.6), sell=2)
-meal("roast_carrots", "Roast carrots", color(0.85, 0.45, 0.2), 400.0, sell=2)
-meal("onion_soup", "Onion soup", color(0.8, 0.65, 0.35), 960.0, sell=4)
+meal("roast_carrots", "Roast carrots", color(0.85, 0.45, 0.2), 400.0, sell=2, quality=2)
+meal("onion_soup", "Onion soup", color(0.8, 0.65, 0.35), 960.0, sell=4, quality=4)
 item("wheat", "Wheat", color(0.92, 0.8, 0.45), sell=1)
 item("radish", "Radish", color(0.85, 0.25, 0.35), sell=1)
-item("wheat_mash", "Wheat mash", color(0.9, 0.8, 0.55))
-item("radish_mash", "Radish mash", color(0.8, 0.4, 0.45))
+item("wheat_mash", "Wheat mash", color(0.9, 0.8, 0.55), quality=3)
+item("radish_mash", "Radish mash", color(0.8, 0.4, 0.45), quality=4)
 item("copper_ingot", "Copper ingot", color(0.9, 0.55, 0.3), sell=20)
 
 
@@ -93,14 +96,14 @@ def tool(name, display, col, job, multiplier, sell):
 
 tool("copper_pick", "Copper pick", color(0.95, 0.6, 0.35), 3, 1.5, 30)
 tool("copper_sickle", "Copper sickle", color(0.95, 0.6, 0.35), 1, 1.5, 30)
-meal("stew", "Stew", color(0.6, 0.3, 0.15), 600.0, sell=3)
-meal("gruel", "Gruel", color(0.75, 0.72, 0.6), 180.0, buy=4)
-drink("grog", "Grog", color(0.45, 0.55, 0.35), 0.5, 0.75, 180.0, buy=3)
-drink("ale", "Ale", color(0.9, 0.65, 0.2), 0.5, 1.0, 360.0, sell=4)
-# Steady and long, or a short sharp kick.
-drink("wheat_beer", "Wheat beer", color(0.95, 0.82, 0.4), 0.5, 0.9, 480.0, sell=4)
-drink("radish_spirit", "Radish spirit", color(0.85, 0.3, 0.4), 0.5, 1.15, 120.0, sell=5)
-drink("cognac", "Aged Mushroom Cap Cognac", color(0.5, 0.2, 0.45), 0.5, 1.5, 1800.0)
+meal("stew", "Stew", color(0.6, 0.3, 0.15), 600.0, sell=3, quality=3)
+meal("gruel", "Gruel", color(0.75, 0.72, 0.6), 180.0, buy=4, quality=1)
+drink("grog", "Grog", color(0.45, 0.55, 0.35), 0.5, 0.75, 180.0, buy=3, quality=1)
+drink("ale", "Ale", color(0.9, 0.65, 0.2), 0.5, 1.0, 360.0, sell=4, quality=2)
+# Steady and long, or a short sharp kick. Later unlocks rank higher.
+drink("wheat_beer", "Wheat beer", color(0.95, 0.82, 0.4), 0.5, 0.9, 480.0, sell=4, quality=3)
+drink("radish_spirit", "Radish spirit", color(0.85, 0.3, 0.4), 0.5, 1.15, 120.0, sell=5, quality=4)
+drink("cognac", "Aged Mushroom Cap Cognac", color(0.5, 0.2, 0.45), 0.5, 1.5, 1800.0, quality=5)
 
 # --- Unlocks ----------------------------------------------------------------------
 def unlock_sub(exts, counter, needed, label, coins, items=()):
@@ -143,17 +146,17 @@ def crop(name, display, produce, col, grow, waterings=2, unlock=None):
     tres("data/crops/%s.tres" % name, "CropDef", "crop_def.gd", props, exts=exts, subs=subs)
 
 
-# Slow crops with big yields (3x the first playtest's grow time and yield), so
-# one sowing keeps a farmer busy for a long stretch between the player's visits.
-crop("potato", "Potato", "potato", color(0.3, 0.6, 0.25), 270.0)
+# Slow crops with big yields, so one sowing lasts between the player's visits.
+# A potato takes about 10 minutes; the others keep their old ratio to it.
+crop("potato", "Potato", "potato", color(0.3, 0.6, 0.25), 600.0)
 # Early unlocks: coins only. Ore and ingots come into trades later.
-crop("carrot", "Carrot", "carrot", color(0.4, 0.7, 0.3), 180.0, unlock=("harvested", 20, "Harvest crops", 15))
-crop("onion", "Onion", "onion", color(0.45, 0.65, 0.35), 450.0, unlock=("meals_made", 15, "Cook meals", 30))
+crop("carrot", "Carrot", "carrot", color(0.4, 0.7, 0.3), 400.0, unlock=("harvested", 20, "Harvest crops", 15))
+crop("onion", "Onion", "onion", color(0.45, 0.65, 0.35), 1000.0, unlock=("meals_made", 15, "Cook meals", 30))
 # Brewing crops only unlock once the brewery is making drinks, so they're never
 # grown with nothing to use them.
-crop("barley", "Barley", "barley", color(0.75, 0.7, 0.3), 360.0, unlock=("drinks_made", 4, "Make drinks", 20))
-crop("wheat", "Wheat", "wheat", color(0.85, 0.75, 0.35), 360.0, unlock=("drinks_made", 10, "Make drinks", 40))
-crop("radish", "Radish", "radish", color(0.4, 0.7, 0.3), 210.0, unlock=("drinks_made", 20, "Make drinks", 50))
+crop("barley", "Barley", "barley", color(0.75, 0.7, 0.3), 800.0, unlock=("drinks_made", 4, "Make drinks", 20))
+crop("wheat", "Wheat", "wheat", color(0.85, 0.75, 0.35), 800.0, unlock=("drinks_made", 10, "Make drinks", 40))
+crop("radish", "Radish", "radish", color(0.4, 0.7, 0.3), 480.0, unlock=("drinks_made", 20, "Make drinks", 50))
 
 
 # --- Recipes ---------------------------------------------------------------------

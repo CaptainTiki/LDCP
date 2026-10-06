@@ -1,17 +1,21 @@
 class_name Workstation
 extends Furniture
-## A stove, mash pot, fermenter and the like. The rhythm:
-##   1. a recipe is chosen (by the player; a fermenter takes its from the mash
-##      poured in),
+## A stove, mash pot, fermenter and the like. A station rests with no
+## recipe. A batch goes:
+##   1. a batch starts: a worker picks the best he can make and sets it as he
+##      brings the first ingredients; the player's click on a free station
+##      starts their own pick (player_recipe); a fermenter takes its recipe
+##      from the mash poured in,
 ##   2. the ingredients go in. A dwarf brings one kind per trip and drops it
 ##      in; the player's clicks draw straight on the Great Hall,
 ##   3. someone works the station to load it, filling its bar. Ingredients
 ##      are only used up when the bar is full,
 ##   4. the station runs on its own timer,
-##   5. the output waits here until someone takes it away.
-## Storage-fed stations then go straight back to loading the same recipe, so
-## the cooks can keep it going. It is placed, turned and moved like any
-## furniture, and worked from the cell in front of it.
+##   5. the output waits here until someone takes it away, and the station
+##      is free again.
+## A batch can be cancelled until it's done; what went in goes back to the
+## hall. It is placed, turned and moved like any furniture, and worked from
+## the cell in front of it.
 
 enum State { IDLE, LOADING, PROCESSING, OUTPUT_READY }
 
@@ -25,8 +29,11 @@ const BAR_WIDTH: float = 14.0
 @export var jiggle_while_working: bool = false
 
 var state: State = State.IDLE
-## The recipe being made, or the last one made.
+## The batch's recipe, or null while the station is free.
 var recipe: RecipeDef = null
+## What the player makes here by hand: their click on the free station starts
+## a batch of it. Dwarves pick their own and never look at this.
+var player_recipe: RecipeDef = null
 
 var _hall_storage: Storage
 var _ledger: Ledger
@@ -100,17 +107,39 @@ func work_cell() -> Vector2i:
 	return front_nav_cell()
 
 
-## Sets what the station makes. Only while it isn't busy cooking. Switching
-## recipe hands back anything already put in.
-func select_recipe(new_recipe: RecipeDef) -> void:
-	if state == State.PROCESSING or state == State.OUTPUT_READY:
-		return
-	if new_recipe != recipe:
-		_return_stock()
+## Starts a batch of `new_recipe` on the free station. Returns whether it did.
+func start_batch(new_recipe: RecipeDef) -> bool:
+	if state != State.IDLE:
+		return false
 	recipe = new_recipe
 	state = State.LOADING
 	receiver.reset(recipe.load_work)
 	_update_bar()
+	return true
+
+
+## Could a batch of `new_recipe` start here now, with everything for it in
+## the hall?
+func can_start(new_recipe: RecipeDef) -> bool:
+	return state == State.IDLE and RecipeChooser.can_make(new_recipe, _hall_storage)
+
+
+## Stops the batch being loaded or made. Whatever went in goes back to the
+## hall, even from a pot already cooking, so nothing is lost. A finished
+## batch isn't cancelled, just taken. Returns whether there was one to stop.
+func cancel_batch() -> bool:
+	match state:
+		State.LOADING:
+			_return_stock()
+		State.PROCESSING:
+			for stack: ItemStack in recipe.inputs:
+				_hall_storage.add(stack.item, stack.count)
+			set_process(false)
+			_sprite.scale = Vector2.ONE
+		_:
+			return false
+	_free_up()
+	return true
 
 
 ## The recipe that uses `item`, or null.
@@ -129,7 +158,7 @@ func accepts(item: ItemDef) -> bool:
 ## Gets ready for something arriving: a fermenter picks its recipe.
 func prepare_for(item: ItemDef) -> void:
 	if accepts(item):
-		select_recipe(recipe_for_input(item))
+		start_batch(recipe_for_input(item))
 
 
 ## Drops in what the carrier holds, as much as the batch still needs.
@@ -153,7 +182,7 @@ func pour_from(source: Workstation) -> bool:
 	if not source.has_output() or not accepts(source.recipe.output):
 		return false
 	var mash: ItemDef = source.recipe.output
-	select_recipe(recipe_for_input(mash))
+	start_batch(recipe_for_input(mash))
 	_stock[mash] = _stock.get(mash, 0) + source.recipe.output_count
 	source.empty_output()
 	_update_bar()
@@ -191,23 +220,19 @@ func take_output(carrier: Carrier) -> bool:
 	return true
 
 
-## The output has gone. Storage-fed stations get ready to make it again.
+## The output has gone: the station is free for whoever starts the next batch.
 func empty_output() -> void:
-	if is_fed_by_station():
-		state = State.IDLE
-	else:
-		state = State.LOADING
-		receiver.reset(recipe.load_work)
-	_update_bar()
+	_free_up()
 
 
 ## Puts anything inside (ingredients, finished goods) back into the hall.
 ## For when the station is taken away.
 func return_contents() -> void:
-	_return_stock()
 	if has_output():
 		_hall_storage.add(recipe.output, recipe.output_count)
-		state = State.IDLE
+		_free_up()
+	else:
+		cancel_batch()
 
 
 func sim_tick(delta: float) -> void:
@@ -236,6 +261,8 @@ func look_lines() -> PackedStringArray:
 	var worker: Node = receiver.claimed_by
 	if worker != null and is_instance_valid(worker) and worker is Dwarf:
 		lines.append("Worked by %s" % (worker as Dwarf).dwarf_name)
+	if player_recipe != null:
+		lines.append("Your pick: %s" % player_recipe.display_name)
 	return lines
 
 
@@ -243,7 +270,9 @@ func look_lines() -> PackedStringArray:
 func status_text() -> String:
 	match state:
 		State.IDLE:
-			return "empty, pour in some mash" if is_fed_by_station() else "pick a recipe"
+			if is_fed_by_station():
+				return "empty, pour in some mash"
+			return "empty, click to make %s" % player_recipe.display_name if player_recipe != null else "empty"
 		State.LOADING:
 			if can_load_by_hand():
 				return "%s, click to load (%d%%)" % [recipe.display_name, roundi(receiver.ratio() * 100.0)]
@@ -301,6 +330,13 @@ func _return_stock() -> void:
 	for item: ItemDef in _stock:
 		_hall_storage.add(item, _stock[item])
 	_stock.clear()
+
+
+func _free_up() -> void:
+	state = State.IDLE
+	recipe = null
+	receiver.reset(1.0)
+	_update_bar()
 
 
 func _update_bar() -> void:

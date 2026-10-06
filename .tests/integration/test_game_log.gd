@@ -70,8 +70,6 @@ func test_the_log_reads_like_a_session() -> void:
 func test_a_station_says_whether_it_waits_on_the_farm_or_on_workers() -> void:
 	game.game_log.start(TEST_DIR)
 	var kitchen: Building = game.world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
-	var stove: Workstation = kitchen.workstations()[0]
-	stove.select_recipe(GRUEL_RECIPE)
 	_run_seconds(60)
 	game.world.hall.storage.add(POTATO, 1)
 	_run_seconds(60)

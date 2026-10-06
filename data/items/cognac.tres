@@ -12,6 +12,7 @@ icon = ExtResource("3")
 color = Color(0.5, 0.2, 0.45, 1)
 sell_price = 0
 buy_price = 0
+quality = 5
 low_multiplier = 0.5
 high_multiplier = 1.5
 duration_seconds = 1800.0

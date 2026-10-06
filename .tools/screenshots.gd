@@ -59,12 +59,12 @@ func _run() -> void:
 	world.camera.show_interior(brewery)
 	var pot: Workstation = brewery.workstations()[0]
 	var fermenter: Workstation = brewery.workstations()[1]
-	pot.select_recipe(load("res://data/recipes/barley_mash.tres") as RecipeDef)
+	pot.start_batch(load("res://data/recipes/barley_mash.tres") as RecipeDef)
 	pot.receiver.apply_work(100.0)
 	game.clock.advance(320)
 	fermenter.pour_from(pot)
 	fermenter.receiver.apply_work(100.0)
-	pot.select_recipe(load("res://data/recipes/barley_mash.tres") as RecipeDef)
+	pot.start_batch(load("res://data/recipes/barley_mash.tres") as RecipeDef)
 	pot.receiver.apply_work(2.0)
 	game.clock.advance(300)
 	world.input.click(pot.global_position + Vector2(8, 8))

@@ -1,17 +1,19 @@
 class_name StationWorkerRole
 extends DwarfRole
-## Cooks and brewers. Assigned to a building, the dwarf keeps its stations
-## going:
+## Cooks, brewers, smelters and smiths. Assigned to a building, the dwarf
+## keeps its stations going by himself:
 ##   - empties finished stations, taking mash straight to a station that
 ##     wants it and everything else to the Great Hall,
-##   - fetches ingredients from the hall for stations that have a recipe set,
-##     one kind per trip, and drops them in,
-##   - works the bar once everything is inside,
+##   - finishes any batch already started, his or the player's: fetches what
+##     it still needs from the hall, one kind per trip, then works the bar,
+##   - at a free station, picks the best he can make from what's in the hall
+##     (RecipeChooser), fetches it, and sets the recipe as he drops it in,
 ##   - feeds empty fermenters from any mash waiting in the hall.
-## Stations with no recipe are left alone: what to make is the player's call.
 
 ## The station being stocked, loaded or emptied.
 var _station: Workstation = null
+## What he means to make at the free station he's fetching for.
+var _plan: RecipeDef = null
 
 
 func title() -> String:
@@ -66,24 +68,45 @@ func _deliver(building: Building) -> void:
 	if _station == null:
 		_haul_to_hall()
 		return
-	if _walk_to(_station.work_cell()) and not _station.deposit(dwarf.carrier):
+	if not _walk_to(_station.work_cell()):
+		return
+	if _station.is_idle() and _plan != null:
+		_station.start_batch(_plan)  # He sets the recipe as the first of it goes in.
+		_plan = null
+	if not _station.deposit(dwarf.carrier):
 		_drop_station()
 
 
 func _wants(station: Workstation, item: ItemDef) -> bool:
-	return station.accepts(item) or station.still_needs(item) > 0
+	if station.accepts(item) or station.still_needs(item) > 0:
+		return true
+	return station == _station and station.is_idle() and _plan != null and _plan.needs(item) > 0
 
 
-## Finished goods first, then any station we can stock or load.
+## Finished goods first, then batches already started, then a free station
+## with something worth making.
 func _pick_station(building: Building) -> Workstation:
 	var finished: Workstation = _claim_first(building, func(station: Workstation) -> bool: return station.has_output())
 	if finished != null:
 		return finished
-	return _claim_first(building, _has_job)
+	var started: Workstation = _claim_first(building, _has_job)
+	if started != null:
+		return started
+	var free: Workstation = _claim_first(building, func(station: Workstation) -> bool: return _plan_for(station) != null)
+	if free != null:
+		_plan = _plan_for(free)
+	return free
 
 
 func _has_job(station: Workstation) -> bool:
 	return station.is_stocked() or _next_ingredient(station) != null
+
+
+## The best batch to start at a free, storage-fed station, or null.
+func _plan_for(station: Workstation) -> RecipeDef:
+	if not station.is_idle() or station.is_fed_by_station():
+		return null
+	return RecipeChooser.best_for(station, dwarf.world)
 
 
 ## The ingredient we'd fetch from the hall next for this station, or null.
@@ -100,6 +123,11 @@ func _next_ingredient(station: Workstation) -> ItemDef:
 			var stack: ItemStack = r.inputs[0]
 			if storage.count(stack.item) >= stack.count:
 				return stack.item
+		return null
+	if station == _station and station.is_idle() and _plan != null:
+		for stack: ItemStack in _plan.inputs:
+			if storage.count(stack.item) >= stack.count:
+				return stack.item
 	return null
 
 
@@ -110,7 +138,8 @@ func _fetch_for(station: Workstation) -> void:
 		return
 	var amount: int = station.still_needs(item)
 	if amount == 0:
-		amount = station.recipe_for_input(item).needs(item)
+		var batch: RecipeDef = station.recipe_for_input(item) if station.is_fed_by_station() else _plan
+		amount = batch.needs(item)
 	amount = mini(amount, dwarf.carrier.capacity)
 	var hall: GreatHall = dwarf.world.hall
 	if _walk_to(hall.storage_cell()) and hall.storage.remove(item, amount):
@@ -120,21 +149,23 @@ func _fetch_for(station: Workstation) -> void:
 ## Why none of the building's stations will want him without the player
 ## stepping in, or "" if one is busy and will want him again by itself.
 func _idle_reason(building: Building) -> String:
-	var any_recipe: bool = false
+	var any_makeable: bool = false
 	for station: Workstation in building.workstations():
 		var claimant: Node = station.receiver.claimed_by
 		var someone_else_on_it: bool = claimant != null and is_instance_valid(claimant) and claimant != dwarf
 		if station.state == Workstation.State.PROCESSING or someone_else_on_it:
 			return ""
-		any_recipe = any_recipe or station.recipe != null
-	return "Missing ingredients" if any_recipe else "No recipe set"
+		any_makeable = any_makeable or RecipeChooser.any_makeable(station, dwarf.world.hall.storage)
+	return "Nothing needed" if any_makeable else "Missing ingredients"
 
 
 ## A station is worth keeping while there's still something to do at it.
 func _still_wanted(station: Workstation) -> bool:
 	if not is_instance_valid(station) or not station.is_inside_tree():
 		return false
-	return station.has_output() or station.needs_loading() or (station.is_fed_by_station() and station.is_idle())
+	if station.has_output() or station.needs_loading():
+		return true
+	return station.is_idle() and (station.is_fed_by_station() or _plan != null)
 
 
 ## Reserves the first free station that passes `test`.
@@ -153,3 +184,4 @@ func _drop_station() -> void:
 	if is_instance_valid(_station):
 		_station.receiver.release(dwarf)
 	_station = null
+	_plan = null

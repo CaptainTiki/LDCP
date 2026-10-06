@@ -1,8 +1,8 @@
 class_name RecipeSlot
 extends Button
 ## One recipe in the room tab: what goes in (one or two ingredients), an
-## arrow, what comes out. Pick it to set the selected station making it.
-## A recipe can be picked before its ingredients exist: the station waits.
+## arrow, what comes out. Pick it to make it yourself: clicking the station
+## while it's free starts a batch. The dwarves choose their own.
 ## Ingredients the hall is short of show in red.
 
 signal chosen(recipe: RecipeDef)
@@ -34,10 +34,10 @@ func setup(for_recipe: RecipeDef) -> void:
 	tooltip_text = _tooltip
 
 
-## Pressed when the station is making this; greyed out only when the
-## station takes poured mash instead.
+## Pressed while it's the player's pick; greyed out only when the station
+## takes poured mash instead.
 func refresh(station: Workstation, storage: Storage) -> void:
-	set_pressed_no_signal(station.recipe == recipe and not station.is_idle())
+	set_pressed_no_signal(station.player_recipe == recipe)
 	disabled = station.is_fed_by_station()
 	var short: bool = false
 	for i: int in recipe.inputs.size():
@@ -45,7 +45,7 @@ func refresh(station: Workstation, storage: Storage) -> void:
 		var is_short: bool = storage.count(stack.item) < stack.count
 		_in_counts[i].modulate = SHORT_COLOR if is_short else Color.WHITE
 		short = short or is_short
-	tooltip_text = _tooltip + ("\nNot enough in the hall yet: the station will wait" if short else "")
+	tooltip_text = _tooltip + ("\nNot enough in the hall yet" if short else "")
 
 
 func _pressed() -> void:

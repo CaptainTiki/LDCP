@@ -359,3 +359,33 @@ From the user's playtest screenshot: inside a kitchen, the roster was pushed off
 **Tabs zigzag in two staggered columns** (user's call). The 150px-tall tab column had no room for an eighth button. The X sits top right, then each tab drops half a step to the other side: Farm, Build, Ores, Inventory, Shop, Debug. Options stays at the bottom. Hidden tabs are skipped, so indoors the room tab closes up under the X. The side panel is 22px wider for it.
 
 A test now checks the HUD's minimum width against the 640px canvas with one of everything in the hall, both in town and in a kitchen with a stove's recipes showing.
+
+## Stations run themselves; the player's pick is their own (2026-10-06)
+
+From the 74-minute playtest: the town stalled whenever the player was away, and stations only ever made what the player had set. The user asked for dwarves who get on with things, with the player able to step in.
+
+**A station rests with no recipe** (user's call). A worker at a free station picks the best-quality recipe whose ingredients are all in the Great Hall, carries them over, and sets the recipe as the first of them goes in. When the output is taken away the station is free again, and the next batch is whatever is best then. So when potatoes run out, a cook falls back to roast carrots by himself.
+- **Quality is a number on each item** (user's call): gruel 1, roast carrots 2, stew 3, onion soup 4; grog 1, ale 2, wheat beer 3, radish spirit 4, cognac 5; each mash ranks as its drink. Kept apart from how long a meal lasts, so meal lengths can be tuned freely, and ready for food moods later. The numbers are my pick, following unlock order.
+- **Workers finish any batch already started**, theirs or the player's (my call), so a half-loaded station never sits stuck.
+- **A tool is only forged while a dwarf in its job lacks one that good** (my call), counting tools in the hall and on other anvils. Tools never wear out, so an anvil left to pick freely would turn every ingot into spare picks. A smith with nothing wanted says "Nothing needed".
+- `RecipeChooser` holds the rule. "No recipe set" is gone as an idle reason; a worker with nothing makeable says "Missing ingredients".
+
+**The player's pick only affects what the player makes** (user's call). Picking a recipe in the room tab sets `Workstation.player_recipe` and nothing else. A click on the station while it's free, with everything for the recipe in the hall, starts a batch of it and puts the click's work in. While a batch is on, clicks load or empty it as before. Dwarves never read the player's pick.
+
+**Cancel batch** (user's call): a button in the room tab while a batch is loading or cooking. What went in goes back to the hall, even from a pot already cooking (my call: nothing the player does loses goods). A finished batch isn't cancelled, just taken.
+
+**The log** no longer says "set to" for every batch (dwarves start one every couple of minutes). It logs the player's picks instead. A free station's time splits like a loading one: a worker fetching for it ("loading"), something to make but nobody on it ("unattended"), nothing it can make ("no ingredients"), or nothing wanted ("idle").
+
+Not built, to watch: a cook now turns every potato into a meal as fast as he can, so the kitchen and the brewery's potato mash compete for potatoes, and meals pile up with nothing to stop them. A stock target per station (stop at N stews) would fix both if it bites.
+
+## Crops grow about 2.2x as long; the food chain tool (2026-10-06)
+
+**A potato takes 10 minutes** (user's call, from 4.5); the others keep their ratio to it: carrot 400s, radish 480s, barley and wheat 800s, onion 1000s. Still 2 waterings each, so a watering lasts about 5 minutes on a potato.
+
+**`.tools/food_chain.gd`** runs the real game headless with a steady player (every empty plot resown with potatoes at once; 1 farmer, 1 cook, 2 miners, 9 plots) and prints potatoes grown, meals made and eaten, and each dwarf's work share. It turns them into "one plot feeds N dwarves" and "one stove feeds N dwarves". The first run, 90 game minutes on these numbers:
+- A plot gives 6 potatoes every 11.5 minutes (0.52 a minute).
+- One stove made 42 stews (0.47 a minute; cooking 47% of the time, the rest waiting while the cook carried stew out and potatoes in).
+- Dwarves ate 24 work-seconds of food a minute each. Miners worked about 70% of the time; the farmer 9% and the cook 8%, so they hardly ate: hunger only drains while working.
+- So one plot of potatoes, cooked as stew, feeds about 6.5 dwarves, and one stove about 11.6. 346 potatoes were left over: one cook can't keep up with 9 plots.
+
+The user's target is 2 plots per dwarf for now (1 per dwarf once meals and drinks last longer): about 13x less food per plot than today. Recipes alone can't get there (a stew would need about 25 potatoes), so the levers are on the table: more potatoes per meal, smaller harvests, hunger draining on all time spent on the job, shorter meals.

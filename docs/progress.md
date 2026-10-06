@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.37`).
+Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.38`).
 
 ## Where we are
 
@@ -17,7 +17,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Farming.**
   - Farm plots are 1-tile buildings, bought, moved and destroyed in the Build tab.
   - The player sows (1 coin per seed); farmers water, harvest and haul, but never sow.
-  - Crops are slow and big: 3 to 7.5 minutes of watered growth for 6 crops, and 2 waterings each. Dry soil pauses growth.
+  - Crops are slow and big: 6.5 to 17 minutes of watered growth (a potato takes 10) for 6 crops, and 2 waterings each. Dry soil pauses growth.
   - Each plant's grow time is ±10% and each watering's length ±20%, so a field ripens and dries unevenly. One farmer keeps up with 27 plots, and a sowing of 27 lasts about 10 minutes.
   - Player tools: Hoe (roots up a plant), Bucket, Shears. Harvests go into the player's hands and are dropped off at the Great Hall.
 - **Needs.**
@@ -27,8 +27,9 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Great Hall.** Furniture (chair, table, long table): placed, moved, turned and removed on a floor grid. Placement can never wall off the room. The game starts with 4 dwarves, 2 tables and 4 chairs, a 3x3 block of 9 farm plots, and 10 gruel and 10 grog.
 - **Stations.**
   - Stove, mash pot, fermenter, smelter and anvil are furniture that makes things.
-  - Pick a recipe, fill the loading bar (player clicks or a dwarf), then the station runs on a timer.
-  - Ingredients leave storage only when the bar fills.
+  - A station rests with no recipe. A worker picks the best-quality thing he can make from the hall (each meal, drink and mash has a quality number), brings the ingredients, sets the recipe and loads it; then it runs on a timer. A tool is only forged while a dwarf in its job lacks one.
+  - The player's pick in the room tab is their own: clicking the free station starts a batch of it. "Cancel batch" stops one and puts what went in back in the hall.
+  - For the player, ingredients leave storage only when the bar fills.
   - A station is worked from its front cell, which turns with it.
 - **Brewing.** Mash pot -> fermenter. The player pours by clicking an empty fermenter, then a finished pot. Brewers move mash themselves. One mash makes several drinks.
 - **Recipes.** Up to two ingredients. Dwarves carry one tool and one item type at a time, so two ingredients means two trips.
@@ -117,6 +118,7 @@ What the log showed:
 ## Next up
 
 1. **Waiting on the user's call:**
+   - **Food per plot.** Target: 2 plots of potatoes per dwarf now, 1 once meals last longer. `.tools/food_chain.gd` says one plot feeds about 6.5 dwarves today, so it's about 13x off. Levers: more potatoes per meal, smaller harvests, hunger draining on all job time (cooks and farmers barely eat today), shorter meals. Also: longer cook times (one stove feeds about 11 dwarves).
    - **Drinks between meals.** Dwarves only drink at meal time, so they work at the 50% floor most of the time. Options: dwarves come in for a drink when theirs runs out; drinks last as long as meals; or a drink is carried along.
    - **Keeping the farm going while the player is away.** Longer grow times, replanting as an unlock (below), or both.
    - **Potato dependency.** Carrots and onions have one use each; potatoes go into almost everything.
@@ -163,7 +165,7 @@ What the log showed:
   - Format: `proto-major.month.day.build`. The build number counts up and resets to 1 when a new month starts.
 - **Tests:**
   - GUT, in `.tests/`. Run `.tools/run_tests.ps1`, or with Godot headless: `-s addons/gut/gut_cmdln.gd -gdir=res://.tests/unit,res://.tests/integration -gexit`.
-  - 87 tests, all passing.
+  - 88 tests, all passing.
 - **Generators** (in `.tools/`):
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.
@@ -171,5 +173,6 @@ What the log showed:
 - **After pulling on the other machine,** run Godot once with `--headless --import` before the tests. Scripts with a new `class_name` aren't in that machine's class cache until then, and most tests fail with errors like "Could not find type LogWatcher".
 - **Game log:** on Windows the logs are in `%APPDATA%\Godot\app_userdata\LDCP\logs\` (beside Godot's own `godot.log`). Logs worth keeping are copied into `.logs/` in the repo at the end of a session, so they travel to the other machine.
 - **Screenshots:** `.tools/screenshots.gd` captures town, mine, hall, kitchen and brewery views. Run Godot with `-s .tools/screenshots.gd -- <folder>`.
+- **Food chain:** `.tools/food_chain.gd` plays a steady player headless for 90 game minutes (or `-- <minutes>`) and prints how many dwarves a plot and a stove feed. Run Godot with `--headless -s .tools/food_chain.gd`.
 - **Decision log:** `.tools/DECISIONS.md` has the reasoning behind every call made so far.
 - `.tests/`, `.tools/` and `.logs/` are tracked in git, so they travel with the repo. `addons/gut/` is not: install GUT 9.7.1 on a new machine. See `CLAUDE.md`.

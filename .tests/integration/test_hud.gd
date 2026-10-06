@@ -57,7 +57,7 @@ func test_the_hud_fits_the_screen_however_much_the_town_has() -> void:
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	world.camera.show_interior(kitchen)
 	var stove: Workstation = kitchen.workstations()[0]
-	stove.select_recipe(ONION_SOUP_RECIPE)
+	stove.start_batch(ONION_SOUP_RECIPE)
 	world.hand.use_station(stove, 0.0)
 	await wait_process_frames(2)
 	assert_lte(layout.get_combined_minimum_size().x, width, "in a kitchen, with a stove's recipes showing")
@@ -112,7 +112,7 @@ func test_the_look_tool_pops_up_what_a_station_is_up_to() -> void:
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	world.camera.show_interior(kitchen)
 	var stove: Workstation = kitchen.workstations()[0]
-	stove.select_recipe(GRUEL_RECIPE)
+	stove.start_batch(GRUEL_RECIPE)
 	storage.add(POTATO, 5)
 	world.input.hover(_middle_of(stove))
 	assert_true(card.current_lines().is_empty(), "without the glass, hovering shows nothing")

@@ -60,6 +60,7 @@ A desktop idle game in Godot 4.7 (GDScript) that sits in a strip along the botto
 - **Art:** `.tools/art/make_ui_art.py` and `make_world_art.py` draw all placeholder art into `assets/` from small character grids (Python + Pillow). Any PNG can be swapped for hand-drawn art without code changes.
 - **Game log:** every game run as the main scene writes `user://logs/game_<date>_<time>.log` (on Windows `%APPDATA%\Godot\app_userdata\LDCP\logs\`): the tuning in play, then events, minute summaries and totals. Read it to see how a playthrough went. Logs worth keeping are copied into `.logs/` in the repo (a dot-folder, so Godot ignores it).
 - **Screenshots:** run Godot (not headless) with `-s .tools/screenshots.gd -- <output folder>` to capture the main views.
+- **Food chain:** run Godot headless with `-s .tools/food_chain.gd [-- <game minutes>]` to see how many dwarves a plot and a stove feed on the current numbers.
 - **Godot imports:** after adding art or resources, run Godot once with `--headless --import`.
 
 ## Logging

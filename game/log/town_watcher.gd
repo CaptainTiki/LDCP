@@ -12,7 +12,9 @@ const STATION_STATES: Array[String] = ["working", "loading", "unattended", "no i
 var _placeables: Dictionary[int, String] = {}
 ## What each plot has in it, by instance id ("" when empty).
 var _plot_crops: Dictionary[int, String] = {}
-var _recipes: Dictionary[int, String] = {}
+## The player's own pick at each station (Workstation.player_recipe). Dwarves
+## start a batch every few minutes, so their picks show in "Made:" instead.
+var _player_picks: Dictionary[int, String] = {}
 var _station_names: Dictionary[int, String] = {}
 var _hall_furniture: String = ""
 var _speed: float = 1.0
@@ -29,7 +31,7 @@ func _start() -> void:
 	for plot: FarmPlot in _game.world.surface.farm_plots():
 		_plot_crops[plot.get_instance_id()] = _crop_in(plot)
 	for station: Workstation in _stations():
-		_recipes[station.get_instance_id()] = LogFormat.name_of(station.recipe)
+		_player_picks[station.get_instance_id()] = LogFormat.name_of(station.player_recipe)
 	_hall_furniture = _furniture_in_hall()
 	_speed = _game.clock.speed_scale
 	_game.world.input.player_clicked.connect(_on_player_clicked)
@@ -111,10 +113,10 @@ func _check_plots() -> void:
 func _check_recipes() -> void:
 	for station: Workstation in _stations():
 		var id: int = station.get_instance_id()
-		var recipe: String = LogFormat.name_of(station.recipe)
-		if _recipes.get(id, "-") != recipe and recipe != "-":
-			_game_log.event("%s set to %s" % [_station_names[id], recipe])
-		_recipes[id] = recipe
+		var pick: String = LogFormat.name_of(station.player_recipe)
+		if _player_picks.get(id, "-") != pick:
+			_game_log.event("%s: player picked %s" % [_station_names[id], pick])
+		_player_picks[id] = pick
 
 
 ## Every station in every building, naming new ones as they turn up.
@@ -161,11 +163,28 @@ func _station_state(station: Workstation) -> String:
 			return _loading_state(station)
 		Workstation.State.OUTPUT_READY:
 			return "done"
-	return "idle"
+	return _free_state(station)
 
 
-## A station with a recipe set is waiting on one of three things, and the log
-## keeps them apart because each has a different fix: a worker is stocking or
+## A free station is one of: a worker fetching for a batch he's about to start
+## ("loading"); something worth making but nobody to make it ("unattended");
+## nothing it can make from the hall ("no ingredients"); or nothing wanted
+## (a forge when every dwarf has his tool, a fermenter with no mash: "idle").
+func _free_state(station: Workstation) -> String:
+	var claimant: Node = station.receiver.claimed_by
+	if claimant != null and is_instance_valid(claimant):
+		return "loading"
+	if station.is_fed_by_station():
+		return "idle"
+	if RecipeChooser.best_for(station, _game.world) != null:
+		return "unattended"
+	if RecipeChooser.any_makeable(station, _game.world.hall.storage):
+		return "idle"
+	return "no ingredients"
+
+
+## A batch being loaded is waiting on one of three things, and the log keeps
+## them apart because each has a different fix: a worker is stocking or
 ## loading it ("loading"), everything is to hand but nobody is on it, so the
 ## workers are short ("unattended"), or the hall lacks an ingredient, so the
 ## farm is short ("no ingredients").

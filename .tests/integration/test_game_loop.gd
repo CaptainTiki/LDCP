@@ -301,22 +301,22 @@ func test_food_and_drink_only_go_down_while_working() -> void:
 	assert_gt(farmer.hunger.seconds_left, food_at_start - 60.0, "but only the time spent working")
 
 
-func test_kitchen_cooks_stew_and_it_reaches_the_hall() -> void:
+func test_a_cook_makes_the_best_meal_he_can_and_it_reaches_the_hall() -> void:
 	_nobody_gets_hungry()
 	storage.add(POTATO, 4)
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	assert_eq(kitchen.workstations().size(), 1, "a new kitchen comes with a stove")
 	var stove: Workstation = kitchen.workstations()[0]
-	assert_true(stove.is_idle(), "a new stove waits for a recipe")
+	assert_true(stove.is_idle(), "a new stove has no recipe")
 	_dwarf(0).assignment.assign(kitchen)
-	_run_seconds(20)
-	assert_true(stove.is_idle(), "cooks never pick the recipe")
-	stove.select_recipe(STEW_RECIPE)
-	_run_seconds(60)
-	assert_eq(stove.state, Workstation.State.PROCESSING, "loaded and cooking on its own")
+	_run_seconds(80)
+	assert_eq(stove.recipe, STEW_RECIPE, "from potatoes, stew is the best he can make")
+	assert_eq(stove.state, Workstation.State.PROCESSING, "he brought them, set it and loaded it")
 	_run_seconds(STEW_RECIPE.process_seconds * 2 + 240)
 	assert_eq(storage.count(STEW), 2, "both batches cooked and carried to the hall")
 	assert_eq(storage.count(POTATO), 0)
+	assert_true(stove.is_idle(), "and the stove rests with no recipe")
+	assert_null(stove.recipe)
 
 
 func test_brewery_needs_unlocking_then_brews_ale() -> void:
@@ -329,8 +329,6 @@ func test_brewery_needs_unlocking_then_brews_ale() -> void:
 	storage.add(BARLEY, 3)
 	var brewery: Building = world.surface.build(BREWERY, Vector2i(40, 1)) as Building
 	assert_eq(brewery.workstations().size(), 2, "a mash pot and a fermenter")
-	var pot: Workstation = brewery.workstations()[0]
-	pot.select_recipe(BARLEY_MASH_RECIPE)
 	_dwarf(0).assignment.assign(brewery)
 	_run_seconds(BARLEY_MASH_RECIPE.process_seconds + ALE_RECIPE.process_seconds + 200)
 	assert_eq(storage.count(ALE), ALE_RECIPE.output_count, "the brewer moved the mash himself, and one mash made four ales")
@@ -654,8 +652,6 @@ func test_kitchen_stoves_are_placed_turned_and_worked_from_the_front() -> void:
 
 	_nobody_gets_hungry()
 	storage.add(POTATO, 4)
-	for station: Workstation in kitchen.workstations():
-		station.select_recipe(STEW_RECIPE)
 	_dwarf(0).assignment.assign(kitchen)
 	_run_seconds(STEW_RECIPE.process_seconds + 120)
 	assert_eq(storage.count(STEW), 2, "both stoves cooked, turned or not")
@@ -683,21 +679,50 @@ func _click_station(station: Workstation) -> void:
 	world.input.click(station.global_position + Vector2(8, 8))
 
 
-func test_a_recipe_can_be_picked_before_its_ingredients_exist() -> void:
+func test_the_players_pick_starts_only_when_they_click_and_the_hall_has_it() -> void:
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
+	world.camera.show_interior(kitchen)
 	assert_eq(storage.count(POTATO), 0)
 	var slot: RecipeSlot = add_child_autofree((load("res://ui/recipe_slot.tscn") as PackedScene).instantiate()) as RecipeSlot
 	slot.setup(GRUEL_RECIPE)
 	slot.refresh(stove, storage)
 	assert_false(slot.disabled, "no potatoes yet, but gruel can still be picked")
 	assert_eq((slot.get_node("Margin/Row/In1Count") as Label).modulate, RecipeSlot.SHORT_COLOR, "the missing potato shows in red")
-	stove.select_recipe(GRUEL_RECIPE)
-	assert_eq(stove.status_text(), "Gruel, waiting for 1 Potato", "the stove says what it's waiting for")
+	stove.player_recipe = GRUEL_RECIPE
+	slot.refresh(stove, storage)
+	assert_true(slot.button_pressed, "the player's pick shows pressed")
+	assert_true(stove.is_idle(), "picking alone starts nothing")
+	assert_eq(stove.status_text(), "empty, click to make Gruel")
+	_click_station(stove)
+	assert_true(stove.is_idle(), "no potatoes: the click can't start it")
 	storage.add(POTATO, 1)
 	slot.refresh(stove, storage)
 	assert_eq((slot.get_node("Margin/Row/In1Count") as Label).modulate, Color.WHITE)
+	_click_station(stove)
+	assert_eq(stove.recipe, GRUEL_RECIPE, "now a click starts the player's gruel")
 	assert_string_contains(stove.status_text(), "click to load")
+
+
+func test_cancelling_a_batch_puts_what_went_in_back() -> void:
+	storage.add(POTATO, 2)
+	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
+	var stove: Workstation = kitchen.workstations()[0]
+	var cancel: Button = game.hud.get_node("Root/Layout/SidePanel/Row/Pages/Room/Column/Station/CancelButton")
+	world.camera.show_interior(kitchen)
+	stove.player_recipe = STEW_RECIPE
+	_click_station(stove)
+	assert_true(cancel.visible, "a batch on: it can be cancelled")
+	while stove.needs_loading():
+		_click_station(stove)
+	assert_eq(stove.state, Workstation.State.PROCESSING)
+	assert_eq(storage.count(POTATO), 0, "cooking: the potatoes are in the pot")
+	cancel.pressed.emit()
+	assert_true(stove.is_idle(), "cancelled")
+	assert_null(stove.recipe)
+	assert_eq(storage.count(POTATO), 2, "and the potatoes are back in the hall")
+	assert_false(cancel.visible, "nothing left to cancel")
+	assert_false(stove.cancel_batch())
 
 
 func test_player_cooks_by_picking_a_recipe_and_clicking() -> void:
@@ -709,8 +734,9 @@ func test_player_cooks_by_picking_a_recipe_and_clicking() -> void:
 	assert_eq(world.hand.selected_station, stove, "clicking a station selects it")
 	assert_true(stove.is_idle(), "nothing happens until a recipe is picked")
 
-	stove.select_recipe(STEW_RECIPE)
+	stove.player_recipe = STEW_RECIPE
 	_click_station(stove)
+	assert_eq(stove.recipe, STEW_RECIPE, "a click on the free stove starts the player's pick")
 	assert_gt(stove.receiver.progress, 0.0, "each click fills the bar a little")
 	assert_eq(storage.count(POTATO), 2, "ingredients stay in the hall until the bar is full")
 	var clicks: int = 1
@@ -726,7 +752,7 @@ func test_player_cooks_by_picking_a_recipe_and_clicking() -> void:
 	var stew_before: int = storage.count(STEW)
 	_click_station(stove)
 	assert_eq(world.hand.carrier.item, STEW, "the stew is in the player's hands")
-	assert_true(stove.needs_loading(), "the stove is ready to make the same again")
+	assert_true(stove.is_idle(), "the stove is free again")
 	world.camera.show_surface()
 	world.input.click(world.hall.global_position + Vector2(40, -40))
 	assert_eq(storage.count(STEW), stew_before + 1, "dropped off at the hall")
@@ -740,7 +766,8 @@ func test_player_pours_mash_from_pot_to_fermenter() -> void:
 	var pot: Workstation = brewery.workstations()[0]
 	var fermenter: Workstation = brewery.workstations()[1]
 	world.camera.show_interior(brewery)
-	pot.select_recipe(POTATO_MASH_RECIPE)
+	pot.player_recipe = POTATO_MASH_RECIPE
+	_click_station(pot)
 	while pot.needs_loading():
 		_click_station(pot)
 	_run_seconds(POTATO_MASH_RECIPE.process_seconds + 1)
@@ -782,7 +809,7 @@ func test_ledger_counts_harvests_meals_and_ore() -> void:
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
 	storage.add(POTATO, 1)
-	stove.select_recipe(GRUEL_RECIPE)
+	stove.start_batch(GRUEL_RECIPE)
 	stove.receiver.apply_work(100.0)
 	_run_seconds(GRUEL_RECIPE.process_seconds + 1)
 	assert_eq(world.ledger.count(Ledger.MEALS_MADE), 1)
@@ -816,7 +843,6 @@ func test_onion_soup_takes_two_trips_and_appears_with_onions() -> void:
 	storage.add(POTATO, 2)
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
-	stove.select_recipe(ONION_SOUP_RECIPE)
 	var cook: Dwarf = _dwarf(0)
 	cook.assignment.assign(kitchen)
 	var carried: Array[ItemDef] = []
@@ -826,6 +852,7 @@ func test_onion_soup_takes_two_trips_and_appears_with_onions() -> void:
 			carried.append(cook.carrier.item)
 		if stove.state == Workstation.State.PROCESSING:
 			break
+	assert_eq(stove.recipe, ONION_SOUP_RECIPE, "with an onion in, onion soup is the best he can make")
 	assert_eq(stove.state, Workstation.State.PROCESSING, "the cook stocked it and worked the bar")
 	assert_has(carried, ONION, "one trip for the onion")
 	assert_has(carried, POTATO, "another for the potatoes")
@@ -837,7 +864,7 @@ func test_removing_a_station_returns_what_was_in_it() -> void:
 	storage.add(POTATO, 2)
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
-	stove.select_recipe(STEW_RECIPE)
+	stove.start_batch(STEW_RECIPE)
 	var carrier: Carrier = world.hand.carrier
 	carrier.add(POTATO, 2)
 	storage.remove(POTATO, 2)
@@ -903,17 +930,20 @@ func test_ore_becomes_ingots_becomes_a_pick_that_speeds_up_a_miner() -> void:
 	var forge: Building = world.surface.build(forge_def, Vector2i(44, 1)) as Building
 	var smelter: Workstation = smeltery.workstations()[0]
 	var anvil: Workstation = forge.workstations()[0]
-	smelter.select_recipe(smelter.station_def().recipes[0])
-	anvil.select_recipe(anvil.station_def().recipes[0])
 	_dwarf(0).assignment.assign(smeltery)
-	_dwarf(1).assignment.assign(forge)
+	var smith: Dwarf = _dwarf(1)
+	smith.assignment.assign(forge)
 	_run_seconds(600)
 	assert_eq(world.ledger.count(&"made:copper_ingot"), 2, "six ore smelted into two ingots")
-	assert_eq(storage.count(pick), 1, "two ingots forged into a pick, carried to the hall")
+	assert_true(anvil.is_idle(), "no miner lacks a pick, so nothing is forged")
+	assert_eq(smith.status_text(), "Nothing needed")
 
 	var miner: Dwarf = _dwarf(2)
 	miner.assignment.assign(world.mine_entrance)
+	_run_seconds(1)
 	var bare_rate: float = miner.worker.rate()
+	_run_seconds(400)
+	assert_eq(world.ledger.count(&"made:copper_pick"), 1, "a miner without a pick: the smith forges one, and only one")
 	miner.equip_best_tool(storage)
 	assert_eq(miner.tool, pick, "a miner at the hall takes the pick")
 	assert_eq(storage.count(pick), 0)
@@ -1042,21 +1072,18 @@ func test_a_dwarf_with_no_job_potters_outside_the_hall_with_a_question_mark() ->
 	assert_false((dwarf.get_node("Visual/IdleMark") as Sprite2D).visible)
 
 
-func test_cooks_with_no_recipe_or_ingredients_wait_in_their_kitchen() -> void:
+func test_cooks_with_nothing_to_cook_wait_in_their_kitchen() -> void:
 	_nobody_gets_hungry()
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
 	var cook: Dwarf = _dwarf(0)
 	cook.assignment.assign(kitchen)
 	_run_seconds(40)
-	assert_eq(cook.status_text(), "No recipe set")
+	assert_eq(cook.status_text(), "Missing ingredients", "nothing in the hall he can cook")
 	assert_eq(world.interiors.room_at(cook.mover.cell), kitchen.interior, "he stays in, so you can see he's the cook")
-	stove.select_recipe(STEW_RECIPE)
-	_run_seconds(1)
-	assert_eq(cook.status_text(), "Missing ingredients", "a recipe but no potatoes")
 	storage.add(POTATO, 2)
-	_run_seconds(30)
-	assert_false(cook.idler.is_idle(), "potatoes in: back to work")
+	_run_seconds(60)
+	assert_false(cook.idler.is_idle(), "potatoes in: he picks a meal and gets to it")
 	assert_ne(stove.state, Workstation.State.IDLE)
 
 

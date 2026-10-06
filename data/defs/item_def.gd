@@ -12,3 +12,6 @@ extends Resource
 @export var sell_price: int = 0
 ## Coins per unit when bought from the shop. 0 means it cannot be bought.
 @export var buy_price: int = 0
+## How good it is. A worker left to himself makes the best his station can
+## (RecipeChooser). Meals, drinks and the mash for each drink have one.
+@export var quality: int = 0
