@@ -12,3 +12,4 @@ color = Color(0.9, 0.82, 0.6, 1)
 sell_price = 2
 buy_price = 0
 quality = 0
+category = 1

@@ -25,6 +25,10 @@ extends Resource
 ## How many harvested crops the player can hold before dropping them off.
 @export var hand_capacity: int = 50
 
+@export_group("Market")
+## Work units to sell one item at the market stall.
+@export var sell_work_per_item: float = 2.0
+
 @export_group("Prices")
 @export var hire_cost: int = 40
 ## Each dwarf hired beyond the starting crew costs this much more.

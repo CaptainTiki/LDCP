@@ -223,6 +223,26 @@ def name_to_file(name):
     return out
 
 
+# The market's room: the stall against the back wall, the trader's spot in
+# front of it. Goods on the counter are tinted the colour of what's for sale.
+market_room = room_nodes("MarketInterior", "1", 20, 8)
+market_room[0] = node("MarketInterior", "Node2D", None, [("script", 'ExtResource("1")'),
+                                                         ("floor_size_cells", "Vector2i(20, 8)"),
+                                                         ("reserved_rects", "Array[Rect2i]([Rect2i(8, 0, 4, 3)])")])
+market_room += [
+    node("Stall", "Node2D", ".", [("script", 'ExtResource("2")'), ("position", "Vector2(64, 0)")]),
+    sprite("Sprite", "Stall", "20", 0, 0),
+    sprite("Goods", "Stall", "21", 8, 2, [("visible", "false")]),
+    node("WorkReceiver", "Node", "Stall", [("script", 'ExtResource("3")')]),
+    node("WorkSpot", "Marker2D", "Stall", [("position", "Vector2(16, 20)")]),
+    clickable("Stall", 0, 0, 32, 16, "4")]
+scene("entities/buildings/market_interior.tscn",
+      [ext("Script", "res://entities/buildings/market_interior.gd", "1"),
+       ext("Script", "res://entities/buildings/market_stall.gd", "2"),
+       ext("Script", RECEIVER, "3"), ext("Script", CLICKABLE, "4")] + ROOM_EXTS
+      + [ext("Texture2D", A + "interiors/stall.png", "20"),
+         ext("Texture2D", A + "interiors/stall_goods.png", "21")], market_room)
+
 work_room("KitchenInterior", ["stove"])
 work_room("BreweryInterior", ["mash_pot", "fermenter"])
 work_room("SmelteryInterior", ["smelter"])
@@ -296,6 +316,7 @@ building("kitchen", "Kitchen", B + "building.gd", B + "kitchen_interior.tscn", 4
 building("brewery", "Brewery", B + "building.gd", B + "brewery_interior.tscn", 48, 32, "Brewery")
 building("smeltery", "Smeltery", B + "building.gd", B + "smeltery_interior.tscn", 48, 32, "Smeltery")
 building("forge", "Forge", B + "building.gd", B + "forge_interior.tscn", 48, 32, "Forge")
+building("market", "Market", B + "market.gd", B + "market_interior.tscn", 48, 32, "Market")
 
 scene("entities/buildings/mine_entrance.tscn",
       [ext("Script", B + "mine_entrance.gd", "1"), ext("Script", CLICKABLE, "2"),
@@ -319,7 +340,7 @@ dwarf_exts = [
     ext("Texture2D", A + "dwarf/pick.png", "17"), ext("Texture2D", A + "dwarf/sack.png", "18"),
     ext("Texture2D", A + "mine/lift_car.png", "19"), ext("Script", D + "roles/tool_errand.gd", "20"),
     ext("Texture2D", A + "ui/icons/marker.png", "21"), ext("Script", D + "components/idler.gd", "22"),
-    ext("Texture2D", A + "ui/icons/idle.png", "23")]
+    ext("Texture2D", A + "ui/icons/idle.png", "23"), ext("Script", D + "roles/trader_role.gd", "24")]
 
 
 def comp(name, rid, parent="."):
@@ -346,7 +367,7 @@ scene("actors/dwarf/dwarf.tscn", dwarf_exts, [
     node("Roles", "Node", "."),
     comp("Idle", "9", "Roles"), comp("Farmer", "10", "Roles"), comp("StationWorker", "11", "Roles"),
     comp("Miner", "12", "Roles"), comp("DigWork", "14", "Roles/Miner"), comp("MealBreak", "13", "Roles"),
-    comp("ToolErrand", "20", "Roles")])
+    comp("ToolErrand", "20", "Roles"), comp("Trader", "24", "Roles")])
 
 # --- World -----------------------------------------------------------------------------
 W = "res://world/"

@@ -10,5 +10,6 @@ display_name = "Copper pick"
 icon = ExtResource("2")
 color = Color(0.95, 0.6, 0.35, 1)
 sell_price = 30
+category = 6
 job = 3
 work_multiplier = 1.5

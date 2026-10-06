@@ -2,6 +2,9 @@ class_name ItemDef
 extends Resource
 ## Anything that can sit in storage or ride on a dwarf's back.
 
+## Groups for lists of every item, like the market's.
+enum Category { OTHER, CROP, MEAL, DRINK, BREWING, METAL, TOOL }
+
 @export var id: StringName
 @export var display_name: String = ""
 ## Shown in the UI: storage tabs, the top bar, shop rows.
@@ -15,3 +18,4 @@ extends Resource
 ## How good it is. A worker left to himself makes the best his station can
 ## (RecipeChooser). Meals, drinks and the mash for each drink have one.
 @export var quality: int = 0
+@export var category: Category = Category.OTHER

@@ -40,23 +40,30 @@ def icon_ext(name):
 # `quality` decides what a worker makes when he picks for himself: the best
 # his station can make from what's in the hall. Meals, drinks and the mash
 # for each drink have one; everything else is 0.
-def item(name, display, col, sell=0, buy=0, quality=0):
+# `category` groups items in lists of everything (the market's): ItemDef.Category.
+OTHER, CROP, MEAL, DRINK, BREWING, METAL, TOOL = range(7)
+
+
+def item(name, display, col, sell=0, buy=0, quality=0, category=OTHER):
     tres("data/items/%s.tres" % name, "ItemDef", "item_def.gd", [
         ("id", '&"%s"' % name), ("display_name", '"%s"' % display), ("icon", 'ExtResource("2")'),
-        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality)], exts=[icon_ext(name)])
+        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality), ("category", category)],
+        exts=[icon_ext(name)])
 
 
 def meal(name, display, col, shift, sell=0, buy=0, quality=0):
     tres("data/items/%s.tres" % name, "MealDef", "meal_def.gd", [
         ("id", '&"%s"' % name), ("display_name", '"%s"' % display), ("icon", 'ExtResource("2")'),
-        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality), ("shift_seconds", shift)],
+        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality), ("category", MEAL),
+        ("shift_seconds", shift)],
         exts=[icon_ext(name)])
 
 
 def drink(name, display, col, low, high, duration, sell=0, buy=0, quality=0):
     tres("data/items/%s.tres" % name, "DrinkDef", "drink_def.gd", [
         ("id", '&"%s"' % name), ("display_name", '"%s"' % display), ("icon", 'ExtResource("3")'),
-        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality), ("low_multiplier", low),
+        ("color", col), ("sell_price", sell), ("buy_price", buy), ("quality", quality), ("category", DRINK),
+        ("low_multiplier", low),
         ("high_multiplier", high), ("duration_seconds", duration),
         ("taper", 'ExtResource("2")')],
         exts=[("Curve", "res://data/items/default_taper.tres"), icon_ext(name)])
@@ -69,28 +76,28 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.65, 0.9), -0.3, -0.3, 0, 0, Ve
 point_count = 3
 """)
 
-item("potato", "Potato", color(0.8, 0.65, 0.4), sell=1)
-item("barley", "Barley", color(0.9, 0.8, 0.35), sell=1)
-item("copper_ore", "Copper Ore", color(0.85, 0.5, 0.25), sell=5)
+item("potato", "Potato", color(0.8, 0.65, 0.4), sell=1, category=CROP)
+item("barley", "Barley", color(0.9, 0.8, 0.35), sell=1, category=CROP)
+item("copper_ore", "Copper Ore", color(0.85, 0.5, 0.25), sell=5, category=METAL)
 # In-between brewing goods: made in a mash pot, poured into a fermenter.
-item("barley_mash", "Barley mash", color(0.82, 0.68, 0.32), quality=2)
-item("potato_mash", "Potato mash", color(0.86, 0.8, 0.62), quality=1)
-item("carrot", "Carrot", color(0.93, 0.55, 0.2), sell=1)
-item("onion", "Onion", color(0.9, 0.82, 0.6), sell=2)
+item("barley_mash", "Barley mash", color(0.82, 0.68, 0.32), quality=2, category=BREWING)
+item("potato_mash", "Potato mash", color(0.86, 0.8, 0.62), quality=1, category=BREWING)
+item("carrot", "Carrot", color(0.93, 0.55, 0.2), sell=1, category=CROP)
+item("onion", "Onion", color(0.9, 0.82, 0.6), sell=2, category=CROP)
 meal("roast_carrots", "Roast carrots", color(0.85, 0.45, 0.2), 400.0, sell=2, quality=2)
 meal("onion_soup", "Onion soup", color(0.8, 0.65, 0.35), 960.0, sell=4, quality=4)
-item("wheat", "Wheat", color(0.92, 0.8, 0.45), sell=1)
-item("radish", "Radish", color(0.85, 0.25, 0.35), sell=1)
-item("wheat_mash", "Wheat mash", color(0.9, 0.8, 0.55), quality=3)
-item("radish_mash", "Radish mash", color(0.8, 0.4, 0.45), quality=4)
-item("copper_ingot", "Copper ingot", color(0.9, 0.55, 0.3), sell=20)
+item("wheat", "Wheat", color(0.92, 0.8, 0.45), sell=1, category=CROP)
+item("radish", "Radish", color(0.85, 0.25, 0.35), sell=1, category=CROP)
+item("wheat_mash", "Wheat mash", color(0.9, 0.8, 0.55), quality=3, category=BREWING)
+item("radish_mash", "Radish mash", color(0.8, 0.4, 0.45), quality=4, category=BREWING)
+item("copper_ingot", "Copper ingot", color(0.9, 0.55, 0.3), sell=20, category=METAL)
 
 
 def tool(name, display, col, job, multiplier, sell):
     """`job` is a JobAssignment.Kind: 1 farmer, 2 station worker, 3 miner."""
     tres("data/items/%s.tres" % name, "ToolDef", "tool_def.gd", [
         ("id", '&"%s"' % name), ("display_name", '"%s"' % display), ("icon", 'ExtResource("2")'),
-        ("color", col), ("sell_price", sell), ("job", job), ("work_multiplier", multiplier)],
+        ("color", col), ("sell_price", sell), ("category", TOOL), ("job", job), ("work_multiplier", multiplier)],
         exts=[icon_ext(name)])
 
 
@@ -267,6 +274,10 @@ building("smeltery", "Smeltery", (3, 2), "res://entities/buildings/smeltery.tscn
          unlock=("mined", 15, "Mine ore", 80, [("copper_ore", 5)]), stations=["smelter"], door=2)
 building("forge", "Forge", (3, 2), "res://entities/buildings/forge.tscn", cost=60,
          unlock=("made:copper_ingot", 5, "Smelt ingots", 50, [("copper_ingot", 3)]), stations=["anvil"], door=2)
+# Sells the surplus over the player's keep numbers. The player sells by hand
+# first, so it turns up once there's something worth selling.
+building("market", "Market", (3, 2), "res://entities/buildings/market.tscn", cost=30,
+         unlock=("sold", 30, "Sell goods", 30), door=2)
 
 # --- Furniture ---------------------------------------------------------------
 def furniture(name, display, footprint, cost, blocks=True, seat=False):
@@ -319,6 +330,7 @@ tres("data/tuning/game_tuning.tres", "GameTuning", "game_tuning.gd", [
     ("starting_food_seconds", 180.0),
     ("walk_speed", 24.0), ("ladder_speed", 8.0), ("lift_speed", 64.0),
     ("base_work_rate", 1.0), ("carry_capacity", 6), ("eat_seconds", 4.0),
+    ("sell_work_per_item", 2.0),
     ("manual_work_per_click", 0.5), ("hand_capacity", 50),
     ("hire_cost", 40), ("hire_cost_growth", 20), ("lift_cost", 150)],
     exts=[("Script", DEFS + "item_stack.gd"),
@@ -330,7 +342,7 @@ tres("data/tuning/game_tuning.tres", "GameTuning", "game_tuning.gd", [
 item_names = ["potato", "barley", "carrot", "onion", "radish", "wheat", "gruel", "roast_carrots", "stew", "onion_soup",
               "grog", "ale", "wheat_beer", "radish_spirit", "cognac", "copper_ore", "copper_ingot", "copper_pick",
               "copper_sickle", "potato_mash", "barley_mash", "wheat_mash", "radish_mash"]
-building_names = ["farm_plot", "kitchen", "brewery", "smeltery", "forge"]
+building_names = ["farm_plot", "kitchen", "brewery", "smeltery", "forge", "market"]
 exts = [("Script", DEFS + "item_def.gd")]
 item_refs = []
 for n in item_names:

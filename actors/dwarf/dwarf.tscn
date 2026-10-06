@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/marker.png" id="21"]
 [ext_resource type="Script" path="res://actors/dwarf/components/idler.gd" id="22"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/idle.png" id="23"]
+[ext_resource type="Script" path="res://actors/dwarf/roles/trader_role.gd" id="24"]
 
 [node name="Dwarf" type="Node2D"]
 script = ExtResource("1")
@@ -116,3 +117,6 @@ script = ExtResource("13")
 
 [node name="ToolErrand" type="Node" parent="Roles"]
 script = ExtResource("20")
+
+[node name="Trader" type="Node" parent="Roles"]
+script = ExtResource("24")

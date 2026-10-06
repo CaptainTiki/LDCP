@@ -38,6 +38,7 @@ var _active_role: DwarfRole = null
 	JobAssignment.Kind.FARMER: $Roles/Farmer as DwarfRole,
 	JobAssignment.Kind.STATION: $Roles/StationWorker as DwarfRole,
 	JobAssignment.Kind.MINER: $Roles/Miner as DwarfRole,
+	JobAssignment.Kind.TRADER: $Roles/Trader as DwarfRole,
 }
 
 

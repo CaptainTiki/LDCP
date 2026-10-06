@@ -27,6 +27,7 @@ lift_speed = 64.0
 base_work_rate = 1.0
 carry_capacity = 6
 eat_seconds = 4.0
+sell_work_per_item = 2.0
 manual_work_per_click = 0.5
 hand_capacity = 50
 hire_cost = 40

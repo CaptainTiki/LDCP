@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.39`).
+Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.40`).
 
 ## Where we are
 
@@ -41,6 +41,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
   - The lift makes the climb fast (meant to become a later-game upgrade).
 - **Metal.** Smelter (3 ore -> 1 ingot); anvil (2 ingots -> copper pick or copper sickle).
 - **Tools.** A pick or sickle makes its job 1.5x faster. Dwarves upgrade at the hall. A reassigned dwarf with the wrong tool goes to swap it before doing anything else.
+- **Market.** A building with a stall. Its room tab lists every item that sells, by category, with a keep number (everything is kept until the player sets one). A trader carries anything above a keep number to the stall and sells it, a load at a time, for passive income.
 - **Unlocks.**
   - A lifetime Ledger counts everything harvested, made and mined.
   - Each unlock is a milestone (any Ledger counter), then a trade (coins early; ore and ingots later).
@@ -75,6 +76,7 @@ Brewing crops (barley, wheat, radish) only unlock once the brewery is making dri
   - Brewery: cook 10 meals, then 60 coins.
   - Smeltery: mine 15 ore, then 80 coins + 5 ore.
   - Forge: smelt 5 ingots, then 50 coins + 3 ingots.
+  - Market: sell 30 items by hand, then 30 coins.
 
 ## Playtests (2026-10-05)
 
@@ -118,8 +120,6 @@ What the log showed:
 ## Next up
 
 1. **Waiting on the user's call:**
-   - **Market stall** (user's idea): set "keep N" per item, grouped by category; a worker sells everything above it, for passive income from surplus. Open: where the settings live, its unlock, selling pace, what's kept by default.
-   - **When food runs out, the town stops for good** until the player buys gruel or works by hand: hungry farmers and cooks wait in the hall too. Food is now tight (9 plots feed about 4 dwarves), so this will happen. Option: hungry dwarves with no food keep working at half pace instead of waiting.
    - Later: fertilizer as an endgame upgrade, for more food from fewer plots (user's idea).
    - **Drinks between meals.** Dwarves only drink at meal time, so they work at the 50% floor most of the time. Options: dwarves come in for a drink when theirs runs out; drinks last as long as meals; or a drink is carried along.
    - **Keeping the farm going while the player is away.** Longer grow times, replanting as an unlock (below), or both.
@@ -127,6 +127,9 @@ What the log showed:
    - **Replanting as a later unlock** (say a seed shed around minute 15-20). As Claude remembers it, Rusty's bots replant whatever crop a plot is set to, so "only the player sows" may already differ from Rusty's. A Rusty's screenshot would settle it.
    - **Mine controls and finds** (proposal). A Mine tab while in the mine view: one row per found deposit with − N + miners (0 leaves it alone; the rest dig), and a "dig the shaft down" switch that runs the ladder to the bottom of the layer. Random finds while digging (copper chunks, rarer in dirt than stone) so mining out the whole layer pays. Questions: − N + per deposit or on/off per ore type; which finds first; how long digging out the copper layer should take with ~4 miners (about 2 hours at today's numbers).
 2. **More test runs** on the new numbers, reading the logs. Watch:
+   - running out of food: 9 plots now feed about 4 dwarves, and when food runs out everyone waits in the hall until the player buys gruel or works by hand (the user's call to keep that stall);
+   - when the brewery (cook 10 meals) and onions (15 meals) unlock, now that a plot makes a sixth of the meals it did;
+   - whether the market's passive income keeps unlocks moving between visits;
    - whether a sowing now outlasts the gap between visits;
    - whether the first harvest (now about 5-6 minutes in) comes before the starting gruel runs out;
    - stations' "unattended" vs "no ingredients" shares;
@@ -167,7 +170,7 @@ What the log showed:
   - Format: `proto-major.month.day.build`. The build number counts up and resets to 1 when a new month starts.
 - **Tests:**
   - GUT, in `.tests/`. Run `.tools/run_tests.ps1`, or with Godot headless: `-s addons/gut/gut_cmdln.gd -gdir=res://.tests/unit,res://.tests/integration -gexit`.
-  - 88 tests, all passing.
+  - 92 tests, all passing.
 - **Generators** (in `.tools/`):
   - Most `.tscn` and `.tres` files are written by `.tools/gen/gen_data.py`, `gen_scenes.py` and `gen_ui.py`. Edit there and re-run, or edit a scene in Godot and stop regenerating it.
   - Art comes from `.tools/art/make_ui_art.py` and `make_world_art.py` (they need Pillow: `python -m pip install pillow` on a new machine). Any PNG in `assets/` can be replaced by hand.

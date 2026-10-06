@@ -200,6 +200,20 @@ scene("ui/item_slot.tscn", [ext("Script", "res://ui/item_slot.gd", "1"), ext("Te
        icon_rect("Icon", "Row", None)]
       + numbers("Row", "2"))
 
+# The market's keep list: a heading per category, then a row per item.
+scene("ui/category_heading.tscn", [], [
+    node("CategoryHeading", "Label", None, [IGNORE, ("theme_override_colors/font_color", "Color(0.95, 0.8, 0.45, 1)")])])
+
+scene("ui/keep_row.tscn", [ext("Script", "res://ui/keep_row.gd", "1")],
+      [node("KeepRow", "HBoxContainer", None, [s("1"), ("theme_override_constants/separation", 2)]),
+       icon_rect("Icon", ".", None),
+       node("Name", "Label", ".", [H_EXPAND, V_CENTER, IGNORE, ("clip_text", "true")]),
+       node("Count", "Label", ".", [V_CENTER, IGNORE, RIGHT, ("custom_minimum_size", "Vector2(22, 0)")]),
+       button("Minus", ".", "-", [("tooltip_text", '"Keep fewer: sell more"')]),
+       node("Keep", "Label", ".", [V_CENTER, IGNORE, ("horizontal_alignment", 1),
+                                    ("custom_minimum_size", "Vector2(20, 0)")]),
+       button("Plus", ".", "+", [("tooltip_text", '"Keep more: sell less"')])])
+
 scene("ui/resource_chip.tscn", [ext("Script", "res://ui/resource_chip.gd", "1")],
       [node("ResourceChip", "PanelContainer", None, [SLOT_STYLE, s("1")]),
        node("Row", "HBoxContainer", ".", [IGNORE, ("theme_override_constants/separation", 2)]),
@@ -274,6 +288,8 @@ hud_exts = [
     ext("Script", U + "zigzag_tabs.gd", "52"), ext("Script", U + "inventory_tab.gd", "53"),
     ext("Script", U + "look_button.gd", "54"), ext("Texture2D", ICONS + "tab_inventory.png", "55"),
     ext("Texture2D", ICONS + "idle.png", "56"),
+    ext("Script", U + "market_panel.gd", "57"), ext("PackedScene", U + "keep_row.tscn", "58"),
+    ext("PackedScene", U + "category_heading.tscn", "59"),
     BAR_STYLES]
 L = "Root/Layout"
 R = L + "/Roster"
@@ -445,6 +461,14 @@ hud_nodes = [
          ("theme_override_constants/h_separation", 1), ("theme_override_constants/v_separation", 1)]),
     node("Drinks", "GridContainer", PG + "/Room/Column/Stock", [H_EXPAND, ("columns", 2),
          ("theme_override_constants/h_separation", 1), ("theme_override_constants/v_separation", 1)]),
+    # In the market, instead of the stock lists: how many of each item to keep.
+    node("Market", "VBoxContainer", PG + "/Room/Column", [("visible", "false"), s("57"),
+         ("row_scene", 'ExtResource("58")'), ("heading_scene", 'ExtResource("59")'),
+         ("theme_override_constants/separation", 1)]),
+    node("Hint", "Label", PG + "/Room/Column/Market", [("autowrap_mode", 3), ("custom_minimum_size", "Vector2(100, 0)"),
+         ("theme_override_colors/font_color", "Color(0.85, 0.8, 0.7, 1)"),
+         ("text", '"Keep this many in the hall. A trader sells the rest"')]),
+    node("List", "VBoxContainer", PG + "/Room/Column/Market", [("theme_override_constants/separation", 1)]),
 
     # Everything in the Great Hall, and a bar for selling the picked item.
     node("Inventory", "VBoxContainer", PG, [s("53"), ("slot_scene", 'ExtResource("12")'),

@@ -8,6 +8,7 @@ const POTATO: ItemDef = preload("res://data/items/potato.tres")
 const GRUEL: MealDef = preload("res://data/items/gruel.tres")
 const POTATO_CROP: CropDef = preload("res://data/crops/potato.tres")
 const KITCHEN: BuildingDef = preload("res://data/buildings/kitchen.tres")
+const MARKET: BuildingDef = preload("res://data/buildings/market.tres")
 const GRUEL_RECIPE: RecipeDef = preload("res://data/recipes/gruel.tres")
 const ONION_SOUP_RECIPE: RecipeDef = preload("res://data/recipes/onion_soup.tres")
 const PAGES: String = "Root/Layout/SidePanel/Row/Pages/"
@@ -61,6 +62,12 @@ func test_the_hud_fits_the_screen_however_much_the_town_has() -> void:
 	world.hand.use_station(stove, 0.0)
 	await wait_process_frames(2)
 	assert_lte(layout.get_combined_minimum_size().x, width, "in a kitchen, with a stove's recipes showing")
+	world.ledger.record_sold(POTATO, 30)
+	game.unlocks.trade(MARKET)
+	var market: Building = world.surface.build(MARKET, Vector2i(48, 1)) as Building
+	world.camera.show_interior(market)
+	await wait_process_frames(2)
+	assert_lte(layout.get_combined_minimum_size().x, width, "in the market, with its keep list")
 
 
 func test_the_top_bar_shows_the_town_at_a_glance() -> void:

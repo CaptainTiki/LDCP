@@ -29,6 +29,8 @@ var _shown_station: Workstation = null
 @onready var _station_status: Label = $Column/Station/Status
 @onready var _recipes: GridContainer = $Column/Station/Recipes
 @onready var _cancel_button: Button = $Column/Station/CancelButton
+@onready var _stock_row: HBoxContainer = $Column/Stock
+@onready var _market_panel: MarketPanel = $Column/Market
 
 
 func setup(game: Game) -> void:
@@ -40,6 +42,7 @@ func setup(game: Game) -> void:
 	game.world.hand.changed.connect(_refresh)
 	game.unlocks.changed.connect(_on_unlocks_changed)
 	_cancel_button.pressed.connect(_on_cancel_pressed)
+	_market_panel.setup(game)
 
 
 ## Fills the tab for whichever building is open.
@@ -47,6 +50,12 @@ func _rebuild() -> void:
 	var building: Building = _game.world.camera.interior_building
 	if building == null:
 		return
+	# The market has no furniture to buy and no stock lists: its keep list
+	# takes their place.
+	var market: Market = building as Market
+	_market_panel.show_for(market)
+	_tools.visible = market == null
+	_stock_row.visible = market == null
 	for list: GridContainer in [_tools, _left_stock, _right_stock]:
 		for child: Node in list.get_children():
 			list.remove_child(child)

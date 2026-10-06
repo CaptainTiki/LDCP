@@ -29,6 +29,7 @@ func sell_item(item: ItemDef, amount: int) -> bool:
 	if not _world.hall.storage.remove(item, amount):
 		return false
 	_wallet.earn(item.sell_price * amount)
+	_world.ledger.record_sold(item, amount)
 	return true
 
 

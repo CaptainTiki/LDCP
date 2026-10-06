@@ -48,6 +48,8 @@ func _lines_for(entity: Node) -> PackedStringArray:
 		return (entity as FarmPlot).look_lines()
 	if entity is Workstation:
 		return (entity as Workstation).look_lines()
+	if entity is MarketStall:
+		return (entity as MarketStall).look_lines()
 	var lines: PackedStringArray = []
 	if entity is OreNode:
 		lines.append("%s deposit" % (entity as OreNode).ore.display_name)

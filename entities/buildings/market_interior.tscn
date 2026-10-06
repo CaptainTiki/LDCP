@@ -1,0 +1,77 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/buildings/market_interior.gd" id="1"]
+[ext_resource type="Script" path="res://entities/buildings/market_stall.gd" id="2"]
+[ext_resource type="Script" path="res://entities/components/work_receiver.gd" id="3"]
+[ext_resource type="Script" path="res://entities/components/clickable.gd" id="4"]
+[ext_resource type="Texture2D" path="res://assets/interiors/wall_frame.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/interiors/floor_planks.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/interiors/door.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/interiors/table.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/interiors/storage_pile.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/interiors/stall.png" id="20"]
+[ext_resource type="Texture2D" path="res://assets/interiors/stall_goods.png" id="21"]
+
+[node name="MarketInterior" type="Node2D"]
+script = ExtResource("1")
+floor_size_cells = Vector2i(20, 8)
+reserved_rects = Array[Rect2i]([Rect2i(8, 0, 4, 3)])
+
+[node name="Walls" type="NinePatchRect" parent="."]
+offset_left = -6.0
+offset_top = -18.0
+offset_right = 166.0
+offset_bottom = 70.0
+mouse_filter = 2
+texture = ExtResource("10")
+patch_margin_left = 6
+patch_margin_top = 18
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Floor" type="TextureRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 160.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("11")
+stretch_mode = 1
+
+[node name="DoorVisual" type="Sprite2D" parent="."]
+position = Vector2(16, 64)
+centered = false
+texture = ExtResource("12")
+
+[node name="Door" type="Marker2D" parent="."]
+position = Vector2(20, 60)
+
+[node name="Furniture" type="Node2D" parent="."]
+
+[node name="Stall" type="Node2D" parent="."]
+script = ExtResource("2")
+position = Vector2(64, 0)
+
+[node name="Sprite" type="Sprite2D" parent="Stall"]
+position = Vector2(0, 0)
+centered = false
+texture = ExtResource("20")
+
+[node name="Goods" type="Sprite2D" parent="Stall"]
+position = Vector2(8, 2)
+centered = false
+texture = ExtResource("21")
+visible = false
+
+[node name="WorkReceiver" type="Node" parent="Stall"]
+script = ExtResource("3")
+
+[node name="WorkSpot" type="Marker2D" parent="Stall"]
+position = Vector2(16, 20)
+
+[node name="Clickable" type="Node2D" parent="Stall"]
+position = Vector2(0, 0)
+script = ExtResource("4")
+size = Vector2(32, 16)

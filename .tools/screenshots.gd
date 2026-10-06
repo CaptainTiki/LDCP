@@ -82,6 +82,16 @@ func _run() -> void:
 	world.camera.show_surface()
 	(game.hud.get_node("Root/Layout/SidePanel/Row/TabColumn/Tabs/InventoryButton") as Button).pressed.emit()
 	await _shot("inventory")
+	# The market: a trader selling potatoes above a keep of 10.
+	world.ledger.record_sold(load("res://data/items/potato.tres") as ItemDef, 30)
+	var market_def: BuildingDef = load("res://data/buildings/market.tres")
+	game.unlocks.trade(market_def)
+	var market: Market = world.surface.build(market_def, Vector2i(34, 2)) as Market
+	market.set_keep(load("res://data/items/potato.tres") as ItemDef, 10)
+	crew[3].assignment.assign(market)
+	game.clock.advance(600)
+	world.camera.show_interior(market)
+	await _shot("market")
 	quit()
 
 

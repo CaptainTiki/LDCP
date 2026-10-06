@@ -12,6 +12,11 @@ extends Node2D
 ## World pixels of sky shown above the pit-head in the mine view.
 @export var mine_sky_height: float = 40.0
 
+## The purse and the balance numbers, for things in the world that need
+## them once placed: the market's stall pays into the purse.
+var wallet: Wallet
+var tuning: GameTuning
+
 @onready var nav: NavGrid = $NavGrid
 @onready var ledger: Ledger = $Ledger
 @onready var terrain: Terrain = $Terrain
@@ -29,7 +34,9 @@ extends Node2D
 @onready var mine_entrance: MineEntrance = $Surface/Placeables/MineEntrance
 
 
-func setup(tuning: GameTuning, catalog: ContentCatalog, clock: SimClock, wallet: Wallet) -> void:
+func setup(game_tuning: GameTuning, catalog: ContentCatalog, clock: SimClock, purse: Wallet) -> void:
+	tuning = game_tuning
+	wallet = purse
 	terrain.setup(nav)
 	# Order matters: the level fills its ground and cuts the shaft down
 	# through it to the landing, then the town's doors are linked up.

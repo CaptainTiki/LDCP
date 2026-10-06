@@ -3,7 +3,7 @@ extends Node
 ## What the player told this dwarf to do. The player picks a target, and the
 ## kind of target decides the job. The dwarf's roles pick their own tasks.
 
-enum Kind { NONE, FARMER, STATION, MINER }
+enum Kind { NONE, FARMER, STATION, MINER, TRADER }
 
 var target: Node = null
 
@@ -16,6 +16,8 @@ static func kind_for(entity: Node) -> Kind:
 		return Kind.MINER
 	if entity is OreNode:
 		return Kind.MINER if (entity as OreNode).revealed else Kind.NONE
+	if entity is Market:
+		return Kind.TRADER
 	# The Great Hall is a building but not a workplace: dropping a dwarf
 	# there sends him back to idling.
 	if entity is Building and not entity is GreatHall:

@@ -12,4 +12,5 @@ color = Color(0.6, 0.3, 0.15, 1)
 sell_price = 3
 buy_price = 0
 quality = 3
+category = 2
 shift_seconds = 600.0

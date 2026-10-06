@@ -408,3 +408,23 @@ To watch:
 - **9 plots now just about feed the 4 starting dwarves**, so the town only grows as the farm does. If food runs out (the farm left empty, the player away), everyone stops, the farmer and cook included, and it doesn't restart by itself: the player buys gruel or waters, harvests and cooks by hand. "Hunger stalls, never hurts" made that rare before; now it's likely.
 - **Milestones counted in meals come later for the same farm**: a plot makes a sixth of the meals it did. The brewery (10 meals) and onions (15 meals) will land later unless the player grows the farm.
 - **A cook makes gruel when only 2-3 potatoes are in**, because it's the best he can make right then. Gruel is less food per potato than stew (90 work-seconds against 150), so trickling harvests waste some.
+
+## The market (2026-10-06)
+
+The user's idea: with food now tight per plot, surplus is still worth something if it can be sold without the player there. "Then it wouldn't matter that 3 dwarves are fed from 1 plot: the excess gets sold, and we have a passive income."
+
+**A market building with a stall inside** (user's call on the idea; the shape is mine). It's built like the kitchen (30 coins, 3x2). Its room has one stall against the back wall, which isn't furniture (it can't be moved or removed), so the room tab shows no furniture tools there.
+
+**The keep list lives in the market's room tab** (user's call). Every item that sells is listed by category (crops, meals, drinks, brewing, ore and metal, tools), each with its count in the hall and a - keep + control. The keep number steps through 0, 5, 10, 20, 50, 100 and "all" (my pick of steps). The count turns gold while some is for sale. Items carry a new `ItemDef.category` for the grouping.
+
+**Everything is kept until the player sets a number** (user's call), so the market never sells seed potatoes or the brewery's barley by surprise.
+
+**A trader works it** (user's call: "if you have a worker working it"). A dwarf dropped on the market gets a new job, Trader (`JobAssignment.Kind.TRADER`). He takes whatever the hall holds above a keep number, the item with the most to spare first, one kind and one load (up to 6) at a time. He puts it on the stall and works the stall to sell it, 2 work per item (`GameTuning.sell_work_per_item`, my pick). Coins arrive as each one sells. With nothing above a keep number he waits in the market with "Nothing to sell". A player's click on the stall puts in a little work, like any station. Prices are the same as selling by hand.
+
+**Unlock: sell 30 by hand, then 30 coins** (user's call). Selling from the Inventory tab now counts in the ledger (`sold`, and `sold:<item>`), and so does the market.
+
+**The world now holds the purse and the tuning** (`World.wallet`, `World.tuning`), handed down at setup like everything else, because the stall pays into the purse once it's placed.
+
+## Running out of food stays a stall (2026-10-06)
+
+With food tight, the town will run out when the player is away, and then everyone waits in the hall, the farmer and cook included, so it can't restart by itself. Offered: hungry dwarves with no food work on at half pace. **The user kept the stall**: it's the cost of running out, and the player ends it by buying gruel or by working the farm and stove by hand.

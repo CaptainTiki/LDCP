@@ -13,6 +13,7 @@ color = Color(0.85, 0.3, 0.4, 1)
 sell_price = 5
 buy_price = 0
 quality = 4
+category = 3
 low_multiplier = 0.5
 high_multiplier = 1.15
 duration_seconds = 120.0

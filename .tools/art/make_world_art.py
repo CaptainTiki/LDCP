@@ -363,6 +363,13 @@ def buildings():
     fill(forge, 10, 16, 14, 20, "45403c")
     save(forge, "assets/buildings/forge.png")
 
+    market = building(48, 40, "b04a3a", "8a3a2a", "a07a50", "6b4a28", 16, "timber", 26)
+    # A striped awning along the front wall.
+    for x in range(1, 47):
+        fill(market, x, 25, x + 1, 29, "f2e8d8" if (x // 4) % 2 else "c04030")
+    fill(market, 1, 29, 47, 30, "1e1918")
+    save(market, "assets/buildings/market.png")
+
     # Mine entrance: a rocky mound with a timbered hole in its face.
     rng = random.Random(23)
     pit = blank(32, 32)
@@ -487,6 +494,27 @@ def interiors():
     fill(barrel, 13, 9, 16, 11, "d9773a")  # copper tap
     outline_box(barrel)
     save(barrel, "assets/interiors/fermenter.png")
+
+    # The market stall: a counter under a striped awning, seen from above.
+    stall = blank(32, 16)
+    for x in range(32):
+        fill(stall, x, 0, x + 1, 5, "f2e8d8" if (x // 4) % 2 else "c04030")
+    fill(stall, 0, 5, 32, 6, "1e1918")
+    fill(stall, 0, 6, 32, 14, "a0703c")  # counter top
+    fill(stall, 0, 6, 32, 7, "c08a50")
+    fill(stall, 0, 13, 32, 14, "6b4423")
+    fill(stall, 1, 14, 3, 16, "4a3420")  # legs
+    fill(stall, 29, 14, 31, 16, "4a3420")
+    outline_box(stall)
+    save(stall, "assets/interiors/stall.png")
+
+    # Goods on the counter, light so they take the colour of what's for sale.
+    goods = blank(16, 8)
+    for i, x in enumerate((1, 6, 11)):
+        fill(goods, x, 3 - (i % 2), x + 4, 7, "e8e0d0")
+        fill(goods, x, 3 - (i % 2), x + 4, 4 - (i % 2), "ffffff")
+    outline_box(goods)
+    save(goods, "assets/interiors/stall_goods.png")
 
 
 def furniture():
