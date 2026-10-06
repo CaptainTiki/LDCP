@@ -389,3 +389,22 @@ Not built, to watch: a cook now turns every potato into a meal as fast as he can
 - So one plot of potatoes, cooked as stew, feeds about 6.5 dwarves, and one stove about 11.6. 346 potatoes were left over: one cook can't keep up with 9 plots.
 
 The user's target is 2 plots per dwarf for now (1 per dwarf once meals and drinks last longer): about 13x less food per plot than today. Recipes alone can't get there (a stew would need about 25 potatoes), so the levers are on the table: more potatoes per meal, smaller harvests, hunger draining on all time spent on the job, shorter meals.
+
+## Food all the time, meals twice the crops, harvests of 2 (2026-10-06)
+
+The user's target: 2 plots of potatoes feed 1 dwarf for now (1 per dwarf later, once meals and drinks last longer). The food chain tool said a plot fed about 6.5 dwarves. Three levers, all the user's calls:
+- **Food runs down all the time**, whatever the dwarf is doing, not just while he works. It used to be work-only (2026-10-04) because a ladder trip ate half of a 90-second meal. Meals now last 3 to 16 minutes, so a commute no longer matters, and cooks and farmers, who mostly walk and haul, now eat like everyone else (they worked 6-9% of the time and hardly ate). **Drink stays work-only**: it's the work-rate boost, and when to drink is still an open question.
+- **Meals take twice the crops**: gruel 2 potatoes, roast carrots 4 carrots, stew 4 potatoes, onion soup 2 onions + 4 potatoes. Each still fits in one trip per ingredient. Mash recipes are unchanged (my call: the target was about food).
+- **A harvest yields 2, not 6** (a third; the user offered a half or a quarter). Measured with the tool, 90 game minutes, 9 plots kept sown, 1 farmer, 1 cook, 2 miners:
+  - Yield 3: one plot fed 0.7 dwarves (1.46 plots per dwarf).
+  - Yield 2: one plot fed 0.5 dwarves (2.18 plots per dwarf). Chosen as nearest the target.
+  - Each dwarf ate about 58 work-seconds of food a minute. One stove fed about 4 dwarves. Nobody waited for food.
+
+Knock-on changes (my calls):
+- **20 starting gruel, not 10.** With food running down all the time, 10 ran out at about minute 10, just before the first stew. Then every dwarf, the farmer and cook included, sat in the hall waiting for food; a finished stew sat in the stove and nothing was ever cooked again. 20 lasts to about minute 18.
+- **Carrots unlock at 15 crops harvested, not 20**, so they still come with the first sowing (9 plots now yield 18).
+
+To watch:
+- **9 plots now just about feed the 4 starting dwarves**, so the town only grows as the farm does. If food runs out (the farm left empty, the player away), everyone stops, the farmer and cook included, and it doesn't restart by itself: the player buys gruel or waters, harvests and cooks by hand. "Hunger stalls, never hurts" made that rare before; now it's likely.
+- **Milestones counted in meals come later for the same farm**: a plot makes a sixth of the meals it did. The brewery (10 meals) and onions (15 meals) will land later unless the player grows the farm.
+- **A cook makes gruel when only 2-3 potatoes are in**, because it's the best he can make right then. Gruel is less food per potato than stew (90 work-seconds against 150), so trickling harvests waste some.

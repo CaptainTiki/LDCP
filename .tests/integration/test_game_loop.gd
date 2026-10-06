@@ -289,21 +289,24 @@ func test_drink_is_topped_up_on_the_meal_visit() -> void:
 	assert_gt(dwarf.worker.rate(), 0.5 * game.tuning.base_work_rate)
 
 
-func test_food_and_drink_only_go_down_while_working() -> void:
+func test_food_goes_down_all_the_time_and_drink_only_while_working() -> void:
 	var idler: Dwarf = _dwarf(0)
 	var farmer: Dwarf = _dwarf(1)
 	_plot(0).sow(POTATO_CROP)
 	farmer.assignment.assign(_plot(0))
+	idler.thirst.drink_up(GROG)
+	farmer.thirst.drink_up(GROG)
 	var food_at_start: float = idler.hunger.seconds_left
 	_run_seconds(60)
-	assert_eq(idler.hunger.seconds_left, food_at_start, "idling and walking cost no food")
-	assert_lt(farmer.hunger.seconds_left, food_at_start, "working does")
-	assert_gt(farmer.hunger.seconds_left, food_at_start - 60.0, "but only the time spent working")
+	assert_almost_eq(idler.hunger.seconds_left, food_at_start - 60.0, 0.5, "idling costs food")
+	assert_almost_eq(farmer.hunger.seconds_left, food_at_start - 60.0, 0.5, "so does farming, at the same pace")
+	assert_eq(idler.thirst.seconds_left, GROG.duration_seconds, "idling costs no drink")
+	assert_lt(farmer.thirst.seconds_left, GROG.duration_seconds, "working does")
 
 
 func test_a_cook_makes_the_best_meal_he_can_and_it_reaches_the_hall() -> void:
 	_nobody_gets_hungry()
-	storage.add(POTATO, 4)
+	storage.add(POTATO, STEW_RECIPE.needs(POTATO) * 2)
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	assert_eq(kitchen.workstations().size(), 1, "a new kitchen comes with a stove")
 	var stove: Workstation = kitchen.workstations()[0]
@@ -651,7 +654,7 @@ func test_kitchen_stoves_are_placed_turned_and_worked_from_the_front() -> void:
 	tool.cancel()
 
 	_nobody_gets_hungry()
-	storage.add(POTATO, 4)
+	storage.add(POTATO, STEW_RECIPE.needs(POTATO) * 2)
 	_dwarf(0).assignment.assign(kitchen)
 	_run_seconds(STEW_RECIPE.process_seconds + 120)
 	assert_eq(storage.count(STEW), 2, "both stoves cooked, turned or not")
@@ -696,7 +699,7 @@ func test_the_players_pick_starts_only_when_they_click_and_the_hall_has_it() -> 
 	assert_eq(stove.status_text(), "empty, click to make Gruel")
 	_click_station(stove)
 	assert_true(stove.is_idle(), "no potatoes: the click can't start it")
-	storage.add(POTATO, 1)
+	storage.add(POTATO, GRUEL_RECIPE.needs(POTATO))
 	slot.refresh(stove, storage)
 	assert_eq((slot.get_node("Margin/Row/In1Count") as Label).modulate, Color.WHITE)
 	_click_station(stove)
@@ -705,7 +708,8 @@ func test_the_players_pick_starts_only_when_they_click_and_the_hall_has_it() -> 
 
 
 func test_cancelling_a_batch_puts_what_went_in_back() -> void:
-	storage.add(POTATO, 2)
+	var potatoes: int = STEW_RECIPE.needs(POTATO)
+	storage.add(POTATO, potatoes)
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
 	var cancel: Button = game.hud.get_node("Root/Layout/SidePanel/Row/Pages/Room/Column/Station/CancelButton")
@@ -720,13 +724,14 @@ func test_cancelling_a_batch_puts_what_went_in_back() -> void:
 	cancel.pressed.emit()
 	assert_true(stove.is_idle(), "cancelled")
 	assert_null(stove.recipe)
-	assert_eq(storage.count(POTATO), 2, "and the potatoes are back in the hall")
+	assert_eq(storage.count(POTATO), potatoes, "and the potatoes are back in the hall")
 	assert_false(cancel.visible, "nothing left to cancel")
 	assert_false(stove.cancel_batch())
 
 
 func test_player_cooks_by_picking_a_recipe_and_clicking() -> void:
-	storage.add(POTATO, 2)
+	var potatoes: int = STEW_RECIPE.needs(POTATO)
+	storage.add(POTATO, potatoes)
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
 	world.camera.show_interior(kitchen)
@@ -738,7 +743,7 @@ func test_player_cooks_by_picking_a_recipe_and_clicking() -> void:
 	_click_station(stove)
 	assert_eq(stove.recipe, STEW_RECIPE, "a click on the free stove starts the player's pick")
 	assert_gt(stove.receiver.progress, 0.0, "each click fills the bar a little")
-	assert_eq(storage.count(POTATO), 2, "ingredients stay in the hall until the bar is full")
+	assert_eq(storage.count(POTATO), potatoes, "ingredients stay in the hall until the bar is full")
 	var clicks: int = 1
 	while stove.needs_loading() and clicks < 100:
 		_click_station(stove)
@@ -808,7 +813,7 @@ func test_ledger_counts_harvests_meals_and_ore() -> void:
 	assert_eq(world.ledger.count(&"harvested:potato"), POTATO_CROP.yield_count)
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
-	storage.add(POTATO, 1)
+	storage.add(POTATO, GRUEL_RECIPE.needs(POTATO))
 	stove.start_batch(GRUEL_RECIPE)
 	stove.receiver.apply_work(100.0)
 	_run_seconds(GRUEL_RECIPE.process_seconds + 1)
@@ -839,8 +844,8 @@ func test_onion_soup_takes_two_trips_and_appears_with_onions() -> void:
 	assert_true(game.unlocks.recipe_available(ONION_SOUP_RECIPE, game.catalog))
 
 	_nobody_gets_hungry()
-	storage.add(ONION, 1)
-	storage.add(POTATO, 2)
+	storage.add(ONION, ONION_SOUP_RECIPE.needs(ONION))
+	storage.add(POTATO, ONION_SOUP_RECIPE.needs(POTATO))
 	var kitchen: Building = world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	var stove: Workstation = kitchen.workstations()[0]
 	var cook: Dwarf = _dwarf(0)
@@ -1081,7 +1086,7 @@ func test_cooks_with_nothing_to_cook_wait_in_their_kitchen() -> void:
 	_run_seconds(40)
 	assert_eq(cook.status_text(), "Missing ingredients", "nothing in the hall he can cook")
 	assert_eq(world.interiors.room_at(cook.mover.cell), kitchen.interior, "he stays in, so you can see he's the cook")
-	storage.add(POTATO, 2)
+	storage.add(POTATO, STEW_RECIPE.needs(POTATO))
 	_run_seconds(60)
 	assert_false(cook.idler.is_idle(), "potatoes in: he picks a meal and gets to it")
 	assert_ne(stove.state, Workstation.State.IDLE)

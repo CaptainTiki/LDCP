@@ -8,7 +8,7 @@
 [sub_resource type="Resource" id="unlock"]
 script = ExtResource("4")
 counter = &"harvested"
-needed = 20
+needed = 15
 label = "Harvest crops"
 coins = 15
 
@@ -18,7 +18,7 @@ id = &"carrot"
 display_name = "Carrot"
 produce = ExtResource("2")
 growth_frames = ExtResource("3")
-yield_count = 6
+yield_count = 2
 color = Color(0.4, 0.7, 0.3, 1)
 seed_cost = 1
 water_work = 1.0

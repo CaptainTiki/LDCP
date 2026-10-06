@@ -84,10 +84,12 @@ func sim_tick(delta: float) -> void:
 		_active_role = role
 	role.act(delta)
 	idler.end_tick()
-	# Food and drink are only used up by work. Walking, climbing, hauling
-	# and idling are free, so a long commute costs time but not the shift.
+	# Food runs down all the time, whatever the job: with meals lasting many
+	# minutes, a commute no longer eats a shift, and a cook or farmer who
+	# mostly walks and hauls eats like anyone else. Drink is only used up by
+	# work: it's the work-rate boost.
+	hunger.sim_tick(delta)
 	if worker.did_work_this_tick():
-		hunger.sim_tick(delta)
 		thirst.sim_tick(delta)
 	mover.sim_tick(delta)
 

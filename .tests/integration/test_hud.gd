@@ -121,7 +121,7 @@ func test_the_look_tool_pops_up_what_a_station_is_up_to() -> void:
 	world.input.hover(_middle_of(stove))
 	var lines: PackedStringArray = card.current_lines()
 	assert_eq(lines[0], stove.def.display_name)
-	assert_has(lines, "1 Potato > 1 Gruel", "its recipe")
+	assert_has(lines, "%s > 1 Gruel" % GRUEL_RECIPE.describe_inputs(), "its recipe")
 	assert_has(lines, stove.status_text(), "and what it's up to")
 	await wait_process_frames(2)
 	assert_true(card.visible)

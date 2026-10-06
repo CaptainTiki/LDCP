@@ -71,7 +71,7 @@ func test_a_station_says_whether_it_waits_on_the_farm_or_on_workers() -> void:
 	game.game_log.start(TEST_DIR)
 	var kitchen: Building = game.world.surface.build(KITCHEN, Vector2i(40, 1)) as Building
 	_run_seconds(60)
-	game.world.hall.storage.add(POTATO, 1)
+	game.world.hall.storage.add(POTATO, GRUEL_RECIPE.needs(POTATO))
 	_run_seconds(60)
 	game.world.dwarves.active()[0].assignment.assign(kitchen)
 	_run_seconds(60)

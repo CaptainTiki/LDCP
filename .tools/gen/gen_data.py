@@ -128,6 +128,11 @@ def unlock_sub(exts, counter, needed, label, coins, items=()):
 
 
 # --- Crops -----------------------------------------------------------------
+# What one plant yields at harvest. It was 6 (a dwarf's full load); smaller
+# harvests mean more plots per dwarf fed.
+YIELD = 2
+
+
 def crop(name, display, produce, col, grow, waterings=2, unlock=None):
     """Each plant's grow time strays up to 10% from `grow`, and each of its
     `waterings` up to 20% from an even share, so a field ripens and dries
@@ -136,7 +141,7 @@ def crop(name, display, produce, col, grow, waterings=2, unlock=None):
     exts = [("Resource", "res://data/items/%s.tres" % produce),
             ("Texture2D", "res://assets/crops/%s_growth.png" % name)]
     props = [("id", '&"%s"' % name), ("display_name", '"%s"' % display),
-             ("produce", 'ExtResource("2")'), ("growth_frames", 'ExtResource("3")'), ("yield_count", 6), ("color", col),
+             ("produce", 'ExtResource("2")'), ("growth_frames", 'ExtResource("3")'), ("yield_count", YIELD), ("color", col),
              ("seed_cost", 1), ("water_work", 1.0), ("harvest_work", 1.5),
              ("grow_seconds", grow), ("grow_spread", 0.1), ("waterings", waterings), ("water_spread", 0.2)]
     subs = ""
@@ -150,7 +155,7 @@ def crop(name, display, produce, col, grow, waterings=2, unlock=None):
 # A potato takes about 10 minutes; the others keep their old ratio to it.
 crop("potato", "Potato", "potato", color(0.3, 0.6, 0.25), 600.0)
 # Early unlocks: coins only. Ore and ingots come into trades later.
-crop("carrot", "Carrot", "carrot", color(0.4, 0.7, 0.3), 400.0, unlock=("harvested", 20, "Harvest crops", 15))
+crop("carrot", "Carrot", "carrot", color(0.4, 0.7, 0.3), 400.0, unlock=("harvested", 15, "Harvest crops", 15))
 crop("onion", "Onion", "onion", color(0.45, 0.65, 0.35), 1000.0, unlock=("meals_made", 15, "Cook meals", 30))
 # Brewing crops only unlock once the brewery is making drinks, so they're never
 # grown with nothing to use them.
@@ -176,10 +181,12 @@ def recipe(name, display, inputs, out, n_out, work, seconds):
 
 
 # Stove. Quick and thin, or slow and filling (see each meal's shift_seconds).
-recipe("gruel", "Gruel", [("potato", 1)], "gruel", 1, 5.0, 20.0)
-recipe("roast_carrots", "Roast carrots", [("carrot", 2)], "roast_carrots", 1, 5.0, 30.0)
-recipe("stew", "Stew", [("potato", 2)], "stew", 1, 5.0, 60.0)
-recipe("onion_soup", "Onion soup", [("onion", 1), ("potato", 2)], "onion_soup", 1, 6.0, 90.0)
+# Meals take twice the crops they first did, so a plot feeds fewer dwarves
+# (the food chain tool, .tools/food_chain.gd, has the numbers).
+recipe("gruel", "Gruel", [("potato", 2)], "gruel", 1, 5.0, 20.0)
+recipe("roast_carrots", "Roast carrots", [("carrot", 4)], "roast_carrots", 1, 5.0, 30.0)
+recipe("stew", "Stew", [("potato", 4)], "stew", 1, 5.0, 60.0)
+recipe("onion_soup", "Onion soup", [("onion", 2), ("potato", 4)], "onion_soup", 1, 6.0, 90.0)
 # Mash pot
 recipe("barley_mash", "Barley mash", [("barley", 3)], "barley_mash", 1, 5.0, 30.0)
 recipe("potato_mash", "Potato mash", [("potato", 2)], "potato_mash", 1, 5.0, 20.0)
@@ -293,16 +300,19 @@ tres("data/tuning/dwarf_names.tres", "NameList", "name_list.gd", [
     ("ends", "PackedStringArray(%s)" % ", ".join('"%s"' % s for s in ends))])
 
 # --- Tuning ----------------------------------------------------------------
+# Food runs down all the time, so the starting gruel has to last until the
+# first potatoes are grown and cooked (about minute 13 with 10-minute potatoes).
+STARTING_GRUEL = 20
 subs = """[sub_resource type="Resource" id="stock_gruel"]
 script = ExtResource("2")
 item = ExtResource("3")
-count = 10
+count = %d
 
 [sub_resource type="Resource" id="stock_grog"]
 script = ExtResource("2")
 item = ExtResource("4")
 count = 10
-"""
+""" % STARTING_GRUEL
 tres("data/tuning/game_tuning.tres", "GameTuning", "game_tuning.gd", [
     ("starting_coins", 50), ("starting_dwarves", 4),
     ("starting_stock", 'Array[ExtResource("2")]([SubResource("stock_gruel"), SubResource("stock_grog")])'),

@@ -8,7 +8,7 @@
 [sub_resource type="Resource" id="in0"]
 script = ExtResource("2")
 item = ExtResource("4")
-count = 1
+count = 2
 
 [resource]
 script = ExtResource("1")

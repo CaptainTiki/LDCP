@@ -18,6 +18,7 @@ var _game: Game
 var _eaten: Dictionary[Dwarf, float] = {}
 var _meals_eaten: Dictionary[String, int] = {}
 var _work_ticks: Dictionary[Dwarf, int] = {}
+var _hungry_ticks: Dictionary[Dwarf, int] = {}
 var _stove_ticks: Dictionary[String, int] = {}
 
 
@@ -45,6 +46,7 @@ func _run() -> void:
 	for dwarf: Dwarf in crew:
 		_eaten[dwarf] = 0.0
 		_work_ticks[dwarf] = 0
+		_hungry_ticks[dwarf] = 0
 		dwarf.hunger.ate.connect(_on_ate.bind(dwarf))
 
 	var ticks_per_minute: int = roundi(60.0 / _game.clock.tick_seconds)
@@ -58,6 +60,8 @@ func _run() -> void:
 		for dwarf: Dwarf in crew:
 			if dwarf.worker.did_work_this_tick():
 				_work_ticks[dwarf] += 1
+			if dwarf.meal_break.is_waiting_for_food:
+				_hungry_ticks[dwarf] += 1
 		var state: String = Workstation.State.keys()[stove.state]
 		_stove_ticks[state] = _stove_ticks.get(state, 0) + 1
 		if first_harvest_minute < 0.0 and world.ledger.count(&"harvested:potato") > 0:
@@ -77,7 +81,8 @@ func _report(minutes: int, first_harvest: float, crew: Array[Dwarf], ticks_per_m
 	var potatoes: int = world.ledger.count(&"harvested:potato")
 	# Growing time after the first harvest, so the first sowing's wait doesn't count.
 	var growing_minutes: float = maxf(1.0, minutes - first_harvest)
-	var potatoes_after_first: float = potatoes - plots * 6.0
+	var potato_crop: CropDef = load(POTATO_CROP)
+	var potatoes_after_first: float = potatoes - plots * potato_crop.yield_count
 	var per_plot_minute: float = maxf(0.0, potatoes_after_first) / plots / growing_minutes
 
 	var food_made: float = 0.0
@@ -101,16 +106,18 @@ func _report(minutes: int, first_harvest: float, crew: Array[Dwarf], ticks_per_m
 
 	print("")
 	print("== Food chain, %d game minutes: %d plots of potatoes kept sown, 1 farmer, 1 cook, 2 miners ==" % [minutes, plots])
-	print("Potatoes: %d harvested, first at minute %.1f. After that, %.2f per plot per minute (6 every %.1f min)." % [
-			potatoes, first_harvest, per_plot_minute, 6.0 / maxf(per_plot_minute, 0.001)])
+	print("Potatoes: %d harvested, first at minute %.1f. After that, %.2f per plot per minute (%d every %.1f min)." % [
+			potatoes, first_harvest, per_plot_minute, potato_crop.yield_count,
+			potato_crop.yield_count / maxf(per_plot_minute, 0.001)])
 	print("Kitchen (1 stove): made %s = %d work-seconds of food, %.0f a minute. Stove: %s" % [
 			", ".join(made), roundi(food_made), stove_food, _shares(_stove_ticks)])
 	print("Eaten: %s = %d work-seconds, %.1f a minute per dwarf." % [
 			LogFormat.counts(_meals_eaten), roundi(food_eaten), dwarf_food])
 	for dwarf: Dwarf in crew:
 		var share: float = 100.0 * _work_ticks[dwarf] / (minutes * ticks_per_minute)
-		print("  %s (%s): working %d%% of the time, ate %d work-seconds" % [
-				dwarf.dwarf_name, dwarf.job_title(), roundi(share), roundi(_eaten[dwarf])])
+		var hungry: float = 100.0 * _hungry_ticks[dwarf] / (minutes * ticks_per_minute)
+		print("  %s (%s): working %d%% of the time, waiting for food %d%%, ate %d work-seconds" % [
+				dwarf.dwarf_name, dwarf.job_title(), roundi(share), roundi(hungry), roundi(_eaten[dwarf])])
 	print("So, cooked as stew (%d work-seconds per potato):" % roundi(stew_per_potato))
 	print("  one plot grows %.0f work-seconds of food a minute and a dwarf eats %.1f: 1 plot feeds %.1f dwarves (%.2f plots per dwarf)." % [
 			plot_food, dwarf_food, plot_food / maxf(dwarf_food, 0.001), dwarf_food / maxf(plot_food, 0.001)])

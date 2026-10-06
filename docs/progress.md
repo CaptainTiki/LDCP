@@ -1,6 +1,6 @@
 # LDCP progress
 
-Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.38`).
+Where the project stands, what's next, and how to pick it back up. Last updated 2026-10-06 (version `proto-0.10.6.39`).
 
 ## Where we are
 
@@ -17,14 +17,14 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 - **Farming.**
   - Farm plots are 1-tile buildings, bought, moved and destroyed in the Build tab.
   - The player sows (1 coin per seed); farmers water, harvest and haul, but never sow.
-  - Crops are slow and big: 6.5 to 17 minutes of watered growth (a potato takes 10) for 6 crops, and 2 waterings each. Dry soil pauses growth.
+  - Crops are slow: 6.5 to 17 minutes of watered growth (a potato takes 10), 2 waterings each, and a harvest of 2. Dry soil pauses growth. Two plots of potatoes feed about one dwarf (`.tools/food_chain.gd`).
   - Each plant's grow time is ±10% and each watering's length ±20%, so a field ripens and dries unevenly. One farmer keeps up with 27 plots, and a sowing of 27 lasts about 10 minutes.
   - Player tools: Hoe (roots up a plant), Bucket, Shears. Harvests go into the player's hands and are dropped off at the Great Hall.
 - **Needs.**
-  - Food is shift length; drink is work rate (50% floor). Both drain only while working.
+  - Food is shift length and runs down all the time; drink is work rate (50% floor) and only drains while working.
   - Dwarves eat sitting in a chair, and wait for a free one if all are taken.
 - **Idling.** A dwarf whose job has nothing at all for him potters about near his workplace with a "?" over his head: by the mine entrance, inside his kitchen or brewery, among the plots, or outside the Great Hall with no job. His card says why: no job, nothing sown, no recipe set, missing ingredients, no tunnel to dig. Waiting that sorts itself out (crops growing, a stove cooking) isn't idling.
-- **Great Hall.** Furniture (chair, table, long table): placed, moved, turned and removed on a floor grid. Placement can never wall off the room. The game starts with 4 dwarves, 2 tables and 4 chairs, a 3x3 block of 9 farm plots, and 10 gruel and 10 grog.
+- **Great Hall.** Furniture (chair, table, long table): placed, moved, turned and removed on a floor grid. Placement can never wall off the room. The game starts with 4 dwarves, 2 tables and 4 chairs, a 3x3 block of 9 farm plots, and 20 gruel and 10 grog.
 - **Stations.**
   - Stove, mash pot, fermenter, smelter and anvil are furniture that makes things.
   - A station rests with no recipe. A worker picks the best-quality thing he can make from the hall (each meal, drink and mash has a quality number), brings the ingredients, sets the recipe and loads it; then it runs on a timer. A tool is only forged while a dwarf in its job lacks one.
@@ -59,7 +59,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 | Crops | Unlock |
 |---|---|
 | Potato | start |
-| Carrot | harvest 20 crops, 15 coins |
+| Carrot | harvest 15 crops, 15 coins |
 | Onion | cook 15 meals, 30 coins |
 | Barley | make 4 drinks, 20 coins |
 | Wheat | make 10 drinks, 40 coins |
@@ -67,7 +67,7 @@ The guiding rule for design: **emulate Rusty's Retirement first; propose before 
 
 Brewing crops (barley, wheat, radish) only unlock once the brewery is making drinks, so nothing is grown before it can be used.
 
-- **Meals:** gruel (1 potato), roast carrots (2 carrots), stew (2 potatoes), onion soup (1 onion + 2 potatoes).
+- **Meals:** gruel (2 potatoes), roast carrots (4 carrots), stew (4 potatoes), onion soup (2 onions + 4 potatoes).
 - **Drinks:** grog (potato mash), ale (barley mash), wheat beer (wheat mash; long and steady), radish spirit (radish mash; short and sharp).
 - **Buildings:**
   - Great Hall and mine entrance: placed at start.
@@ -118,7 +118,9 @@ What the log showed:
 ## Next up
 
 1. **Waiting on the user's call:**
-   - **Food per plot.** Target: 2 plots of potatoes per dwarf now, 1 once meals last longer. `.tools/food_chain.gd` says one plot feeds about 6.5 dwarves today, so it's about 13x off. Levers: more potatoes per meal, smaller harvests, hunger draining on all job time (cooks and farmers barely eat today), shorter meals. Also: longer cook times (one stove feeds about 11 dwarves).
+   - **Market stall** (user's idea): set "keep N" per item, grouped by category; a worker sells everything above it, for passive income from surplus. Open: where the settings live, its unlock, selling pace, what's kept by default.
+   - **When food runs out, the town stops for good** until the player buys gruel or works by hand: hungry farmers and cooks wait in the hall too. Food is now tight (9 plots feed about 4 dwarves), so this will happen. Option: hungry dwarves with no food keep working at half pace instead of waiting.
+   - Later: fertilizer as an endgame upgrade, for more food from fewer plots (user's idea).
    - **Drinks between meals.** Dwarves only drink at meal time, so they work at the 50% floor most of the time. Options: dwarves come in for a drink when theirs runs out; drinks last as long as meals; or a drink is carried along.
    - **Keeping the farm going while the player is away.** Longer grow times, replanting as an unlock (below), or both.
    - **Potato dependency.** Carrots and onions have one use each; potatoes go into almost everything.
